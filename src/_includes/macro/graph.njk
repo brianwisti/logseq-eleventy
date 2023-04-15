@@ -1,5 +1,5 @@
 {% macro block_leaf(block) %}
-  {{ block.content }}
+  {{ render_block_content(block) }}
   {{ block_properties(block) }}
 {% endmacro %}
 
@@ -29,12 +29,26 @@
   {% if block.properties %}
     <table>
       {% for property, value in block.properties %}
-        <tr>
-          <th>{{ property}}</th>
-          <td>{{  value }}</td>
-        </tr>
+        {% if property != "heading" %}
+          <tr>
+            <th>{{ property }}</th>
+            <td>{{ value }}</td>
+          </tr>
+        {% endif %}
       {% endfor %}
     </table>
+  {% endif %}
+{% endmacro %}
+
+{% macro render_block_content(block) %}
+  {% if block.content %}
+    {% set content = block.content | logseq_markdown | safe %}
+
+    {% if block.properties.heading %}
+      <heading>{{ content }}</heading>
+    {% else %}
+      {{ content }}
+    {% endif %}
   {% endif %}
 {% endmacro %}
 

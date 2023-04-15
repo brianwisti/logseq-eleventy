@@ -1,3 +1,4 @@
+const LogseqMarkdownFilter = require("./src/_11ty/filters/LogseqMarkdownFilter.js");
 const SassHandler = require("./src/_11ty/handlers/SassHandler.js");
 
 module.exports = function (eleventyConfig) {
@@ -5,6 +6,8 @@ module.exports = function (eleventyConfig) {
   //  see https://www.11ty.dev/docs/languages/custom/#example-add-sass-support-to-eleventy
   eleventyConfig.addTemplateFormats("scss");
   eleventyConfig.addExtension("scss", SassHandler);
+
+  eleventyConfig.addNunjucksFilter("logseq_markdown", LogseqMarkdownFilter);
 
   return {
     dir: {

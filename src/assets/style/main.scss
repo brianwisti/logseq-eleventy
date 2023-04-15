@@ -1,0 +1,67 @@
+:root {
+  --font-family-serif: Iowan Old Style, Apple Garamond, Baskerville, Times New Roman, Droid Serif, Times, Source Serif Pro, serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+  --font-family-sans: -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Cantarell, Ubuntu, roboto, noto, arial, sans-serif;
+  --font-family-mono: Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace;
+  --color-bg: #efefef;
+  --color-fg: #222222;
+  --color-link: #5555ee;
+  --color-link-visited: #ee55ee;
+  --color-link-active: #ffff22;
+
+
+
+  @media (prefers-color-scheme: dark) {
+    --color-bg: #222222;
+    --color-fg: #efefef;
+  }
+}
+
+body {
+  font-family: var(--font-family-sans);
+  background-color: var(--color-bg);
+  color: var(--color-fg);
+}
+
+main {
+  counter-reset: depth;
+}
+
+a[href] {
+  color: var(--color-link);
+
+  &:visited {
+    color: var(--color-link-visited);
+  }
+
+  &:active {
+    color: var(--color-link-active);
+  }
+}
+
+details {
+  margin-left: 1rem;
+
+  summary {
+    table {
+      td, th {
+        font-size: 0.8em;
+      }
+    }
+  }
+}
+
+heading {
+  counter-increment: depth;
+  font-weight: bold;
+  font-size: large;
+
+  p {
+    margin: 0;
+    padding: 0;
+    display: inline;
+  }
+}
+
+pre, code, tt {
+  font-family: var(--font-family-mono);
+}

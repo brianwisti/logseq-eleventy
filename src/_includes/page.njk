@@ -1,0 +1,11 @@
+{% extends "base.njk" %}
+
+{% from "macro/graph.njk" import render_page %}
+
+{% block main %}
+  <article>
+    {{ content | safe }}
+
+    {{ render_page(page) }}
+  </article>
+{% endblock %}
