@@ -1,10 +1,9 @@
 ---
-layout: base.njk
+title: My Public Brain
+layout: page_list.njk
 ---
+
 Hello there!
 
 Blocks!
 
-{% for block in graph.blocks -%}
-<li>{{ block["page-name"] }}</li>
-{% endfor -%}
