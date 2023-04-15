@@ -3,11 +3,17 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
     <title>{{ title }}</title>
   </head>
   <body>
-    <h1>{{ title }}</h1>
+    <header>
+      <h1><a href="/">My Public Brain</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+      </nav>
     <main>
+      <h1>{{ title }}</h1>
       {% block main %} {{ content | safe }} {% endblock %}
     </main>
   </body>

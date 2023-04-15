@@ -1,33 +1,41 @@
-{%  macro block_content(block) %}
-  {% if block.content or block.children %}
-    {% if block.children %}
-      <details open>
-        {%  if block.content %}
-          <summary>{{  block.content | safe }}</summary>
-        {% endif %}
-        {{ block_children(block) }}
-      </details>
-    {% else %}
-      {{ block.content | safe }}
+{% macro block_leaf(block) %}
+  {{ block.content }}
+  {{ block_properties(block) }}
+{% endmacro %}
+
+{% macro block_children(block) %}
+  {% for child in block.children %}
+    {% if child.id != block.id %}
+      {{ block_content(child) }}
     {% endif %}
+  {%  endfor %}
+{% endmacro %}
+
+{%  macro block_content(block) %}
+  {% set child_count = block.children | length %}
+  {% if child_count > 0 %}
+    <details open>
+      <summary>
+        {{ block_leaf(block) }}
+      </summary>
+      {{ block_children(block) }}
+    </details>
+  {% elif block.content %}
+    {{  block_leaf(block) }}
   {% endif %}
 {% endmacro %}
 
 {% macro block_properties(block) %}
   {% if block.properties %}
-    <dl>
+    <table>
       {% for property, value in block.properties %}
-        <dt>{{ property }}</dt>
-        <dd>{{ value }}</dt>
+        <tr>
+          <th>{{ property}}</th>
+          <td>{{  value }}</td>
+        </tr>
       {% endfor %}
-    </dl>
+    </table>
   {% endif %}
-{% endmacro %}
-
-{% macro block_children(block) %}
-  {% for child in block.children %}
-    {{ block_content(child) }}
-  {%  endfor %}
 {% endmacro %}
 
 {% macro render_page(block) %}
