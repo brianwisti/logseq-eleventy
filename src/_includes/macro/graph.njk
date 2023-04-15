@@ -1,7 +1,46 @@
-{% macro graph_page(block) %}
-<div>
+{%  macro block_content(block) %}
+  {% if block.content or block.children %}
+    {% if block.children %}
+      <details open>
+        {%  if block.content %}
+          <summary>{{  block.content | safe }}</summary>
+        {% endif %}
+        {{ block_children(block) }}
+      </details>
+    {% else %}
+      {{ block.content | safe }}
+    {% endif %}
+  {% endif %}
+{% endmacro %}
+
+{% macro block_properties(block) %}
+  {% if block.properties %}
+    <dl>
+      {% for property, value in block.properties %}
+        <dt>{{ property }}</dt>
+        <dd>{{ value }}</dt>
+      {% endfor %}
+    </dl>
+  {% endif %}
+{% endmacro %}
+
+{% macro block_children(block) %}
+  {% for child in block.children %}
+    {{ block_content(child) }}
+  {%  endfor %}
+{% endmacro %}
+
+{% macro render_page(block) %}
+<section>
   <header>
-    {{ block["page-name"] }}
+    <h2>{{ block["page-name"] }}</h2>
+    {{ block_properties(block) }}
   </header>
-</div>
+
+  {{ block_content(block) }}
+</section>
+{% endmacro %}
+
+{% macro link_to_page(page_block) %}
+  <a href="/page/{{ page_block.id }}/">{{ page_block["page-name"] }}</a>
 {% endmacro %}

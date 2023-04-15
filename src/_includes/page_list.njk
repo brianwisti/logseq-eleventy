@@ -1,10 +1,15 @@
-{% from "macro/graph.njk" import graph_page %}
 {% extends "base.njk" %}
 
+{% from "macro/graph.njk" import link_to_page %}
 
 {% block main %}
-  {{ content | safe }}
-  {% for block in graph.blocks -%}
-      {{ graph_page(block) }}
-  {% endfor -%}
+  <article>
+    {{ content | safe }}
+
+    <ul>
+    {% for block in blocks -%}
+      <li>{{ link_to_page(block) }}</li>
+    {% endfor -%}
+    </ul>
+  </article>
 {% endblock %}
