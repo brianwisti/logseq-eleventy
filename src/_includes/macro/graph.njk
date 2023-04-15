@@ -6,7 +6,9 @@
 {% macro block_children(block) %}
   {% for child in block.children %}
     {% if child.id != block.id %}
-      {{ block_content(child) }}
+      {% if child.properties.public != false %}
+        {{ block_content(child) }}
+      {% endif %}
     {% endif %}
   {%  endfor %}
 {% endmacro %}
