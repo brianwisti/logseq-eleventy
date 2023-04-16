@@ -65,3 +65,9 @@ heading {
 pre, code, tt {
   font-family: var(--font-family-mono);
 }
+
+aside {
+  border: thin solid var(--color-fg);
+  padding: 0.25em;
+  border-radius: 5px;
+}
