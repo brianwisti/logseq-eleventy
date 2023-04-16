@@ -28,10 +28,11 @@
 {% endmacro %}
 
 {% macro block_properties(block) %}
+  {% set hidden = ["heading", "public"] %}
   {% if block.properties %}
     <table>
       {% for property, value in block.properties %}
-        {% if property != "heading" %}
+        {% if property not in hidden %}
           <tr>
             <th>{{ property }}</th>
             <td>{{ value }}</td>
