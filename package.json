@@ -6,6 +6,8 @@
   "scripts": {
     "start": "npx @11ty/eleventy --serve",
     "build": "npx @11ty/eleventy",
+    "build:prod": "INCLUDE_ANALYTICS=true npx @11ty/eleventy",
+    "clean": "rm -r _site/*",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

@@ -69,5 +69,5 @@
 {% endmacro %}
 
 {% macro link_to_page(page_block) %}
-  <a href="/page/{{ page_block.id }}/">{{ page_block["page-name"] }}</a>
+  <a href="/{{ page_block.id }}/">{{ page_block["page-name"] }}</a>
 {% endmacro %}
