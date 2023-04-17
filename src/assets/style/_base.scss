@@ -1,0 +1,11 @@
+// Resets and whatnot
+
+details {
+  summary {
+    cursor: pointer;
+
+    & > * {
+      display: inline;
+    } 
+  }
+}

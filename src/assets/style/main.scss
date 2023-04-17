@@ -1,3 +1,6 @@
+@use "base";
+@use "layout";
+
 :root {
   --font-family-serif: Iowan Old Style, Apple Garamond, Baskerville, Times New Roman, Droid Serif, Times, Source Serif Pro, serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
   --font-family-sans: -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Cantarell, Ubuntu, roboto, noto, arial, sans-serif;
@@ -17,13 +20,15 @@
 }
 
 body {
+  & > header {
+    a[href] {
+      text-decoration: none;
+    }
+  }
+
   font-family: var(--font-family-sans);
   background-color: var(--color-bg);
   color: var(--color-fg);
-}
-
-main {
-  counter-reset: depth;
 }
 
 a[href] {
@@ -42,16 +47,23 @@ details {
   margin-left: 1rem;
 
   summary {
+    // indicate hidden sections
+    border: thin solid;
+    padding: 0.25em;
+
     table {
       td, th {
         font-size: 0.8em;
       }
     }
   }
+
+  &[open] > summary {
+    border: none;
+  }
 }
 
 heading {
-  counter-increment: depth;
   font-weight: bold;
   font-size: large;
 
