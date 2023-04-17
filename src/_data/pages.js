@@ -1,4 +1,15 @@
-const graphData = require("./graph.json");
+const fs = require("fs-plus");
+
+const graphData = () => {
+  const exportDir = process.env["EXPORT_DIR"];
+  const graphName = process.env["GRAPH_NAME"];
+  const filename = fs.listSync(exportDir)
+    .sort()
+    .findLast((filename) => filename.includes(graphName));
+  const rawJson = fs.readFileSync(filename).toString();
+
+  return JSON.parse(rawJson);
+};
 
 function extractPublicContent(page) {
   if (!isPublic(page)) {
@@ -37,8 +48,7 @@ function isPublic(page) {
   return page.properties["public"];
 }
 
-module.exports = function() {
-  return graphData.blocks
+module.exports = () =>
+  graphData().blocks
     .map(extractPublicContent)
     .filter(hasPublicContent);
-};

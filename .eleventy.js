@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const LogseqMarkdownFilter = require("./src/_11ty/filters/LogseqMarkdownFilter.js");
 const SassHandler = require("./src/_11ty/handlers/SassHandler.js");
 

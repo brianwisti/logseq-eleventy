@@ -11,7 +11,8 @@ Assuming you have Git, Node.js, Logseq with a graph to export:
 
 - clone / fork this repo
 - `npm install`
-- In Logseq, *Export Graph > Export as JSON* to `src/_data/graph.json`
+- In Logseq, *Export Graph > Export as JSON* to somewhere Eleventy can see
+- define `GRAPH_NAME` and `EXPORT_DIR` in a project `.env` file
 - `npm start`
 - marvel at how little it does
 
@@ -23,11 +24,30 @@ Since this is an exploratory experiment, the goals are not concrete yet. It's ju
 
 I'm keeping it my version of simple for now, preferring JavaScript, Sass, and Nunjucks building static HTML and CSS over say for example TypeScript, Tailwind, and WebC building dynamic islands of interactivity. Or something. Maybe later.
 
+### The `.env` file
+
+`EXPORT_DIR`
+: Where Eleventy should expect to see exported graphs
+
+`GRAPH_NAME`
+: the name of your graph; you *may* need to slugify to match whatever Logseq uses
+
+So if I have a Logseq graph named "my-logseq-brain" in `~/graphs`, Logseq names the export something like this:
+
+    home_random_graphs_my-logseq-brain_1681759631.json
+
+And my Eleventy project's `.env` will look something like this:
+
+```sh
+EXPORT_DIR = "/home/random/Documents/logseq-export"
+GRAPH_NAME = "my-logseq-brain"
+```
+
 ## Constraint / Feature
 
 ### JSON export
 
-Currently uses a JSON export file (assumed to be `src/_data/graph.json`) and nothing else. I'm still deciding how I want to handle assets. A good first step would just be to copy them over, but that makes a window of opportunity to view sensitive assets if you know what you're looking for.
+Currently uses a JSON export file and nothing else. I'm still deciding how I want to handle assets. A good first step would just be to copy them over, but that makes a window of opportunity to view sensitive assets if you know what you're looking for.
 
 That's another thing. Since it's a raw export of *all* notes, you probably don't want to put your export file in the repo.
 
