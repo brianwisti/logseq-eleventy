@@ -25,7 +25,7 @@ const md = LogseqMarkdownHandler();
 function getPagePermalink(pageName) {
   const target = pages.find((page) => page["page-name"] === pageName);
 
-  return (target == undefined) ? "/missing/" : `/page/${target.id}`;
+  return (target == undefined) ? "/missing/" : `/${target.id}`;
 }
 
 function handleAdmonitions(content) {
