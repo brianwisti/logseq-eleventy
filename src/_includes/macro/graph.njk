@@ -1,6 +1,5 @@
 {% macro block_leaf(block) %}
   {{ render_block_content(block) }}
-  {{ block_properties(block) }}
 {% endmacro %}
 
 {% macro block_children(block) %}
@@ -14,17 +13,10 @@
 {% endmacro %}
 
 {%  macro block_content(block) %}
-  {% set child_count = block.children | length %}
-  {% if child_count > 0 %}
-    <details open>
-      <summary>
-        {{ block_leaf(block) }}
-      </summary>
-      {{ block_children(block) }}
-    </details>
-  {% elif block.content %}
-    {{  block_leaf(block) }}
-  {% endif %}
+  <section class="block">
+    {{ block_leaf(block) }}
+    {{ block_children(block) }}
+  </section>
 {% endmacro %}
 
 {% macro block_properties(block) %}
@@ -63,6 +55,16 @@
   </header>
 
   {{ block_content(block) }}
+</section>
+{% endmacro %}
+
+{% macro render_page_note(page) %}
+<section>
+  <header>
+    {{ link_to_page(page) }}
+  </header>
+
+  {{ block_content(page) }}
 </section>
 {% endmacro %}
 
