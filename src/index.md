@@ -1,8 +1,8 @@
 ---
 title: My Public Brain
-layout: base.njk
+layout: layouts/base.njk
 ---
-{% from "macro/graph.njk" import render_page_note %}
+{% from "macros/graph.njk" import render_page_note %}
 
 See [All Pages](/page/) for every public page, but here's some recent notes from the journal.
 
