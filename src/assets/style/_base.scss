@@ -1,5 +1,9 @@
 // Resets and whatnot
 
+body {
+  max-width: 100%;
+}
+
 details {
   summary {
     cursor: pointer;
