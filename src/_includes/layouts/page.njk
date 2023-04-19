@@ -1,11 +1,11 @@
 {% extends "layouts/base.njk" %}
 
-{% from "macros/graph.njk" import render_page %}
+{% from "macros/graph.njk" import render_page_note %}
 
 {% block main %}
-  <article>
+  <article class="page">
     {{ content | safe }}
 
-    {{ render_page(page) }}
+    {{ render_page_note(page) }}
   </article>
 {% endblock %}

@@ -1,0 +1,15 @@
+---
+title: My Public Brain
+layout: layouts/base.njk
+---
+{% from "macros/graph.njk" import render_page_note %}
+
+<p>See <a href="/page/">All Pages</a> for every public page, but here's some recent notes from the journal.</p>
+
+{% for block in journals -%}
+  <article>
+    {{ render_page_note(block, with_link=true) }}
+  </article>
+{% else %}
+  <p>There aren't any?</p>
+{% endfor -%}

@@ -1,25 +1,32 @@
-{% macro block_leaf(block) %}
-  {{ render_block_content(block) }}
+{% macro render_block(block) %}
+  {% if block.content or block.children %}
+    <section class="block">
+      {% if block.content %}
+        {% set content = block.content | logseq_markdown | safe %}
+
+        {% if block.properties.heading %}
+          <heading>{{ content }}</heading>
+        {% else %}
+          {{ content }}
+        {% endif %}
+      {% endif %}
+
+      {{ render_block_children(block) }}
+    </section>
+  {% endif %}
 {% endmacro %}
 
-{% macro block_children(block) %}
+{% macro render_block_children(block) %}
   {% for child in block.children %}
     {% if child.id != block.id %}
       {% if child.properties.public != false %}
-        {{ block_content(child) }}
+        {{ render_block(child) }}
       {% endif %}
     {% endif %}
   {%  endfor %}
 {% endmacro %}
 
-{%  macro block_content(block) %}
-  <section class="block" id="{{ block.id }}">
-    {{ block_leaf(block) }}
-    {{ block_children(block) }}
-  </section>
-{% endmacro %}
-
-{% macro block_properties(block) %}
+{% macro render_block_properties(block) %}
   {% set hidden = ["heading", "public"] %}
   {% if block.properties %}
     <table>
@@ -35,37 +42,21 @@
   {% endif %}
 {% endmacro %}
 
-{% macro render_block_content(block) %}
-  {% if block.content %}
-    {% set content = block.content | logseq_markdown | safe %}
+{% macro render_page_note(page, with_link=false) %}
+  <section>
+    <header>
+      <h2>
+      {% if with_link %}
+        {{ link_to_page(page) }}
+      {% else %}
+        {{ page["page-name"] }}
+      {% endif %}
+      </h2>
+      {{ render_block_properties(page) }}
+    </header>
 
-    {% if block.properties.heading %}
-      <heading>{{ content }}</heading>
-    {% else %}
-      {{ content }}
-    {% endif %}
-  {% endif %}
-{% endmacro %}
-
-{% macro render_page(block) %}
-<section>
-  <header>
-    <h2>{{ block["page-name"] }}</h2>
-    {{ block_properties(block) }}
-  </header>
-
-  {{ block_content(block) }}
-</section>
-{% endmacro %}
-
-{% macro render_page_note(page) %}
-<section>
-  <header>
-    {{ link_to_page(page) }}
-  </header>
-
-  {{ block_content(page) }}
-</section>
+    {{ render_block(page) }}
+  </section>
 {% endmacro %}
 
 {% macro link_to_page(page_block) %}

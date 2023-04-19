@@ -51,6 +51,10 @@ function handleVideoEmbeds(content) {
 // Do a regex replace until I better understand markdown-it
 // TODO: Also, this kind of action is best when loading the collection
 function handleWikiLinks(content) {
+  if (content.startsWith('```')) {
+    return content;
+  }
+
   return XRegExp.replace(content, pageLink, (match, ...args) => {
     const groups = args.pop();
     const permalink = getPagePermalink(groups.pageName);
@@ -63,6 +67,7 @@ module.exports = function(content) {
   content = handleWikiLinks(content);
   content = handleAdmonitions(content);
   content = handleVideoEmbeds(content);
+  content = md.render(content)
 
-  return md.render(content);
+  return content;
 }

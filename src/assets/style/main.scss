@@ -32,6 +32,7 @@ body {
 }
 
 a[href] {
+  font-weight: bold;
   color: var(--color-link);
 
   &:visited {
@@ -40,6 +41,19 @@ a[href] {
 
   &:active {
     color: var(--color-link-active);
+  }
+}
+
+article {
+  a[href^="/"] {
+
+    &::before {
+      content: '[[';
+    }
+
+    &::after {
+      content: ']]';
+    }
   }
 }
 
