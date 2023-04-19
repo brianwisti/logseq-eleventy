@@ -3,6 +3,15 @@ const fs = require("fs-plus");
 const graphData = () => {
   const exportDir = process.env["EXPORT_DIR"];
   const graphName = process.env["GRAPH_NAME"];
+
+  if (exportDir == undefined) {
+    throw new Error("Required environment variable missing: EXPORT_DIR");
+  }
+
+  if (graphName == undefined) {
+    throw new Error("Required environment variable missing: GRAPH_NAME");
+  }
+
   const filename = fs.listSync(exportDir)
     .sort()
     .findLast((filename) => filename.includes(graphName));
