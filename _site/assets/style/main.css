@@ -45,6 +45,7 @@ body > header a[href] {
 }
 
 a[href] {
+  font-weight: bold;
   color: var(--color-link);
 }
 a[href]:visited {
@@ -52,6 +53,13 @@ a[href]:visited {
 }
 a[href]:active {
   color: var(--color-link-active);
+}
+
+article a[href^="/"]::before {
+  content: "[[";
+}
+article a[href^="/"]::after {
+  content: "]]";
 }
 
 section.block {
