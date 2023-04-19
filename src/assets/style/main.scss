@@ -1,5 +1,6 @@
 @use "base";
 @use "layout";
+// @use "shiki";
 
 :root {
   --font-family-serif: Iowan Old Style, Apple Garamond, Baskerville, Times New Roman, Droid Serif, Times, Source Serif Pro, serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
@@ -10,8 +11,6 @@
   --color-link: #5555ee;
   --color-link-visited: #ee55ee;
   --color-link-active: #ffff22;
-
-
 
   @media (prefers-color-scheme: dark) {
     --color-bg: #222222;

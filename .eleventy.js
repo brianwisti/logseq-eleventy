@@ -1,5 +1,7 @@
 require("dotenv").config();
 
+const shikiTwoslash = require("eleventy-plugin-shiki-twoslash");
+
 const LogseqMarkdownFilter = require("./src/_11ty/filters/LogseqMarkdownFilter.js");
 const SassHandler = require("./src/_11ty/handlers/SassHandler.js");
 
@@ -12,6 +14,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addTemplateFormats("scss");
   eleventyConfig.addExtension("scss", SassHandler);
 
+  eleventyConfig.addPlugin(shikiTwoslash, { theme: "nord" });
   eleventyConfig.addNunjucksFilter("logseq_markdown", LogseqMarkdownFilter);
 
   eleventyConfig.addNunjucksShortcode("plausible", plausibleShortcode);
