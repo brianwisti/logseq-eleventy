@@ -13,7 +13,7 @@
 {% endmacro %}
 
 {%  macro block_content(block) %}
-  <section class="block">
+  <section class="block" id="{{ block.id }}">
     {{ block_leaf(block) }}
     {{ block_children(block) }}
   </section>
