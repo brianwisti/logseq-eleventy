@@ -1,0 +1,737 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">My Public Brain</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article>
+    
+
+
+    
+<section>
+  <header>
+    <h2>Lume</h2>
+    
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>page-type</th>
+            <td>Topic</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+  </header>
+
+  
+  <section class="block" id="643f8341-6b9a-4666-913a-b1dd8a2d2d50">
+    
+  
+  
+
+
+    
+  
+    
+      
+        
+  <section class="block" id="643f8365-d069-416c-b518-a371aa2610d4">
+    
+  
+  
+
+
+    
+  
+
+  </section>
+
+      
+    
+  
+    
+      
+        
+  <section class="block" id="643f7622-0ee2-4a10-88fa-2fef767ab901">
+    
+  
+  
+    
+
+    
+      <p><a href="https://lume.land">Lume, the static site generator for Deno - Lume</a></p>
+
+    
+  
+
+
+    
+  
+
+  </section>
+
+      
+    
+  
+    
+      
+        
+  <section class="block" id="643f7664-3248-4cfb-a027-d42d5f955657">
+    
+  
+  
+    
+
+    
+      <p>From your project folder:</p>
+
+    
+  
+
+
+    
+  
+
+  </section>
+
+      
+    
+  
+    
+      
+        
+  <section class="block" id="643f7612-de84-4bfd-bae3-dc16a7904799">
+    
+  
+  
+    
+
+    
+      <pre><code class="language-sh">deno run -Ar https://deno.land/x/lume/init.ts
+</code></pre>
+
+    
+  
+
+
+    
+  
+
+  </section>
+
+      
+    
+  
+    
+      
+        
+  <section class="block" id="643f795e-a4ee-4307-a79b-d4f31f3b44b5">
+    
+  
+  
+    
+
+    
+      <p>It looks a lot like <a href="/643e2e30-43af-4ee1-9a3e-1341cd4d6fed">Eleventy</a> but tidier</p>
+
+    
+  
+
+
+    
+  
+
+  </section>
+
+      
+    
+  
+    
+      
+        
+  <section class="block" id="643f7920-e97b-4b99-bfcd-5536f08a183e">
+    
+  
+  
+    
+
+    
+      <p><code>_data.*</code> and <code>_data/*</code>hold shared data and frontmatter defaults</p>
+
+    
+  
+
+
+    
+  
+    
+      
+        
+  <section class="block" id="643f7996-ae4a-4da8-8bd8-7cf7b75fbd15">
+    
+  
+  
+    
+
+    
+      <p><a href="https://lume.land/docs/creating-pages/shared-data/">Shared data - Lume</a></p>
+
+    
+  
+
+
+    
+  
+
+  </section>
+
+      
+    
+  
+
+  </section>
+
+      
+    
+  
+    
+      
+        
+  <section class="block" id="643f7e38-6a53-4e44-9256-ec7da9250c71">
+    
+  
+  
+    
+
+    
+      <p>Components are invoked via <code>comp</code></p>
+
+    
+  
+
+
+    
+  
+    
+      
+        
+  <section class="block" id="643f7e4c-4f2d-4ebf-b250-e4a477f172e4">
+    
+  
+  
+    
+
+    
+      <pre><code class="language-nunjucks">{% comp &quot;container&quot; %}
+	...
+{% endcomp %}
+</code></pre>
+
+    
+  
+
+
+    
+  
+
+  </section>
+
+      
+    
+  
+    
+      
+        
+  <section class="block" id="643f7e9d-4624-47d8-96e4-76ce3be321c1">
+    
+  
+  
+    
+
+    
+      <p>or simpler invocations without a content block</p>
+
+    
+  
+
+
+    
+  
+
+  </section>
+
+      
+    
+  
+    
+      
+        
+  <section class="block" id="643f7eb0-f729-4896-a757-a761d7ebd032">
+    
+  
+  
+    
+
+    
+      <pre><code class="language-nunjucks">{{ comp.button({ text: &quot;Login&quot; }) | safe }}
+</code></pre>
+
+    
+  
+
+
+    
+  
+
+  </section>
+
+      
+    
+  
+    
+      
+        
+  <section class="block" id="643f7ed3-01b7-4e2c-940e-5fa96cc8dac9">
+    
+  
+  
+    
+
+    
+      <p>Components can have custom CSS in their frontmatter, which gets loaded into <code>/components.css</code></p>
+
+    
+  
+
+
+    
+  
+
+  </section>
+
+      
+    
+  
+    
+      
+        
+  <section class="block" id="643f7ef6-e334-4942-9ee5-18423de87545">
+    
+  
+  
+    
+
+    
+      <pre><code class="language-nunjucks">---
+css: |
+    .container {
+        max-width: 80%;
+        margin: auto;
+        padding: 0.25em;
+        border: thin solid;
+    }
+---
+&lt;section class=&quot;container&quot;&gt;{{ content | safe }}&lt;/section&gt;
+</code></pre>
+
+    
+  
+
+
+    
+  
+
+  </section>
+
+      
+    
+  
+    
+      
+        
+  <section class="block" id="643f7f37-f3e5-4c58-bc52-e582ab1d9d3a">
+    
+  
+  
+    
+
+    
+      <p>Use generator functions to generate pages from data</p>
+
+    
+  
+
+
+    
+  
+    
+      
+        
+  <section class="block" id="643f7f5e-a03f-4f0d-bcf9-2e625550d6fe">
+    
+  
+  
+    
+
+    
+      <p><a href="https://lume.land/docs/core/multiple-pages/">Create multiple pages - Lume</a></p>
+
+    
+  
+
+
+    
+  
+
+  </section>
+
+      
+    
+  
+
+  </section>
+
+      
+    
+  
+    
+      
+        
+  <section class="block" id="643f8072-0ffc-4eff-b2a6-658d7eb7886a">
+    
+  
+  
+    
+
+    
+      <p>Scoped updates for incremental rebuilds of large sites</p>
+
+    
+  
+
+
+    
+  
+    
+      
+        
+  <section class="block" id="643f807e-f43a-4691-aa18-7bd3cac03c8e">
+    
+  
+  
+    
+
+    
+      <p><a href="https://lume.land/docs/core/scoped-updates/">Scoped updates - Lume</a></p>
+
+    
+  
+
+
+    
+  
+
+  </section>
+
+      
+    
+  
+    
+      
+        
+  <section class="block" id="643f80ac-345b-4d32-9b2d-9f9568b7e701">
+    
+  
+  
+    
+
+    
+      <pre><code class="language-typescript">site.scopedUpdates(
+  (path) =&gt; path.endsWith(&quot;.css&quot;), //Select all *.css files
+  (path) =&gt; /\.(js|ts)$/.test(path), //Select all *.js and *.ts files
+);
+</code></pre>
+
+    
+  
+
+
+    
+  
+
+  </section>
+
+      
+    
+  
+
+  </section>
+
+      
+    
+  
+    
+      
+        
+  <section class="block" id="643f80df-57f8-407f-b278-a4eedf248156">
+    
+  
+  
+    
+
+    
+      <p>Task runner in site config instead of <code>package.json</code> — which obvs a Deno project won’t have</p>
+
+    
+  
+
+
+    
+  
+    
+      
+        
+  <section class="block" id="643f8112-93ec-493f-9b9e-898811510d59">
+    
+  
+  
+    
+
+    
+      <p><a href="https://lume.land/docs/core/scripts/">Scripts - Lume</a></p>
+
+    
+  
+
+
+    
+  
+
+  </section>
+
+      
+    
+  
+    
+      
+        
+  <section class="block" id="643f8155-1e16-414b-b2bd-43b7abd60a9a">
+    
+  
+  
+    
+
+    
+      <p>Supports scripts with multiple steps</p>
+
+    
+  
+
+
+    
+  
+
+  </section>
+
+      
+    
+  
+    
+      
+        
+  <section class="block" id="643f8163-71bf-46fe-8d17-964df42730d2">
+    
+  
+  
+    
+
+    
+      <p>Supports dependencies / executing other scripts</p>
+
+    
+  
+
+
+    
+  
+
+  </section>
+
+      
+    
+  
+
+  </section>
+
+      
+    
+  
+    
+      
+        
+  <section class="block" id="643f81a0-98df-4cd1-b5af-d918834bc249">
+    
+  
+  
+    
+
+    
+      <p>They have data cascade too</p>
+
+    
+  
+
+
+    
+  
+    
+      
+        
+  <section class="block" id="643f81aa-428d-4621-9692-458168f860a9">
+    
+  
+  
+    
+
+    
+      <p><a href="https://lume.land/docs/core/merged-keys/">Merged keys - Lume</a></p>
+
+    
+  
+
+
+    
+  
+
+  </section>
+
+      
+    
+  
+
+  </section>
+
+      
+    
+  
+    
+      
+        
+  <section class="block" id="643f8302-f686-473b-9a4b-a001f63a3c47">
+    
+  
+  
+    
+
+    
+      <p>They modestly provide an Eleventy migration guide</p>
+
+    
+  
+
+
+    
+  
+    
+      
+        
+  <section class="block" id="643f831a-30a6-4337-b06e-d86618873fcf">
+    
+  
+  
+    
+
+    
+      <blockquote>
+<p>if you have an Eleventy project and want to migrate to Lume (maybe it’s not a good idea)</p>
+</blockquote>
+
+    
+  
+
+
+    
+  
+
+  </section>
+
+      
+    
+  
+    
+      
+        
+  <section class="block" id="643f8310-ef06-4cf9-b13e-a805e9efa8e9">
+    
+  
+  
+    
+
+    
+      <p><a href="https://lume.land/docs/advanced/migrate-from-11ty/">Migrate from Eleventy - Lume</a></p>
+
+    
+  
+
+
+    
+  
+
+  </section>
+
+      
+    
+  
+
+  </section>
+
+      
+    
+  
+
+  </section>
+
+      
+    
+  
+
+  </section>
+
+</section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      <script async defer data-domain="randomgeekery.online"
+      src="https://plausible.io/js/plausible.js">
+    </script>
+  </body>
+</html>
