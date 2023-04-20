@@ -43,16 +43,14 @@ a[href] {
   }
 }
 
-article {
-  a[href^="/"] {
+a.page-link {
 
-    &::before {
-      content: '[[';
-    }
+  &::before {
+    content: '[[';
+  }
 
-    &::after {
-      content: ']]';
-    }
+  &::after {
+    content: ']]';
   }
 }
 

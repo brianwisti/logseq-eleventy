@@ -55,10 +55,10 @@ a[href]:active {
   color: var(--color-link-active);
 }
 
-article a[href^="/"]::before {
+a.page-link::before {
   content: "[[";
 }
-article a[href^="/"]::after {
+a.page-link::after {
   content: "]]";
 }
 

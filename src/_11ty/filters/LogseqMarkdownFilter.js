@@ -59,7 +59,7 @@ function handleWikiLinks(content) {
     const groups = args.pop();
     const permalink = getPagePermalink(groups.pageName);
     const label = (groups.textLabel) ? groups.textLabel : groups.pageName;
-    return `[${label}](${permalink})`;
+    return `<a href="${permalink}" class="page-link">${label}</a>`;
   });
 }
 

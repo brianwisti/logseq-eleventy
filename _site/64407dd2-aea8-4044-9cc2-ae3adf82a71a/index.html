@@ -23,11 +23,24 @@
     <header>
       <h2>
       
-        2023-04-15 Saturday
+        Volta
       
       </h2>
       
   
+  
+    <table>
+      
+        
+          <tr>
+            <th>page-type</th>
+            <td>Topic</td>
+          </tr>
+        
+      
+        
+      
+    </table>
   
 
     </header>
@@ -45,15 +58,15 @@
   
     <section class="block">
       
-        
-
-        
-          <p><strong>14:12</strong>  Been working on a nice publishing workflow for exported Logseq graphs.</p>
-
-        
-      
 
       
+  
+
+    </section>
+  
+
+      
+    
   
     
       
@@ -64,7 +77,7 @@
         
 
         
-          <p><img src="../assets/image_1681593172389_0.png" alt="image.png"></p>
+          <p>Runtime and tool manager for JavaScript.</p>
 
         
       
@@ -87,19 +100,13 @@
         
 
         
-          <p>Since I’ve been sticking to Windows, most of the productivity is via Sublime Text and Sublime Merge.</p>
+          <pre><code class="language-bash">curl https://get.volta.sh | bash
+</code></pre>
 
         
       
 
       
-  
-
-    </section>
-  
-
-      
-    
   
 
     </section>
@@ -117,35 +124,12 @@
         
 
         
-          <p><strong>15:03</strong>  Making good use of the <em>System Font Stack</em> for my export-publish workflow</p>
+          <p>which <code>volta</code> and puts this in your <code>~/.bashrc</code></p>
 
         
       
 
       
-  
-    
-      
-        
-  
-    <section class="block">
-      
-        
-
-        
-          <p><a href="https://systemfontstack.com">systemfontstack</a></p>
-
-        
-      
-
-      
-  
-
-    </section>
-  
-
-      
-    
   
 
     </section>
@@ -163,12 +147,133 @@
         
 
         
-          <p><strong>18:32</strong>  This is the part of the show where I start to think about links and backlinks for export. So hey self check out <a href="/643e14d8-720f-4a9d-9b53-494ccf62dbc2" class="page-link">My Logseq Workflow</a></p>
+          <pre><code class="language-bash">
+export VOLTA_HOME=&quot;$HOME/.volta&quot;
+export PATH=&quot;$VOLTA_HOME/bin:$PATH&quot;
+
+</code></pre>
 
         
       
 
       
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Once everything’s installed, use Volta to manage global language and tool versions.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-bash">volta install node
+volta install ts-node
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It also works for project-specific tools too, but most teams I know still use <code>nvm</code> or something similar.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Related</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="https://volta.sh/%3E">Volta -</a></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
   
 
     </section>

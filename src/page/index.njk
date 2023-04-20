@@ -1,10 +1,19 @@
 ---
 pagination:
   data: pages
-  size: 10
+  size: 20
   alias: blocks
 layout: layouts/page_list.njk
 title: Pages
 ---
 
-All the pages
+All the pages with public content, in no particular order.
+
+<nav aria-labelledby="my-pagination">
+  <span id="my-pagination">Pages:</span>
+  {%- for pageEntry in pagination.pages %}
+    <a href="{{ pagination.hrefs[ loop.index0 ] }}"
+      {% if page.url == pagination.hrefs[ loop.index0 ] %} aria-current="page"{% endif %}>{{ loop.index }}</a>
+  {%- endfor %}
+  </ol>
+</nav>
