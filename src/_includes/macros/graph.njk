@@ -34,7 +34,7 @@
         {% if property not in hidden %}
           <tr>
             <th>{{ property }}</th>
-            <td>{{ value }}</td>
+            <td>{{ value | logseq_markdown | safe }}</td>
           </tr>
         {% endif %}
       {% endfor %}

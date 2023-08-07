@@ -64,10 +64,16 @@ function handleWikiLinks(content) {
 }
 
 module.exports = function(content) {
+  if (content instanceof Array) {
+    // This happens with block properties that are page links.
+    // In my exact situation that array holds a single string which should link to a page
+    content = `[[${content}]]`;
+  }
+
   content = handleWikiLinks(content);
   content = handleAdmonitions(content);
   content = handleVideoEmbeds(content);
-  content = md.render(content)
+  content = md.render(content);
 
   return content;
 }

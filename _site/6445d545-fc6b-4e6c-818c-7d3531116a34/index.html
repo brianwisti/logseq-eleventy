@@ -1,0 +1,517 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">My Public Brain</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        logseq-query
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>page-type</th>
+            <td><p><a href="/64c6752b-b6c0-4aec-afab-0d6abbfd1754" class="page-link">Topic</a></p>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>CLI tool for querying your Logseq graphs</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Jots</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Install it with your preferred Node.js tool manager</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-sh">volta install @logseq/nbb-logseq
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="tip"><header>tip</header><p><code>lq</code> table output pastes nicely into a Markdown table</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>List all your graphs with <code>lq graphs</code></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <table>
+<thead>
+<tr>
+<th>:name</th>
+<th>:path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>logseqorg</td>
+<td>C:\Users\brian/.logseq/graphs/logseq_local_C+3A+++Users++brian++Dropbox++Documents++logseqorg.transit</td>
+</tr>
+<tr>
+<td><a href="http://logseq.md">logseq.md</a></td>
+<td>C:\Users\brian/.logseq/graphs/logseq_local_C+3A+++Users++brian++Dropbox++logseq.md.transit</td>
+</tr>
+<tr>
+<td>logseq</td>
+<td>C:\Users\brian/.logseq/graphs/logseq_local_C+3A+++Users++brian++logseq.transit</td>
+</tr>
+<tr>
+<td>my-logseq-brain</td>
+<td>C:\Users\brian/.logseq/graphs/logseq_local_C+3A+++Users++brian++my-logseq-brain.transit</td>
+</tr>
+<tr>
+<td>logseq-dendron</td>
+<td>C:\Users\brian/.logseq/graphs/logseq_local_C+3A+++Users++brian++Projects++logseq-dendron.transit</td>
+</tr>
+<tr>
+<td>my-logseq-graph</td>
+<td>C:\Users\brian/.logseq/graphs/logseq_local_C+3A+++Users++brian++Projects++my-logseq-graph.transit</td>
+</tr>
+<tr>
+<td>logseq-katamari</td>
+<td>C:\Users\brian/.logseq/graphs/logseq_local_C+3A+++Users++brian++Sync++logseq-katamari.transit</td>
+</tr>
+</tbody>
+</table>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Set your preferred graph in <code>~/.lq/config.edn</code></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-edn">{:default-options {:graph &quot;my-logseq-brain&quot;}}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Figuring out the queries</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>lq q has-property public</code> works</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-edn">[{:block/properties-text-values
+  {:page-type &quot;[[Workflow]]&quot;, :public &quot;true&quot;},
+  :block/pre-block? true,
+  :block/uuid #uuid &quot;6439754c-593b-4ae5-bc78-edc7048bcfcb&quot;,
+  :block/invalid-properties #{},
+  :block/properties {:page-type #{&quot;Workflow&quot;}, :public true},
+  :block/journal? false,
+  :block/left #:db{:id 29},
+  :block/refs [#:db{:id 78} #:db{:id 79}],
+  :block/format :markdown,
+  :block/content &quot;page-type:: [[Workflow]]\npublic:: true&quot;,
+  :db/id 77,
+  :block/path-refs [#:db{:id 29} #:db{:id 78} #:db{:id 79}],
+  :block/parent #:db{:id 29},
+  :block/unordered true,
+  :block/page #:db{:id 29}}
+ ; ...
+]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>lq q property public true</code> and <code>lq q property public &quot;true&quot;</code> do <em>not</em> work.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What I’ve learned so far: practice your queries directly in Logseq and once you’re happy with the results, incorporate the query into your CLI workflow via <code>lq</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Related</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="https://github.com/cldwalker/logseq-query">GitHub - cldwalker/logseq-query</a></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>
