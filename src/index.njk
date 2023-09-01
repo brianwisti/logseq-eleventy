@@ -6,7 +6,7 @@ layout: layouts/base.njk
 
 <p>See <a href="/page/">All Pages</a> for every public page, but here's some recent notes from the journal.</p>
 
-{% for block in journals -%}
+{% for block in recentJournals -%}
   <article>
     {{ render_page_note(block, with_link=true) }}
   </article>
