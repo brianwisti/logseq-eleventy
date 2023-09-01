@@ -90,6 +90,12 @@ heading p {
   display: inline;
 }
 
+blockquote {
+  border-left: thin solid var(--color-fg);
+  font-style: italic;
+  padding-left: 0.25em;
+}
+
 pre, code, tt {
   font-family: var(--font-family-mono);
 }
