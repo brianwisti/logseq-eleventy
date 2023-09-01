@@ -3,29 +3,38 @@ const XRegExp = require("xregexp");
 const LogseqMarkdownHandler = require("../handlers/LogseqMarkdownHandler.js");
 const pages = require("../../_data/pages.js")();
 
-const pageLink = XRegExp(`
+const pageLink = XRegExp(
+  `
   \\[\\[
     (?<pageName> [^|\\]]+ )
     (?<label> \\| (?<textLabel> [^\\]]+ ) )?
   \\]\\]
-`, 'xg');
+`,
+  "xg"
+);
 
-const admonitionBlock = XRegExp(`
+const admonitionBlock = XRegExp(
+  `
   ^ \\#\\+ BEGIN_(?<category> [A-Z]+?) \\n
   (?<content> .+? )
   \\n \\#\\+ END_\\k<category> $
-`, 'xm');
+`,
+  "xm"
+);
 
-const videoBlock = XRegExp(`
+const videoBlock = XRegExp(
+  `
   {{video \\s https://www\\.youtube\\.com/watch\\?v=(?<videoId> .+?)}}
-`, 'x');
+`,
+  "x"
+);
 
 const md = LogseqMarkdownHandler();
 
 function getPagePermalink(pageName) {
   const target = pages.find((page) => page["page-name"] === pageName);
 
-  return (target == undefined) ? "/missing/" : `/${target.id}`;
+  return target == undefined ? "/missing/" : `/${target.permalink}`;
 }
 
 function handleAdmonitions(content) {
@@ -51,19 +60,19 @@ function handleVideoEmbeds(content) {
 // Do a regex replace until I better understand markdown-it
 // TODO: Also, this kind of action is best when loading the collection
 function handleWikiLinks(content) {
-  if (content.startsWith('```')) {
+  if (content.startsWith("```")) {
     return content;
   }
 
   return XRegExp.replace(content, pageLink, (match, ...args) => {
     const groups = args.pop();
     const permalink = getPagePermalink(groups.pageName);
-    const label = (groups.textLabel) ? groups.textLabel : groups.pageName;
+    const label = groups.textLabel ? groups.textLabel : groups.pageName;
     return `<a href="${permalink}" class="page-link">${label}</a>`;
   });
 }
 
-module.exports = function(content) {
+module.exports = function (content) {
   if (content instanceof Array) {
     // This happens with block properties that are page links.
     // In my exact situation that array holds a single string which should link to a page
@@ -76,4 +85,4 @@ module.exports = function(content) {
   content = md.render(content);
 
   return content;
-}
+};

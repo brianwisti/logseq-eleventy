@@ -1,4 +1,7 @@
+"use strict";
+
 const fs = require("fs-plus");
+const slug = require("slug");
 
 const graphData = () => {
   const exportDir = process.env["EXPORT_DIR"];
@@ -12,13 +15,23 @@ const graphData = () => {
     throw new Error("Required environment variable missing: GRAPH_NAME");
   }
 
-  const filename = fs.listSync(exportDir)
+  const filename = fs
+    .listSync(exportDir)
     .sort()
     .findLast((filename) => filename.includes(graphName));
   const rawJson = fs.readFileSync(filename).toString();
 
-  return JSON.parse(rawJson);
+  let graph = JSON.parse(rawJson);
+  graph["blocks"].forEach((pageBlock) => {
+    pageBlock["permalink"] = determinePermalink(pageBlock);
+  });
+
+  return graph;
 };
+
+function determinePermalink(page) {
+  return slug(page["page-name"]);
+}
 
 function extractPublicContent(page) {
   if (!isPublic(page)) {
@@ -32,8 +45,7 @@ function extractPublicContent(page) {
 }
 
 function getPublicChildren(page) {
-  return page.children.filter((child) => isPublic(child))
-
+  return page.children.filter((child) => isPublic(child));
 }
 
 function hasPublicContent(page) {
@@ -41,23 +53,18 @@ function hasPublicContent(page) {
     return page.children.length > 0;
   }
 
-  if (page.content === "")
-    return false;
+  if (page.content === "") return false;
 
   return true;
 }
 
 function isPublic(page) {
-  if (page.properties == undefined)
-    return false;
+  if (page.properties == undefined) return false;
 
-  if (page.properties["public"] == undefined)
-    return false;
+  if (page.properties["public"] == undefined) return false;
 
   return page.properties["public"];
 }
 
 module.exports = () =>
-  graphData().blocks
-    .map(extractPublicContent)
-    .filter(hasPublicContent);
+  graphData().blocks.map(extractPublicContent).filter(hasPublicContent);
