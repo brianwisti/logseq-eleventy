@@ -1,7 +1,7 @@
 // A Nunjucks filter to filter block content through LogseqMarkdownHandler
 const XRegExp = require("xregexp");
 const LogseqMarkdownHandler = require("../handlers/LogseqMarkdownHandler.js");
-const pages = require("../../_data/pages.js")();
+const pages = require("../../_data/pages.json");
 
 const pageLink = XRegExp(
   `
