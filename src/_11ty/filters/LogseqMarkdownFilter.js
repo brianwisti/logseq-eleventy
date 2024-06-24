@@ -34,7 +34,7 @@ const md = LogseqMarkdownHandler();
 function getPagePermalink(pageName) {
   const target = pages.find((page) => page["page-name"] === pageName);
 
-  return target == undefined ? "/missing/" : `/${target.permalink}`;
+  return target == undefined ? null : `/${target.permalink}`;
 }
 
 function handleAdmonitions(content) {
@@ -66,8 +66,12 @@ function handleWikiLinks(content) {
 
   return XRegExp.replace(content, pageLink, (match, ...args) => {
     const groups = args.pop();
-    const permalink = getPagePermalink(groups.pageName);
     const label = groups.textLabel ? groups.textLabel : groups.pageName;
+    const permalink = getPagePermalink(groups.pageName);
+
+    if (!permalink) {
+      return `<em>${label}</em>`;
+    }
     return `<a href="${permalink}" class="page-link">${label}</a>`;
   });
 }
