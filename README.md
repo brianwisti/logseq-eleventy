@@ -12,7 +12,7 @@ Assuming you have Git, Node.js, Logseq with a graph to export:
 - clone / fork this repo
 - `npm install`
 - In Logseq, *Export Graph > Export as JSON* to somewhere Eleventy can see
-- define `GRAPH_NAME` and `EXPORT_DIR` in a project `.env` file
+- define `GRAPH_NAME` and `GRAPH_EXPORT_FOLDER` in a project `.env` file
 - `npm start`
 - marvel at how little it does
 
@@ -39,7 +39,7 @@ So if I have a Logseq graph named "my-logseq-brain" in `~/graphs`, Logseq names 
 And my Eleventy project's `.env` will look something like this:
 
 ```sh
-EXPORT_DIR = "/home/random/Documents/logseq-export"
+GRAPH_EXPORT_FOLDER = "/home/random/Downloads"
 GRAPH_NAME = "my-logseq-brain"
 ```
 

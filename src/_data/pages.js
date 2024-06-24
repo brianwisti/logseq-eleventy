@@ -4,7 +4,7 @@ const fs = require("fs-plus");
 const slug = require("slug");
 
 const graphData = () => {
-  const exportDir = process.env["EXPORT_DIR"];
+  const exportDir = process.env["GRAPH_EXPORT_FOLDER"];
   const graphName = process.env["GRAPH_NAME"];
 
   if (exportDir == undefined) {
