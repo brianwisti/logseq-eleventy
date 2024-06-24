@@ -56,9 +56,22 @@
     </header>
 
     {{ render_block(page) }}
+
+    {{ render_subpages(page) }}
   </section>
 {% endmacro %}
 
 {% macro link_to_page(page_block) %}
   <a class="page-link" href="/{{ page_block.permalink }}/">{{ page_block["page-name"] }}</a>
+{% endmacro %}
+
+{% macro render_subpages(page) %}
+  {% if page["subpages"] %}
+    <section>
+      <header><h2>Subpages</h2></header>
+      {% for subpage in page["subpages"] %}
+        {{ link_to_page(subpage) }} <br>
+      {% endfor %}
+    </section>
+  {% endif %}
 {% endmacro %}
