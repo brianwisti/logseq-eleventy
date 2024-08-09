@@ -1,0 +1,1116 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2010/Parrot Babysteps 09 - Simple Projects
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2010-04-29</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Introduction</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I spent a lot of time exploring <a href="/parrot" class="page-link">Parrot</a> testing with <a href="https://github.com/parrot/parrot/blob/RELEASE_3_0_0/runtime/parrot/library/Test/More.pir">Test::More</a> in <a href="/post/2009/parrot-babysteps-08-testing-with-testmore" class="page-link">post/2009/Parrot Babysteps 08 - Testing With Test::More</a> . That’s because I want to start building larger projects, and testing is a vital part of most projects. Another major part is a properly organized workspace with a script that can simplify testing or other tasks.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Creating a Simple Project</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>A nice Parrot project layout includes a <code>t</code> folder for tests, a <code>lib</code> folder for
+library code, and a <code>setup.pir</code> file to drive the whole thing.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ mkdir simple-pir
+$ mkdir simple-pir/t
+$ mkdir simple-pir/lib
+$ cd simple-pir
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What gets placed in <code>setup.pir</code>? Not much, considering how much it does. <code>setup.pir</code> takes advantage of the Parrot [distutils][] module for a whole range of tasks. All I’m concerned about today is <em>testing</em>, so my setup is going to be rather lightweight.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-09-01/setup.pir
+.sub 'main' :main
+	.param pmc args
+	$S0 = shift args # Ignore my own filename
+	load_bytecode 'distutils.pbc'
+
+	# Find out what command the user has issued
+	.local string directive
+	directive = shift args
+
+	setup(directive)
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This is not exciting code, but it is enough to see what distutils <em>can</em> give me. The first command line parameter is shifted onto a dummy register variable,  because I don’t really care about the name of <code>setup.pir</code> from within <code>setup.pir</code>.  Then I load the <a href="https://github.com/parrot/parrot/blob/RELEASE_3_0_0/runtime/parrot/library/distutils.pir">distutils</a> bytecode so I can get access to the <code>setup</code> subroutine.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>setup.pir</code> will get more complicated as we go on, and you will <em>definitely</em> see more complex <code>setup.pir</code> files out in the wild, but this will get us started.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ parrot setup.pir help
+usage: parrot setup.pir [target|--key value]*
+
+	Default targets are :
+
+		build:          Build the library.
+
+		test:           Run the test suite.
+
+		install:        Install the library.
+
+		uninstall:      Uninstall the library.
+
+		clean:          Basic cleaning up.
+
+		update:         Update from the repository.
+
+		plumage:        Output a skeleton for Plumage
+
+		sdist:          Create a source distribution
+
+		bdist:          Create a binary distribution
+
+		help:           Print this help message.
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What happens when I tell <code>setup.pir</code> that I want to test?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ parrot setup.pir test
+Files=0, Tests=0,  0.000 wallclock secs
+Result: NOTESTS
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Well of course it failed. There aren’t any test files, and <code>setup.pir</code> wouldn’t know how to run them if there were!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’ll fix the second part first.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-09-02/setup.pir
+.sub 'main' :main
+	.param pmc args
+	$S0 = shift args # Ignore my own filename
+	load_bytecode 'distutils.pbc'
+
+	# Find out what command the user has issued
+	.local string directive
+	directive = shift args
+
+	# Used by the test mode
+	.local string prove_exec
+	prove_exec = get_parrot()
+
+	setup(directive, 'prove_exec' =&gt; prove_exec)
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Parrot allows you to use <a href="http://docs.parrot.org/parrot/latest/html/docs/book/pir/ch06_subroutines.pod.html#Named_Parameters">named parameters</a> for some subroutines, and <code>setup</code> takes full advantage of that feature. If you’re used to <a href="/perl" class="page-link">Perl</a> or <a href="/ruby" class="page-link">Ruby</a>, named parameters look a lot like a hash. That’s close enough for our purposes. A named parameter generally follows a simple format:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>'&lt;key-1&gt;' =&gt; '&lt;value-1&gt;'
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Thankfully, <code>distutils.pir</code> is a well-documented module, and you can find details about the many options by checking the documentation.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ perldoc /usr/local/lib/parrot/3.0.0/library/distutils.pir
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I only care about a single option: <code>prove_exec</code>, which tells <code>setup</code> what program will be used to run the tests. Why does <code>setup</code> care? Well, Parrot is a VM. Your tests can be in PIR, NQP, <a href="/post/2010/rakudo" class="page-link">post/2010/Rakudo</a> , or even a language of your own design. The <a href="/post/2009/parrot-babysteps" class="page-link">post/2009/Parrot Babysteps</a> are about Parrot PIR, so it makes sense that the tests will be in the same language.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Oh yes, the tests. Let’s write one. I’ll follow the convention I see in the Perl world of a number followed by a description for the test filename, and the test itself will be for a simple area calculating function.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-09-02/t/01-radius.t
+.sub 'main' :main
+	.include 'test_more.pir'
+	.local num radius
+	.local num expected_area, actual_area
+
+	plan(1)
+
+	radius = 1.0
+	expected_area = 3.1415926
+	actual_area = area_of_circle(radius)
+	is(expected_area, actual_area, 'Circle with radius 1 should have area PI', 1e-6)
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>So - this should fail, right?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ parrot setup.pir test
+t/01-radius.t .. Dubious, test returned 1
+Failed 1/1 subtests 
+
+Test Summary Report
+-------------------
+t/01-radius.t (Tests: 0 Failed: 0)
+  Non-zero exit status: 1
+  Parse errors: Unknown TAP token: &quot;Could not find sub area_of_circle&quot;
+				Unknown TAP token: &quot;current instr.: 'main' pc 40
+(t/01-radius.t:13)&quot;
+				Bad plan.  You planned 1 tests but ran 0.
+Files=1, Tests=0,  0.021 wallclock secs
+Result: FAIL
+test fails
+current instr.: 'setup' pc 883 (runtime/parrot/library/distutils.pir:376)
+called from Sub 'main' pc 29 (setup.pir:18)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Excellent. Parrot didn’t just tell us that the test failed. It also told us about some unexpected output from our test script. What’s that unexpected output? Oh, something about not having a subroutine called <code>area_of_circle</code>. Let’s fix that by adding a new library file called <code>lib/area.pir</code>, and adding the missing subroutine.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-09-03/lib/area.pir
+
+.sub area_of_circle
+	.param num radius
+	.const num PI = 3.1415926
+	.local num area
+
+	area = PI
+	area *= radius
+	area *= radius
+
+	.return(area)
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I borrowed this code from <a href="/post/2009/parrot-babysteps-02-variables-and-types" class="page-link">post/2009/Parrot Babysteps 02 - Variables and Types</a> and dropped it into a subroutine.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Don’t forget to include this library code from your test file.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-09-03/lib/area.pir
+
+.include 'lib/area.pir'
+
+.sub 'main' :main
+	# ...
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Did it work?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ parrot setup.pir test
+t/01-radius.t .. ok
+All tests successful.
+Files=1, Tests=1,  0.016 wallclock secs
+Result: PASS
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Yay!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Hold on a second. I snuck an extra argument back when I wrote the <code>is</code> assertion. What was that all about? Well, <a href="http://leto.net">Jonathan Leto</a> explained to me that <code>is</code> takes an additional argument for precision, which is useful in the fuzzy world of <a href="http://en.wikipedia.org/wiki/Floating_point#Accuracy_problems">floating point math</a> on a modern computer. The <code>1e-6</code> requirement asks Parrot to make sure <code>expected_area</code> and <code>actual_area</code> look the same down to six places past the decimal point.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This approach of writing the tests before you write the code is called TDD, for
+[Test Driven Development](<a href="http://en.wikipedia.org/wiki/Test-driven_development">http://en.wikipedia.org/wiki/Test-driven_development</a>. I like TDD because I’m basically describing the next thing I want my library or application to do. That’s perfect for me, since I’m such a chatty person. Well, I’m chatty when typing at the computer.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You don’t need to follow a test driven approach, but other developers will like you more if you consistently test the code you write. The easiest way to consistently test it is to write the test before you write the code.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Conclusion</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Combining what we’ve learned about Test::More with <code>setup.pir</code> allows us to confidently build more complicated applications, testing as we go along. It is true that all we know how to do with <code>setup.pir</code> at this point is ask it to run tests for us, but even that can save a lot of work.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I don’t know about you, but I’m ready to take another look at that star catalog.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

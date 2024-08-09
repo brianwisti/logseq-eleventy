@@ -1,0 +1,659 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2020/Winget Preview
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2020-06-14</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="/winget" class="page-link">Winget</a> is a command line package manager for <em class="link-missing">Windows</em> 10, open-sourced under the <a href="https://github.com/microsoft/winget-cli/blob/master/LICENSE">MIT License</a>.  Roughly equivalent to <code>apt</code> or <code>brew</code>.  If you already know and love <a href="https://chocolatey.org/">Chocolatey</a>, you’re fine.  Stick with that for now. <code>winget</code> shows promise though.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The other night I installed <a href="https://strawberryperl.com">Strawberry Perl</a> and played with <a href="https://metacpan.org/release/Image-ExifTool">Image::ExifTool</a> a tiny bit.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Yesterday I successfully installed Emacs and started doing real work writing Perl code with it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Exciting!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Well, not <em>work</em> work. The new job doesn’t start until tomorrow, and is mostly Python.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>How do I get Winget</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>winget</code> is still in preview.  You can get it as part of the <a href="https://insider.windows.com/">Windows Insider</a> program, like me.  Slow Ring should be fine.  If you don’t feel like taking the risk on a preview release of Windows, you can grab it from the <a href="https://github.com/microsoft/winget-cli">winget-cli repository</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Finding and installing stuff with <code>winget</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>One goal when in Windows is to <em>use</em> Windows, and not just spend all day hiding in WSL.  If I want to use Windows, I need <a href="/perl" class="page-link">Perl</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Hey, I’ll allow myself a few crutches here and there.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">PS &gt; winget search perl
+Name            Id                            Version  Matched
+----------------------------------------------------------------
+Strawberry Perl StrawberryPerl.StrawberryPerl 5.30.2.1
+Xampp           ApacheFriends.Xampp           7.4.6    Tag: Perl
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Ooh, <a href="https://www.apachefriends.org/index.html">XAMPP</a>.  I haven’t messed with that in years.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>But no I’m just here for Perl today.  Strawberry Perl is an excellent Perl setup for Windows.  Provides all the core stuff, a bunch of <a href="http://strawberryperl.com/release-notes/5.30.2.1-64bit.html">useful extras</a>, and the tools you need to install additional libraries.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>winget show</code> displays additional details about a package.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">PS &gt; winget show StrawberryPerl
+Found Strawberry Perl [StrawberryPerl.StrawberryPerl]
+Version: 5.30.2.1
+Publisher: strawberryperl.com project
+Description: Strawberry Perl is a perl environment for MS Windows containing all you need to run and develop perl
+applications. It is designed to be as close as possible to perl environment on UNIX systems.
+Homepage: http://strawberryperl.com/
+License: Perl.org
+Installer:
+  SHA256: 2365e89623b496ca530443a362e765f3e8de9daa744b07924b17ae7aa0b06002
+  Download Url: http://strawberryperl.com/download/5.30.2.1/strawberry-perl-5.30.2.1-32bit.msi
+  Type: Msi
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Yep, that’s what I want.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">PS &gt; winget install StrawberryPerl
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Things do get automatically added to your path, but not right away.  Somebody more familiar with Windows probably knows what to do.  Me?  When it doesn’t catch right away I log out and back in.  That always does the trick.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">PS &gt; perl --version
+This is perl 5, version 30, subversion 2 (v5.30.2) built for MSWin32-x86-multi-thread-64int
+
+Copyright 1987-2020, Larry Wall
+
+Perl may be copied only under the terms of either the Artistic License or the
+GNU General Public License, which may be found in the Perl 5 source kit.
+
+Complete documentation for Perl, including FAQ lists, should be found on
+this system using &quot;man perl&quot; or &quot;perldoc perl&quot;.  If you have access to the
+Internet, point your browser at http://www.perl.org/, the Perl Home Page.
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now what about all the other package manger functionality?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>What about updating, listing, uninstalling, etc</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Um.  Well.  I mentioned <code>winget</code> is in preview, right?  Check the development <a href="https://github.com/microsoft/winget-cli/blob/master/doc/windows-package-manager-v1-roadmap.md">roadmap</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

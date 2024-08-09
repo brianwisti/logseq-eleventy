@@ -1,0 +1,575 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2015/Ruby iTunes Ratings Fun
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><p>using Ruby to summarize my iTunes music ratings</p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2015-03-16</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I use the <a href="https://github.com/bleything/plist">plist</a> and <a href="https://github.com/topfunky/gruff">gruff</a> gems to summarize my iTunes music ratings with <a href="/ruby" class="page-link">Ruby</a></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Introduction</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Earlier this year I did a fresh operating system install on my laptop. Part of that install involved moving all my music from an older machine. I moved the music, but not the iTunes details. My tastes changed over the years. Why not start with a fresh listen and fresh ratings for all?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>A few months passed. How much progress have I made?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>First off let me roll 1d100 and check the Random Language Chart. I rolled a 73, and that means I write this in Ruby.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I decided to look at the <a href="/xml" class="page-link">XML</a> file that gets exported by iTunes whenever a library detail changes. <a href="https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man5/plist.5.html">Property List XML</a> frustrates quickly if you attack it with naive XML parsing. Fortunately, Ben Bleything wrote a <a href="https://github.com/bleything/plist">plist</a> gem that simplifies the task in Ruby.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Since I like pretty pictures, I may as well use Geoffrey Grosenbach’s <a href="https://github.com/topfunky/gruff">gruff</a> to make a pretty pie chart.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ ruby --version
+ruby 2.2.0p0 (2014-12-25 revision 49005) [x86_64-darwin14]
+$ gem install plist
+$ gem install gruff
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Here it is</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>No big code explanation this time around. My last few attempts at that have gone stale in my drafts folder. Plus, I’m worn out. I <em>tried</em> the naive XML parsing thing, and it frustrated me quickly. Thank goodness for <a href="https://github.com/bleything/plist">plist</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">require 'plist'
+require 'gruff'
+
+SOURCE = &quot;#{ENV['HOME']}/Music/iTunes/iTunes Music Library.xml&quot;
+
+plist = Plist.parse_xml SOURCE
+tracks = plist['Tracks']
+
+songs = tracks.values.reject do |track|
+  track['Kind'] !~ /audio file$/ || track['Genre'] == 'Podcast'
+end
+
+ratings = {}
+
+# Group the songs by rating.
+songs.each do |song|
+  rating = song['Rating'] || 0
+  total_time = song['Total Time'] || 0
+
+  ratings[rating] ||= { songs: 0, time: 0 }
+  ratings[rating][:songs] += 1
+  ratings[rating][:time] += total_time
+end
+
+# Print it.
+puts 'Rating Songs Percent Duration'
+
+ratings.keys.sort.each do |rating|
+  song_count = ratings[rating][:songs]
+  total_seconds = ratings[rating][:time] / 1000.0
+  seconds = total_seconds % 60
+  minutes = (total_seconds / 60) % 60
+  hours = (total_seconds / (60 * 60)) % 24
+  days = total_seconds / (60 * 60 * 24)
+
+  percentage = song_count.to_f() / songs.count.to_f() * 100.0
+  duration = format '%02d:%02d:%02d:%02d', days, hours, minutes, seconds
+  description = format '%6d %5d %6.1f%% %s', rating, song_count, percentage, duration
+  puts description
+end
+
+# Graph it.
+data = ratings.map { |rating, info| [ rating, [ info[:songs]]] }
+
+graph = Gruff::Pie.new
+graph.title = &quot;Songs Grouped By Rating&quot;
+
+ratings.keys.sort.each { |rating| graph.data rating, ratings[rating][:songs] }
+
+graph.write &quot;song-pie.png&quot;
+</code></pre>
+<p>caption:: <code>graph-ratings.rb</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Running it shows me that I have more than a month of music to rate, and only if I can rate music in my sleep.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>Rating Songs Percent Duration
+	 0 13907   83.0% 38:05:56:14
+	20    60    0.4% 00:03:41:48
+	40   179    1.1% 00:12:28:46
+	60  1351    8.1% 03:16:21:32
+	80   984    5.9% 02:14:57:47
+   100   273    1.6% 00:17:44:35
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It seems I still like most of the music I own at least a little bit. Many former favorites have drifted to the 60 rating (3 stars), though. Time does change tastes a little bit.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The graph. Let’s look at that pretty picture.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/song-pie_1721319305081_0.png" alt="ratings pie chart"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Yes. I have much music listening ahead of me.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

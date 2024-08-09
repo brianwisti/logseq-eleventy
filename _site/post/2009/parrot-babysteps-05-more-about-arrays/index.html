@@ -1,0 +1,1859 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2009/Parrot Babysteps 05 - More About Arrays
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2009-09-29</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Introduction</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We started looking at arrays in <a href="/post/2009/parrot-babysteps-04-adding-command-line-arguments" class="page-link">post/2009/Parrot Babysteps 04 - Adding Command Line Arguments</a> . We’re going to take a closer look today, exploring different ways of looking at <a href="/parrot" class="page-link">Parrot</a> arrays to build an averaging calculator. We’ll start with no array at all, to build the basic flow of our program and to demonstrate that an array is not always needed. Then we’ll move on to more interesting stuff, with array indexing, stack opcodes, and iterators.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Building the Basic Flow</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Our averaging program is going to get its input from the user, and will take an arbitrary quantity of Numbers. Basically, it will keep accepting Numbers until the user indicates that she’s done. It will then display the average of all Numbers and exit.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Sounds simple enough. How will the user tell the program that she’s done? I like the idea of using the string “done”. It’s easy to remember and to the point. Wait. Let me think about that for a moment. The phrase “done” may be easy to remember, but “quit” is more common for leaving an interactive shell. I guess we should use “quit”.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Okay, let’s make the basic shell.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-05-01.pir
+.sub 'main' :main
+	.const string PROMPT      = 'Enter a number (or &quot;quit&quot; to quit): '
+	.const string EXIT_STRING = 'quit'
+	.local string user_input
+	.local num    latest_number
+	.local pmc    stdin
+
+	stdin = getstdin
+
+  GET_INPUT:
+	user_input = stdin.'readline_interactive'(PROMPT)
+	if user_input == EXIT_STRING goto SHOW_AVERAGE
+	latest_number = user_input
+	say latest_number
+	goto GET_INPUT
+
+  SHOW_AVERAGE:
+	say &quot;Average goes here&quot;
+	goto EXIT
+
+  EXIT:
+
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There’s a little debugging output that won’t be necessary once the program is filled out a little more, but we’ve got the basics.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ parrot example-05-01.pir
+Enter a number (or &quot;quit&quot; to quit): 23
+23
+Enter a number (or &quot;quit&quot; to quit): 12
+12
+Enter a number (or &quot;quit&quot; to quit): q
+0
+Enter a number (or &quot;quit&quot; to quit): quit
+Average goes here
+$
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Notice that the string is converted to a number using normal Perl rules: if it doesn’t have any numbers, it’s treated as zero. We could put in some error checking to chastise the user for bad input, but I don’t feel like it right now.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Averaging With No Arrays</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I would like to point something out before we start digging into array features. We don’t <em>need</em> to use arrays when calculating something like an average. Here’s a perfectly useful example that never uses a single array:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-05-02.pir
+.sub 'main' :main
+	.const string PROMPT      = 'Enter a number (or &quot;quit&quot; to quit): '
+	.const string EXIT_STRING = 'quit'
+	.local string user_input
+	.local num    latest_number
+	.local num    total
+	.local int    numbers_entered
+	.local num    average
+	.local pmc    stdin
+
+	stdin = getstdin
+	total = 0
+	numbers_entered = 0
+
+  GET_INPUT:
+	user_input = stdin.'readline_interactive'(PROMPT)
+	if user_input == EXIT_STRING goto SHOW_AVERAGE
+	latest_number = user_input
+	numbers_entered += 1
+	total += latest_number
+	goto GET_INPUT
+
+  SHOW_AVERAGE:
+	average = total / numbers_entered
+	say average
+	goto EXIT
+
+  EXIT:
+
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Here’s what it looks like in action.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ parrot example-05-02.pir
+Enter a number (or &quot;quit&quot; to quit): 5
+Enter a number (or &quot;quit&quot; to quit): 10
+Enter a number (or &quot;quit&quot; to quit): 15
+Enter a number (or &quot;quit&quot; to quit): 20
+Enter a number (or &quot;quit&quot; to quit): quit
+12.5
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Why did I show this? Well, basically because “write an averaging program without using an Array in the language of your choice” is an interview question I’ve been asked a couple of times. It’s been a while, but I thought I’d be ready in case somebody asked me again. They’ll probably expect me to use Java or Ruby or something. This will show them. This will show them all! This will show them - uhh - I’m not sure what it’ll show them.
+Anyways - I wrote this version because I felt like it. Let’s start writing code that uses arrays, okay?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Stacks — Pushing and Popping</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The <a href="http://en.wikipedia.org/wiki/Stack_(data_structure)">stack</a> is one of the fundamental data structures. The mental image is straightforward: you have a stack of things. You can <em>push</em> a new thing onto the stack, or you can <em>pop</em> the top thing from the stack into your hand. Stacks provide a simple way to handle every item in a collection. One thing you need to keep in mind is consistent with that stack image: once you’ve popped an item from the stack, it’s not in the collection anymore. So popping all the way through a stack results in what? Yes, that’s right. It results in an empty stack.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Still, the stack structure is good enough for a lot of collection handling, and will definitely work for our averaging application.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’ll show you the code first, then we can talk about it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-05-03
+.sub 'main' :main
+	.const string PROMPT      = 'Enter a number (or &quot;quit&quot; to quit): '
+	.const string EXIT_STRING = 'quit'
+	.local string user_input
+	.local num    latest_number
+	.local num    total
+	.local int    number_count
+	.local pmc    numbers
+	.local num    average
+	.local pmc    stdin
+
+	stdin = getstdin
+	numbers = new 'ResizableFloatArray'
+
+  GET_INPUT:
+	user_input = stdin.'readline_interactive'(PROMPT)
+	if user_input == EXIT_STRING goto SETUP_CALCULATE_SUM
+	latest_number = user_input
+	push numbers, latest_number
+	goto GET_INPUT
+
+  SETUP_CALCULATE_SUM:
+	total = 0
+	number_count = 0
+
+  CALCULATE_SUM:
+	latest_number = pop numbers
+	total += latest_number
+	number_count += 1
+	if numbers goto CALCULATE_SUM
+
+	average = total / number_count
+	say average
+
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We use the <a href="http://docs.parrot.org/parrot/devel/html/src/pmc/resizablefloatarray.pmc.html">ResizableFloatArray</a> PMC to hold our user’s numeric input. That is a built-in PMC, so we don’t need to do any special includes to access it. Just create a new one with the <code>new</code> opcode.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>.local pmc    numbers
+# ...
+numbers = new 'ResizableFloatArray'
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>After creating <code>numbers</code>, we can push new values onto the array with the <code>push</code> opcode. We use this to collect user input.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>push numbers, latest_number
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Later on, when we’re calculating the average, we use <code>pop</code> to grab the most recently pushed value from the stack. We keep doing that until we’re out of numbers, as judged by a simple <code>if</code> test.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>  CALCULATE_SUM:
+	latest_number = pop numbers
+	total += latest_number
+	number_count += 1
+	if numbers goto CALCULATE_SUM
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>If <code>numbers</code> is empty and that test looks false to Parrot, the program falls through to the next statement. That next statement is where we actually calculate the average.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ parrot example-05-03.pir
+Enter a number (or &quot;quit&quot; to quit): 1e+5
+Enter a number (or &quot;quit&quot; to quit): 1e+3
+Enter a number (or &quot;quit&quot; to quit): 1e+1
+Enter a number (or &quot;quit&quot; to quit): quit
+33670
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Yes, I was being more clever than I needed to with this example session, but I wanted to remind you that Parrot accepts <a href="http://en.wikipedia.org/wiki/Scientific_notation#E_notation">E notation</a> for numbers. Here’s the same session with the numbers looking more like you might have expected.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ parrot example-05-03.pir
+Enter a number (or &quot;quit&quot; to quit): 100000
+Enter a number (or &quot;quit&quot; to quit): 1000
+Enter a number (or &quot;quit&quot; to quit): 10
+Enter a number (or &quot;quit&quot; to quit): quit
+33670
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>shift</code> and <code>unshift</code> - The Bottom of the Stack</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>While <code>push</code> and <code>pop</code> work on the end of an array, Parrot also provides <code>unshift</code> and <code>shift</code> which handle corresponding functionality on the front of an array. Let’s go back to the stack image for a moment. We already have the basic idea of pushing onto and popping off of the top of a stack. We can also <em>shift</em> an item from the bottom of that stack. What used to be the first item is now in our hands, and the rested of the stack has <em>shifted</em> down so that the old second item is the new first item. We can <em>unshift</em> an item into the bottom of the stack. Now that unshifted item is the new first in the collection, and the old first item is now the second.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I really need to get some illustrations in here. The idea is very easy to show, but my language skills aren’t adequate for the task.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-05-04
+.sub 'main' :main
+	.const string PROMPT      = 'Enter a number (or &quot;quit&quot; to quit): '
+	.const string EXIT_STRING = 'quit'
+	.local string user_input
+	.local num    latest_number
+	.local num    total
+	.local int    number_count
+	.local pmc    numbers
+	.local num    average
+	.local pmc    stdin
+
+	stdin = getstdin
+	numbers = new 'ResizableFloatArray'
+
+  GET_INPUT:
+	user_input = stdin.'readline_interactive'(PROMPT)
+	if user_input == EXIT_STRING goto SETUP_CALCULATE_SUM
+	latest_number = user_input
+	unshift numbers, latest_number
+	goto GET_INPUT
+
+  SETUP_CALCULATE_SUM:
+	total = 0
+	number_count = 0
+
+  CALCULATE_SUM:
+	latest_number = shift numbers
+	total += latest_number
+	number_count += 1
+	if numbers goto CALCULATE_SUM
+
+	average = total / number_count
+	say average
+
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Which is better? I’ll be honest with you. I don’t really know. I stick to pushing and popping because it’s easier to visualize.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>However, when you combine <code>push</code> and <code>shift</code> you get a whole new structure called a queue.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Queues</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>A <a href="http://en.wikipedia.org/wiki/Queue_(data_structure)">queue</a> is yet another way of looking at our array when you are concerned about order. Stacks are LIFO: when you pop an item from the stack, you’re getting the last item that was pushed. Queues are FIFO: when you shift an item from the queue, you get the first item that was pushed. Okay - the technical term for placing an item in the queue is <em>enqueue</em> and for grabbing an item is <em>dequeue</em>. Pushing and shifting refer to the opcodes we’re using. Use whatever term you’re happier with.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The actual code for using a queue instead of a stack still doesn’t look all that different, because they’re still producing the same final result. Let’s write an example that clearly demonstrates the difference between a queue and a stack:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-05-05
+.sub 'main' :main
+	.const string PROMPT      = 'Enter a number (or &quot;quit&quot; to quit): '
+	.const string EXIT_STRING = 'quit'
+	.local pmc    stdin
+	.local string user_input
+	.local num    latest_number
+	.local pmc    stack
+	.local int    stack_count
+	.local num    stack_popped
+	.local num    stack_sum
+	.local num    stack_average
+	.local pmc    queue
+	.local int    queue_count
+	.local num    queue_dequeued
+	.local num    queue_sum
+	.local num    queue_average
+
+	stdin = getstdin
+	stack = new 'ResizableFloatArray'
+	queue = new 'ResizableFloatArray'
+
+  GET_INPUT:
+	user_input = stdin.'readline_interactive'(PROMPT)
+	if user_input == EXIT_STRING goto SETUP_SUM_CALCULATIONS
+	latest_number = user_input
+	push stack, latest_number  # Push onto the stack
+	push queue, latest_number  # Enqueue onto the queue
+	goto GET_INPUT
+
+  SETUP_SUM_CALCULATIONS:
+	stack_count = 0
+	stack_sum   = 0
+	queue_count = 0
+	queue_sum   = 0
+
+  CALCULATE_STACK_SUM:
+	stack_popped = pop stack
+	print &quot;Popped: &quot;
+	say stack_popped
+	stack_sum += stack_popped
+	stack_count += 1
+	if stack goto CALCULATE_STACK_SUM
+
+  CALCULATE_QUEUE_SUM:
+	queue_dequeued = shift queue
+	print &quot;Dequeued: &quot;
+	say queue_dequeued
+	queue_sum += queue_dequeued
+	queue_count += 1
+	if queue goto CALCULATE_QUEUE_SUM
+
+	stack_average = stack_sum / stack_count
+	queue_average = queue_sum / queue_count
+	print &quot;Stack average: &quot;
+	say stack_average
+	print &quot;Queue average: &quot;
+	say queue_average
+
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now we can see exactly what numbers are being grabbed as our program calculates
+the sums.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ parrot example-05-05.pir
+Enter a number (or &quot;quit&quot; to quit): 5
+Enter a number (or &quot;quit&quot; to quit): 10
+Enter a number (or &quot;quit&quot; to quit): 15
+Enter a number (or &quot;quit&quot; to quit): 20
+Enter a number (or &quot;quit&quot; to quit): quit
+Popped: 20
+Popped: 15
+Popped: 10
+Popped: 5
+Dequeued: 5
+Dequeued: 10
+Dequeued: 15
+Dequeued: 20
+Stack average: 12.5
+Queue average: 12.5
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That output could fill up the screen if I had a lot of values. I might want to
+fine-tune the debug output. Then again, I might want to just move on to the next
+subject.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Accessing by Index</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Stacks and queues are a practical solution to a wide range of collection-handling problems. They do have one shortcoming, though. Both of them are destructive. When you <code>pop</code> or <code>shift</code> a value from an array, you are actually removing that value.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There is nothing left after you have popped or shifted the last value. Sometimes that is okay, but sometimes you want to use the array for some other calculation. Those are the situations where you want a way to access the contents of the array without changing them. One way to do that is by accessing contents via an index.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The Parrot <a href="http://docs.parrot.org/parrot/devel/html/docs/pmc/array.pod.html">Array documentation</a> shows a few things about setting up fixed-size arrays and setting individual values within arrays, but what I care about is the fact that array elements are accessed pretty much the same as in other languages I’m familiar with. We use square brackets <code>[]</code> to access a specific element, and the count is zero-based. Yes, zero-based indexing can be a little confusing sometimes. Think of it as “how many items from the front is the element I want?” and you should be fine.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We’ll build up our array in the same way that we have been, because I want the user to have some flexibility in deciding how many numbers to average. After that we’ll step through the array by incrementing an index.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-05-06
+.sub 'main' :main
+	.const string PROMPT      = 'Enter a number (or &quot;quit&quot; to quit): '
+	.const string EXIT_STRING = 'quit'
+	.local string user_input
+	.local num    latest_number
+	.local num    total
+	.local int    number_count
+	.local int    number_index
+	.local pmc    numbers
+	.local num    average
+	.local pmc    stdin
+
+	stdin = getstdin
+	numbers = new 'ResizableFloatArray'
+
+  GET_INPUT:
+	user_input = stdin.'readline_interactive'(PROMPT)
+	if user_input == EXIT_STRING goto SETUP_CALCULATE_SUM
+	latest_number = user_input
+	push numbers, latest_number
+	goto GET_INPUT
+
+  SETUP_CALCULATE_SUM:
+	total = 0
+	number_count = numbers
+	number_index = 0
+
+  CALCULATE_SUM:
+	if number_index &gt;= number_count goto CALCULATE_AVERAGE
+	latest_number = numbers[number_index]
+	total += latest_number
+	number_index += 1
+	goto CALCULATE_SUM
+
+  CALCULATE_AVERAGE:
+	average = total / number_count
+	
+  DISPLAY_VALUES:
+	print &quot;Values entered: &quot;
+	say number_count
+	print &quot;Sum of values:  &quot;
+	say total
+	print &quot;Average:        &quot;
+	say average
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>A little more information is displayed in this version.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ parrot example-05-06.pir
+Enter a number (or &quot;quit&quot; to quit): 5
+Enter a number (or &quot;quit&quot; to quit): 10
+Enter a number (or &quot;quit&quot; to quit): 15
+Enter a number (or &quot;quit&quot; to quit): 20
+Enter a number (or &quot;quit&quot; to quit): quit
+Values entered: 4
+Sum of values:  50
+Average:        12.5
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Notice that we check to see if we’ve stepped outside of bounds right away. We could test at the end of that section, but the truth is that I don’t trust my own code. The sooner I can see if I need to move on, the happier I’ll be. I could even test if we’ve somehow gone below zero if I was feeling especially paranoid. I won’t do that today, though. You’re welcome.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Using an Iterator</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We’re nearly done. There is only one more way of traversing arrays that I want to look at. Parrot <a href="http://docs.parrot.org/parrot/devel/html/src/pmc/iterator.pmc.html">Iterators</a> allow you to step through the contents of an array without doing anything to the array itself, while ignoring the details of array indexing.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-05-07
+.sub 'main' :main
+	.const string PROMPT      = 'Enter a number (or &quot;quit&quot; to quit): '
+	.const string EXIT_STRING = 'quit'
+	.local string user_input
+	.local num    latest_number
+	.local num    total
+	.local int    number_count
+	.local pmc    numbers
+	.local pmc    numbers_iterator
+	.local num    average
+	.local pmc    stdin
+
+	stdin = getstdin
+	numbers = new 'ResizableFloatArray'
+
+  GET_INPUT:
+	user_input = stdin.'readline_interactive'(PROMPT)
+	if user_input == EXIT_STRING goto SETUP_CALCULATE_SUM
+	latest_number = user_input
+	push numbers, latest_number
+	goto GET_INPUT
+
+  SETUP_CALCULATE_SUM:
+	total = 0
+	numbers_iterator = iter numbers
+
+  CALCULATE_SUM:
+	unless numbers_iterator goto CALCULATE_AVERAGE
+	latest_number = shift numbers_iterator
+	total += latest_number
+	goto CALCULATE_SUM
+
+  CALCULATE_AVERAGE:
+	number_count = numbers
+	average = total / number_count
+
+  DISPLAY_VALUES:
+	print &quot;Values entered: &quot;
+	say number_count
+	print &quot;Sum of values:  &quot;
+	say total
+	print &quot;Average:        &quot;
+	say average
+
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>All right. This example is easier for me to read than the others for some reason. That could be due to the simple fact that I’ve been looking at Parrot arrays for a couple of hours now. Maybe it’s because my blocks are more clearly labelled. Maybe it’s because using an iterator allowed me to build up a sum and still get the length the length of <code>numbers</code> later, rather than building up two values at the same time. I’m not really sure. I do know that I feel like the iterator has given me a nice little convenience layer for handling my array. The output is still the same.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ parrot example-05-07.pir
+Enter a number (or &quot;quit&quot; to quit): 5
+Enter a number (or &quot;quit&quot; to quit): 10
+Enter a number (or &quot;quit&quot; to quit): 15
+Enter a number (or &quot;quit&quot; to quit): 20
+Enter a number (or &quot;quit&quot; to quit): quit
+Values entered: 4
+Sum of values:  50
+Average:        12.5
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Conclusion</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We had already taken a glance at arrays when we worked with the command line. Today we dove a little deeper, looking into different ways we can access the contents of an array. Now you understand how to treat a ‘ResizableFloatArray’ like a stack, a queue, a plain old array, or an iterable collection. These principles should work for other array types as well. Parrot has many array PMCs, and you can find them on <a href="http://docs.parrot.org/parrot/devel/html/pmc.html">the list of core PMCs</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

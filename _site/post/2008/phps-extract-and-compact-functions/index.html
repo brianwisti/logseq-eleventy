@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2008/PHPs extract and compact functions
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2008-01-30</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’ve been brushing up on my <a href="/php" class="page-link">PHP</a> basics lately. Why? Well, it never hurts to revisit things you think you already know. There is a good chance you will discover something you didn’t know after all. For example: this time I learned about <a href="http://php.net">PHP</a>’s <code>extract</code> and <code>compact</code> functions.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="http://us3.php.net/manual/en/function.extract.php"><code>extract</code></a> takes an associative array and creates local variables on the fly, named for the keys in the array and with the corresponding values matched up. <a href="http://us3.php.net/manual/en/function.compact.php"><code>compact</code></a> is the corresponding function for taking a collection of variables and stuffing them into an associative array.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-php">&lt;?php
+  $book = array(
+      &quot;title&quot;     =&gt; &quot;Dad's Own Cookbook&quot;,
+      &quot;author&quot;    =&gt; &quot;Bob Sloan&quot;,
+  );
+
+  extract($book);
+  echo $title . &quot; was written by &quot; . $author . &quot;\n&quot;;
+
+  $first = &quot;Brian&quot;;
+  $last  = &quot;Wisti&quot;;
+  $keys  = array(&quot;first&quot;, &quot;last&quot;);
+  $my_name = compact($keys);
+  print_r($my_name);
+?&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Running this code:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ php -f extract-compact.php
+Dad's Own Cookbook was written by Bob Sloan
+Array
+(
+  [first] =&gt; Brian
+  [last] =&gt; Wisti
+)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>extract</code> is the more immediately useful of the two for my purposes, because it simplifies a common tactic I use for creating local variables based on database lookups.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Instead of manually creating local variables, like this:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-php">&lt;?php
+    # ...
+    while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+        $author = $row[&quot;author&quot;];
+        $title  = $row[&quot;title&quot;];
+        # ...
+    }
+?&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I can save myself a little effort with <code>extract</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-php">&lt;?php
+    # ...
+    while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+        extract($row);
+        # ...
+    }
+?&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I realize that there may be an even easier way to do it, but just this will make my life noticeably easier as long as I don’t abuse it. I would mainly tuck a call like this off in a function and probably use it in conjunction with a SQL query or something else where I knew exactly what names I would end up with.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Why didn’t I know about this before? Well, the manual approach was good enough. And since what I had was good enough, I didn’t think of looking for a better approach. Then again, finds like this are exactly why I <em>do</em> go back and review what I thought I already knew.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

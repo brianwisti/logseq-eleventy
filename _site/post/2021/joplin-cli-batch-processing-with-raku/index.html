@@ -1,0 +1,3713 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2021/Joplin CLI Batch Processing With Raku
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><p>In which a minor update veers off on a Raku regex tangent</p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2021-05-24</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p>This sidetracks enough for three blog posts, mostly about <a href="/raku" class="page-link">Raku</a>.  Sorry about that.  No time to make it shorter.  You know how it is.  There’s a little <em class="link-missing">Joplin</em> stuff in here.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This is embarrassing.  I fired up the Joplin <a href="https://joplinapp.org/desktop/">desktop app</a> this morning and it told me there was an update.  Makes sense.  I haven’t loaded the desktop app in a couple months.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Oh hang on.  What about the <a href="https://joplinapp.org/terminal/">terminal app</a> which I was just writing about over the last couple posts?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Yep.  The <a href="https://joplinapp.org/changelog_cli">Changelog</a> shows updates, one of which includes batch processing.  Batch processing sounds like exactly the thing to address my many complaints about performance.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Update Joplin with Volta</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I use <a href="https://volta.sh">Volta</a> to manage my <a href="/nodejs" class="page-link">Node.js</a> resources.  Volta treats installing and updating as the same action.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-sh">volta install joplin
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This is what I have now:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ joplin version
+joplin 1.8.1 (prod)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now I’m up to date.  Let’s see what changes I can make to my journaling code.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Fix the one-liners</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The one-liner for adding journal entries works fine as-is.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-bash">joplin use Journal &amp;&amp; joplin edit $(date --iso=minute)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Reading the entries needs improvement.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-bash">raku -e '
+  qqx{joplin cat $_}.subst(/^(&lt;[\dT:\-]&gt;+)/, { &quot;# $0&quot; }).say for qx{ joplin ls }.lines.sort
+' \
+| python -m rich.markdown -
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Joplin CLI v1.8.1 added a <code>batch</code> command, which executes commands from a text file.  My challenge: <code>joplin batch</code> does not appear to have an option for standard input.  This means I can’t casually pipe output from another process.  Here’s what I came up with:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-bash">joplin batch &lt;(raku -e 'qx{joplin ls}.lines.sort.map({ &quot;cat $_&quot; }).join(&quot;\n&quot;).say') \
+  | raku -ne '.subst(/^(&lt;[\dT:\-]&gt;+)$/, { &quot;# $0&quot; }).say' \
+  | python -m rich.markdown -
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We take advantage of a little shell magic to treat the output of another process as a file.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Don’t ask me to understand the shell magic.  In <a href="https://www.gnu.org/software/bash/">GNU Bash</a>, <code>command &lt;(stuff)</code> means something along the lines of “evaluate <em>stuff</em> and hand the output of that evaluation to <code>command</code> as if it was a file.”</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It’s all a little inside-out and twisty.  It might help if we break up the chunks.</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>qx{joplin ls}.lines.sort</code></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>collect the sorted entry list from this notebook</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>.map{ &quot;cat $_&quot; }</code></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>create a Joplin command to display this entry</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>.join(&quot;\n&quot;).say</code></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>print those commands as one multi-line string</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>joplin batch &lt;(...)</code></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>send <code>raku</code>’s output to <code>joplin batch</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>... | .subst(...)</code></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>turn timestamp lines from output into Markdown headers</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>... \| python -m rich.markdown -</code></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>format the output for terminal display</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We pull Raku in twice: once to build the command and again to parse the output. On the other hand we’re only calling Joplin twice instead of forty or so times.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That makes the one-liner downright zippy, all things considered.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">$ time joplin batch &lt;(raku -e 'qx{joplin ls}.lines.sort.map({ &quot;cat $_&quot; }).join(&quot;\n&quot;).say') \
+  | raku -ne '.subst(/^(&lt;[\dT:\-]&gt;+)$/, { &quot;# $0&quot; }).say' \
+  | python -m rich.markdown -
+...
+real    0m1.407s
+user    0m1.608s
+sys     0m0.140s
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>One and a half seconds for a formatted display of every journal entry.  Not bad, considering that I’m running on <a href="https://docs.microsoft.com/en-us/windows/wsl/">WSL</a>.  Plus I don’t really know one-liners, Raku, or Joplin.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p>The documentation for <code>joplin ls</code> mentions a <code>--sort</code> flag, but as of v1.8.1 I got no difference when using <code>joplin ls --sort title</code>. Didn’t see a mention of the specific issue, so I overcame my shyness and filed <a href="https://github.com/laurent22/joplin/issues/5004">#5004</a>.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Fix the script</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Splitting up the Raku script into logical pieces the other day means that today I only need to fix a single function.  Thank goodness.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku">sub read-entries(@entries) {
+  @entries.map({
+    qqx{ joplin cat $_}.subst(/^(&lt;[\dT:\-]&gt;+)/, { &quot;# $0&quot; })
+  }).join;
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>How much does this function need to improve?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">$ time jj today
+...
+real    0m3.001s
+user    0m3.281s
+sys     0m0.390s
+
+$ time jj all
+...
+real    0m31.253s
+user    0m31.779s
+sys     0m4.616s
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Lots.  This function needs to be lots quicker.  It took three seconds to display today’s lone entry, and over 30 seconds to display all 40 journal entries.  Every new entry slows the whole thing down, because every new entry means a new call to <code>joplin</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p>I don’t jot <em>that</em> many notes in a day. Some of that’s from reorganizing my Joplin notebooks, putting daily journals in with the quick entries.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I tried mimicking the shell magic but couldn’t figure out how in the time I allowed myself.  This isn’t work code where you have to get things just so. This is a fun little utility for my own amusement.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>joplin batch</code> expects a file?  Let’s give it a file.  But I want that file to go away when I’m done, so let’s find a module to handle temporary files.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Poking through the directory of <a href="https://modules.raku.org">Raku modules</a> quickly showed me two possibilities:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="https://modules.raku.org/dist/Temp::Path:cpan:UFOBAT"><code>Temp::Path</code></a></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>gives you a friendly object you can write to or stringify when you need a filename</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="https://modules.raku.org/dist/File::Temp:cpan:RBT"><code>File::Temp</code></a></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>presents a more utilitarian interface, providing filename and filehandle as separate variables</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The end result is the same: a file that goes away when you no longer need it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I like friendly. Let’s see how <code>Temp::Path</code> does.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Try <code>Temp::Path</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Need to install it, of course.  <a href="https://github.com/ugexe/zef"><code>zef</code></a> handles Raku modules.  I set that up a while back in <a href="/post/2020/setting-up-raku-with-rakubrew" class="page-link">post/2020/Setting up Raku with Rakubrew</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-sh">zef install Temp::Path
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Then we let Raku know we’re using the module.  That traditionally goes near the top of our script.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku">use Temp::Path;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>More or less following along Temp::Path’s sample usage.  <a href="https://docs.raku.org/language/control#index-entry-control_flow_with"><code>with</code></a> creates a block for our temporary file.  It even sets the <a href="https://docs.raku.org/language/variables#The_$__variable">topic variable</a> <code>$_</code>.  Don’t need to come up with a temporary variable name for our temporary file.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku">sub read-entries(@entries) {
+  with make-temp-path {
+    .spurt(@entries.map({ &quot;cat $_&quot; }).join(&quot;\n&quot;));
+    qqx{ joplin batch $_ }.subst( /^^(&lt;[\dT:\-]&gt;+)$$/, { &quot;# $0&quot; }, :g );
+  }
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The regular expression is starting to look interesting.  <code>joplin batch</code> hands everything to us as one string.  We need to adjust the entry-oriented logic we had before.  Now we find any <em>line</em> containing a lone ISO-8601 timestamp, and convert it to a top-level Markdown header.  The <code>:g</code> flag tells <code>.subst</code> to replace every occurrence.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>^..$</code> vs <code>^^..$$</code> #.note</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Regular expressions in other languages treat <code>^</code> and <code>$</code> differently depending on whether you’re applying the expression in a single-line or multiple-line context. Raku’s <a href="https://docs.raku.org/language/regexes#Anchors">anchors</a> treat every expression as multi-line.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That’s a nice consistency point in Raku’s favor. Instead of memorizing more flags and contexts, and more special anchors for when the flags and context make things unclear, we get these two paired anchors.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <table>
+<thead>
+<tr>
+<th>Anchor</th>
+<th>Where it matches</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>^</code></td>
+<td>beginning of the string</td>
+</tr>
+<tr>
+<td><code>$</code></td>
+<td>end of the string</td>
+</tr>
+<tr>
+<td><code>^^</code></td>
+<td>beginning of a line</td>
+</tr>
+<tr>
+<td><code>$$</code></td>
+<td>end of a line</td>
+</tr>
+</tbody>
+</table>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There are plenty of other things for us to memorize, of course.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>If you’re more of a visual person, here’s a quality page from my extensive notebook.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/cover-2021-05-24_1721540771000_0.jpg" alt="diagram of multi-line string showing where these anchors match"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>So what if my Raku notebook only has this one page with this one diagram. It’s a good diagram.  Very professional.  High quality learning aid.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Those few lines don’t change anything for me as a user.  Maybe the speed?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">$ time jj today
+...
+real    0m2.969s
+user    0m3.385s
+sys     0m0.303s
+
+$ time jj all
+...
+real    0m3.034s
+user    0m3.328s
+sys     0m0.505s
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Huh. It’s not any faster than the best case for the initial script, with a single entry taking roughly the same amount of time to load and display.  Then again, <code>batch</code> is clearly doing its job.  One entry takes almost exactly the same amount of time as 40.  Since most days I’ll have multiple entries, that is an effective optimization for the common case.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>But why is my one-liner twice as fast?  Is it <code>Temp::Path</code>?  Raku?  Joplin? Something to do with file I/O on WSL 2?  No idea.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let’s find out if File::Temp does any better.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Try File::Temp</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Out comes <code>zef</code>…</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-bash">zef install File::Temp
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>…then use File::Temp instead of Temp::Path…</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku">use File::Temp;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>…then rewrite <code>read-entries</code> one more time…</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku">sub read-entries(@entries) {
+  my ($filename, $filehandle) = tempfile;
+  $filehandle.spurt( @entries.map({ &quot;cat $_&quot; }).join(&quot;\n&quot;) );
+  qqx{ joplin batch $filename }.subst(/^^ (&lt;[\dT:\-]&gt;+) $$/, { &quot;# $0&quot; }, :g);
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Space is insignificant in regular expressions #.note</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Did you catch that?  Raku ignores whitespace in regular expressions unless you say otherwise with <a href="https://docs.raku.org/language/regexes#Sigspace"><code>:sigspace</code></a>.  Means you can make a regex easier to read.  This wasn’t <em>much</em> easier to read, but at least we can tell where the anchors are and what I hope to find between those anchors.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>For Perl folks, this plus the multi-line thing is like giving every regex <code>/mx</code>.  For  Python folks, like <code>re.MULTILINE</code> and <code>re.VERBOSE</code>.  For JavaScript folks — um — it’s like having useful regular expressions.  Okay, it’s like having <a href="https://xregexp.com">XRegExp</a> installed and using <code>'x'</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>…and try it out.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">$ time jj today
+...
+real    0m2.502s
+user    0m2.771s
+sys     0m0.326s
+
+$ time jj all
+...
+real    0m2.611s
+user    0m2.911s
+sys     0m0.381s
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Ran each version a few times, just to be sure.  The version with File::Temp consistently finished a noticeable fraction of a section quicker than using Temp::Path.  Still nowhere near the one-liner’s performance, but good enough
+that I’ll stick with File::Temp until I come up with something better.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Do I care enough to reboot into Linux and see how much of a difference that makes?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Not really.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I can probably optimize this, but it’s not urgent or important.  So far I only skim my entries when I already have a few moments to spare.  Besides, the real optimizations almost definitely lie with using the Joplin API.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What I’m saying is don’t get hung up on trivia.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Speaking of trivia…</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>About that regular expression</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I need to do something about this.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku">qqx{ ... }.subst(/^^ (&lt;[\dT:\-]&gt;+) $$/, { &quot;# $0&quot; }, :g);
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We already know that regular expressions are their own little language embedded in whatever programming language we happen to be getting work done in.  With Raku, we can treat regular expressions as part of the Raku language itself.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let’s tackle this backwards.  Top-down.  Whatever it is the fancy people say. I’m going to split it out into its own function.  Makes it easier to think of this transformation in isolation.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Hide it in a function</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What do I want this function to do?  I want it to give me my <em>journal text</em>, but with <em>formatted headers</em> in the right places.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku">sub format-headers($journal-text) {
+  $journal-text.subst(
+    /^^ (&lt;[\dT:\-]&gt;+) $$/,
+    { &quot;# $0&quot; }, :g);
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Use a named capture</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Do I want to format every <code>$0</code>? No. I want to format every <em>entry title</em>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku">sub format-journal($journal-text) {
+  $journal-text.subst(
+    ...,
+    { &quot;# $&lt;entry-title&gt;&quot; }, :g
+  );
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Of course Raku supports <a href="https://docs.raku.org/language/regexes#Named_captures">named captures</a>.  The part we care about is stored in the match object.  Behind the scenes, <code>$&lt;entry-title&gt;</code> is getting the value stored under the key <code>&quot;entry-title&quot;</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>An <code>rx{}</code> block for legibility</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>How do I know the <em>entry title</em>?  I know the <em>entry title</em> because I found a
+<em>lone timestamp</em>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku">sub format-journal($journal-text) {
+  $journal-text.subst(
+    rx{
+      $&lt;entry-title&gt; = ( &lt;lone-timestamp&gt; )
+    },
+    { &quot;# $&lt;entry-title&gt;&quot; }, :g
+  );
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>rx{ ... }</code> indicates an <a href="https://docs.raku.org/language/regexes#Anonymous_regex_definition_syntax">anonymous regex</a>.  “Anonymous” as opposed to what exactly?  I’m getting there.  As our expressions get more complex, take advantage of all useful quoting mechanisms.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Notice that instead of a <code>(?&lt;name&gt; pattern)</code> approach to named captures, in Raku it looks a lot more like assigning a pattern to a variable.  Okay fine. Assigning a pattern to the match object’s hash, under the key <code>&quot;entry-title&quot;</code>.  But still.  It looks like a more familiar programming language assignment.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>But rather than the expected elaborate chain of metacharacters, the pattern we store is — another identifier?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I told you I was getting there.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Name your regex, not just your capture</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What’s a <em>lone timestamp</em>? It’s a <em>timestamp</em> on a line by itself.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku">my regex lone-timestamp {
+  ^^ &lt;timestamp&gt; $$
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now we have a regular expression as its own scoped code object.  The <a href="https://docs.raku.org/language/regexes#Named_regex_definition_syntax">regex</a> is the rawest component of a family that includes tokens, rules, and entire <a href="https://docs.raku.org/language/grammar_tutorial">grammars</a>.  I’m not ready to get into grammars yet, but I am absolutely getting closer.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>It’s not an expression; it’s a composition</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What does a <em>timestamp</em> look like?  Well, a <a href="https://docs.raku.org/type/DateTime#method_Str">DateTime String</a> holds an <em>ISO 8601 date</em>, a <em>clock time</em>, and and <em>offset</em>, with a <code>'T'</code> between the date and the clock time.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku">my regex timestamp {
+  &lt;iso8601-date&gt; 'T' &lt;clock-time&gt; &lt;offset&gt;
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>If we’re looking for a literal string, it’s okay to use a string literal.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now we have a few regex patterns to define.  An <em>ISO 8601 date</em> includes a <em>year</em>, a <em>month</em>, and a <em>day of the month</em>, separated by <code>'-'</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku">my regex iso8601-date {
+  &lt;year&gt; '-' &lt;month&gt; '-' &lt;day-of-month&gt;
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Playing more with a language gives me a feel for how to use it based on what it makes easy.  Raku makes it easy to create a program by composing it from small pieces.  Tiny pieces, even.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Mind you, I have no idea if that’s what <code>raku</code> the <em>compiler</em> likes.  But the <em>syntax</em> loves it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>A <em>year</em> is four digits, a <em>month</em> is two digits, and the <em>day of the month</em> is two digits.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku">my regex year { \d ** 4 }
+
+my regex month { \d ** 2 }
+
+my regex day-of-month { \d ** 2 }
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The <a href="https://docs.raku.org/language/regexes#General_quantifier:_**_min..max">general quantifier</a> <code>**</code> indicates how many times you expect a chunk to appear.  To this day I can’t remember the exact syntax for quantifiers in old-school regular expressions.  But I can remember the number 4.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p>This regex is wrong for verifying real dates. It’s not wrong enough to worry about today. I’m identifying header lines, not validating forms. But if some day I decide to enforce zero-padded months from <code>01</code> to <code>12</code>, I know exactly which block to edit.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Looks like <em>clock time</em> gets saved as <em>hours</em>, <em>minutes</em>, and <em>seconds</em>.  In the interest of time, we’ll oversimplify those too.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku">my regex hours { \d ** 2 }
+
+my regex minutes { \d ** 2 }
+
+my regex seconds { \d ** 2 }
+
+my regex clock-time {
+  &lt;hours&gt; ':' &lt;minutes&gt; ':' &lt;seconds&gt;
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>And my offset holds an indicator, some <em>hours</em>, and some <em>minutes</em>.  Hey, I can reuse my existing regex definitions for those!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku">my regex offset {
+  &lt;[+-]&gt; &lt;hours&gt; ':' &lt;minutes&gt;
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>All right.  I think that covers it.  I enjoyed reusing my expressions for <em>hours</em> and <em>minutes</em> like that.  Actual code reuse, in a regular expression. Who would’ve thought?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>When I take this <code>lone-timestamp</code> regex and match it against <code>&quot;2021-05-24T08:11:00-07:00&quot;</code> we can see those named expressions at work. The potential really starts to sink in for me.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">｢2021-05-24T08:11:00-07:00｣
+ lone-timestamp =&gt; ｢2021-05-24T08:11:00-07:00｣
+  timestamp =&gt; ｢2021-05-24T08:11:00-07:00｣
+   iso8601-date =&gt; ｢2021-05-24｣
+    year =&gt; ｢2021｣
+    month =&gt; ｢05｣
+    day-of-month =&gt; ｢24｣
+   clock-time =&gt; ｢08:11:00｣
+    hours =&gt; ｢08｣
+    minutes =&gt; ｢11｣
+    seconds =&gt; ｢00｣
+   offset =&gt; ｢-07:00｣
+    hours =&gt; ｢07｣
+    minutes =&gt; ｢00｣
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>And this is just me composing regex objects.  Eventually I’m going to try grammars and then look out world!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>but why? #.note</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This may all seem a little ridiculous, and for this use case — parsing my own entry titles — it is.  So why am I going through all this work? Aside from it being fun, of course</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Raku’s sibling language Perl got a bad reputation for being dense and unreadable. Regular expressions factored heavily into that density. By providing language-level structures for defining our expressions, Raku gives us an opportunity to use their full power for handling text without resorting to the infamous density of 1990s regexen.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We should absolutely use that opportunity and encourage new languages to steal <em>these</em> regular expressions rather than the stuff that impressed us twenty years ago.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Ship it!</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What am I doing on this soapbox? Time to step down.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>My script works. It’s still not fast, but at least it’s never slow. It’s readable. And most important of all, I had fun.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>The complete script</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Includes a couple more steps into composition that I didn’t feel merited extra blog post paragraphs.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku">#!/usr/bin/env raku
+
+use File::Temp;
+
+constant $notebook     = &quot;Journal&quot;;
+constant $entry-window = &quot;minute&quot;;
+
+my regex digit { \d }
+
+my regex two-digits { &lt;digit&gt; ** 2 }
+
+my regex year { &lt;digit&gt; ** 4 }
+
+my regex month { &lt;two-digits&gt; }
+
+my regex day-of-month { &lt;two-digits&gt; }
+
+my regex hours { &lt;two-digits&gt; }
+
+my regex minutes { &lt;two-digits&gt; }
+
+my regex seconds { &lt;two-digits&gt; }
+
+my regex iso8601-date {
+  &lt;year&gt; '-' &lt;month&gt; '-' &lt;day-of-month&gt;
+}
+
+my regex clock-time {
+  &lt;hours&gt; ':' &lt;minutes&gt; ':' &lt;seconds&gt;
+}
+
+my regex offset {
+  &lt;[+-]&gt; &lt;hours&gt; ':' &lt;minutes&gt;
+}
+
+my regex timestamp {
+  &lt;iso8601-date&gt; 'T' &lt;clock-time&gt; &lt;offset&gt;
+}
+
+my regex lone-timestamp {
+  ^^ &lt;timestamp&gt; $$
+}
+
+sub add-entry() {
+  my $timestamp = DateTime.now.truncated-to($entry-window);
+  my $command = &quot;joplin use $notebook &amp;&amp; joplin edit $timestamp&quot;;
+  shell( $command );
+}
+
+sub all-entries() {
+  qqx{joplin use $notebook &amp;&amp; joplin ls}.lines.sort;
+}
+
+sub filtered-entries(Str $date-funnel) {
+  all-entries.grep({ .starts-with($date-funnel) });
+}
+
+sub entries-for-today() {
+  filtered-entries DateTime.now.yyyy-mm-dd;
+}
+
+sub entries-for-yesterday() {
+  my $yesterday = DateTime.now.earlier(days =&gt; 1);  # or :1day for the terse
+  filtered-entries $yesterday.yyyy-mm-dd;
+}
+
+sub read-entries(@entries) {
+  my ($filename, $filehandle) = tempfile;
+  $filehandle.spurt( @entries.map({ &quot;cat $_&quot; }).join(&quot;\n&quot;) );
+  format-headers( qqx{ joplin batch $filename } );
+}
+
+sub format-headers($journal-text) {
+  if $journal-text ~~ /&lt;lone-timestamp&gt;/ { $/.say; }
+
+  $journal-text.subst(
+    rx{
+      $&lt;entry-title&gt; = [ &lt;lone-timestamp&gt; ]
+    },
+    { &quot;# $&lt;entry-title&gt;&quot; }, :g
+  );
+}
+
+multi sub MAIN(&quot;add&quot;) {   #= Add an entry
+  add-entry;
+}
+
+multi sub MAIN(&quot;today&quot;) {  #= Read today's entries
+  say read-entries( entries-for-today );
+}
+
+multi sub MAIN(&quot;yesterday&quot;) { #= Read yesterday's entries
+  say read-entries( entries-for-yesterday );
+}
+
+multi sub MAIN(&quot;all&quot;) { #= Read all entries (SLOW!)
+  say read-entries( all-entries );
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

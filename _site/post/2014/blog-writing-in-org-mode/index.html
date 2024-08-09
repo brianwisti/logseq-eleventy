@@ -1,0 +1,784 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2014/Blog Writing in Org Mode
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2014-10-21</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><p>an experiment with using Org mode to write Jekyll blog posts</p>
+</td>
+          </tr>
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Introduction</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Much of what I’ve read about <a href="/org-mode" class="page-link">Org Mode</a> has focused on its utility as a task management tool. That’s great. I wouldn’t mind spending some time on that aspect. Mostly I’ve been focused on its usefulness for note-taking and writing.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Org mode includes features which make it attractive for blogging and journaling. It has a relatively simple set of markup rules for common constructs such as paragraphs, <a href="http://orgmode.org/manual/Plain-lists.html">lists</a>, <a href="http://orgmode.org/manual/Working-With-Source-Code.html">source code</a>, and <a href="http://orgmode.org/manual/Tables.html">tables</a>. The mode itself provides an editing interface which simplifies creating and managing those constructs. Most importantly for the blogger, org files can be exported to a range of formats including Markdown and HTML.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Why not use that functionality for my own site? Random Geekery is built with <a href="/jekyll" class="page-link">jekyll</a> , and there are already <a href="http://orgmode.org/worg/org-tutorials/org-jekyll.html">instructions</a> available for using the two together. I can use those as a starting point.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Organize Directories</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>When I’m using Org mode to write the blog pages, Jekyll becomes an implementation detail specific to publishing the blog. One folder contains all of the Jekyll project files, and an <code>org</code> folder mirrors the content-specific structure of the <code>jekyll</code> tree.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">+jekyll
++- css
++- _data
++- _drafts
++- img
++- _includes
++- _layouts
++- pages
++- _plugins
++- _posts
++- _sass
++- _scripts
++- _site
++- org
+    +- _drafts
+    +- _posts
+    +- pages
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I use <code>_drafts</code> because I don’t always know when I will be publishing a post, and <code>pages</code> because I have legacy content that will get rewritten in Org format as it gets updated.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Front Matter</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The <a href="http://jekyllrb.com/docs/frontmatter/">front matter</a> used by Jekyll and other engines to determine content metadata requires some special handling to get exported correctly by Org mode. The most straightforward thing is to use the suggestion from the instructions mentioned earlier. Put your front matter in a HTML block right at the top of the file.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-org">#+BEGIN_HTML
+---
+title: Blog Writing in Org Mode
+layout: post
+category: Emacs
+tags: org jekyll
+---
+#+END_HTML
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Okay, it’s not HTML. But Org mode doesn’t really care. It will get passed through untouched when you export.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Configure HTML Export</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>HTML and other output needs to be placed correctly within the Jekyll layout conventions. A proper <code>org-publish-project-alist</code> will take care of this.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-elisp">(setq org-publish-project-alist
+      '(
+        (&quot;org-randomgeekery&quot;
+         ;; Location of org files
+         :base-directory &quot;~/Projects/randomgeekery.org/org/&quot;
+         :base-extension &quot;org&quot;
+
+         ;; Location of Jekyll files
+         :publishing-directory &quot;~/Projects/randomgeekery.org/jekyll/&quot;
+         :recursive t
+         :publishing-function org-publish-org-to-html
+         :headline-levels 4
+         :html-extension &quot;html&quot;
+
+         ;; Only export section between &lt;body&gt;&lt;/body&gt;
+         :body-only t)
+
+        (&quot;org-static-randomgeekery&quot;
+         :base-directory &quot;~/Projects/randomgeekery.org/org/&quot;
+         :base-extension &quot;css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg&quot;
+         :publishing-directory &quot;~/Projects/randomgeekery.org/&quot;
+         :recursive t
+         :publishing-function org-publish-attachment)
+
+        (&quot;rg&quot; :components (&quot;org-randomgeekery&quot; &quot;org-static-randomgeekery&quot;))
+        ))
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now when I export the project with <code>org-mode-export (C-c C-e X) rg</code>, all of my org content for the project gets put in the correct spot. I even get a table of contents, which is not such a bad thing.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Publishing a Post</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>So when you’ve been editing a draft long enough and you’re ready to make it a real live post, you need to move the file from <code>_drafts</code> to <code>_posts</code>, with the publish date prefixing the filename.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I could do that manually, but it’s tedious to do that for every blog post.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I experiment with my rudimentary Emacs Lisp skills to create a new filename that looks about right.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-elisp">(defun post-it ()
+  &quot;Write current draft file as a Jekyll post file&quot;
+  (interactive)
+  (if
+      (string-match &quot;_drafts&quot; buffer-file-name)
+      (let ((draft-copy buffer-file-name)
+            (post-copy
+             ;; _drafts/&lt;stub&gt;.org
+             ;; becomes
+             ;; _posts/yyyy-mm-dd-&lt;stub&gt;.org
+             (concat
+              (replace-regexp-in-string &quot;_drafts&quot; &quot;_posts&quot;
+                                        (file-name-directory buffer-file-name))
+              (format-time-string &quot;%Y-%m-%d&quot;)
+              &quot;-&quot;
+              (file-name-nondirectory buffer-file-name)
+              )
+             ))
+        (write-file post-copy)
+        )
+    (message &quot;%s is not in _drafts!&quot; (file-name-nondirectory buffer-file-name))
+      )
+  )
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Awkward, but it works. It worked at least once, anyways. Should manually remove the original <code>_draft</code> file until I know what I’m doing a little more.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="warning"><header>warning</header><p>See that Lisp I wrote? It’s probably wrong in some horrible way. It’s the most complex Elisp I’ve ever managed. Look at it for interesting ideas, but please don’t just copy and paste.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Followup</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I wonder if maybe this isn’t the best approach, since it seems to confuse the heck out of Org mode. My lone org file just would not republish until I found <a href="http://lists.gnu.org/archive/html/emacs-orgmode/2009-05/msg00285.html">this post</a> for a similar situation. If it’s just not rebuilding, force it with a numeric argument: <kbd>C-u 0 C-c e</kbd>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This works well enough to get one post published, anyways. I’m sure to revisit this topic as I continue to learn more about Org mode and Emacs.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

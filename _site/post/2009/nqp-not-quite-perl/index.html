@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2009/NQP - Not Quite Perl
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2009-12-09</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><p><em class="link-missing">coolnamehere,note/2009</em></p>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="/parrot" class="page-link">Parrot</a> is more than just PIR and PASM. I’m not talking about the ability to use languages like <a href="http://rakudo.org">Rakudo</a> written for the Parrot virtual machine. I am also not talking about the ability to write your own language. Both of those are quite nifty, of course. It is fair to say that those two items are probably why you are experimenting with Parrot in the first place. However, the Parrot distribution also ships with an extra language: NQP.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="http://docs.parrot.org/parrot/latest/html/docs/book/pct/ch05_nqp.pod.html">NQP</a> - Not Quite Perl - is an implementation of a small subset of Perl 6 that can be used as a higher level Parrot language than PIR. It is especially useful in defining the grammars for your Parrot languages.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Getting NQP</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You already have NQP if you have a fresh installation of Parrot. You can find directions for installing in <a href="/post/2009/parrot-babysteps-01-getting-started" class="page-link">post/2009/Parrot Babysteps 01 - Getting Started</a> if you do not yet have Parrot installed.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Example</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let’s just do a brutally fast NQP example.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-nqp">#!/usr/local/bin/parrot-nqp
+
+my $name := get_input(&quot;What is your name?&quot;);
+say(&quot;Hello $name&quot;);
+
+my $valid_input := 0;
+
+while ($valid_input == 0) {
+    my $in_good_mood := get_input(&quot;Are you in a good mood?[y/n]&quot;);
+    if ($in_good_mood eq &quot;y&quot;) {
+        say(&quot;Glad to hear it! Must be all the Parrot hacking.&quot;);
+        $valid_input := 1;
+    } elsif ($in_good_mood eq &quot;n&quot;) {
+        say(&quot;Oh, that's too bad. Try hacking on Parrot.&quot;);
+        $valid_input := 1;
+    } else {
+        say(&quot;Sorry, I'm not too bright. Please answer 'y' or 'n'.&quot;);
+    }
+}
+
+sub get_input($prompt) {
+    print(&quot;$prompt &quot;);
+    my $name := Q:PIR{
+        .local pmc stdin
+        stdin = getstdin
+        %r = stdin.'readline_interactive'()
+    };
+
+    return $name
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We see that NQP variables look a little like Perl variables, and familiar control structures like <code>if</code> and <code>while</code> are supported. Another bit of niftiness is that inline PIR is supported.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ parrot-nqp hello.nqp
+What is your name? Brian
+Hello Brian
+Are you in a good mood?[y/n] waffles
+Sorry, I'm not too bright. Please answer 'y' or 'n'.
+Are you in a good mood?[y/n] y
+Glad to hear it! Must be all the Parrot hacking.
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Mind you, NQP is not really great for casual scripting. It’s intended to be a higher level bootstrap language that makes it easier to define grammars. I wouldn’t go complaining to anybody that it’s missing Feature X. Unless you know how to implement it. Maybe. If you want Feature X, it might be better to use Rakudo or implement it in your own Parrot language.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You could even use NQP to implement it. Is my logic circular enough for you?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Learning NQP</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There is a good overview of NQP available at <a href="http://en.wikibooks.org/wiki/Parrot_Virtual_Machine/Not_Quite_Perl">wikibooks</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

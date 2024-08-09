@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2009/Parrot Babysteps
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><p><em class="link-missing">parrot,learn,coolnamehere</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2009-07-10</em></p>
+</td>
+          </tr>
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This is the introduction to Parrot Babysteps, my archived <a href="/parrot" class="page-link">Parrot</a> PIR tutorial.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Introduction</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I thought that maybe I could write a raw beginner’s introduction to <a href="http://parrot.org">Parrot</a>. This is a fair challenge, since coding directly for Parrot requires more work than using one of the languages that (2024 edit: was) written on top of the platform, such as <a href="/raku" class="page-link">Raku</a>. Still, my philosophy is that people shouldn’t be afraid to dip their feet in new water, no matter how
+cold or forbidding it may look.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>What?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="http://parrot.org">Parrot</a> is the name for the virtual machine that drives <a href="http://rakudo.org">Rakudo</a> and <a href="http://www.parrot.org/languages">many other languages</a>. Part of the problem with writing programs has always been getting it to work on somebody else’s machine. Sure, it’s no problem if you’re both using <a href="http://ubuntu.com">Ubuntu</a>, but what if you use Ubuntu and your friend uses Microsoft Windows? Of course, because it’s been a problem for a long time there have been solutions for a long time as well. Python provides reasonable cross-platform standard libraries while still allowing you to “dive down” into operating system specifics.  As far as I can tell, <a href="/perl" class="page-link">Perl</a> solves the problem by <a href="http://perldoc.perl.org/perlfork.html">pretending that everything is Unix</a>, but providing extensive libraries via the <a href="http://cpan.org">CPAN</a> when you need to get at behavior that Perl can’t just fake its way through.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Another solution that is becoming more popular is the <a href="http://en.wikipedia.org/wiki/Virtual_machine">virtual machine</a> - more or less a pretend computer sitting on top of your own computer. Developers can all focus on writing code that works on the virtual machine, and the virtual machine - or “VM” - concerns itself with how to make the code work on <em>your</em> machine.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Why?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Learning how to write directly for the Parrot VM could teach us a lot about how virtual machines work. PIR — the Parrot Internal Representation which is used when directly coding for Parrot — is an advanced language, but will still require that we spend time thinking about the details of what we want our code to do. This sounds more painful than it is, and using it could provide some enlightenment when trying to figure out how higher level languages such as Ruby, Perl, and Python work.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>And besides that, learning new stuff is generally fun.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Who?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’m not a Parrot expert, and I don’t expect you to be one either. The truth is that I barely know anything about Parrot. We are basically going to be learning how to write PIR code together. It would be nice if you know the basics of programming in another language, but not absolutely necessary.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>If you <em>are</em> a Parrot expert, you may find my approach simplistic to the point of distraction. Please remember that my first focus when writing these is to help newcomers overcome their fear of an unfamiliar topic, and I will intentionally gloss over details that I suspect would increase that fear. Still, I don’t want to share anything that’s actually <em>wrong</em>. I will no doubt need pointers to better ways that a task can be accomplished, or to documentation that more clearly expresses a concept that I am trying to get across. I welcome your suggestions, and encourage you to contact me with your feedback.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>How?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Do you want to learn about Parrot? Go ahead! The <a href="http://docs.parrot.org/parrot/latest/html/index.html">official documents</a> are the best place to get current and complete information, but I think that my own little foray into the platform could help you get your feet wet.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

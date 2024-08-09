@@ -1,0 +1,1028 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2016/All The Hugo Themes
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><p>using Python to preview my Hugo site with many themes</p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2016-01-02</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+        
+          <tr>
+            <th>banner</th>
+            <td><p>…/assets/cover-2016-01-02_1721583094193_0.png</p>
+</td>
+          </tr>
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>My site does well enough with <a href="/hugo" class="page-link">Hugo</a> and a custom theme, but I wanted to explore the <a href="https://themes.gohugo.io">themes repository</a>. So I wrote some <a href="/python" class="page-link">Python</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>If you followed the <a href="https://gohugo.io/overview/quickstart/">HugoQuickstart</a> then you probably already have your own copy of the themes to use. Otherwise you might want to clone the <a href="https://github.com/spf13/hugoThemes/">hugoThemes</a> repo with git.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ cd mysite/
+$ git clone --depth 1 --recursive https://github.com/spf13/hugoThemes.git themes
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Code</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The idea here is to ask Hugo to build and serve the site once for each theme. For each built theme, ask the browser to load and screenshot the site with that theme.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I chose Python for this task. No special reason. I was just in a Python mood that day.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="https://splinter.readthedocs.org">Splinter</a> provided the browser controlling API. Since I’m using Chrome for this, I installed the <a href="https://splinter.readthedocs.org/en/latest/drivers/chrome.html">Chrome WebDriver</a>. The <a href="https://docs.python.org/3.5/library/subprocess.html">subprocess</a> standard library module allowed me to control Hugo, restarting with a fresh theme once the browser had enough time to grab a screenshot.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Then I had a last minute idea: use the <a href="https://imagemagick.org/script/convert.php">convert</a> utility from<a href="https://imagemagick.org/script/index.php">ImageMagick</a> to collect all the screenshots into an animated GIF.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You may need to install dependencies. Everything you need <em>should</em> be
+available for your platform, but I still need to double check that. Here
+are the steps I followed to get things working with
+<a href="https://brew.sh">Homebrew</a> on my Mac.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ brew install python3 imagemagick chromedriver
+$ pip3 install splinter
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>All right - that’s out of the way. Now for some code.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">#!/usr/bin/env python3
+
+import os
+import os.path
+import shutil
+import subprocess
+import time
+
+from splinter import Browser
+
+def is_theme_dir(folder, item):
+    if item[0] == '.':
+        return False
+    full_path = os.path.join(folder, item)
+    if os.path.isfile(full_path):
+        return False
+
+    return True
+
+if __name__ == '__main__':
+    theme_dir = &quot;themes&quot;
+    screenshot_dir = &quot;screenshots&quot;
+    url = &quot;http://127.0.0.1:1313&quot;
+
+    # Clean up old screenshots
+    for f in os.listdir(screenshot_dir):
+        filepath = os.path.join(screenshot_dir, f)
+        try:
+            if os.path.isfile(filepath):
+                os.unlink(filepath)
+        except Exception as e:
+            print(filepath, e)
+
+    listing = [ item for item in os.listdir(theme_dir)
+            if is_theme_dir(theme_dir, item) ]
+    browser_name = 'chrome'
+    browser = Browser(browser_name)
+    browser.visit(url) # visit out here, reload down there because browser cache
+
+    for theme in listing:
+        command = [ &quot;/usr/local/bin/hugo&quot;, &quot;server&quot;, &quot;--theme&quot;, theme ]
+        hugo = subprocess.Popen(command)
+        time.sleep(1) # More than enough time for Hugo to build the site.
+        browser.reload()
+        time.sleep(2) # Allow browser to get external resources.
+        message = &quot;Theme: {}, Status: {}&quot;.format(theme, browser.status_code)
+        print(message)
+        screenshot_name = &quot;{}-{}.&quot;.format(browser_name, theme)
+        screenshot_file = os.path.join(os.getcwd(), screenshot_dir, screenshot_name)
+        browser.screenshot(screenshot_file)
+        print(&quot;Screenshot saved as: {}&quot;.format(screenshot_file))
+        hugo.kill()
+    browser.quit()
+
+    # Make an animated GIF of the whole thing.
+    convert_command = [ &quot;/usr/local/bin/convert&quot;,
+            &quot;-delay&quot;,  '50',
+            &quot;-loop&quot;,    '0',
+            &quot;-scale&quot;, '50%',
+            &quot;screenshots/*.png&quot;,
+            &quot;hugo-themes.gif&quot; ]
+    subprocess.run(convert_command)
+</code></pre>
+<p>caption:: <code>show-themes.py</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>The Result</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Aside from a few dozen PNG files? Well, there’s that nifty animation. Animated GIFs give me a headache sometimes, so I will <a href="../assets/hugo-themes_1721583197680_0.gif">link to the GIF</a> instead.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Observations</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I noticed a few things with this experiment.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Configuration</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/chrome-redlounge-medium_1721583248553_0.png" alt="chrome-redlounge-medium.png"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Themes vary significantly in their expected configuration options. Some want social media links under <code>author</code>. Others wanted them in <code>Params</code>. <code>gravatarHash</code> and <code>GravatarHash</code> are two distinct options. Many have hard-coded assumptions in their layouts: an image file <code>/img/avatar.jpg</code>, for example. Sometimes it’s called <code>/media/me.jpg</code> though.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This is not an issue if you pick a favorite from the themes repository and make your site work with your favorite. It <em>is</em> an issue if you’re looking at your site in every theme. I turned my <code>config.yaml</code> into sort of a mess to make it work with more of the themes.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Layout</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Although many themes focus on blog content, some have a different purpose. Their authors may have created them with project documentation, portfolios, or company sites in mind. Their structure is more complex or requires metadata beyond a simple blog.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I like this variety. I find that it’s much easier to create sites with different purposes using Hugo than when using Jekyll.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/chrome-artists-medium_1721583289557_0.png" alt="chrome-artists-medium.png"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>But it does help understand why sometimes the site renders as an attractive blank space in my preview. Examining the theme README would be a good next step if a particular theme interested me.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Well - reading documentation for the thing you’re using is generally a good idea anyways.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Sections</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/chrome-pixyll_1721583321513_0.png" alt="chrome-pixyll.png"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The themes seemed a little confused by my Craft section. Some ignored craft projects completely. Others integrated them with posts on the <code>index.html</code> listing. Most at least provided a menu link to the section. And yes, the theme <code>README</code> would likely remove my confusion.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You will probably need to <a href="http://gohugo.io/themes/customizing/">customize your template</a> if you have special content.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>What theme should you use</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Maybe you were wondering which theme you could use for your new site. I suggest <a href="http://themes.gohugo.io/hyde-x/">Hyde-X</a> for blog sites. It has nice defaults, and provides quality documentation for its many configuration options. My site started with Hyde-X as a base before moving in its own direction.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/chrome-hyde-x-medium_1721583363418_0.png" alt="chrome-hyde-x-medium.png"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Hyde-X isn’t the only way to start. There are numerous excellent blog-focused themes in the repository.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>For non-blog sites? I don’t know, to be honest. None of my content worked well with those. Good luck with your search!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Anyways, the important thing is to have fun.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

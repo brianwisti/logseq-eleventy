@@ -1,0 +1,706 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2014/REPL In Perl With Reply
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2014-08-14</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+        
+          <tr>
+            <th>banner</th>
+            <td><p>…/assets/cover-2014-08-14_1721220899400_0.png</p>
+</td>
+          </tr>
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Time for a quick post about <a href="https://metacpan.org/release/Reply">Reply</a>, a new <a href="/perl" class="page-link">Perl</a> toy from <a href="http://tozt.net/">Jesse Luers</a>. There will not be much for me to say, because I have only been playing with it for about twenty minutes.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p>This post used <a href="http://Questhub.io">Questhub.io</a> for a subject. Unfortunately, that site is no longer with us.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Reply is a <a href="http://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop">REPL</a> for Perl. It is an interactive shell that simplifies quick experimentation with language features. It is extensible via a <a href="https://metacpan.org/source/DOY/Reply-0.35/lib/Reply/Plugin.pm">plugin</a> system that I may look at later if I have more time.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Installation</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I use <a href="http://perlbrew.pl">perlbrew</a> and <a href="https://github.com/miyagawa/cpanminus">cpanm</a>, so installation was easy.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ cpanm Reply
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Oh. It is worth pointing out that if you do not have <a href="http://cnswww.cns.cwru.edu/php/chet/readline/rltop.html">GNU Readline</a> or a similar library installed, you will not get command-line editing or history in Reply.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Hello Reply</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The <code>reply</code> command starts a new session. Once the session is going, it’s pretty much just Perl.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ reply
+0&gt; &quot;Hello World&quot;
+$res[0] = 'Hello World'
+
+1&gt; my $name = &quot;Brian&quot;
+$res[1] = 'Brian'
+
+2&gt; &quot;Hello $name&quot;
+$res[2] = 'Hello Brian'
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Getting user input via <code>STDIN</code> works pretty much how you would expect.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>3&gt; chomp( $name = &lt;STDIN&gt; )
+Brian
+$res[3] = 1
+
+4&gt; $name
+$res[4] = 'Brian'
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Defining subroutines is no big deal.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>5&gt; sub greeting { &quot;Hello $_[0]&quot; }
+6&gt; greeting $name
+$res[5] = 'Hello Brian'
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>And <code>exit</code> will quit Reply. It all seems straightforward.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>7&gt; exit
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>A marginally more complex example</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I have been working on a little experiment: fetching <a href="http://Questhub.io">Questhub.io</a> JSON with <a href="http://mojolicio.us/perldoc/Mojo/UserAgent">Mojo::UserAgent</a> and <a href="http://mojolicio.us/perldoc/Mojo/JSON">Mojo::JSON</a>. I decided to see if I could try some of that experiment in Reply.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>0&gt; use Mojo::UserAgent
+1&gt; use Mojo::JSON 'decode_json'
+2&gt; my $ua = Mojo::UserAgent-&gt;new
+$res[0] = bless( {}, 'Mojo::UserAgent' )
+
+3&gt; sort map { $_-&gt;{name} } @{ decode_json( $ua-&gt;get( 'https://questhub.io/api/realm' )-&gt;res-&gt;body ) }
+$res[1] = [
+  'Big Data',
+  'Chaos',
+  'Code',
+  'DC Metro Region',
+  'Fitness',
+  'Haskell',
+  'Japanese',
+  'Lisp',
+  'MOOCs',
+  'Meta',
+  'Node.js',
+  'Perl',
+  'Portland',
+  'Python (Ru)',
+  'Read',
+  'Testing',
+  'Yoga + Meditation'
+]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Yes, I can.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>What do I think?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I like Reply overall. I am not used to thinking in REPL terms when it comes to Perl, and need to spend more than twenty minutes with it. I like Reply enough that I do expect to spend more time with it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I noticed that my coding style was more terse within the confines of Reply. Maybe I should install GNU Readline support on my machine or enable the <a href="https://metacpan.org/pod/Reply::Plugin::Editor">Editor plugin</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

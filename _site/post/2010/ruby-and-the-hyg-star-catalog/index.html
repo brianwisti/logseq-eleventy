@@ -1,0 +1,1720 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2010/Ruby and the HYG Star Catalog
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2010-10-05</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>One of my big projects over the last year has been a <a href="/post/2009/parrot-babysteps" class="page-link">post/2009/Parrot Babysteps</a> tutorial. One of the more interesting tasks in that tutorial was <a href="/post/2009/parrot-babysteps-06-files-and-hashes" class="page-link">post/2009/Parrot Babysteps 06 - Files and Hashes</a> . I used the <a href="http://www.astronexus.com/node/34">HYG Star Catalog</a> as a sample <a href="/csv" class="page-link">CSV</a> file that was large enough to present some interesting data. This was fun in <a href="/parrot" class="page-link">Parrot</a>, but obviously I thought quite a bit about how I would tackle the problem in a higher level language such as <a href="/ruby" class="page-link">Ruby</a>. Today seems like a good day to find out.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I am emphasizing the <em>Moderately</em> in this Moderately Interesting Ruby Exercise. After exploring the <code>csv</code> library for Ruby, we’ll use <a href="http://sequel.rubyforge.org/">Sequel</a> to build a database that can be quickly queried. Even though I have an unhealthy love for making projects larger and more complex than they need to be, I want to keep this short and sweet.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>What I’m Using</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>My primary machine for these projects is the happy home iMac. It is running OS X 10.6 plus <a href="http://macports.org">MacPorts</a>. My default Ruby is 1.9.2, installed via <a href="http://rvm.beginrescueend.com/">rvm</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I may revisit this exercise with other Ruby installations on other platforms to double-check that things work, but your results <em>should</em> be similar to mine as long as you are using Ruby 1.9.2.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Exploration</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We will start by poking at the Ruby standard <code>csv</code> library a little bit, just to see how we use it. I already have a copy of the HYG Star Catalog from my previous efforts, but for this exercise I’ll pretend I do not. We’ll just download it using our favorite downloading technique. Mine is GNU <a href="http://www.gnu.org/software/wget/">wget</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ wget http://www.astronexus.com/files/downloads/hygxyz.csv.gz
+$ tar xfvz hygxyz.csv.gz
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>If we open <code>hygxyz.csv</code> in our favorite <em class="link-missing">Editor</em>, we will see that the file is large and bewildering.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>StarID,HIP,HD,HR,Gliese,BayerFlamsteed,ProperName,RA,Dec,Distance,PMRA,PMDec,RV,Mag,AbsMag,Spectrum,ColorIndex,X,Y,Z,VX,VY,VZ
+0,,,,,,Sol,0,0,0.000004848,0,0,0,-26.73,4.85,G2V,0.656,0,0,0,0,0,0
+1,1,224700,,,,,6.079e-05,01.08901332,282.485875706215,-5.20,-1.88,,9.10,1.84501631012894,F5,0.482,282.43485,0.00449,5.36884,4.9e-08,-7.12e-06,-2.574e-06
+... and so on for 119,618 lines
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There are many fields. Some of them are strings, others are numbers. Quite a few are empty.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Parsing the CSV</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let’s start with the simplest and dumbest CSV parsing code we can manage.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">require 'csv'
+
+CSV.open('hygxyz.csv').each { |row| p row }
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>How does that look?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ ruby stellar
+[&quot;StarID&quot;, &quot;HIP&quot;, &quot;HD&quot;, &quot;HR&quot;, &quot;Gliese&quot;, &quot;BayerFlamsteed&quot;, &quot;ProperName&quot;, &quot;RA&quot;, &quot;Dec&quot;, &quot;Distance&quot;, &quot;PMRA&quot;,
+&quot;PMDec&quot;, &quot;RV&quot;, &quot;Mag&quot;, &quot;AbsMag&quot;, &quot;Spectrum&quot;, &quot;ColorIndex&quot;, &quot;X&quot;, &quot;Y&quot;, &quot;Z&quot;, &quot;VX&quot;, &quot;VY&quot;, &quot;VZ&quot;]
+[&quot;0&quot;, nil, nil, nil, nil, nil, &quot;Sol&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0.000004848&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;-26.73&quot;, &quot;4.85&quot;, &quot;G2V&quot;,
+&quot;0.656&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;]
+[&quot;1&quot;, &quot;1&quot;, &quot;224700&quot;, nil, nil, nil, nil, &quot;6.079e-05&quot;, &quot;01.08901332&quot;, &quot;282.485875706215&quot;, &quot;-5.20&quot;, &quot;-1.88&quot;,
+nil, &quot;9.10&quot;, &quot;1.84501631012894&quot;, &quot;F5&quot;, &quot;0.482&quot;, &quot;282.43485&quot;, &quot;0.00449&quot;, &quot;5.36884&quot;, &quot;4.9e-08&quot;, &quot;-7.12e-06&quot;,
+&quot;-2.574e-06&quot;]
+[&quot;2&quot;, &quot;2&quot;, &quot;224690&quot;, nil, nil, nil, nil, &quot;0.00025315&quot;, &quot;-19.49883745&quot;, &quot;45.662100456621&quot;, &quot;181.21&quot;,
+&quot;-0.93&quot;, nil, &quot;9.27&quot;, &quot;5.97222057420059&quot;, &quot;K3V&quot;, &quot;0.999&quot;, &quot;43.04329&quot;, &quot;0.00285&quot;, &quot;-15.24144&quot;, &quot;-7.1e-08&quot;,
+&quot;4.0112e-05&quot;, &quot;-1.94e-07&quot;]
+[&quot;3&quot;, &quot;3&quot;, &quot;224699&quot;, nil, nil, nil, nil, &quot;0.00033386&quot;, &quot;38.85928608&quot;, &quot;355.871886120996&quot;, &quot;5.24&quot;, &quot;-2.91&quot;,
+nil, &quot;6.61&quot;, &quot;-1.1464684004746&quot;, &quot;B9&quot;, &quot;-0.019&quot;, &quot;277.11358&quot;, &quot;0.02422&quot;, &quot;223.27753&quot;, &quot;3.148e-06&quot;,
+&quot;9.04e-06&quot;, &quot;-3.909e-06&quot;]
+...
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Okay, wow. That is a lot of stuff going by. I don’t know about you, but I’m going to hit Control-C and make an adjustment to the code.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">require 'csv'
+
+filename = 'hygxyz.csv'
+CSV.open(filename).first(3).each { |row| p row }
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There. Now we will only look at the first three entries. That should be a little easier to digest. I also shuffled the filename into its own variable. That’s just how I like to do things. I tell myself that it will be easier to read and edit later.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ ruby stellar
+[&quot;StarID&quot;, &quot;HIP&quot;, &quot;HD&quot;, &quot;HR&quot;, &quot;Gliese&quot;, &quot;BayerFlamsteed&quot;, &quot;ProperName&quot;, &quot;RA&quot;, &quot;Dec&quot;, &quot;Distance&quot;, &quot;PMRA&quot;,
+&quot;PMDec&quot;, &quot;RV&quot;, &quot;Mag&quot;, &quot;AbsMag&quot;, &quot;Spectrum&quot;, &quot;ColorIndex&quot;, &quot;X&quot;, &quot;Y&quot;, &quot;Z&quot;, &quot;VX&quot;, &quot;VY&quot;, &quot;VZ&quot;]
+[&quot;0&quot;, nil, nil, nil, nil, nil, &quot;Sol&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0.000004848&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;-26.73&quot;, &quot;4.85&quot;, &quot;G2V&quot;,
+&quot;0.656&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;]
+[&quot;1&quot;, &quot;1&quot;, &quot;224700&quot;, nil, nil, nil, nil, &quot;6.079e-05&quot;, &quot;01.08901332&quot;, &quot;282.485875706215&quot;, &quot;-5.20&quot;, &quot;-1.88&quot;,
+nil, &quot;9.10&quot;, &quot;1.84501631012894&quot;, &quot;F5&quot;, &quot;0.482&quot;, &quot;282.43485&quot;, &quot;0.00449&quot;, &quot;5.36884&quot;, &quot;4.9e-08&quot;, &quot;-7.12e-06&quot;,
+&quot;-2.574e-06&quot;]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The default behavior for <code>csv</code> is reasonable. It split up the fields correctly, and set the empty fields to <code>nil</code>. Next we need to deal with the fact that the first row is supposed to be the header, providing names for fields in the corresponding columns.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">require 'csv'
+
+filename = 'hygxyz.csv'
+CSV.open(filename, headers: true).first(3).each { |row| p row }
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>One small change has a big impact.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ ruby stellar.rb
+#&lt;CSV::Row &quot;StarID&quot;:&quot;0&quot; &quot;HIP&quot;:nil &quot;HD&quot;:nil &quot;HR&quot;:nil &quot;Gliese&quot;:nil &quot;BayerFlamsteed&quot;:nil &quot;ProperName&quot;:&quot;Sol&quot;
+&quot;RA&quot;:&quot;0&quot; &quot;Dec&quot;:&quot;0&quot; &quot;Distance&quot;:&quot;0.000004848&quot; &quot;PMRA&quot;:&quot;0&quot; &quot;PMDec&quot;:&quot;0&quot; &quot;RV&quot;:&quot;0&quot; &quot;Mag&quot;:&quot;-26.73&quot; &quot;AbsMag&quot;:&quot;4.85&quot;
+&quot;Spectrum&quot;:&quot;G2V&quot; &quot;ColorIndex&quot;:&quot;0.656&quot; &quot;X&quot;:&quot;0&quot; &quot;Y&quot;:&quot;0&quot; &quot;Z&quot;:&quot;0&quot; &quot;VX&quot;:&quot;0&quot; &quot;VY&quot;:&quot;0&quot; &quot;VZ&quot;:&quot;0&quot;&gt;
+#&lt;CSV::Row &quot;StarID&quot;:&quot;1&quot; &quot;HIP&quot;:&quot;1&quot; &quot;HD&quot;:&quot;224700&quot; &quot;HR&quot;:nil &quot;Gliese&quot;:nil &quot;BayerFlamsteed&quot;:nil &quot;ProperName&quot;:nil
+&quot;RA&quot;:&quot;6.079e-05&quot; &quot;Dec&quot;:&quot;01.08901332&quot; &quot;Distance&quot;:&quot;282.485875706215&quot; &quot;PMRA&quot;:&quot;-5.20&quot; &quot;PMDec&quot;:&quot;-1.88&quot; &quot;RV&quot;:nil
+&quot;Mag&quot;:&quot;9.10&quot; &quot;AbsMag&quot;:&quot;1.84501631012894&quot; &quot;Spectrum&quot;:&quot;F5&quot; &quot;ColorIndex&quot;:&quot;0.482&quot; &quot;X&quot;:&quot;282.43485&quot; &quot;Y&quot;:&quot;0.00449&quot;
+&quot;Z&quot;:&quot;5.36884&quot; &quot;VX&quot;:&quot;4.9e-08&quot; &quot;VY&quot;:&quot;-7.12e-06&quot; &quot;VZ&quot;:&quot;-2.574e-06&quot;&gt;
+#&lt;CSV::Row &quot;StarID&quot;:&quot;2&quot; &quot;HIP&quot;:&quot;2&quot; &quot;HD&quot;:&quot;224690&quot; &quot;HR&quot;:nil &quot;Gliese&quot;:nil &quot;BayerFlamsteed&quot;:nil &quot;ProperName&quot;:nil
+&quot;RA&quot;:&quot;0.00025315&quot; &quot;Dec&quot;:&quot;-19.49883745&quot; &quot;Distance&quot;:&quot;45.662100456621&quot; &quot;PMRA&quot;:&quot;181.21&quot; &quot;PMDec&quot;:&quot;-0.93&quot; &quot;RV&quot;:nil
+&quot;Mag&quot;:&quot;9.27&quot; &quot;AbsMag&quot;:&quot;5.97222057420059&quot; &quot;Spectrum&quot;:&quot;K3V&quot; &quot;ColorIndex&quot;:&quot;0.999&quot; &quot;X&quot;:&quot;43.04329&quot; &quot;Y&quot;:&quot;0.00285&quot;
+&quot;Z&quot;:&quot;-15.24144&quot; &quot;VX&quot;:&quot;-7.1e-08&quot; &quot;VY&quot;:&quot;4.0112e-05&quot; &quot;VZ&quot;:&quot;-1.94e-07&quot;&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now <code>csv</code> is generating something that looks vaguely like a hash. Nice. However, every field is handled as a String when some of them are obviously numbers. The <code>converters</code> option should fix that.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">CSV.open(filename, headers: true, converters: :numeric).first(5).each do |row|
+  p row
+end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Setting the <code>converters</code> option to <code>:numeric</code> tells CSV to convert anything that looks like a number to a Number. That is useful for comparing values, because Ruby won’t automatically convert a String into a Number. You must tell it to convert. Anyways - I’m babbling. It is really amazing how hard it is to pad the content of these little essays out when you are talking about Ruby code. That’s probably why there are so many silly cartoons and insane gibberish accompanying the best Ruby tutorials.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ ruby stellar.rb
+#&lt;CSV::Row &quot;StarID&quot;:0 &quot;HIP&quot;:nil &quot;HD&quot;:nil &quot;HR&quot;:nil &quot;Gliese&quot;:nil &quot;BayerFlamsteed&quot;:nil &quot;ProperName&quot;:&quot;Sol&quot; &quot;RA&quot;:0
+&quot;Dec&quot;:0 &quot;Distance&quot;:4.848e-06 &quot;PMRA&quot;:0 &quot;PMDec&quot;:0 &quot;RV&quot;:0 &quot;Mag&quot;:-26.73 &quot;AbsMag&quot;:4.85 &quot;Spectrum&quot;:&quot;G2V&quot;
+&quot;ColorIndex&quot;:0.656 &quot;X&quot;:0 &quot;Y&quot;:0 &quot;Z&quot;:0 &quot;VX&quot;:0 &quot;VY&quot;:0 &quot;VZ&quot;:0&gt;
+#&lt;CSV::Row &quot;StarID&quot;:1 &quot;HIP&quot;:1 &quot;HD&quot;:224700 &quot;HR&quot;:nil &quot;Gliese&quot;:nil &quot;BayerFlamsteed&quot;:nil &quot;ProperName&quot;:nil
+&quot;RA&quot;:6.079e-05 &quot;Dec&quot;:1.08901332 &quot;Distance&quot;:282.485875706215 &quot;PMRA&quot;:-5.2 &quot;PMDec&quot;:-1.88 &quot;RV&quot;:nil &quot;Mag&quot;:9.1
+&quot;AbsMag&quot;:1.84501631012894 &quot;Spectrum&quot;:&quot;F5&quot; &quot;ColorIndex&quot;:0.482 &quot;X&quot;:282.43485 &quot;Y&quot;:0.00449 &quot;Z&quot;:5.36884
+&quot;VX&quot;:4.9e-08 &quot;VY&quot;:-7.12e-06 &quot;VZ&quot;:-2.574e-06&gt;
+#&lt;CSV::Row &quot;StarID&quot;:2 &quot;HIP&quot;:2 &quot;HD&quot;:224690 &quot;HR&quot;:nil &quot;Gliese&quot;:nil &quot;BayerFlamsteed&quot;:nil &quot;ProperName&quot;:nil
+&quot;RA&quot;:0.00025315 &quot;Dec&quot;:-19.49883745 &quot;Distance&quot;:45.662100456621 &quot;PMRA&quot;:181.21 &quot;PMDec&quot;:-0.93 &quot;RV&quot;:nil &quot;Mag&quot;:9.27
+&quot;AbsMag&quot;:5.97222057420059 &quot;Spectrum&quot;:&quot;K3V&quot; &quot;ColorIndex&quot;:0.999 &quot;X&quot;:43.04329 &quot;Y&quot;:0.00285 &quot;Z&quot;:-15.24144
+&quot;VX&quot;:-7.1e-08 &quot;VY&quot;:4.0112e-05 &quot;VZ&quot;:-1.94e-07&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let’s do something with those Numbers. How about counting the number of stars within ten light years of Earth?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby"># count-neighbors.rb
+require 'csv'
+filename = 'hygxyz.csv'
+neighbor_count = 0
+
+CSV.open(filename, headers: true, converters: :numeric).each do |row|
+  if row['Distance'] &lt; 10
+    neighbor_count += 1
+  end
+end
+
+puts &quot;There are #{neighbor_count} stars within 10 light years of Earth.&quot;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>How many are there?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ ruby count-neighbors.rb
+There are 320 stars within 10 light years of Earth.
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That’s a lot of neighbors. It took a while to count them, though. That probably has something to do with the 20 Megabyte CSV file. We are not ready to speed things up, though. Let’s try one more task: looking for a specific star.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby"># find-sol.rb
+require 'csv'
+filename = 'hygxyz.csv'
+CSV.open(filename, headers: true, converters: :numeric).each do |row|
+  if row['ProperName'] == &quot;Sol&quot;
+    p row
+  end
+end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It better find our own Sun. It’s the first entry, after all.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ ruby find-sol.rb
+#&lt;CSV::Row &quot;StarID&quot;:0 &quot;HIP&quot;:nil &quot;HD&quot;:nil &quot;HR&quot;:nil &quot;Gliese&quot;:nil &quot;BayerFlamsteed&quot;:nil &quot;ProperName&quot;:&quot;Sol&quot; &quot;RA&quot;:0
+&quot;Dec&quot;:0 &quot;Distance&quot;:4.848e-06 &quot;PMRA&quot;:0 &quot;PMDec&quot;:0 &quot;RV&quot;:0 &quot;Mag&quot;:-26.73 &quot;AbsMag&quot;:4.85 &quot;Spectrum&quot;:&quot;G2V&quot;
+&quot;ColorIndex&quot;:0.656 &quot;X&quot;:0 &quot;Y&quot;:0 &quot;Z&quot;:0 &quot;VX&quot;:0 &quot;VY&quot;:0 &quot;VZ&quot;:0&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Sorry, I got sleepy. Is it done? I should have put a <code>break</code> in that code after printing out the star details. Of course, that is just cheating around the fact that parsing a large CSV file is <em>slow</em>. Perhaps it is time to try a database.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Creating a Database</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I would imagine that stuffing these values into a database should make simple questions like “show me the star named ‘Sol’” or “count the stars within 10 light years” pretty straightforward. We can use a lightweight database such as <a href="/sqlite" class="page-link">SQLite</a>. There may be nearly 120,000 stars in the catalog, but that is trivial for SQLite. I have heard anecdotal reports of it being used for tables with millions of rows.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>First, I want to install <code>sqlite3</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ port install sqlite3
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’m not doing this on my <a href="http://ubuntu.com">Ubuntu</a> Linux machine, but if I was I’d install both the <code>sqlite3</code> shell and the development libraries.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ sudo apt-get install sqlite3 libsqlite3-dev
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>The Sequel Library</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I have already chosen Sequel as my preferred Ruby database library, so I need to install that. Oh, and I should also install <a href="http://rubyforge.org/projects/sqlite-ruby/">sqlite3-ruby</a>. Sequel provides a nice layer of abstraction, but it does not contain the code which actually speaks to the database.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ gem install sequel
+$ gem install sqlite3-ruby
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We can use the <code>create_table</code> database method described on the <a href="http://sequel.rubyforge.org/rdoc/files/doc/migration_rdoc.html">Sequel migrations</a> page to build the table, rather than relying on my rather lightweight knowledge of SQLite schema definition. The dump of star data from our earlier CSV parsing code provides the hints we need to build a usable schema.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">require 'csv'
+require 'sequel'
+
+filename = 'hygxyz.csv'
+
+DB = Sequel.sqlite('hyg.db')
+
+if DB.table_exists? :stars
+    DB.drop_table :stars
+end
+
+DB.create_table :stars do
+    primary_key :id
+    Integer :StarID
+    Integer :HIP
+    Integer :HD
+    Integer :HR
+    Integer :Gliese
+    Integer :BayerFlamsteed
+    String  :ProperName
+    Float   :RA
+    Float   :Dec
+    Float   :Distance
+    Float   :PMRA
+    Float   :PMDec
+    Float   :RV
+    Float   :Mag
+    Float   :AbsMag
+    String  :Spectrum
+    Float   :ColorIndex
+    Float   :X
+    Float   :Y
+    Float   :Z
+    Float   :VX
+    Float   :VY
+    Float   :VZ
+end
+
+CSV.open(filename, headers: true, converters: :numeric).each do |row|
+    print &quot;.&quot;
+    DB[:stars].insert(row.to_hash)
+end
+puts
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This script will set up the database and fill it with values from the CSV file. Each row is converted to a Hash, which makes the database <code>insert</code> method happy. There is also a little check and cleanup near the beginning. This is just in case there is a typo that messes up your code later on. It doesn’t hurt to be cautious.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ ruby stellar.rb
+.......
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Go take a break. Make some coffee, catch up with your family, or play one more turn of Civilization. This is going to take a while. Me, I went for some more coffee.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Searching the Database</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We will look at the <a href="http://sequel.rubyforge.org/rdoc/files/doc/querying_rdoc.html">Sequel querying API</a> in a moment, but first let us make sure that the database returns plausible results to direct queries.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ sqlite3 hyg.db
+sqlite&gt; select count(*) from stars where distance &lt; 10;
+320
+sqlite&gt; select * from stars where propername = 'Sol';
+1|0||||||Sol|0.0|0.0|4.848e-06|0.0|0.0|0.0|-26.73|4.85|G2V|0.656|0.0|0.0|0.0|0.0|0.0|0.0
+sqlite&gt; .quit
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Hopefully you noticed a big improvement in the speed of your searches by switching to a database. I sure did.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What if we tried the same queries with Ruby and Sequel? Let’s open an <code>irb</code> prompt and test it out.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ irb
+ruby-1.9.2-p0 &gt; require 'sequel'
+ =&gt; true
+ruby-1.9.2-p0 &gt; DB = Sequel.sqlite('hyg.db')
+ =&gt; #&lt;Sequel::SQLite::Database: &quot;sqlite:/hyg.db&quot;&gt;
+ruby-1.9.2-p0 &gt; DB[:stars].first(ProperName: 'Sol')
+ =&gt; {:id=&gt;1, :StarID=&gt;0, :HIP=&gt;nil, :HD=&gt;nil, :HR=&gt;nil, :Gliese=&gt;nil, :BayerFlamsteed=&gt;nil,
+:ProperName=&gt;&quot;Sol&quot;, :RA=&gt;0.0, :Dec=&gt;0.0, :Distance=&gt;4.848e-06, :PMRA=&gt;0.0, :PMDec=&gt;0.0, :RV=&gt;0.0,
+:Mag=&gt;-26.73, :AbsMag=&gt;4.85, :Spectrum=&gt;&quot;G2V&quot;, :ColorIndex=&gt;0.656, :X=&gt;0.0, :Y=&gt;0.0, :Z=&gt;0.0, :VX=&gt;0.0,
+:VY=&gt;0.0, :VZ=&gt;0.0}
+ruby-1.9.2-p0 &gt; DB[:stars].filter { distance &lt; 10 }.count
+ =&gt; 320
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Yes indeed. That was much faster. Let’s close with something a little bit fancier: showing a table of information about all the stars in the catalog that are G Spectrum and have a proper name, ordered by their distance from Earth.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>ruby-1.9.2-p0 &gt; DB[:stars].filter(:Spectrum.like('G%')).filter('ProperName not null').order(:Distance).each { |row|
+ruby-1.9.2-p0 &gt;     printf(&quot;%20s\t%4.2f\t%s\n&quot;, row[:ProperName], row[:Distance], row[:Spectrum])
+ruby-1.9.2-p0 ?&gt;  }
+			  Sol    0.00    G2V
+Rigel Kentaurus A    1.35    G2V
+		82 G. Eri    6.06    G8V
+ Groombridge 1830    9.16    G8Vp
+	 Vindemiatrix    31.35   G8IIIvar
+			Nihal    48.80   G5II
+=&gt; #&lt;Sequel::SQLite::Dataset: &quot;SELECT * FROM `stars` WHERE ((Spectrum like 'G%') AND (ProperName not null))&quot;&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I encourage you to explore the Sequel querying API more on your own, but I need to wrap this up.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Conclusion</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>All right. You’ve got 119,617 stars with various characteristics, all sitting there waiting for you to think of something interesting to do with them. I just wanted to see how much easier it would be to parse a CSV in a high level language. Turns out, it’s pretty easy. Explore the Ruby standard library and the <em>many</em> Rubygems that are available out in the big world. You’ll probably have fun, and you’ll almost definitely learn something.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

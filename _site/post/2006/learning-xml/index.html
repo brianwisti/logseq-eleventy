@@ -1,0 +1,1431 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2006/Learning XML
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><p><em class="link-missing">xml,learn,coolnamehere</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2006-03-17</em></p>
+</td>
+          </tr>
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>A mountain of standards and specifications have piled on top of <a href="/xml" class="page-link">XML</a> over the  years, but the core language is still pretty easy to get started in. Because it  is a markup language rather than a programming language, there aren’t as many  new concepts to learn. If you’ve learned HTML in the past, then XML will be  familiar.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I usually try to scatter my “Learning” sections across several pages, so that  each major idea can get its own space. XML is different, though. Core XML  really is a simple creature, and I think I can get the most important ideas out in one page. Let’s see if that will happen.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>What You Need</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>A text editor is all you need to get started in XML. However, you will probably want to look at your XML as something besides markup. The best solution for that would be a Web browser that understands XML. Both Internet Explorer and <a href="http://www.mozilla.com/">Mozilla Firefox</a> can read and display XML documents in a pleasant format. I strongly prefer Firefox because its XML capabilities are
+very strong.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>The Skeleton of an XML Document</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>A simple XML document is indeed very simple. All you need is a prolog and a root element.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; ?&gt;
+&lt;greeting&gt;Hello, World!&lt;/greeting&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The very first line is called the <em>prolog</em>. The browser relies on the presence of that prolog to recognize an XML file. Later, you may learn how to add information in the prolog, providing details like character set. For now, just starting every XML document out with that line is good enough.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Browser, parser, interpreter, whatever. It’s a piece of software that will look at your XML file and need to be reassured that is in fact looking at an XML file.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The document itself consists of the <em>root element</em>. If you’ve ever written HTML, then this “element” business will be no problem for you. <code>&lt;html&gt;</code> is the root element of a HTML file, and the rest of your page goes inside. If you haven’t written HTML, then elements can look a little intimidating. Let’s talk about them in a little more detail.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Elements</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Elements are what give an XML document its structure. They have three parts: a beginning, an end, and everything in between. The beginning consists of a name and maybe some <em>attributes</em> wrapped in <code>&lt;</code> and <code>&gt;</code> characters. The end is the name prefixed by the / character and wrapped in <code>&lt;</code> and <code>&gt;</code> characters. The beginning and end are often referred to as the <em>opening tag</em> and the <em>closing tag</em>. In between them, you can find anything: text, <em>entities</em>, <em>comments</em>, <em>processing instructions</em>, <em>non-parsed data</em>, and more <em>elements</em>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-xml">&lt;element&gt;Stuff in between&lt;/element&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Even though you <em>can</em> find anything inside an element, the XML language you are using probably has specific rules for what can be contained inside each particular element. For example, in XHTML <code>&lt;body&gt;</code> should only be inside of the <code>&lt;html&gt;</code> element.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Attributes</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Attributes often serve the purpose of providing additional information about an element. They consist of a name followed by an equals (=) sign and a value. The value is usually in quotation marks.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-xml">&lt;element attribute=&quot;value&quot;&gt;...&lt;/element&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Elements may have any number of elements, depending on the rules defined in the XML language you are using.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Empty Elements</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Sometimes there is no “in-between” content for an element. The creators of the XML specification realized that it would get tiring to enter <code>&lt;element&gt;&lt;/element&gt;</code> all the time. Those extra characters can also add up, taking up precious bandwidth when sending large XML documents to large numbers of machines. So, they added a special rule. If the element is empty, you can suffix the opening tag with a / character, and leave off the closing tag.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-xml">&lt;element attribute=&quot;value&quot; /&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You might have noticed that I put a space in between the last character of the opening tag and the / character. You don’t need to do that, but I think that it makes the markup for an empty element a little easier to read.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Plain Old Text</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Elements may contain text. In fact, text is usually the actual content which is being marked up. It’s easy to lose sight of that when your text is drowning in a sea of elements.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Plain old text is pretty straightforward: you’re reading some right now. There is one little quirk that you need to deal with, though. What do you do when you want to display a less-than or greater-than symbol in your text? Well, that’s where <em>entity references</em> come in.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Entity References</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Entity references allow you to display characters that are either already being used in XML, or just flat out unprintable with the keyboard you are using.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Using an entity reference is a little more complicated than what you’ve dealt with so far, but let’s get into it. An entity is either a special name or a numeric value. You reference the entiy by prefixing it with the <code>&amp;</code> character and suffixing it with the <code>;</code> character. If your entity is a numeric value, it must be prefixed with the # character befor referencing it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-xml">&lt;element&gt;1 &amp;lt; 2&lt;/element&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Of course, now you need a special entity for the &amp; character. In fact, there is a small set of predefined entities which are valid in any XML document. Let’s just stuff them into a table rather than reviewing them one by one.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Common XML Entities</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <table>
+<thead>
+<tr>
+<th>Entity</th>
+<th>Represents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&amp;lt;</code></td>
+<td><code>&lt;</code></td>
+</tr>
+<tr>
+<td><code>&amp;gt;</code></td>
+<td><code>&gt;</code></td>
+</tr>
+<tr>
+<td><code>&amp;amp;</code></td>
+<td><code>&amp;</code></td>
+</tr>
+<tr>
+<td><code>&amp;apos;</code></td>
+<td><code>'</code></td>
+</tr>
+<tr>
+<td><code>&amp;quot;</code></td>
+<td><code>&quot;</code></td>
+</tr>
+</tbody>
+</table>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Numeric entity references are a whole different can of worms, and frankly I’d rather not get into them in such a high-level overview of XML. Still, here’s what they look like so you can recognize them:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-xml">&lt;element&gt;&amp;#62; should be the same as &amp;gt;&lt;/element&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Stick to named entities for now, and be sure to look up what is available for you. XHTML has a particularly rich set of named entities that you can use in your Web pages.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Comments</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>XML authors need a way to add information that will be completely ignored by the computer. XML comments provide the ability to do just that. A comment is prefixed by <code>&lt;!--</code> and ends with <code>--&gt;</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-xml">&lt;!-- Some scandalously clever comment --&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Processing Instructions</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Processing Instructions are special instructions to the browser which are not considered part of the document itself. They are indicated with a question mark and an indicator of the application used for the processing.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-xml">&lt;?lang directives ... ?&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Did you notice how similar this is to the prolog mentioned above? That’s because the prolog is a processing instruction letting the browser know that it’s time to fire up the ol’ XML processing code.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Non-Parsed Data</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You probably won’t see this much when you’re getting started, but I thought I would mention it anyways. Non-Parsed Data is content that … well … you don’t want parsed. It can hold anything, including XML. I’ve used it to hold Python code for projects. It doesn’t matter what the section holds, because the browser will ignore it unless told to do otherwise.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-xml">&lt;![CDATA[Clever code that saves the world. ]]&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>DTD Declarations</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I was going to ignore these, since they are a relic of XML’s SGML history. The truth is that you are going to see these a lot when editing XML documents. Web browsers in particular often rely on the DTD when deciding how to interpret an XHTML file. DTD declarations are used to define the rules of the XML language you are using or to point to the location of these rules. Here’s a sample DTD declaration, which is pointing to the Transitional XHTML rules.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot;
+    &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Using a DTD declaration in your XML is - at this stage in your knowledge - just a matter of copying and pasting a sample. You can always pursue DTD mastery yourself if you like.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>The Importance of Good Form</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>If you are used to HTML, then you may also be used to seeing some sloppy markup. Authors used opening tags with no closing tag, or mixed up the order that tags were closed. HTML browsers were forgiving, but XML is not. All elements must be opened and closed or shown to be empty. Elements always contain elements. You must close your elements in the opposite order you opened them.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <table>
+<thead>
+<tr>
+<th>Bad!</th>
+<th>Good!</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;br&gt;</code></td>
+<td><code>&lt;br /&gt;</code></td>
+</tr>
+<tr>
+<td><code>&lt;li&gt;...&lt;li&gt;...&lt;li&gt;</code></td>
+<td><code>&lt;li&gt;...&lt;/li&gt;&lt;li&gt;...&lt;/li&gt;&lt;li&gt;...&lt;/li&gt;</code></td>
+</tr>
+<tr>
+<td><code>&lt;em&gt;&lt;strong&gt;...&lt;/em&gt;&lt;/strong&gt;</code></td>
+<td><code>&lt;em&gt;&lt;strong&gt;...&lt;/strong&gt;&lt;/em&gt;</code></td>
+</tr>
+</tbody>
+</table>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Conclusion</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You’ve just dipped your toes in the deep and murky waters of XML. There is still <em>so</em> much more to discover. I wanted you to be able to recognize an XML document in the wild, and know enough to create your own simple documents. You still need to learn how to create your own language so that your XML is completely valid. Both of us need to study XPath, XML-Schema, and the many other standards which have evolved over the years.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The best resource for additional information is the <a href="http://www.w3.org/">World Wide Web Consortium</a>. But if standards and specifications aren’t your cup of tea, there are also a number of good tutorial sites, such as <a href="http://www.xml.com/">XML.com</a> and <a href="http://www.w3schools.com/">W3 Schools</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

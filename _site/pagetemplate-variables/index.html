@@ -1,0 +1,573 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        PageTemplate - Variables
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><p><em class="link-missing">pagetemplate,coolnamehere</em></p>
+</td>
+          </tr>
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The major directives require <em>variables</em>, which are just names for the value your want inserted, checked, or otherwise accessed. It’s a good idea to use variable names that make sense(<code>name</code> for a person’s name, <code>title</code> for the title of the page, etc.).</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Value Substitution</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Substitution is the easiest concept to master. When PageTemplate comes across a value directive, it replaces that directive with some text.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Example</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-html">&lt;h1&gt;Hello, [%var name%]&lt;/h1&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Every time that PageTemplate sees <code>[%var name%]</code> in your template, it will replace that directive with the text associated with <code>name</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The programmer works his magic, and the visitor “Frank” sees this greeting:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-html">&lt;h1&gt;Hello, Frank&lt;/h1&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>If <code>name</code> is not set, nothing is inserted. The greeting header would end up looking like this:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-html">&lt;h1&gt;Hello,&lt;/h1&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Filters</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Text on the Web is a funny thing. Your page can be unreadable if you forget to escape a few <code>&lt;</code> characters. You could rely on your programmers to take care of the necessary escapes, but there is always the chance that they may forget it. Sometimes it is just easier to take care of these things yourself, and that’s where <em>preprocessors</em> come in. They take the contents of a variable and reformat it according to specific rules.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Example</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-html">&lt;p&gt;You have received a message on the Wensleydale Advocacy Forum.&lt;/p&gt;
+&lt;div class=&quot;message&quot;&gt;
+[%var message.contents :escapeHTML %]
+&lt;/div&gt;
+&lt;p&gt;You can also view this comment &lt;a href=&quot;[%var message.url :escapeURL %]&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Thank You,&lt;/p&gt;
+&lt;p&gt;WAF Management&lt;/p&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That might end up looking like this:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-html">&lt;p&gt;You received a message on the Wensleydale Advocacy Forum.&lt;/p&gt;
+&lt;div class=&quot;message&quot;&gt;
+&amp;lt;span style='font-size: 250%'&amp;gt;&amp;lt;blink&amp;gt;Wenzleedale suks! Cheddr 4evar!!1!&amp;lt;/blink&amp;gt;&amp;lt;/span&amp;gt;
+&lt;/div&gt;
+&lt;p&gt;You can also view this comment &lt;a href=&quot;http://wensleydaleforum.net/messages/view/Wenzlee+Sucks%21&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Thank You,&lt;/p&gt;
+&lt;p&gt;WAF Management&lt;/p&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Dots, Objects, and Traits</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What? Oh, some of you might have noticed that little dot in the variable names for the last example. This is a little bit of geek code getting into the template. Lots of information in a Ruby program is divided into <em>objects</em>, each of which has special traits unique to that object. In
+this example, you have a message with both a URL and some contents. Rather than make you try to remember some contorted syntax in order to get the information you need, we just borrow the Ruby syntax. Confer with your developers for more details as they are needed, and make sure
+they give you objects with traits that make sense in a template. It also helps if they let you know what traits you need to use for the information you want.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Well, we call traits “fields”, “methods”, or maybe “messages” in our code. PageTemplate is a little more flexible in how it gets an object’s details, so a more general name seemed appropriate. You can call them “Waffle Monkeys of the Yukon” if you like.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p><em class="link-missing">2024-03-31</em>: where’d the rest of it go? More Internet Archive searching at some point. Fairly low priority.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

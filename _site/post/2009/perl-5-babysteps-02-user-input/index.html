@@ -1,0 +1,1028 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2009/Perl 5 Babysteps 02 - User Input
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><p><em class="link-missing">perl,learn,coolnamehere</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2009-05-05</em></p>
+</td>
+          </tr>
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Having a <a href="/perl" class="page-link">Perl</a> program that displays the exact same message every time you run is nice when it comes to being consistent, but not so entertaining as a program. “What does it do?” “It prints out my name.” “Oh.” Let’s make things a little more interesting. We could change the value  of <code>$name</code> in the code, but it might be a little tiresome to do this before  showing it to each new person. How about making the program ask for a name? User interaction - a neat idea.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It’s so neat that I’m going to show you two ways to do it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Traditional</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Here’s how I got user input before Perl 5.10. You’ll find a lot of code that looks like this.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-perl">=pod
+
+=head1 hello.pl
+
+Displays a warm message.
+
+=cut
+
+# Follow some common-sense guidelines for Perl coding.
+use Modern::Perl;
+
+print &quot;What is your name? &quot;;
+my $name = &lt;STDIN&gt;;
+chomp($name);
+say &quot;Hello, $name!&quot;;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Why don’t we run this before we start trying to decipher it?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ perl hello.pl
+What is your name? Brian
+Hello, Brian!
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There is a lot going on in the few lines we added. Let’s look at them one by one.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-perl">print &quot;What is your name? &quot;;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>print</code> is how we used to get messages displayed on the console. It’s still useful when you want to say something but you don’t want to start a whole new line when it’s done. We use <code>print</code> so that our answer to the question will display on the same line as the question itself. That is a common approach to user prompts.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-perl">my $name = &lt;STDIN&gt;;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We’ve got some funny-looking thing instead of “Brian”. What is it?  Here’s the short explanation:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <blockquote>
+<p><code>&lt;STDIN&gt;</code> gets input from the user that you can save in a variable.</p>
+</blockquote>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There’s also a long version. Feel free to skip it if you just want to get on with it. The long version works out like this:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="quote"><header>quote</header><p>The scalar <code>$name</code> is assigned the value of <code>&lt;STDIN&gt;</code>. <code>&lt;...&gt;</code> tells Perl that we want it to read a <em>filehandle</em> and hand the results back to us. A <em>filehandle</em> is a source of information. It could be an open file, but in this case it is <code>STDIN</code>. <em><code>STDIN</code></em> is the <em>standard input stream</em> - geek talk for “wherever we expect user input to be coming from.” <code>STDIN</code> usually just means “keys the user enters from the keyboard.” The result of reading from the filehandle - which is <code>STDIN</code> in this case, which is the keys you entered from the keyboard in this case - is stored in <code>$name</code>.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There’s a really long version, but I’m getting bored so we’ll skip it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-perl">chomp($name);
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>chomp</code> removes the last character from a string if that character is a newline - whatever a newline is defined as on your platform. Why do we need that? Well, when Perl reads with the <code>&lt;...&gt;</code> operator, it gives you <em>everything</em>. That includes the <code>[ENTER]</code> key that you pressed to send your name to the program. What that ENTER actually looks like depends on your platform: but the end result is a line break in the text. Sometimes we like that, but not today. Here’s what you would see if you left out <code>chomp</code>:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ perl hello.pl
+What is your name? Brian[ENTER]
+Hello, Brian
+!
+$
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You can see that you’re going to use <code>chomp</code> a lot when getting user input. But what if there were an easier way? There is … sort of.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>A new way</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The new way looks better to my eyes, but I’m willing to admit that there’s a lot going on for a beginner. You can feel free to ignore this section if you like, and my feelings won’t be hurt at all.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-perl">=pod
+
+=head1 hello.pl
+
+Displays a warm message.
+
+=cut
+
+# Follow some common-sense guidelines for Perl coding.
+use Modern::Perl;
+
+use Term::UI;
+use Term::ReadLine;
+
+my $console = Term::ReadLine-&gt;new();
+my $name    = $console-&gt;get_reply( prompt =&gt; &quot;What is your name? &quot; );
+say &quot;Hello, $name!&quot;;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The program is doing nearly the same thing as before, but the code looks a lot different. We <code>use</code> some new stuff, added a new variable, and have changed the way we get the user’s name. On the other hand, we don’t have to <code>chomp</code> anything.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Looking at the changes</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-perl">use Term::UI;
+use Term::ReadLine;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>These lines tell Perl to load a couple of modules for some additional functionality. This is different from when we called <code>use</code> before. With Modern::Perl we were giving Perl a new personality. This time we’re just making some new functions available. Module names are usually capitalized like proper names, and that <code>::</code> is conventionally used to indicate related modules within a category.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Why do we want those modules? So we can create an object that reads user input.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-perl">my $console = Term::ReadLine-&gt;new();
+my $name    = $console-&gt;get_reply( prompt =&gt; &quot;What is your name? &quot; );
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There are a lot of things to learn in these two lines of code, so please forgive me if I rush through them too quickly.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What’s an object? Oh boy. That is a tricky question for a beginner tutorial. It’s so tricky that I’ve decided to skip it completely. Almost completely. Objects are basically magic scalar variables that hold extra information such as data (the <em>fields</em>) and subroutines (the <em>methods</em>). Intelligent use of objects allow you to quickly write powerful programs while hiding the complexity of what’s going on behind a sweet and smiling face.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><em>Classes</em> define the structure of a particular type of object. You create an object with a <em>constructor</em> method defined in the class. The constructor is usually called <code>new</code>, and you access it with the <code>-&gt;</code> operator. The same operator is used to access the methods of your <code>$console</code> object.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The last source of confusion in this new example is the way we asked <code>$console</code> to present its prompt to the user. The quick way to think of it is that we are giving a dictionary to <code>get_reply</code>. <code>get_reply</code> looks at this dictionary for keywords that are important to it, such as <code>prompt</code>. We use that <code>=&gt;</code> operator to tell <code>$console-&gt;get_reply</code> that we want the <code>prompt</code> to be &quot;What is your name? &quot;</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’ll get more into dictionaries later, but that’s the basic idea for now. Wait, one more thing. It’s helpful to think of those special keyword lookup collections as dictionaries, but they’re really called <em>hashes</em>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Enough babbling. Let’s run it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ perl hello.pl
+What is your name? Brian
+Hello, Brian!
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Nice, it adds some formatting to the process! Well, it does for me. You might  not get the formatting if your console doesn’t support it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We only added a few lines to our program, but it made a significant difference in the end. Maybe you don’t understand what is going on behind those changes. That’s okay. Perl is a strange language, full of things that are very easy and fairly challenging at the same time. Give yourself time to learn the language and explore its features. Definitely explore the available libraries, because you will be amazed by how much you can improve your programs. And I don’t forget to explore <a href="https://www.cpan.org/">CPAN</a>, the gigantic repository of libraries for Perl.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

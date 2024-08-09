@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2014/Start Using Emacsclient
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2014-06-02</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I have been curious about the <a href="http://www.emacswiki.org/emacs/EmacsClient">Emacs Client</a> for a long time. Because <a href="/emacs" class="page-link">Emacs</a> can have a long startup time, it can be made to run in a persistent mode. All buffers are handled by a central process. Your editor interface connects to that central process rather than managing its own buffers. Thinking about the Emacs client is what started me down the path of studying Emacs as a client/server Lisp environment. Anyways, I looked up some blog posts to tell me what to do.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It should not surprise me that a <a href="http://devblog.avdi.org/2011/10/27/running-emacs-as-a-server-emacs-reboot-15/">blog post</a> by Avdi Grimm is one of the top hits for Emacs Client - or anything else, really. I am willing to bet that all of his <a href="http://devblog.avdi.org/category/emacs-reboot/">Emacs Reboot</a> posts are worth reading and reviewing. Let’s focus on just the one post for now.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>He mentions having a short script <code>ec</code> to simplify invocation of <code>emacsclient</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-sh">#!/bin/sh
+exec /usr/bin/env emacsclient -c -a &quot;&quot; $*
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I was tempted to create an alias, but his solution will work regardless of which shell I happen to be fiddling around with that day.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’m also inclined to follow his thought of removing the keybinding for <code>save-buffers-kill-terminal</code> and <code>suspend-frame</code>. There have already been a few times where I quit when I meant to save.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-lisp">;; Adding this to my ~/.emacs.d/init.el
+(global-unset-key (kbd &quot;C-x C-c&quot;))
+(global-unset-key (kbd &quot;C-x C-z&quot;))
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I use <a href="/post/2017/elscreen" class="page-link">post/2017/elscreen</a> . Since <code>emacsclient</code> keeps everything running, you can switch back to a previously active screen with <code>C-z b</code>. So that makes these the new important commands for me to remember.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Keybinding</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>delete-frame</code></td>
+<td><code>C-x 5 0</code></td>
+<td>“Quit” an emacsclient session</td>
+</tr>
+<tr>
+<td><code>elscreen-find-and-goto-by-buffer</code></td>
+<td><code>C-z b &lt;buffer&gt;</code></td>
+<td>Switch to screen holding <code>&lt;buffer&gt;</code></td>
+</tr>
+<tr>
+<td><code>kill-emacs</code></td>
+<td><em>None</em></td>
+<td>Shut down Emacs</td>
+</tr>
+</tbody>
+</table>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It would probably be a good idea to set up a <code>kill-emacs-hook</code> or make a custom shutdown function. EmacsWiki offers <a href="http://www.emacswiki.org/emacs/EmacsAsDaemon#toc7">this suggestion</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Can’t help noticing that the <code>delete-command</code> command learned in a GUI context applies for <code>emacsclient</code> as well. Curious. There are bound to be new issues. Expect a “my bad” post in the future when I find out what those new issues are.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

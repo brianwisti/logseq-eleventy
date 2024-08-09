@@ -1,0 +1,762 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2011/Elaborate Answers To Simple Questions
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2011-04-14</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><p><em class="link-missing">blogspot</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><em class="link-missing">tldr</em>: Use <code>string</code> methods instead of importing <code>string</code>. Build email messages with the standard <a href="http://docs.python.org.library.email.html">email</a> library.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I saw an email last night from somebody with a simple <a href="/python" class="page-link">Python</a> question.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>#+BEGIN_QUOTE
+Hi,</p>
+<p>… I have some issues in my python program. I have installed python27 in C:Python27. I started learning python with small programs. I’m saving all python programs in C:ROUGH When I am executing these scripts through command prompt facing some problem with “import”. Please help me out</p>
+<p>My program:</p>
+<pre><code class="language-python">#!python
+import sys
+#import C:\Python27\Lib\string
+import string
+ 
+Subject = &quot;Testmail&quot;
+To = &quot;yeahright@nonotreallyawebsiteihope.com&quot;
+From = &quot;yeahright@nonotreallyawebsiteihope.com&quot;
+text = &quot;Test&quot;
+body = string.join((&quot;From: %s&quot; % From,
+                    &quot;To: %s&quot; % To,
+                    &quot;Subject: %s&quot; %Subject,
+                    text
+                    ),&quot;\r\n&quot;)
+ 
+print body
+</code></pre>
+<p>ERROR IS:</p>
+<pre><code>C:\Python27&gt;python.exe c:\ROUGH\addingsubtofrm.py
+    Traceback (most recent call last):
+      File &quot;c:\ROUGH\addingsubtofrm.py&quot;, line 12, in `&lt;module&gt;`
+        body = string.join((&quot;From: %s&quot; % From,
+    AttributeError: 'module' object has no attribute 'join'
+</code></pre>
+<p>…​
+#+END_QUOTE</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>For some reason, I do not get any error when I try to run her code with Python 2.7.1 on Windows XP. That’s okay, though. I can still help a little bit on the style.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Although <code>join</code> is part of the <a href="http://docs.python.org/library/string.html">string</a> module, it is also directly attached to strings. So instead of using <code>string.join(items, separator)</code>, you could use <code>separator.join(items)</code>. That’s considered the standard way to join a list of items into a single string these days.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">Subject = &quot;Testmail&quot;
+To = &quot;yeahright@nonotreallyawebsiteihope.com&quot;
+From = &quot;yeahright@nonotreallyawebsiteihope.com&quot;
+text = &quot;Test&quot;
+body = &quot;\r\n&quot;.join((&quot;From: %s&quot; % From,
+                    &quot;To: %s&quot; % To,
+                    &quot;Subject: %s&quot; %Subject,
+                    text
+                    ))
+print body
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This probably answers her question, but I am apparently in the mood to spend a lot of time writing about Python basics. Sounds like blog gold to me.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There’s a problem with <code>body</code> if you want to use it for an actual email message. There needs to be a blank line between the headers and the body. One way to do that is to use <code>join</code> twice: once to build the header block and again to create a properly laid-out email message.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">Subject = &quot;Testmail&quot;
+To = &quot;yeahright@nonotreallyawebsiteihope.com&quot;
+From = &quot;yeahright@nonotreallyawebsiteihope.com&quot;
+
+text = &quot;Test&quot;
+
+header_block = &quot;\r\n&quot;.join((
+    &quot;From: %s&quot; % From,
+    &quot;To: %s&quot; % To,
+    &quot;Subject: %s&quot; % Subject
+    ))
+
+# A full email has a blank line between the header block and the message body
+body = &quot;\r\n\r\n&quot;.join((header_block, text))
+print body
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The header block still looks a little clumsy. I am sure there is a prettier way to generate it. When I look at how the header block is printed, I realize that it looks a lot like a Python dictionary. Does the code look any clearer if I use a dictionary?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">headers = {
+    &quot;Subject&quot;: &quot;Testmail&quot;,
+    &quot;To&quot;: &quot;yeahright@nonotreallyawebsiteihope.com&quot;,
+    &quot;From&quot;: &quot;yeahright@nonotreallyawebsiteihope.com&quot;
+}
+
+text = &quot;Test&quot;
+
+# Each line of a header block contains a single email header,
+# which looks like &quot;Header-Field: Header-Value&quot;
+header_block = &quot;\r\n&quot;.join((&quot;From: %s&quot; % headers['From'],
+                            &quot;To: %s&quot; % headers['To'],
+                            &quot;Subject: %s&quot; % headers['Subject']))
+
+# A full email has a blank line between the header block and the message body
+body = &quot;\r\n\r\n&quot;.join((header_block, text))
+
+print body
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Well, no. Not really. I think I’m actually typing <em>more</em> than I was before, and it’s not really any easier to read. It’s all that <code>&quot;From: %s&quot; % headers['From']&quot;</code> nonsense.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>join</code> takes a sequence. I do not have to hand it a literal like we have been doing so far. Let’s build a list of header lines, and <em>then</em> join them.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">headers = {
+    &quot;Subject&quot;: &quot;Testmail&quot;,
+    &quot;To&quot;: &quot;yeahright@nonotreallyawebsiteihope.com&quot;,
+    &quot;From&quot;: &quot;yeahright@nonotreallyawebsiteihope.com&quot;
+}
+
+text = &quot;Test&quot;
+
+# Each line of a header block contains a single email header,
+# which looks like &quot;Header-Field: Header-Value&quot;
+header_lines = []
+
+for field, value in headers.items():
+    header_line = &quot;%s: %s&quot; % (field, value)
+    header_lines.append(header_line)
+
+header_block = &quot;\r\n&quot;.join(header_lines)
+
+# A full email has a blank line between the header block and the message body
+body = &quot;\r\n\r\n&quot;.join((header_block, text))
+
+print body
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It is easier to read, even if it is a little longer. We are building a list of header lines by stepping through each of the key/value pairs that make up the <code>headers</code> dictionary. Oh, and don’t worry about what order the items are printed in. That order doesn’t matter in email messages.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>One thing — and this is a little thing — is that it takes us four lines of code to build the list. Like I said, it’s a little thing. But building lists like this is so common that Python provides powerful tools called <a href="http://docs.python.org/tutorial/datastructures.html#list-comprehensions">list comprehensions</a>, which can reduce those four lines into one.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">headers = {
+    &quot;Subject&quot;: &quot;Testmail&quot;,
+    &quot;To&quot;: &quot;yeahright@nonotreallyawebsiteihope.com&quot;,
+    &quot;From&quot;: &quot;yeahright@nonotreallyawebsiteihope.com&quot;
+}
+
+text = &quot;Test&quot;
+
+# Each line of a header block contains a single email header,
+# which looks like &quot;Header-Field: Header-Value&quot;
+header_lines = [&quot;%s: %s&quot; % (field, value) for (field, value) in headers.items()]
+header_block = &quot;\r\n&quot;.join(header_lines)
+
+# A full email has a blank line between the header block and the message body
+body = &quot;\r\n\r\n&quot;.join((header_block, text))
+
+print body
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>All right. Now if this were an <em>actual</em> email, there are some missing headers. There are probably also some details missing that are related to email handling. Rather than try to figure out what’s missing, I’m going to suggest that you use the <a href="http://docs.python.org.library.email.html">email</a> library that comes standard with Python.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">from email.mime.text import MIMEText
+
+headers = {
+    &quot;Subject&quot;: &quot;Testmail&quot;,
+    &quot;To&quot;: &quot;yeahright@nonotreallyawebsiteihope.com&quot;,
+    &quot;From&quot;: &quot;yeahright@nonotreallyawebsiteihope.com&quot;
+}
+
+text = &quot;Test&quot;
+
+msg = MIMEText(text)
+for field, value in headers.items():
+    msg[field] = value
+
+print msg.as_string()
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>And what does the end result look like?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-http">Content-Type: text/plain; charset=&quot;us-ascii&quot;
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+To: yeahright@nonotreallyawebsiteihope.com
+From: yeahright@nonotreallyawebsiteihope.com
+Subject: Testmail
+
+Test
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There you go. If your end goal is generating emails, use the Python email library.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

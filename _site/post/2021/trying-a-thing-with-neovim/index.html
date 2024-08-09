@@ -1,0 +1,874 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2021/trying a thing with neovim
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><p>testing a Python remote plugin for quicker reStructuredText in Hugo</p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2021-08-09</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>But will it even work?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Oh right I need to <code>:UpdateRemotePlugins</code> first.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Test [PASSED]</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It worked!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>What did I just do</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I used a <a href="https://neovim.io/doc/user/remote_plugin.html">remote plugin</a> in <a href="/neovim" class="page-link">Neovim</a> to transform my <a href="/restructuredtext" class="page-link">reStructuredText</a> into an HTML source document, simplifying <a href="/hugo" class="page-link">Hugo</a>'s site-building duties.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I won’t make you wait around for a proper post. Hugo lets you use reStructuredText.  But Hugo’s way is slow and hard to customize. Not their fault. reStructuredText is not their focus.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Still — why not format it ahead of time?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p>Answer: because it took a lot of work to figure this out? And most folks are perfectly happy with Markdown? And bloggers who prefer reStructuredText are probably using <a href="/pelican" class="page-link">Pelican</a> or <a href="/nikola" class="page-link">Nikola</a>?</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Shush, me.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>The implementation1</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Start with <code>content/whatever/index.rst.txt</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Make sure Hugo won’t track <code>rst.txt</code> files by explicitly adding an item the <a href="https://gohugo.io/getting-started/configuration/#ignore-content-and-data-files-when-rendering"><code>ignoreFiles</code></a> config setting.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-toml"># config.toml
+ignoreFiles = ['\.rst\.txt$']
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This way <code>hugo server --navigateToChanged</code> behaves how we expect.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I tried setting <code>ignoreFiles = ['\.rst$']</code> but as far as I could tell, Hugo ignored my request to ignore the file. Looks like I’m sticking with <code>.rst.txt</code> for now.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>With the code down below in my Neovim python3 — that’s <em>python3</em> not <em>python</em> — rplugin folder, and remote plugins updated, I write <code>index.rst.txt</code> to disk.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The remote plugin transforms it to HTML, copying my YAML frontmatter as is. So what Hugo sees is updated HTML with frontmatter, and builds that into the site templates nice and quick.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>The code</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">&quot;&quot;&quot;Give my reStructuredText posts in Hugo a little boost.&quot;&quot;&quot;
+
+import locale
+
+import frontmatter
+import pynvim
+from docutils.core import publish_parts
+
+locale.setlocale(locale.LC_ALL, &quot;&quot;)
+
+
+def determine_target(source: str) -&gt; str:
+    # Using an odd suffix so Hugo doesn't try to build the rst itself
+    if not source.endswith(&quot;.rst.txt&quot;):
+        raise ValueError(f&quot;Look at {source} more closely before transforming it.&quot;)
+
+    return source.replace(&quot;.rst.txt&quot;, &quot;.html&quot;)
+
+
+@pynvim.plugin
+class RSTBuildHugo:
+    def __init__(self, nvim):
+        self.nvim = nvim
+
+    @pynvim.autocmd(&quot;BufWritePost&quot;, pattern=&quot;*.rst.txt&quot;, eval='expand(&quot;&lt;afile&gt;&quot;)')
+    def convert_file(self, source_filename: str) -&gt; None:
+        target_path = determine_target(source_filename)
+        post = frontmatter.load(source_filename)
+        parts = publish_parts(source=post.content, writer_name=&quot;html&quot;)
+        post.content = parts[&quot;body&quot;]
+        post.metadata[&quot;format&quot;] = &quot;rst&quot;
+
+        with open(target_path, &quot;w&quot;) as out:
+            out.write(frontmatter.dumps(post))
+
+        self.nvim.out_write(f&quot;Wrote {target_path}\n&quot;)
+</code></pre>
+<p>caption:: <code>~/.config/nvim/rplugin/python3/rstbuild_hugo.py</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Lord knows this code ain’t perfect. This post is its main test. Who knows what bugs and improvements will come later?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p><em>You</em> will, if you skim the Updates at the end.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>If you copy it down for your own nefarious plans — a similar template could get you fast Asciidoctor transforms as well — just remember a couple things:</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>make sure the Python you’re using has the libraries needed; I listed my  choices below</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>put it in the right folder; <code>rplugin/python</code> is for Python 2; <code>rplugin/python3</code> is for Python 3</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>run <code>:UpdateRemotePlugins</code> and restart Neovim when you make changes to the plugin file</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Libraries used</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="https://docutils.sourceforge.io/">Docutils</a> of course, for transforming the reStructuredText</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Docutils takes advantage of the fact that I have <a href="https://pygments.org/">Pygments</a> installed, for syntax highlighting</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="https://python-frontmatter.readthedocs.io/en/latest/index.html">Python Frontmatter</a> gives me a consistent tool for handling post frontmatter and content</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="https://pynvim.readthedocs.io/en/latest/">pynvim</a> is the bit that hooks it all into Neovim</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

@@ -1,0 +1,1633 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2017/Beets and iTunes
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><p>beets and AppleScript helped me fix my incorrect track information</p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2017-10-01</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>My macOS iTunes music library includes over 21,000 songs. Some of those tracks contain the wrong information. Wrong title, wrong album, wrong artist, wrong year.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Beets</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The open source <a href="http://beets.io/">Beets</a> command line tool helps manage your music library.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <blockquote>
+<p>The purpose of beets is to get your music collection right once and for all. It catalogs your collection, automatically improving its metadata as it goes using the <a href="https://musicbrainz.org/">MusicBrainz</a> database. Then it provides a bouquet of tools for manipulating and accessing your music.</p>
+</blockquote>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="http://beets.readthedocs.io/en/v1.4.5/plugins/index.html">Plugins</a> allow beets to perform more than media management. I won’t talk about most of them today. I don’t want to overwhelm myself. I will keep my focus on using beets from the command line to help me fix my iTunes library.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Alternatives</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I prefer command line open source tools. It’s a comfortable habit. You have other options, though.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>If you prefer using a mouse, try out <a href="https://picard.musicbrainz.org">Picard</a> from MusicBrainz. Its manual includes an <a href="https://musicbrainz.org/doc/iTunes_Guide">iTunes guide</a>, so you won’t have to guess your way through the
+process.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="http://www.tuneupmedia.com/">TuneUp</a> is a commercial application that integrates with iTunes. I haven’t used it, but TuneUp was the first thing that came up in most of my initial research into fixing my tracks.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Installation and configuration</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>beets is written in <a href="/python" class="page-link">Python</a>. It works with both Python 2 and 3, but I had better results with my hooks when using Python 2.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I already installed <a href="https://github.com/pyenv/pyenv">pyenv</a> and <a href="https://github.com/pyenv/pyenv-virtualenv">pyenv-virtualenv</a> via <a href="https://brew.sh/">Homebrew</a>. They aren’t strictly needed, but having distinct environments simplifies things when you have several Python-related projects.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ pyenv virtualenv 2.7.14 beets
+$ pyenv shell beets
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>beets uses <a href="https://pypi.python.org/pypi/pyacoustid">pyacoustid</a> for acoustic fingerprinting, which helps identify tracks by their audio data. pyacoustid needs the <a href="https://acoustid.org/chromaprint">Chromaprint</a> library, so I install that also.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ brew install chromaprint
+$ pip install beets pyacoustid
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This <a href="https://groups.google.com/forum/#!topic/beets-users/yijEk858yiw">Google Groups thread</a> got me started on configuration. My settings focus on safely cataloging music rather than organizing it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-yaml"># using default library ~/.beets/config/library.db
+# using default directory ~/Music, but see 'copy'
+
+plugins: chroma edit ftintitle fromfilename importadded hook
+
+import:
+  copy: no         # Copy the file to our directory when importing?
+  incremental: yes # Skip directories we already imported?
+  write: no        # Automatically write the file on library import / update?
+  resume: yes      # Resume interrupted imports?
+  log: beets.log   # Where should we write what we do?
+
+match:
+  strong_rec_thresh: 0.1            # Any difference less than this is a strong recommendation
+  preferred:                        # Put these at the top of recommendations
+    countries: [US, GB|UK]          # My favorite music publishing countries
+    media: [CD, Digital Media|File] # My favorite music sources
+    original_year: yes              # entry year is close to entry original_year
+
+# Tell iTunes to add and/or update the track in its library after we write a file.
+hook:
+  hooks:
+    - event: after_write
+      command: osascript /Users/brianwisti/bin/iTunesRefresh.scpt &quot;{item.path}&quot;
+</code></pre>
+<p>caption:: <code>~/.config/beets/config.yaml</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The plugins add important functionality.</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="http://beets.readthedocs.io/en/v1.4.5/plugins/chroma.html">chroma</a></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Use acoustic fingerprinting to identify songs by their sound. Slower, but helps with tracks that have bad metadata.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="http://beets.readthedocs.io/en/v1.4.5/plugins/edit.html">edit</a></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Edit details of your songs after importing</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="http://beets.readthedocs.io/en/v1.4.5/plugins/ftintitle.html">ftintitle</a></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Puts featured artist information in song title instead of artist.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="http://beets.readthedocs.io/en/v1.4.5/plugins/fromfilename.html">fromfilename</a></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Try to guess missing metadata from the filename of a song.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="http://beets.readthedocs.io/en/v1.4.5/plugins/importadded.html">importadded</a></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Use the file’s modification time to determine when you added it to your library. Useful for importing an existing library.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="http://beets.readthedocs.io/en/v1.4.5/plugins/hook.html">hook</a></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Run commands for specific beet events.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="tip"><header>tip</header><p>Oh in iTunes uncheck <em>Preferences &gt; Advanced &gt; “Keep iTunes Media folder organized”</em>. Otherwise you’ll end up deleting and reimporting songs that iTunes moved.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Configuration is out of the way. Let’s import music.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ beet import ~/Music/iTunes/iTunes Media/Music
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Importing a large music library takes time, especially with acoustic fingerprinting. My music took a full weekend, even with <code>match</code> settings giving it more leeway to automatically use the likeliest matches. But at the end of it all, here’s what I had.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ beet stats
+Tracks: 22112
+Total time: 8.7 weeks
+Approximate total size: 107.8 GiB
+Artists: 2498
+Albums: 2405
+Album artists: 1117
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I won’t tell you about all the amazing <a href="http://beets.readthedocs.io/en/v1.4.5/reference/query.html">query support</a> or <a href="http://beets.readthedocs.io/en/v1.4.5/reference/pathformat.html">format strings</a> in beets. Instead let’s just list matches for a random word.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ beet ls pigeon
+Bert - Songs From the Street: 35 Years of Music - Doin' the Pigeon
+Cyndi Lauper - Hat Full of Stars - Sally's Pigeons
+Cyndi Lauper - Twelve Deadly Cyns... and Then Some - Sally's Pigeons
+Tom Lehrer - An Evening Wasted With Tom Lehrer - Poisoning Pigeons in the Park
+Lo Fidelity Allstars - How to Operate With a Blown Mind - Battle Flag feat. Pigeonhed
+RJD2 - Have Mercy - Have Mercy (Remix feat Lyrics Born and Pigeon John)
+RJD2 - Have Mercy - Have Mercy (Remix feat Lyrics Born and Pigeon John)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Looks like I have some duplicates. I can worry about that another day.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Tell Beets to tell iTunes to refresh</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now that beets has imported everything, it’s time to write it all back out and update the iTunes library.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Write some AppleScript</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p>I spent a full day trying to make JXA work for this. It didn’t. I kept crashing Script Editor with whimsical directives like <code>console.log(iTunes)</code>. If you want to try JXA, look at this <a href="https://www.macstories.net/tutorials/getting-started-with-javascript-for-automation-on-yosemite/">blog post on JavaScript and iTunes</a>, or the <a href="https://github.com/JXA-Cookbook/JXA-Cookbook/wiki/iTunes">JXA Cookbook page for iTunes</a>.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I rarely use <a href="https://developer.apple.com/library/content/documentation/AppleScript/Conceptual/AppleScriptX/AppleScriptX.html">AppleScript</a>, so it took a combination of Web searching and guesswork to come up with this. <a href="https://dougscripts.com/itunes/2010/12/get-a-track-reference-from-a-file-path/">This post</a> from <a href="https://dougscripts.com/itunes/index.php#whatsnew">Doug’s AppleScripts for iTunes</a> blog and this <a href="https://apple.stackexchange.com/questions/202504/searching-itunes-library-for-file-location#222834">Ask Different answer</a> got me most of the way there. The guesswork finished it off.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-applescript">on run (argv)
+  tell application &quot;iTunes&quot;
+    set filename to POSIX file (argv's item 1 as string) as alias
+    try
+      set trackRef to (add filename)
+      refresh trackRef
+    end try
+  end tell
+end run
+</code></pre>
+<p>caption:: <code>~/bin/iTunesRefresh.scpt</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>The Beets hook</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>osascript</code> lets you run AppleScript commands and files from the command line. This <code>after_write</code> hook is only called when song metadata is updated in the file itself.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Writing every track with the hook after that big import took about four hours — but I could leave it in the background while I did other stuff.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>After the big import</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Sometimes beets identifies tracks incorrectly. It happens. For example, Bob Dylan did not sing <a href="https://youtu.be/DohRa9lsx0Q">Stuck in the Middle With You</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I could <a href="http://beets.readthedocs.io/en/v1.4.5/reference/cli.html#modify">modify</a> that song with <code>beets modify</code>, but I can also do it with the <a href="http://beets.readthedocs.io/en/v1.4.5/plugins/edit.html">edit plugin</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ beet edit `stuck in the middle`
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This pulls up <code>$EDITOR</code>, which in my case is Vim.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/beet-edit-screen_1721662746376_0.png" alt="beet-edit-screen.png"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>After the import and update, I saw something else in iTunes that bugged me. iTunes can sort by <code>year</code>, but not by <code>original_year</code> — the year an album was originally released, rather than the year that particular file or CD was available.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I don’t know how to edit that with beets commands, but I can work directly with its underlying SQLite database. Maybe I’m being a little bold here, but I can always spend another weekend reimporting my music.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-sql">sqlite&gt; update items set year = original_year where year != original_year and original_year != 0;
+sqlite&gt; update albums set year = original_year where year != original_year and original_year != 0;
+</code></pre>
+<p>caption:: <code>sqlite3 ~/.config/beets/library.db</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>beet write</code> finalizes those changes, and updates iTunes again thanks to the <code>after_write</code> hook.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Everything worked out for me this time. But remember, if you change values in the database, they happen <a href="https://xkcd.com/180/">in real life</a> too!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p>Then somebody mentioned that I could skip this particular mess by setting the <a href="http://beets.readthedocs.io/en/v1.4.5/reference/config.html#original-date">original date</a> option to <code>yes</code> in my beets configuration. beets will update a song’s <code>year</code>, <code>month</code>, and <code>day</code> fields to reflect the values in <code>original_date</code>. Use that setting if you would rather not poke around in the database.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>What next</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That’s good enough for today. I’ll correct entries as I see them, but things are definitely better than when I started.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>To see what you can do with beets, check out the plugins.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Play with the query support and format strings. Have fun!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

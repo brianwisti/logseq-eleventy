@@ -1,0 +1,948 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2010/Parrot Babysteps 0c - The Stellar App
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2010-07-15</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="/post/2009/parrot-babysteps" class="page-link">post/2009/Parrot Babysteps</a> continues. We have accomplished the hard part with our star catalog: checking a single star to see if it has the traits we’re looking for. Today we just have to use that logic to search a set of stars. First we’ll examine a handpicked selection. Guess what happens after that? We finally get back into the full <a href="http://www.astronexus.com">HYG Catalog</a> and search for stars from the command line. That’s right. After all this work, <code>stellar</code> grows up and becomes an application.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p>There are easier ways to get searches out of a large CSV file. If that was really all I wanted to do, I could use a higher level language like <a href="/perl" class="page-link">Perl</a> or <a href="/python" class="page-link">Python</a> to feed the CSV into a <a href="/sqlite" class="page-link">SQLite</a> database and directly query the database. However, we are not building a SQL database. We are learning how to do interesting things with <a href="/parrot" class="page-link">Parrot</a>.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Building a Catalog and Searching It</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The first thing that’s tripping me up is how to set up the catalog itself. You know the “set of stars” I was talking about? The easy way to do this from a test is to have a few CSV strings for some sample stars, apply <code>extract_from_csv</code> to each of them, push each star into an array, then search through the array. Thing is, I <em>know</em> that this is not going to be acceptable when I get to the real data. I expect this application to be one where you run it from the command line, using your search conditions as command line arguments. Loading all the data before searching it takes time. I should write this code so that it searches while reading in data. That would be much faster.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>On the other hand, what if I add an interactive prompt to this application later? Loading the full catalog into memory before applying searches could be faster in the long run compared to reading the data file for every search.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That is trying to predict the future, though. I know how I want to use this catalog today. I want to run a search and see the results as soon as the application knows about them.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>#+BEGIN_NOTE
+I will share a secret. I spent a day writing the “load then search” approach to building the catalog. Guess what? It is unbearably slow at my current Parrot skill level. I am confident that this is only
+slow because my code overall is simplistic. Maybe I can revisit this idea after learning more about Parrot.
+#+END_NOTE</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Searching the Catalog</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I do not want to dig right into searching the full 119,617 entries of the real catalog. Instead, let’s set up a small test catalog and write some tests.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Where you put your test data is a matter of taste. I will be keeping my data in a folder named <code>data</code>. That seems reasonable.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ mkdir data
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Only a few entries are needed in the test catalog. We just need to be sure that the code works with a CSV file with the same structure as the HYG database. I’ll grab Sol, another G2V spectrum star, and a K3V star.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-0c-01/data/test-catalog.csv
+StarID,HIP,HD,HR,Gliese,BayerFlamsteed,ProperName,RA,Dec,Distance,PMRA,PMDec,RV,Mag,AbsMag,Spectrum,ColorIndex,X,Y,Z,VX,VY,VZ
+0,,,,,,Sol,0,0,0.000004848,0,0,0,-26.73,4.85,G2V,0.656,0,0,0,0,0,0
+80,80,224817,,,,,0.01611947,-11.82353722,64.143681847338,419.04,-82.83,,8.40,4.36423057594421,G2V,0.566,62.7822,0.26494,-13.14292,-5.827e-06,0.000130277,-2.5209e-05
+7358,7372,9770,,Gl  60 A,,,1.58359898,-29.91056753,23.6462520690471,85.56,96.58,34.2,7.11,5.2411884257345,K3V,0.909,18.76027,8.25627,-11.79114,2.8852e-05,2.3413e-05,-7.844e-06
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The test data is out of the way, so now I feel comfortable writing the tests that use it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-0c-01/t/05-search-catalog.t
+.include 'lib/stellar.pir'
+
+.sub 'main' :main
+	.include 'test_more.pir'
+
+	plan(5)
+
+	.local string csv_filename 
+	.local pmc    matches
+	.local pmc    star
+	
+	csv_filename = 'data/test-catalog.csv'
+	matches = search_catalog(csv_filename, 'ProperName', 'Sol')
+	is(matches, 1, 'There should be one star named &quot;Sol&quot;')
+	star = matches[0]
+	$S0 = star['ProperName']
+	is($S0, 'Sol', 'That star should be Sol')
+
+	matches = search_catalog(csv_filename, 'Spectrum', 'G2V')
+	is(matches, 2, 'There are two G2V stars in the test catalog')
+
+	matches = search_catalog(csv_filename, 'Spectrum', 'K3V')
+	is(matches, 1, 'There should be one K3V star in the test catalog')
+
+	matches = search_catalog(csv_filename, 'Spectrum', 'G2V', 'ColorIndex', '0.566')
+	is(matches, 1, 'There should be one G2V star with Spectrum G2V and ColorIndex 0.566')
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I am deliberately keeping the tests simple right now. The goal is to make sure the basic functionality works rather than to guarantee behavior for every little detail. Tests can be added for those details as they become important.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The actual <code>search_catalog</code> sub borrows quite a bit from <a href="/post/2009/parrot-babysteps-07-writing-subroutines" class="page-link">post/2009/Parrot Babysteps 07 - Writing Subroutines</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-0c-01/lib/stellar.pir
+
+.loadlib 'io_ops'
+
+# ...
+.sub search_catalog
+	.param string filename
+	.param pmc    conditions :slurpy
+	.local pmc    chomp
+	.local pmc    matches
+	.local pmc    catalog
+	.local string current_line
+	.local pmc    current_star
+	.local pmc    is_match
+
+	load_bytecode 'String/Utils.pbc'
+	chomp = get_global ['String';'Utils'], 'chomp'
+
+	matches = new 'ResizablePMCArray'
+
+	catalog = open filename, 'r'
+	current_line = readline catalog # Ignore header line
+
+  READ_LINE:
+	unless catalog goto RETURN_MATCHES
+	current_line = readline catalog
+	current_line = chomp(current_line)
+	current_star = extract_from_csv_line(current_line)
+	is_match = check_star(current_star, conditions :flat)
+	if is_match goto REMEMBER_MATCH
+	goto READ_LINE
+
+  REMEMBER_MATCH:
+	push matches, current_star
+	goto READ_LINE
+
+  RETURN_MATCHES:
+	close catalog
+	.return(matches)
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>search_catalog</code> will handle the task of reading the file and looking for stars that match the search conditions it has been given. After it defines a star from the current line, it asks <code>check_star</code> to compare that star to the set of conditions it has been given. It remembers the stars that match, and returns them once it has reached the end of the file. It is not the fastest approach, but it works.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It works well enough that I am ready to add real data and some way for people to use it!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Searching From The Command Line</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now that we know <code>stellar</code> can read a CSV and return results, it’s time to work on that empty <code>main</code> that has been sitting in <code>stellar.pir</code>. Oh yeah - we will want to make <code>hygxyz.csv</code> available now. I will be pushing my copy into the <code>data</code> folder, next to <code>test-catalog.csv</code>. You can place your copy wherever you like, but make sure that you set the path appropriately in <code>main</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-0c-02/lib/stellar.pir
+
+.loadlib 'io_ops'
+
+.sub 'main' :main
+	.param pmc    conditions
+	.local string csv_file
+	.local pmc    matches
+	.local pmc    matches_iter
+	.local pmc    star
+	.local string summary
+	.local int    match_count
+
+	$S0 = shift conditions # ignore my own filename
+	csv_file = 'data/hygxyz.csv'
+	matches = search_catalog(csv_file, conditions :flat)
+	matches_iter = iter matches
+
+  NEXT_MATCH:
+	star = shift matches_iter
+	summary = summarize_star(star)
+	say summary
+	if matches_iter goto NEXT_MATCH
+
+	match_count = matches
+	print match_count
+	say &quot; matches.&quot;
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Here is the result of all that work we have done setting up the project and  support code. The main subroutine in <code>stellar</code> is downright civilized compared to what we had for step 07. All we do is search based on the command line parameters and display each of the matches.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ parrot lib/stellar.pir Spectrum G2V ColorIndex 0.656
+&lt;Name: Sol, Spectrum: G2V, Distance: 0.000004848&gt;
+&lt;Name: HD 7186, Spectrum: G2V, Distance: 112.359550561798&gt;
+&lt;Name: HD 140235, Spectrum: G2V, Distance: 60.1684717208183&gt;
+&lt;Name: HD 169019, Spectrum: G2V, Distance: 108.108108108108&gt;
+4 matches.
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Hey, this thing is almost useful!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Conclusion</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>stellar</code> has reached a major milestone. When I started fiddling with the <a href="http://astronexus.com/node/34">HYG Database</a>, I wanted to write a command-line Parrot tool that could look up stars based on specific fields. This step gives us that ability. I admit that a lot more could be done. For example, it only does exact matches. You can easily find a star that is <code>108.108108108108</code> light years away, but not stars that are roughly <code>108</code> light years away. And forget about finding stars within 20 light years.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I am going to take a little break from the <code>stellar</code> project, though.  <a href="http://rakudo.org">Rakudo Star</a> is almost out, and I want to play with that.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You can add to <code>stellar</code> yourself. Make it faster. Make it object-oriented. Make it a library. Rewrite it in LOLCODE. Have fun. Just remember to give <a href="http://astronexus.com/node/10">David Nash</a> credit for creating the HYG Database.  We have been having all of this fun because he took the time to put that catalog together.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Enjoy yourself!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

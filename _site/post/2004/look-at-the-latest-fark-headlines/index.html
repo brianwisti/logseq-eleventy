@@ -1,0 +1,1680 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2004/Look at the Latest Fark Headlines
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><p><em class="link-missing">ruby,learn,coolnamehere</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2004-09-17</em></p>
+</td>
+          </tr>
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>The Problem</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I want to look at the <a href="http://fark.com/">Fark</a> headlines without opening a browser. Why? I dunno, maybe I just want to see what’s new since the last time I looked, without being distracted by the site clutter.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now, I could just turn off images and go to the site, and that would work fine. Actually, it would work quite well. No need for this article, then. I’m off for some coffee …</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What? I <em>have</em> to write something in here about <a href="/ruby" class="page-link">Ruby</a>? … okay.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>ahem.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I want to look at the Fark headlines without opening a browser. Why? Well, as it so happens, I am logged into a machine via <code>ssh</code>, and using <code>elinks</code> to load the page will result in a lot of extra clutter from text versions of ads which obscure the headlines. I’m just interested in seeing what interesting, scary, or amusing things have been posted on Fark since the last time I checked.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Finding a Solution</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Well, we could always just dump the Fark page to the console:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">require 'open-uri'
+
+headlines = open('http://www.fark.com/').read()
+puts headlines
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Three lines of code and we have output.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">$ ruby19 fark.rb
+⋮
+&lt;!-- START copyright_html() --&gt;
+&lt;div id=&quot;footer&quot;&gt;
+&lt;span class=&quot;boldy&quot;&gt;&lt;a target=&quot;_top&quot; href=&quot;http://www.fark.com/nomirror/&quot;&gt;&lt;/a&gt;\
+Copyright &amp;copy; 1999-2009 Fark, Inc&lt;/span&gt;&lt;br&gt;
+&lt;strong&gt;Last updated: Mon Mar  9 16:28:19 2009&lt;/strong&gt;&lt;br&gt;
+&lt;a target=&quot;_top&quot; href=&quot;http://www.fark.com/cgi/feedback.pl&quot;&gt;Contact us&lt;/a&gt; | &lt;\
+a target=&quot;_top&quot; href=&quot;http://www.fark.com/cgi/feedback.pl?type=error&quot;&gt;Report a\
+bug/error msg&lt;/a&gt;&lt;br&gt;
+&lt;a target=&quot;_top&quot; href=&quot;http://www.fark.com/farq/legal.shtml&quot;&gt;Terms of service/\
+legal/privacy policy&lt;/a&gt;
+&lt;br&gt;
+&lt;div class=&quot;finalfootnote&quot;&gt;&lt;script type=&quot;text/javascript&quot;&gt;
+//&lt;![CDATA[
+document.write('&lt;'+'img src=&quot;http://www.fark.com/cgi/ll.pl?l=H384ABPoSz-uDukni\
+hQDAVhlkEgde6Pxu7ZO_uxPBp5SfD&amp;amp;v='); var fw=(window.innerWidth) ? window.in\
+nerWidth : document.body.offsetWidth; var fh=(window.innerHeight) ? window.inn\
+erHeight : document.body.offsetHeight; var fc=window.screen.colorDepth; docume\
+nt.writeln(((fh*8192)+fw)+'&amp;amp;c='+fc+'&quot; width=&quot;4&quot; height=&quot;1&quot; alt=&quot;&quot;'+'&gt;');
+//]]&gt;&lt;/script&gt;&lt;noscript&gt;&lt;img src=&quot;http://www.fark.com/cgi/ll.pl?l=H384ABPoSz-u\
+DuknihQDAVhlkEgde6Pxu7ZO_uxPBp5SfD&amp;amp;v=0&quot; width=&quot;4&quot; height=&quot;1&quot; alt=&quot;&quot;&gt;&lt;/nosc\
+ript&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- END copyright_html() --&gt;
+&lt;/div&gt; &lt;!-- siteContainer --&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>But running this doesn’t quite get the result I was looking for. I just want the headlines, and I want them without the HTML, thank you very much.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Fark and a lot of other news sites make <a href="/rss" class="page-link">RSS</a> feeds available. These are special XML files containing mainly — you guessed it, the headlines, without the HTML, you’re very welcome.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p><em class="link-missing">2024-03-30</em>: but as seen in <a href="/post/2017/full-content-hugo-feeds" class="page-link">post/2017/Full Content Hugo Feeds</a>, they <em>can</em> have all the HTML, you’re very welcome.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">require 'open-uri'
+
+url = 'http://www.fark.com/fark.rss'
+headlines = open(url).read()
+puts headlines
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This is a little closer to what we want.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">$ ruby fark.rb
+⋮
+&lt;item&gt;
+&lt;title&gt;&amp;#34;Hindsight isn&amp;#39;t only 20/20, it&amp;#39;s usually also sober&amp;#34; [Dumbass]&lt;/title&gt;
+&lt;description&gt;&lt;![CDATA[Atlanta Journal Constitution]]&gt;&lt;/description&gt;
+&lt;link&gt;http://www.fark.com/cgi/comments.pl?IDLink=4255950&lt;/link&gt;
+&lt;pubDate&gt;Mon, 09 Mar 2009 02:05:43 EDT&lt;/pubDate&gt;
+&lt;guid isPermaLink=&quot;false&quot;&gt;http://www.fark.com/cgi/go.pl?i=4255950&lt;/guid&gt;
+&lt;/item&gt;
+&lt;/channel&gt;
+&lt;/rss&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now I get the RSS file dumped to the console. At least the story headlines are little easier to find. To get the behavior I want, though, we’re going to need to chop out the bits we don’t care about and get straight to the headlines. This task is straightforward in Ruby, thanks to the <a href="http://ruby-doc.org/stdlib/libdoc/rss/rdoc/index.html">RSS</a> library. The RSS library has recently been made an official part of the standard libs, which makes a lot of this exercise much easier.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">require 'open-uri'
+require 'rss'
+
+rss_url = 'http://www.fark.com/fark.rss'
+document = open(rss_url).read()
+rss = RSS::Parser.parse(document)
+rss.items.each do |item|
+  puts item.title
+end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Okay, now what does this look like?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">$ ruby19 fark.rb
+Worried about being the washed-up former high school football star while \
+those nerds you picked on become millionaires later in life? Well, good n\
+ews [Interesting]
+State mental hospital drops off severely ill woman at bus station to make\
+it home by herself. Since this is Fark, you can assume she didn't make it\
+[Sad]
+Professional coffee taster's tongue insured for $14 million. The man's to\
+ngue works magic on the bean [Amusing]
+In celebration of his 69th birthday tomorrow, Chuck Norris will randomly \
+select one lucky child to be thrown into the sun [Hero]
+Moving pot plants to an undisclosed location to deter would-be burglars i\
+s a GREAT idea. Just don't do it using an open-bed pickup truck. Police m\
+ight see you [Florida]
+Nothing solves an $8 billion dollar deficit like a good old fashioned bak\
+e sale [Stupid]
+Yet another indicator of America's continuing decline: pediatricians now \
+recommend that children between the ages of 2 and 10 be routinely screene\
+d for heart disease [Sad]
+Computer glitch caused Austrailian airliner to plunge 1,000 feet and the \
+toilets to flush counterclockwise [Scary]
+This year's Maxwell Smart Special Achievement Award goes to the US Triden\
+t missile program, for keeping the composition of a key material so secre\
+t that no one knows how to make it anymore [Fail]
+Unique portrait of William Shakespeare reveals much about the notorious b\
+ard, such as the stunning realization that he looks like Russell Brand [I\
+nteresting]
+Just what the filthy rich need -- a place to super-poke their filthy rich\
+friends [Dumbass]
+Man/Boy love group NAMBLA puts $10,000 hit on New York's Attorney General\
+; because decades in jail is so worth $10G [Asinine]
+Christian salt, contraceptive robberies, and a wallet full of teeth: Fark\
+'s Headlines of the Week 3/1 to 3/7 [FarkBlog]
+⋮
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This is even better still, but that’s an awful lot of headlines. How about just the most recent ones? How about the last 10?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">require 'open-uri'
+require 'rss'
+- rss_url = 'http://www.fark.com/fark.rss'
+limit = 10
+- document = open(rss_url).read()
+rss = RSS::Parser.parse(document)
+rss.items.each_with_index do |item, index|
+break if index &gt;= limit
+puts item.title
+end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What does it look like now?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">$ ruby19 fark.rb
+Today's moral outrage comes from Geneva, Switzerland, where a known prostitut\
+e activist was buried in the same cemetery as John Calvin [Strange]
+Meghan McCain calls Ann Coulter &quot;offensive&quot; and &quot;insulting,&quot; adding &quot;are you \
+going to finish those fries?&quot; [Interesting]
+Worried about being the washed-up former high school football star while thos\
+e nerds you picked on become millionaires later in life? Well, good news [Int\
+eresting]
+State mental hospital drops off severely ill woman at bus station to make it \
+home by herself. Since this is Fark, you can assume she didn't make it [Sad]
+Professional coffee taster's tongue insured for $14 million. The man's tongue\
+works magic on the bean [Amusing]
+In celebration of his 69th birthday tomorrow, Chuck Norris will randomly sele\
+ct one lucky child to be thrown into the sun [Hero]
+Moving pot plants to an undisclosed location to deter would-be burglars is a \
+GREAT idea. Just don't do it using an open-bed pickup truck. Police might see\
+you [Florida]
+Nothing solves an $8 billion dollar deficit like a good old fashioned bake sa\
+le [Stupid]
+Yet another indicator of America's continuing decline: pediatricians now reco\
+mmend that children between the ages of 2 and 10 be routinely screened for he\
+art disease [Sad]
+Computer glitch caused Austrailian airliner to plunge 1,000 feet and the toil\
+ets to flush counterclockwise [Scary]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now we’ve got it down to the freshest 10, but each item is still filling up a lot of space. One way to cut down the length of each line is to split each headline into multiple lines. Let’s start by cutting the category and title into two separate lines:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">require 'open-uri'
+require 'rss'
+
+rss_url       = 'http://www.fark.com/fark.rss'
+limit         = 10
+title_pattern = Regexp.new %r{\[(.+?)\]\s(.+)$}
+
+document = open(rss_url).read()
+rss = RSS::Parser.parse(document)
+rss.items.each_with_index do |item, index|
+  break if index &gt;= limit
+  title_match = title_pattern.match(item.title)
+  if title_match then
+    puts title_match[1].upcase, title_match[2]
+  end
+end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It’s a lot easier for me to read the output now.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">$ ruby19 fark.rb
+INTERESTING
+Research shows that older fathers tends to has more kids who is dumb
+FLORIDA
+If you want to avoid suspicion of driving under the influence, the first \
+step would be to make sure you're driving on a full set of tires
+INTERESTING
+Vatican claims washing machine is most liberating 20th century invention \
+for women. Sybian didn't even make the list
+STRANGE
+Today's moral outrage comes from Geneva, Switzerland, where a known prost\
+itute activist was buried in the same cemetery as John Calvin
+INTERESTING
+Meghan McCain calls Ann Coulter &quot;offensive&quot; and &quot;insulting,&quot; adding &quot;are \
+you going to finish those fries?&quot;
+INTERESTING
+Worried about being the washed-up former high school football star while \
+those nerds you picked on become millionaires later in life? Well, good n\
+ews
+SAD
+State mental hospital drops off severely ill woman at bus station to make\
+it home by herself. Since this is Fark, you can assume she didn't make it
+AMUSING
+Professional coffee taster's tongue insured for $14 million. The man's to\
+ngue works magic on the bean
+HERO
+In celebration of his 69th birthday tomorrow, Chuck Norris will randomly \
+select one lucky child to be thrown into the sun
+FLORIDA
+Moving pot plants to an undisclosed location to deter would-be burglars i\
+s a GREAT idea. Just don't do it using an open-bed pickup truck. Police m\
+ight see you
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Occasionally I saw HTML entities in the output. <code>&amp;quot;</code>, stuff like that. Let’s fix that problem before we move on to anything else.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">require 'open-uri'
+require 'rss'
+require 'cgi'
+
+rss_url       = 'http://www.fark.com/fark.rss'
+limit         = 10
+title_pattern = Regexp.new %r{\[(.+?)\]\s(.+)$}
+
+document = open(rss_url).read()
+rss = RSS::Parser.parse(document)
+rss.items.each_with_index do |item, index|
+  break if index &gt;= limit
+  title_match = title_pattern.match(item.title)
+  if title_match then
+    category = CGI::unescapeHTML(title_match[2]).upcase
+    title    = CGI::unescapeHTML(title_match[1])
+    puts category, title
+  end
+end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It isn’t an issue this time, but I feel better.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Wherever possible, I’m using standard library tools to get my work done. I’m too lazy to remember escaping every possible HTML entity, and I would rather spend a few minutes searching through the <a href="http://www.ruby-doc.org/stdlib/">Standard Library documentation</a> to find what I need. It’s a good habit, and you might want to try it yourself.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Maybe I only care about particular types of headline. Say, I want to be interested, but not amused.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">require 'open-uri'
+require 'rss'
+require 'cgi'
+
+rss_url            = 'http://www.fark.com/fark.rss'
+limit              = 10
+title_pattern      = Regexp.new %r{\[(.+?)\]\s(.+)$}
+preferred_category = 'INTERESTING'
+
+document = open(rss_url).read()
+rss = RSS::Parser.parse(document)
+rss.items.each_with_index do |item, index|
+  break if index &gt;= limit
+  title_match = title_pattern.match(item.title)
+  if title_match then
+    category = CGI::unescapeHTML(title_match[2]).upcase
+    if category == preferred_category then
+      title = CGI::unescapeHTML(title_match[1])
+      puts title
+    end
+  end
+end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>And it does indeed show me only “interesting” headlines.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">$ ruby19 fark.rb
+New study concludes that viewing television before age 2 has no negative \
+effect on development. Great - NOW who are we supposed to blame for rampa\
+nt toddler sex and violence??
+Research shows that older fathers tends to has more kids who is dumb
+Vatican claims washing machine is most liberating 20th century invention \
+for women. Sybian didn't even make the list
+Meghan McCain calls Ann Coulter &quot;offensive&quot; and &quot;insulting,&quot; adding &quot;are \
+you going to finish those fries?&quot;
+Worried about being the washed-up former high school football star while \
+those nerds you picked on become millionaires later in life? Well, good n\
+ews
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That’s pretty nifty, except that it only looks for Interesting items out of the last 10 headlines, rather than looking for the last 10 Interesting headlines.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">require 'open-uri'
+require 'rss'
+require 'cgi'
+
+rss_url            = 'http://www.fark.com/fark.rss'
+limit              = 10
+title_pattern      = Regexp.new %r{\[(.+?)\]\s(.+)$}
+preferred_category = 'Interesting'
+
+document = open(rss_url).read()
+rss = RSS::Parser.parse(document)
+
+index = 0
+rss.items.each do |item|
+  title_match = title_pattern.match(item.title)
+  if title_match then
+    category = CGI::unescapeHTML(title_match[2])
+    if category.upcase == preferred_category.upcase then
+      title = CGI::unescapeHTML(title_match[1])
+      puts title
+      index += 1
+      break if index &gt;= limit
+    end
+  end
+end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Is this any better?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">$ ruby19 fark.rb
+New study concludes that viewing television before age 2 has no negative \
+effect on development. Great - NOW who are we supposed to blame for rampa\
+nt toddler sex and violence??
+Research shows that older fathers tends to has more kids who is dumb
+Vatican claims washing machine is most liberating 20th century invention \
+for women. Sybian didn't even make the list
+Meghan McCain calls Ann Coulter &quot;offensive&quot; and &quot;insulting,&quot; adding &quot;are \
+you going to finish those fries?&quot;
+Worried about being the washed-up former high school football star while \
+those nerds you picked on become millionaires later in life? Well, good n\
+ews
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Well, we can only look at today’s headlines. I guess we can’t be sure of ten interesting things happening every day. Still, at least I know I’m getting all of the interesting headlines that are available, up to my limit.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Next problem: the only way I can fetch different headline types is to manually dig in to the source code and change the category.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">require 'open-uri'
+require 'rss'
+require 'cgi'
+require 'optparse'
+
+rss_url            = 'http://www.fark.com/fark.rss'
+limit              = 10
+title_pattern      = Regexp.new %r{(.+)\s\[(.+)\]$}
+preferred_category = nil
+
+# Get the preferred category, if any, from the command line.
+opts = OptionParser.new do |opts|
+  opts.banner = &quot;#{$0} [options]&quot;
+  opts.separator(&quot;&quot;)
+  opts.separator(&quot;Specific Options&quot;)
+
+  opts.on(&quot;-c&quot;, &quot;--category CATEGORY&quot;,
+          &quot;Only grab headlines in specific category&quot;) do |cat|
+    preferred_category = cat
+  end
+
+  opts.on_tail(&quot;-h&quot;, &quot;--help&quot;, &quot;Show this usage display&quot;) do
+    puts opts
+  end
+end
+
+opts.parse!(ARGV)
+document = open(rss_url).read()
+rss = RSS::Parser.parse(document)
+
+index = 0
+rss.items.each_with_index do |item, index|
+  break if index &gt;= limit
+  title_match = title_pattern.match(item.title)
+  if title_match then
+    category = CGI::unescapeHTML(title_match[2])
+
+    if preferred_category.nil?
+      puts title, category
+    elsif category.upcase == preferred_category.upcase then
+      puts title
+      index += 1
+      break if index &gt;= limit
+    end
+  end
+end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let’s test it by requesting “PSA” headlines.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ ruby19 fark.rb -c psa
+
+Attention zoo visitors - please do not taunt the concrete chimpanzee
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That works. Pretty nicely, I might add. <a href="http://www.ruby-doc.org/stdlib/libdoc/optparse/rdoc/">OptParse</a> is a great library for handling command-line arguments.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This program now does everything that I set out to do, and then some. I might choose to do a some refactoring to “bulletproof” the code, or wrap it up in some OO niceness to make it pretty. The truth is that this application is exactly what it needs to be for now, and I think that I shouldn’t overwork something that I may never come back to. Maybe later I’ll come back to it when I think of new features or find new bugs, and <em>then</em> I can overwork it to my heart’s content.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I hope you enjoyed working along with me as much as I enjoyed sitting here and typing random nonsense to myself.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>What Else?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I may be done with this exercise for now, but here are a few ideas about features that can be added to make it a little cooler. Go ahead and try them out!</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Add word wrap to make the output a little more readable.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Add a parameter to change the number of headlines grabbed.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Modify so that this script will work with other newsfeeds.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Modify so that the functionality of this script can be embedded in other Ruby programs.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2004/REBOL Datatypes
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><p><em class="link-missing">rebol,coolnamehere</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2004-12-26</em></p>
+</td>
+          </tr>
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>One of <a href="/rebol" class="page-link">REBOL</a>’s strengths is the rich selection of native datatypes. This selection is part of what makes it so easy to express solutions to your problems, because there is less mental mapping to make as you use or create an abstract type to represent an important concept. Learning this selection is also one of the challenges for those who are trying to master the language. I am facing that challenge right now, so I decided to make this table of native REBOL datatypes and how they are expressed.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You can find the full description of all datatypes, along with detailed information about usage, at the following url:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="http://rebol.com/docs/core23/rebolcore-16.html">http://rebol.com/docs/core23/rebolcore-16.html</a></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <table>
+<thead>
+<tr>
+<th>Datatype</th>
+<th>Example</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Decimal</td>
+<td><code>1.2</code></td>
+<td>A number with a fractional component</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td><code>4</code></td>
+<td>A whole number</td>
+</tr>
+<tr>
+<td>Binary</td>
+<td><code>#{ccffcc}</code></td>
+<td>Numbers that don’t use a 10-based system (binary, hex, 64-encoded)</td>
+</tr>
+<tr>
+<td>Block</td>
+<td><code>[ 1 1.2 &quot;Dude!&quot; ]</code></td>
+<td>A collected group of values and words</td>
+</tr>
+<tr>
+<td>Email</td>
+<td><code>dude@sweet.com</code></td>
+<td>An email address</td>
+</tr>
+<tr>
+<td>File</td>
+<td><code>%path/to/file.txt</code></td>
+<td>The name of a file or directory</td>
+</tr>
+<tr>
+<td>Hash</td>
+<td><code>to-hash [ 1 &quot;uno&quot; 2 &quot;dos&quot; 3 &quot;tres&quot; ]</code></td>
+<td>A specialized block for quickly finding data - <em>sort of like dictionaries or associative arrays in other languages</em></td>
+</tr>
+<tr>
+<td>Image</td>
+<td><code>image: load %logo.jpg</code></td>
+<td>A specialized block for holding RGB images - <em>You can also use binary formatting to describe the image within the document itself, if you want</em></td>
+</tr>
+<tr>
+<td>Issue</td>
+<td><code>#Pock-Y-STX-5</code></td>
+<td>Handy for phone numbers, serial codes, clone identification, or credit cards</td>
+</tr>
+<tr>
+<td>List</td>
+<td><code>to-list[1 2 3]</code></td>
+<td>A specialized block for quickly handling large numbers of insertions and removals</td>
+</tr>
+<tr>
+<td>Paren</td>
+<td><code>1 + (2 * 3)</code></td>
+<td>A block that forces immediate evaluation of the values and words it contains</td>
+</tr>
+<tr>
+<td>Path</td>
+<td><code>/geekery/rebol/datatypes</code></td>
+<td>Used to navigate to or find something. Think of subscripting or object methods, and you’re along the right track.</td>
+</tr>
+<tr>
+<td>String</td>
+<td><code>&quot;Dude! What's mine say?&quot;</code></td>
+<td>A series of characters. What we humans often use to form words and sentences.</td>
+</tr>
+<tr>
+<td>Tag</td>
+<td><code>&lt;img src=&quot;slor.jpg&quot; /&gt;</code></td>
+<td>An HTML tag. Having tags as a native datatype makes parsing and writing Web pages very simple.</td>
+</tr>
+<tr>
+<td>URL</td>
+<td><code>http://www.rebol.com/</code></td>
+<td>A URL, used for finding stuff on the Internet.</td>
+</tr>
+<tr>
+<td>Character</td>
+<td><code>#&quot;Z&quot;</code></td>
+<td>Not a string, but a single, solitary character.</td>
+</tr>
+<tr>
+<td>Date</td>
+<td><code>23-Dec-2004</code></td>
+<td>A single specific calendar date, and sometimes the time to go along with it - <em>can be created in a dizzying number of ways in REBOL</em></td>
+</tr>
+<tr>
+<td>Logic</td>
+<td><code>true</code></td>
+<td>The basic boolean values used for evaluating any yes or no questions.</td>
+</tr>
+<tr>
+<td>Money</td>
+<td><code>$8.24</code></td>
+<td>Monetary values. That stuff I never seem to have 2 days after payday.</td>
+</tr>
+<tr>
+<td>None</td>
+<td><code>none</code></td>
+<td>Nothing. No value. Not even zero. Zen, man. - <em>okay, I’m getting a little goofy now</em></td>
+</tr>
+<tr>
+<td>Pair</td>
+<td><code>320x200</code></td>
+<td>An (X,Y) ordered pair used for coordinates on a display or sizes.</td>
+</tr>
+<tr>
+<td>Refinement</td>
+<td><code>system/version</code></td>
+<td>Modifiers used to indicate some variation or extension in the meaning of a value - <em>Adjectives, basically. Neat, eh?</em></td>
+</tr>
+<tr>
+<td>Time</td>
+<td><code>16:25</code></td>
+<td>Hours, minutes, and even seconds, if you like. <em>An entire category of C programming exercises becomes meaningless thanks to this</em></td>
+</tr>
+<tr>
+<td>Tuple</td>
+<td><code>127.0.0.1</code></td>
+<td>A “dotted series” of integers, often useful for version numbers, net addresses, and color values.</td>
+</tr>
+<tr>
+<td>Words</td>
+<td><code>word</code></td>
+<td>Symbols used by REBOL. Might be a variable - or not, depending on how you use it.</td>
+</tr>
+</tbody>
+</table>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>And remember, basically everything is a datatype. Even datatypes.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

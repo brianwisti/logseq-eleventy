@@ -1,0 +1,2894 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2010/Parrot Babysteps 0d - The SpaceTrade Project
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2010-08-02</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I might be done with the <a href="/post/2010/parrot-babysteps-0c-the-stellar-app" class="page-link">post/2010/Parrot Babysteps 0c - The Stellar App</a> application for the moment, but I don’t think I’m done with the space theme in <a href="/parrot" class="page-link">Parrot</a> yet.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Back in the ancient days, there was a nifty game called <a href="https://en.wikipedia.org/wiki/Star_Trader">Star Trader</a>. You and your friends were interstellar merchants trying to earn a few credits (or whatever) in a cold and uncaring universe. Star Trader has had <em>many</em> popular descendants, which have evolved over the generations into games like <a href="http://tradewarsrising.com">Trade Wars Rising</a>,  <a href="http://www.oolite.org/">Oolite</a> and <a href="http://eveonline.com">Eve Online</a>. Those games are interactive and fun and great ways to kill many hours, but I’ve got an itch for something old school. I want to revisit the joy of a text interface that demands your imagination work overtime while you figure out what is going on.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It is possible that I have been playing <a href="http://www.bay12games.com/dwarves/">Dwarf Fortress</a> a little bit too much for my own good.
+This one is going to take some work. It is a fairly elaborate game. The map is random, markets change, and merchants can be haggled with. I can use the <a href="https://web.archive.org/web/20131222221016/http://www.dunnington.u-net.com/public/basicgames/TRADES">original code</a> as a resource, but not very well. The listing I could find was written in a HP-BASIC dialect that I am unfamiliar with. So I have to do more than just copy the game. I’ll have to make a game inspired by Star Trader instead. That seems to be what all the cool kids are doing - assuming you use a rather flexible definition of “cool.”</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I talked about using a text interface, but I know that eventually I will want to choose my own interface for the game. Players can choose their own approach, and bored coders will be able to create new ones. I will start by keeping the game logic as abstract as I can, and worry about the details of play later.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>SpaceTrade Summary</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Space Trade is a turn-based game in which one or more players assumes the role of an interstellar merchant in the future. The game has a fixed number of turns, determined during game setup. Players are competing to have a pilot with the highest worth at the end of the game. The single player goal is to beat her own previous high scores.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Game play occurs on a map of star systems. Each star system has a trade classification, which makes the price of goods vary from one system to the next. There is a port in every system for traders to buy and sell goods, or to upgrade their ship’s capabilities. Traders may attempt to haggle for a more favorable price, but this might not work. As the game progresses, markets may change based on trade activity. A glut of a particular good could temporarily reduce its value, or a run on that good could temporarily increase its value.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Traders may encounter hazards such as planetoids or pirates while travelling between systems. The results of these encounters could be cargo loss or damage to the trader’s ship. If a ship accumulates enough damage without repair, it could be destroyed. Destruction of a ship ends the game for that trader.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Development Tasks</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>My summary is a little vague compared to your average game, but there are a lot of juicy programming tasks in there.</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Creating a star</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Building a star map</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Creating a new trader</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Buying cargo</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Selecting and travelling to a new system</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Selling cargo</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Dealing with changing markets</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Haggling with merchants</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Coping with environmental hazards (pirates, planetoids, etcetera)</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Enabling multiple players</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Upgrading a ship</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Scoring the endgame</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Tracking high scores</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Saving a game in play</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Loading a saved game</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>At each stage, we will work on the simple text interface and add randomization to make gameplay interesting.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I have never written a game in Parrot before. I have not written many games in <em>any</em> language. I understand if one of your questions is “why not use language X?” - where <em>X</em> is Python, Perl, Ruby, Rakudo, D, or something else. I might use language X another time, but then it would be part of the X Babysteps rather than the Parrot Babysteps.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Another question might be “Are we <em>ever</em> going to use Parrot to write a language?” Actually, yes. I’m going to put together a simple script language that handles game behavior. Not a powerful megasmart language for high end projects, but something for building the star map and playing the game itself. It will be used for saving and sharing games, and inevitably for hacking game details. Hey, what fun is a game if you can’t hack it?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That’s three more on-going development tasks, then:</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Developing an interactive user shell</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Randomizing game play elements</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Creating a game scripting language</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This is more complex than Stellar, and it will take more than a few steps to finish it. I am certain there will be a lot of new Parrot territory to explore.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This should be fun. Let’s get started!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Setting up the project</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Thanks to Stellar, I already know how I like to prepare my workspace for a new project.  The setup from <a href="/post/2010/parrot-babysteps-09-simple-projects" class="page-link">post/2010/Parrot Babysteps 09 - Simple Projects</a> will provide the starting point for SpaceTrade.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ mkdir spacetrade
+$ mkdir spacetrade/t
+$ mkdir spacetrade/lib
+$ cd spacetrade
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The <code>setup.pir</code> script will start out the same as the one used for Stellar.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-0d-01/setup.pir
+.sub 'main' :main
+	.param pmc args
+	$S0 = shift args # Ignore my own filename
+	load_bytecode 'distutils.pbc'
+
+	# find out what command the user has issued.
+	.local string directive
+	directive = shift args
+
+	# Used by test mode
+	.local string prove_exec
+	prove_exec = get_parrot()
+
+	setup(directive, 'prove_exec' =&gt; prove_exec)
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There is one basic feature I want to get out of the way before I start handling game logic. User interaction is important. Oh sure, there may eventually be interfaces in <a href="https://github.com/parrot/parrot/blob/master/runtime/parrot/library/Curses.pir">Curses</a> or <a href="https://github.com/parrot/parrot/tree/master/runtime/parrot/library/SDL">SDL</a>, but all that’s needed for now is a simple command line <a href="http://en.wikipedia.org/wiki/Shell_(computing)">shell</a>. This shell will be used to examine the nuts and bolts of SpaceTrade and to play a simple text-based version of the game.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>The SpaceTrade Interactive Shell</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I believe that every interactive shell needs a few minimal components to be useful.</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>A command to quit</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>A command to get help</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>A reasonable way to handle invalid input</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>A sample session with such a minimal shell might look like this:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ parrot lib/spacetrade.pir
+Welcome to SpaceTrade!
+Type ':help' for help, and ':quit' to quit.
+&gt; waffles!
+Unknown command: waffles!
+Type ':help' for help, and ':quit' to quit.
+&gt; :help
+COMMANDS
+:help    This view
+:quit    Exit the shell
+&gt; :quit
+Goodbye!
+$
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Why do I imagine this shell having commands prefixed by a <code>:</code> character? Well, “normal” commands would look normal, but behavior like getting help or quitting the game are only important for dealing with the shell. I want those special shell commands to look different from the normal game commands.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Of course, I may change my mind later. I am fickle.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What is the smallest amount of code I can use to get this end result and still feel comfortable?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-0d-01/lib/spacetrade.pir
+.sub 'main' :main
+	run_shell()
+.end
+
+.sub run_shell
+	.local string input
+	.local pmc    stdin
+	.const string PROMPT     = '&gt; '
+	.const string QUICK_HELP = &quot;Type ':help' for help, and ':quit' to quit.&quot;
+
+	stdin = getstdin
+
+	say &quot;Welcome to SpaceTrade!&quot;
+	say QUICK_HELP
+
+  READLINE:
+	input = stdin.'readline_interactive'(PROMPT)
+	if input == ':quit' goto EXIT
+	if input == ':help' goto SHOW_USAGE
+	goto SHOW_ERROR
+
+  SHOW_USAGE:
+	say &quot;COMMANDS&quot;
+	say &quot;:help    This view&quot;
+	say &quot;:quit    Exit the shell&quot;
+	goto READLINE
+
+  SHOW_ERROR:
+	.local string error_message
+	error_message = &quot;Unknown command: &quot;
+	error_message .= input
+	say error_message
+	say QUICK_HELP
+	goto READLINE
+
+  EXIT:
+	say &quot;Goodbye!&quot;
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This works, but it doesn’t look right.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>For a start, the commands are kind of a mess. When I add commands, I will have to add both an <code>if</code> check in the <code>READLINE</code> section and a line of output in the <code>SHOW_USAGE</code> section. Then there are the blocks I would have to add to provide that actual functionality. No, I do not like this at all. The shell commands should be better organized so that adding and managing features is as easy as possible.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>One approach would be to add a registry which stores the commands recognized by the shell.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Creating a Command Registry</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The idea is that I could have a simple structure that stores information about available commands, and the application could add commands as needed. Let’s start with a simple Hash and two subroutines for adding and evaluating shell commands.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-0d-02/t/01-shell-metacommands.t
+.include 'lib/spacetrade.pir'
+
+.sub 'main' :main
+	.include 'test_more.pir'
+
+	plan(1)
+
+	.local pmc    commands
+	.local string expected
+	.local string output
+
+	commands = new 'Hash'
+	commands = register_command(commands, ':dude', 'say_dude', 'Say &quot;Dude!&quot;')
+	expected = &quot;Dude!&quot;
+	output = evaluate_command(commands, ':dude')
+	is(output, expected, 'User command &quot;:dude&quot; should result in string &quot;Dude!&quot;')
+.end
+
+.sub say_dude
+	.return(&quot;Dude!&quot;)
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The first sub that’s needed is <code>register_command</code>, which will add a <code>:dude</code> entry in the <code>commands</code> Hash with appropriate information.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-0d-02/lib/spacetrade.pir
+
+.sub register_command
+	.param pmc    commands
+	.param string name
+	.param string sub_name
+	.param string explanation
+
+	.local pmc    command
+	.local pmc    callback
+
+	command = new 'Hash'
+	command['sub_name'] = sub_name
+	command['explanation'] = explanation
+	commands[name] = command
+
+  RETURN_COMMANDS:
+	.return(commands)
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There is no special magic going on here. <code>command[':dude']</code> points to a Hash containing a subroutine name and an explanation of the command. <code>commands</code> is returned to the caller once the new command has been added.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You can probably figure out what I expect to happen from the test code. I have a <code>say_dude</code> sub, and somehow I expect the shell to figure out how to call that sub when I ask for it by sending the <code>:dude</code> command. We’ve actually already done this, back when we were grabbing the <code>chomp</code> sub in <a href="/post/2009/parrot-babysteps-06-files-and-hashes" class="page-link">post/2009/Parrot Babysteps 06 - Files and Hashes</a> . The <code>get_global</code> <a href="http://docs.parrot.org/parrot/latest/html/src/ops/var.ops.html">variable opcode</a> will look for a variable with a specified name and return it to us if it exists.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-0d-02/lib/spacetrade.pir
+.sub evaluate_command
+	.param pmc    commands
+	.param string name
+
+	.local string sub_name
+	.local pmc    command_sub
+	.local string output
+
+	sub_name = commands[name;'sub_name']
+	command_sub = get_global sub_name
+	output = command_sub()
+
+	.return(output)
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There is one new bit of strangeness here, though:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>sub_name = commands[name;'sub_name']
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This is called a “complex key,” and lets us directly access the values in the Hash held at <code>commands[name]</code>. Each index in a complex key is separated by a semicolon (<code>;</code>) character.  Without a complex key, we might have to do something like this:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$P1 = commands[name]
+sub_name = $P1['sub_name']
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I did not realize I could use a complex key until I scanned the <a href="http://docs.parrot.org/parrot/latest/html/docs/book/pir/ch04_variables.pod.html">variables chapter</a> of the Parrot PIR Book. It is important to keep reviewing documentation, even if you think you already know a solution. Remember:  regardless of what you know, there is probably a better way.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It is time to add basic error handling to the shell. <code>evaluate_command</code> needs to handle two major error cases.</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>User tries a command that doesn’t exist</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>User tries a command that points to a nonexistent subroutine.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Okay, let’s add the tests.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-0d-03/t/01-shell-metacommands.t
+.sub 'main' :main
+	.include 'test_more.pir'
+
+	plan(3)
+
+	.local pmc    commands
+	.local string expected
+	.local string output
+
+	commands = new 'Hash'
+	commands = register_command(commands, ':dude', 'say_dude', 'Say &quot;Dude!&quot;')
+	expected = &quot;Dude!&quot;
+	output = evaluate_command(commands, ':dude')
+	is(output, expected, 'User command &quot;:dude&quot; should result in string &quot;Dude!&quot;')
+
+	expected = &quot;Unknown command: :sweet&quot;
+	output = evaluate_command(commands, ':sweet')
+	is(output, expected, 'Shell should warn about unknown commands')
+
+	commands = register_command(commands, ':whats-mine-say', 'whats_mine_say', &quot;What's mine say?&quot;)
+	expected = &quot;Invalid command: :whats-mine-say points to nonexistent sub whats_mine_say&quot;
+	output = evaluate_command(commands, ':whats-mine-say')
+	is(output, expected, 'Shell should warn about invalid commands')
+.end
+
+# ...
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>evaluate_command</code> is a little more complicated now, but it is still manageable.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-0d-03/lib/spacetrade.pir
+
+# ...
+
+.sub evaluate_command
+	.param pmc    commands
+	.param string name
+
+	.local string sub_name
+	.local pmc    command_sub
+	.local string output
+
+	sub_name = commands[name;'sub_name']
+	unless sub_name goto UNKNOWN_COMMAND
+	command_sub = get_global sub_name
+	if_null command_sub, INVALID_COMMAND
+	output = command_sub()
+	goto RETURN_OUTPUT
+
+  UNKNOWN_COMMAND:
+	output = &quot;Unknown command: &quot; . name
+	goto RETURN_OUTPUT
+
+  INVALID_COMMAND:
+	output = &quot;Invalid command: &quot; . name
+	output .= &quot; points to nonexistent sub &quot;
+	output .= sub_name
+
+  RETURN_OUTPUT:
+	.return(output)
+.end
+
+# ...
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>One thing that might catch your attention is the <code>if_null</code> opcode.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>if_null command_sub, INVALID_COMMAND
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This will check if <code>command_sub</code> is null, and branch to <code>INVALID_COMMAND</code> if the subroutine we just tried to grab is indeed null. To be perfectly honest with you, I’m not sure if a branch is the same as a <code>goto</code>. It behaves the same in this code, so for now I will pretend that it is the same.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Setting Up Those Default Shell Commands</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This ends up working pretty much the same as the earlier code did, and it’s a bit more flexible. Is this how we make programming languages in Parrot? Well, no. This is not how we make programming languages in Parrot. This is a very simple shell which will have a few simple commands, but try to pass everything else off to the game itself. Proper language development is still a few Babysteps away.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-0d-04/t/01-shell-metacommands.t
+.include 'lib/spacetrade.pir'
+
+.sub 'main' :main
+	.include 'test_more.pir'
+
+	plan(5)
+
+	.local pmc    commands
+	.local string expected
+	.local string output
+
+	commands = new 'Hash'
+	commands = register_command(commands, ':dude', 'say_dude', 'Say &quot;Dude!&quot;')
+	expected = &quot;Dude!&quot;
+	output = evaluate_command(commands, ':dude')
+	is(output, expected, 'User command &quot;:dude&quot; should result in string &quot;Dude!&quot;')
+
+	expected = &quot;Unknown command: :sweet&quot;
+	output = evaluate_command(commands, ':sweet')
+	is(output, expected, 'Shell should warn about unknown commands')
+
+	commands = register_command(commands, ':whats-mine-say', 'whats_mine_say', &quot;What's mine say?&quot;)
+	expected = &quot;Invalid command: :whats-mine-say points to nonexistent sub whats_mine_say&quot;
+	output = evaluate_command(commands, ':whats-mine-say')
+	is(output, expected, 'Shell should warn about invalid commands')
+
+	commands = register_default_commands()
+
+	expected =&lt;&lt;'EXPECTED'
+COMMANDS
+:help    This view
+:quit    Exit the shell
+EXPECTED
+	output = evaluate_command(commands, ':help')
+	is(output, expected, ':help should be a registered default command')
+
+	expected = ''
+	output = evaluate_command(commands, ':quit')
+	is(output, expected, ':quit should be a registered default command that returns an empty string')
+.end
+
+.sub say_dude
+	.return(&quot;Dude!&quot;)
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The test code that has already been written shows a clear path for registering default commands. All that’s needed is the subroutines that will be invoked when the command is called.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>example-0d-04/lib/spacetrade.pir
+.sub register_default_commands
+	.local pmc commands
+
+	commands = new 'Hash'
+	commands = register_command(commands, ':help', 'default_help', 'This view')
+	commands = register_command(commands, ':quit', 'default_quit', 'Exit the shell')
+
+	.return(commands)
+.end
+
+.sub default_help
+	.local string output
+
+	output =&lt;&lt;'OUTPUT'
+COMMANDS
+:help    This view
+:quit    Exit the shell
+OUTPUT
+
+	.return(output)
+.end
+
+.sub default_quit
+	.local string output
+	output = ''
+	.return(output)
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There’s a problem.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The problem is that I had to cheat on <code>default_help</code>. See, the way that I set up <code>evaluate_commands</code> is to directly invoke the registered subroutine without any arguments. I would prefer that <code>default_help</code> examined the currently registered commands and provided a real summary. It should even include my magnificent <code>:dude</code> command in the summary.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-0d-05/t/01-shell-metacommands.t
+.include 'lib/spacetrade.pir'
+
+.sub 'main' :main
+	.include 'test_more.pir'
+
+	plan(6)
+
+	.local pmc    commands
+	.local string expected
+	.local string output
+
+	commands = register_default_commands()
+
+	expected =&lt;&lt;'EXPECTED'
+COMMANDS
+:help    This view
+:quit    Exit the shell
+EXPECTED
+	output = evaluate_command(commands, ':help')
+	is(output, expected, ':help should be a registered default command')
+
+	expected = ''
+	output = evaluate_command(commands, ':quit')
+	is(output, expected, ':quit should be a registered default command that returns an empty string')
+
+	commands = register_command(commands, ':dude', 'say_dude', 'Say &quot;Dude!&quot;')
+
+	expected =&lt;&lt;'EXPECTED'
+COMMANDS
+:dude    Say &quot;Dude!&quot;
+:help    This view
+:quit    Exit the shell
+EXPECTED
+	output = evaluate_command(commands, ':help')
+	is(output, expected, ':help should reflect registered commands')
+
+	expected = &quot;Dude!&quot;
+	output = evaluate_command(commands, ':dude')
+	is(output, expected, 'User command &quot;:dude&quot; should result in string &quot;Dude!&quot;')
+
+	expected = &quot;Unknown command: :sweet&quot;
+	output = evaluate_command(commands, ':sweet')
+	is(output, expected, 'Shell should warn about unknown commands')
+
+	commands = register_command(commands, ':whats-mine-say', 'whats_mine_say', &quot;What's mine say?&quot;)
+	expected = &quot;Invalid command: :whats-mine-say points to nonexistent sub whats_mine_say&quot;
+	output = evaluate_command(commands, ':whats-mine-say')
+	is(output, expected, 'Shell should warn about invalid commands')
+
+.end
+
+.sub say_dude
+	.return(&quot;Dude!&quot;)
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>How am I supposed to do this? Let’s start by rewriting <code>default_help</code> the way it should work: by preparing a sorted list of registered commands and their summaries.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-0d-05/lib/spacetrade.pir
+.sub default_help
+	.param pmc    commands
+	.local string output
+	.local pmc    command_iter
+	.local pmc    command_keys
+	.local string key
+
+	command_keys = new 'ResizablePMCArray'
+	command_iter = iter commands
+
+  NEXT_COMMAND:
+	unless command_iter goto PREPARE_OUTPUT
+	key = shift command_iter
+	push command_keys, key
+	goto NEXT_COMMAND
+
+  PREPARE_OUTPUT:
+	output = &quot;COMMANDS\n&quot;
+	command_keys.'sort'()
+
+	.local string command_name
+	.local string command_explanation
+	.local string command_summary
+	command_iter = iter command_keys
+
+  NEXT_SUMMARY:
+	unless command_iter goto RETURN_OUTPUT
+	command_name = shift command_iter
+	command_explanation = commands[command_name;'explanation']
+	command_summary = command_name . '    '
+	command_summary .= command_explanation
+	command_summary .= &quot;\n&quot;
+	output .= command_summary
+	goto NEXT_SUMMARY
+
+  RETURN_OUTPUT:
+	.return(output)
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>A little explanation about <code>default_help</code> couldn’t hurt. Hashes use their own special tricks to make storing their elements more effective, which means you have no guarantee of getting them in any particular order. I want to see the commands in alphabetical order, so I will have to handle the ordering myself. I did that by first building a list of keys.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>	command_keys = new 'ResizablePMCArray'
+	command_iter = iter commands
+
+  NEXT_COMMAND:
+	unless command_iter goto PREPARE_OUTPUT
+	key = shift command_iter
+	push command_keys, key
+	goto NEXT_COMMAND
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Once that list was constructed, it needed to be put in some sort of order. Luckily, the Array PMCs come with a prepackaged <code>sort()</code> method - a special subroutine that works directly with the elements of the array.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>command_keys.'sort'()
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The default sort behavior works for me. In this case they will be sorted more or less alphabetically.
+Now, I could add a lot of code to <code>evaluate_command</code> that will magically determine what sort of arguments are required by the command, and to behave appropriately. But before I go doing a significant rewrite - how about an experiment? Maybe I can just call every command with <code>commands</code> as a parameter, and see what happens in the tests.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-0d-05/lib/spacetrade.pir
+
+# ...
+
+.sub evaluate_command
+	.param pmc    commands
+	.param string name
+
+	.local string sub_name
+	.local pmc    command_sub
+	.local string output
+
+	sub_name = commands[name;'sub_name']
+	unless sub_name goto UNKNOWN_COMMAND
+	command_sub = get_global sub_name
+	if_null command_sub, INVALID_COMMAND
+	output = command_sub(commands)
+	goto RETURN_OUTPUT
+
+  UNKNOWN_COMMAND:
+	output = &quot;Unknown command: &quot; . name
+	goto RETURN_OUTPUT
+
+  INVALID_COMMAND:
+	output = &quot;Invalid command: &quot; . name
+	output .= &quot; points to nonexistent sub &quot;
+	output .= sub_name
+
+  RETURN_OUTPUT:
+	.return(output)
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You have to be willing to experiment, because the results may occasionally surprise you.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ parrot t/01-shell-metacommands.t
+1..6
+ok 1 - :help should be a registered default command
+ok 2 - :quit should be a registered default command that returns an empty string
+ok 3 - :help should reflect registered commands
+ok 4 - User command &quot;:dude&quot; should result in string &quot;Dude!&quot;
+ok 5 - Shell should warn about unknown commands
+ok 6 - Shell should warn about invalid commands
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>How about that - it worked. PIR subroutines will apparently ignore positional parameters that they didn’t ask for, which means that <code>evaluate_command</code> can call <code>say_dude</code> and <code>default_help</code> with the same parameter list and nothing bad will happen.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>The New and Slightly Improved Shell</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-0d-05/lib/spacetrade.pir
+
+.sub run_shell
+	.local pmc    commands
+	.local string input
+	.local string output
+	.local pmc    stdin
+	.const string PROMPT     = '&gt; '
+	.const string QUICK_HELP = &quot;Type ':help' for help, and ':quit' to quit.&quot;
+
+	commands = register_default_commands()
+	stdin = getstdin
+
+	say &quot;Welcome to SpaceTrade!&quot;
+	say QUICK_HELP
+
+  READLINE:
+	input = stdin.'readline_interactive'(PROMPT)
+	output = evaluate_command(commands, input)
+	unless output goto EXIT
+	say output
+	goto READLINE
+
+  EXIT:
+	say &quot;Goodbye!&quot;
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It’s certainly shorter than what I started with. How well does it work?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ parrot lib/spacetrade.pir
+Welcome to SpaceTrade!
+Type ':help' for help, and ':quit' to quit.
+&gt; :dude
+Unknown command: :dude
+&gt; :help
+COMMANDS
+:help    This view
+:quit    Exit the shell
+
+&gt; :quit
+Goodbye!
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It isn’t perfect, but it will work for the moment. This new shell has most of the core behavior from the original, and we have shown that it will not be hard to add new commands. There is still a large part of me that thinks the code for the shell should be tucked into its own corner, where it cannot get mixed up with the code for the actual game. That will have to wait for the next step, though.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

@@ -1,0 +1,1016 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2009/Parrot Babysteps 04 - Adding Command Line Arguments
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2009-09-17</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Introduction</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We have learned a reasonable amount so far. We know how to write fairly trivial applications using <a href="/parrot" class="page-link">Parrot</a> Intermediate Representation. We could probably write a simple formula calculator that gets input from the user, ensures that the content is valid, and presents the results of applying user input to the formula.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It would be nice to write more ambitious programs, though. It would be painful - maybe even impossible - to create a modern program using only the tools and opcodes we have learned so far.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We can start examining PMCs by writing a version of our hypotenuse calculator from <a href="/post/2009/parrot-babysteps-02-variables-and-types" class="page-link">post/2009/Parrot Babysteps 02 - Variables and Types</a> that has command line arguments.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Command Line Arguments</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>How do we tell Parrot that our program accepts command line arguments, though? We need some way to show that our <code>:main</code> sub is ready to take parameters. Turns out that’s actually pretty easy.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>.param</code> directive</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The <code>.param</code> directive is used at the start of a subroutine to indicate that the subroutine will accept a parameter and place it in the named variable.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-04-01.pir
+
+.sub 'main' :main
+    .param pmc argv
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>argv</code> is a <a href="http://docs.parrot.org/parrot/latest/html/src/pmc/resizablestringarray.pmc.html">ResizableStringArray</a>: an ordered collection of strings.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We can use the <code>elements</code> opcode to find out how many arguments were passed to the file.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-04-02.pir
+
+    .sub 'main' :main
+        .param pmc argv
+        .local int argument_count
+        .local string description
+
+        argument_count = elements argv
+        description = &quot;I was called with &quot;
+        $S0 = argument_count
+        description .= $S0
+        description .= &quot; arguments&quot;
+
+        say description
+    .end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Try it out.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ parrot example-04-02.pir hey there
+I was called with 3 arguments
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Three? Let’s look at the arguments individually and see if we can figure this out.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>shift</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The <code>shift</code> opcode lets us pull the first item from an array. This shrinks the <code>argv</code> array by one as it shifts the rest of its contents over to fill the empty space, but it’s not a concern for us right now.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-04-03.pir
+
+.sub 'main' :main
+    .param pmc argv
+    .local int argument_count
+    .local string this_argument
+    .local string description
+
+  GET_ARG:
+    argument_count = argv
+    if argument_count &lt;= 0 goto END
+    this_argument = shift argv
+    description = &quot;This argument: &quot; . this_argument
+    say description
+    goto GET_ARG
+
+  END:
+
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We can use this code to look at our program arguments one at a time.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>bash-3.2$ parrot example-04-03.pir hey there
+This argument: example-04-03.pir
+This argument: hey
+This argument: there
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Oh, right. The program name is the first argument. That is not unusual, especially in some lower level languages. I should have remembered.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Calculating a Hypotenuse</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let’s take what we’ve learned about handling the command line and apply it to our hypotenuse calculator.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-04-04.pir
+
+.sub 'main' :main
+    .param pmc argv
+    .local int argument_count
+    .local string program_name
+    .local num a
+    .local num b
+    .local num c
+    .local num a_squared
+    .local num b_squared
+    .local num c_squared
+    .local string error_message
+
+    program_name = shift argv
+    argument_count = elements argv
+    if argument_count != 2 goto BAD_ARG_COUNT
+    a = shift argv
+    b = shift argv
+    a_squared = a * a
+    b_squared = b * b
+    say a_squared
+    say b_squared
+    c_squared = a_squared + b_squared
+    c = sqrt c_squared
+    say c
+    goto END
+
+  BAD_ARG_COUNT:
+    error_message = &quot;Exactly two arguments required&quot;
+    say error_message
+    goto END
+
+  END:
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>First we shift the first item off of <code>argv</code> because we know for sure that it’s going to be the program name. Then we check to make sure that the user has provided us with two arguments that we can use for <code>a</code> and <code>b</code>. Not having two arguments is an error, so the program branches to displaying an error and quitting. When the argument count is right, the program shifts the arguments into <code>a</code> and <code>b</code> then uses them to calculate and display the hypotenuse.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Oh yeah - sooner or later you’re going to see this error message from Parrot:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>error:imcc:syntax error, unexpected '=', expecting '(' ('=')
+        in file 'example-04-04.pir' line 24
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What did line 24 look like?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>c_squared = a_squared + b_squared
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It took me a while to realize that I had never declared <code>.local num c_squared</code>. Unfortunately, Parrot’s error messages aren’t quite as descriptive as Perl’s. Perl has had a lot more time to figure out how to gently explain a user’s error to him, though.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>bash-3.2$ parrot example-04-04.pir 12 23
+144
+529
+25.9422435421457
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That worked.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Parrot has many special opcodes <a href="http://docs.parrot.org/parrot/latest/html/src/ops/pmc.ops.html">for dealing with PMCs</a> and soon we’ll be looking at more of them. I am especially interested in the opcodes that allow us to use arrays and other collection types.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Summary</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Yes, this has been a <em>very</em> quick step. Maybe we didn’t learn a whole lot,  but there’s a little bit of new stuff in there. We did learn how to add command line handling by using <code>.param</code> to tell Parrot that our <code>:main</code> method accepts parameters. We learned that for <code>:main</code>, the parameter is a particular PMC - something called a ResizableStringArray. The <code>shift</code> opcode removes the first item in a ResizableStringArray and lets us use it in a variable. We also saw that we can use the <code>members</code> opcode to get the number of members in an array.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

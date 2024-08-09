@@ -1,0 +1,1310 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2020/Listing Hugo Content Extensions With Raku
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>banner-caption</th>
+            <td><p>we like quick answers to important questions</p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>banner</th>
+            <td><p>…/assets/cover-2020-03-31_1712548223591_0.jpg</p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2020-03-31</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>banner-alt</th>
+            <td><p>moving box labeled “coffee maker” and “other stuff”</p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><p><em class="link-missing">hugo,raku-lang,csv,site,programming</em></p>
+</td>
+          </tr>
+        
+      
+        
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><p>twenty seconds to write a one-liner and two days to think about it</p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><p><a href="https://hackers.town/@randomgeek/103919841537181374">Mastodon</a></p>
+</td>
+          </tr>
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>How many text formatting languages have I used for my <a href="/hugo" class="page-link">Hugo</a> site? For that matter, how many content files were written in each?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ hugo list all | raku -e 'bag(lines[1..*].map({ .split(&quot;,&quot;)[0].IO.extension })).say'
+Bag(adoc(4), html, md(327), rst(109))
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Mostly <a href="/markdown" class="page-link">Markdown</a> , with a fair chunk of <a href="/restructuredtext" class="page-link">reStructuredText</a> and a little bit of <a href="/asciidoctor" class="page-link">Asciidoctor</a> . Oh and one HTML source file, originally an experiment from <a href="/post/2014/blog-writing-in-org-mode" class="page-link">post/2014/Blog Writing in Org Mode</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Okay that’s it. That’s the post, everyone. Time to go home!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Breaking it down</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It helps me to understand the pieces I smash together in my one-liners. Read along if you like, or move on to more interesting topics. I don’t judge.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>First off: why?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The <a href="https://gohugo.io">Hugo</a> static site generator supports multiple <a href="https://gohugo.io/content-management/formats/">content formats</a>. I use a few of them, which complicates my occasional urge to rebuild the whole site with something else.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>If I know how my content formats are distributed, it will help me understand how much work I have cut out for me in The Eventual Inevitable Rebuild.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>hugo list</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Hugo’s <a href="https://gohugo.io/commands/hugo_list">list</a> commands print a <a href="/csv" class="page-link">CSV</a> list of your site’s content files. The content listed depends on which subcommand you use:</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>list all</code></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>: Everything! Well, except section indexes.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>list draft</code></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>: Content with <code>draft: true</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>list expired</code></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>: Content with <code>expiryDate</code> in the past</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>list future</code></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>: Content with <code>date</code> in the future</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What does that output look like?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ hugo list all
+path,slug,title,date,expiryDate,publishDate,draft,permalink
+content/draft/listing-hugo-content-extensions-with-raku/index.adoc,,Listing Hugo Content Extensions With Raku,2020-03-27T22:36:13-07:00,0001-01-01T00:00:00Z,0001-01-01T00:00:00Z,true,https://randomgeekery.org/draft/listing-hugo-content-extensions-with-raku/
+content/draft/managing-music-with-beets/index.adoc,,Managing My Music With Beets,2020-03-27T10:31:41-07:00,0001-01-01T00:00:00Z,0001-01-01T00:00:00Z,true,https://randomgeekery.org/draft/managing-music-with-beets/
+content/post/2020/03/stdu-viewer/index.rst,,STDU Viewer,2020-03-26T23:42:16-07:00,0001-01-01T00:00:00Z,2020-03-26T23:42:16-07:00,false,https://randomgeekery.org/2020/03/26/stdu-viewer/
+content/note/2020/03/every-post-has-a-uuid/index.rst,,Every Post Has a UUID,2020-03-21T19:06:00-07:00,0001-01-01T00:00:00Z,2020-03-21T19:06:00-07:00,false,https://randomgeekery.org/note/2020/81/every-post-has-a-uuid/
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I could feed that to any language with a nice library for handling CSV files — which is most of them. Heck, I could feed it to Excel!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now that I think to look, there’s the <a href="https://github.com/secretGeek/awesomecsv">Awesome CSV</a> list of tools and resources.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>But no. Today I handed it off to the first tool that came to mind.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>raku -e</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Look, we’ve all been stuck at home for a bit. I need a break from Python. How about Perl’s sister language, <a href="/raku" class="page-link">Raku</a>?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku">bag(lines[1..*].map({ .split(&quot;,&quot;)[0].IO.extension })).say
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>bag(…).say</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="https://docs.raku.org/routine/bag"><code>bag</code></a> uses its arguments to create a <a href="https://docs.raku.org/type/Bag">Bag</a> — basically, a set that gives each member a “weight” based on integer values. <a href="https://docs.raku.org/type/Mu#method_say"><code>say</code></a> prints the <a href="https://docs.raku.org/routine/gist"><code>gist</code></a> of the Bag, telling me what I need to know. The highest level view of this one-liner is “make a Bag and give me a general idea what it looks like.”</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>lines[1..*].map({ … })</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now I need to create that bag from <code>hugo list all</code>. <a href="https://docs.raku.org/type/IO::Handle#routine_lines"><code>lines</code></a> called as a routine creates a list of lines from <a href="https://docs.raku.org/language/variables#$*ARGFILES"><code>$*ARGFILES</code></a>, which currently holds the piped output from my Hugo invocation. I don’t need the header line, so I use a <a href="https://docs.raku.org/type/Range">Range</a> to <a href="https://docs.raku.org/language/subscripts#Slices">slice</a> the remaining lines.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="https://docs.raku.org/routine/map#class_Any"><code>map</code></a> applies a block to each of those lines, returning a new list to create our Bag. What’s going on in that map?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>.split(&quot;,&quot;)[0].IO.extension</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That leading dot? It’s an <a href="https://docs.raku.org/language/contexts#Item_context">item context</a> view of the <a href="https://docs.raku.org/language/variables#The_$__variable">topic variable</a> handed to the block by <code>map</code>. Yes, for folks who don’t feel like clicking: <em>topic variable</em> is Raku’s name for <code>$_</code>, an easily abused blessing of Perl languages.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>So the line of comma-delimited values is <a href="https://docs.raku.org/type/Str#routine_split"><code>split</code></a> into values. Each line from Hugo’s CSV gets <code>split</code> into a list of values, but I only care about the first one. The first value is the path to the content file itself.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Coercing that to an <a href="https://docs.raku.org/type/IO::Path">IO::Path</a> object lets me ask for an <a href="https://docs.raku.org/type/IO::Path#method_extension"><code>extension</code></a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The block returns that extension, so when <code>map</code> is all done it has a list of file extensions:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-plaintext">(adoc adoc rst rst md md md rst ...)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>During initialization, the Bag counts how many times each extension appears in the list. Since the result of that tally is all I care about, I print it out.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ hugo list all | raku -e 'bag(lines[1..*].map({ .split(&quot;,&quot;)[0].IO.extension })).say'
+Bag(adoc(4), html, md(327), rst(109))
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Alternate versions</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>While I was learning more about my impulsive little invocation, I wondered about other ways to get the same information from Raku.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>A bit more Perlish</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>All those method dots bother you? No problem. We can use them like plain old subroutines too. Course, we have to reach for <a href="https://docs.raku.org/language/variables#$*SPEC"><code>$*SPEC</code></a>. This lower-level <a href="https://docs.raku.org/type/IO::Spec">IO::Spec</a> object understands file extensions on our platform.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ hugo list all | raku -e 'say bag(map({ $*SPEC.extension(split(&quot;,&quot;, $_)[0]) }, lines[1..*]))'
+Bag(adoc(4), html, md(327), rst(109))
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Using Text::CSV</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I know what to expect from Hugo’s CSV output, but what if I didn’t? I’d feed the standard input handle <code>$*IN</code> to H. Merijn Brand’s <a href="https://github.com/Tux/CSV">Text::CSV</a> module.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ zef install Text::CSV
+$ hugo list all | raku -MText::CSV -e \
+  'bag(csv(in =&gt; $*IN, headers=&gt;&quot;skip&quot;, fragment=&gt;&quot;col=1&quot;).map({ .IO.extension })).say'
+Bag(adoc(4), html, md(327), rst(109))
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Though if I was being <em>this</em> careful, I’d probably also move away from a one-liner. But that takes us a long ways away from my original goal of getting a quick answer to an idle question.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Well, I satisfied my curiosity and understood a little more Raku. That was fun!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

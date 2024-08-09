@@ -1,0 +1,927 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2017/Emacs Writegood Mode
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2017-08-06</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+        
+          <tr>
+            <th>banner</th>
+            <td><p>…/assets/cover-2017-08-06_1721609463666_0.png</p>
+</td>
+          </tr>
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I rushed through that post about <em class="link-missing">logging money</em> in Org mode  and didn’t take much time to edit it. This bothers me. Today I went into <a href="https://github.com/bnbeckwith/writegood-mode"><code>writegood-mode</code></a> to catch my sloppiest writing mistakes.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p><a href="/vim" class="page-link">Vim</a> users may want to look at <a href="https://github.com/reedes/vim-wordy"><code>vim-wordy</code></a>, a plugin with similar goals to <code>writegood-mode</code>.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>writegood-mode</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>writegood-mode</code> is a minor <a href="/emacs" class="page-link">Emacs</a> mode which highlights troublesome patterns in your writing. It looks for three patterns:</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><strong>weasel words</strong></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>a set of adverbs that add no meaning to the words they modify</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><strong>passive voice</strong></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>sentences where the subject receives an action rather than performing it. Read this bit about <a href="https://www.hamilton.edu/academics/centers/writing/seven-sins-of-writing/1">passive voice</a>. They explain it better.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><strong>duplicated words</strong></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>“the the” is a common writing mistake, unless you’re talking about <a href="https://youtu.be/ustXRPke9lM">the band</a></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>writegood-mode</code> used a collection of <a href="http://matt.might.net/articles/shell-scripts-for-passive-voice-weasel-words-duplicates/">bash scripts</a> by <a href="http://matt.might.net">Matt Might</a> for inspiration.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Installing and using it</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Use the Emacs package manager to install <code>writegood-mode</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>M-x package-install writegood-mode
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Enable it at any time with <code>M-x writegood-mode</code>. The documentation suggests you set a global command key to start <code>writegood-mode</code> more quickly, so I added that to <code>init.el</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-lisp">(global-set-key (kbd &quot;C-c g&quot;) 'writegood-mode)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Adding a hook</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I must confess something to you. I installed <code>writegood-mode</code> months ago. I never remember to manually load it. Maybe add a hook to load it?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-lisp">(add-hook 'markdown-mode-hook 'writegood-mode)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This ensures that at least Markdown blog posts are automatically checked.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Customizing your weasel words</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>writegood-weasel-words</code> contains a good starter collection of <a href="https://github.com/bnbeckwith/writegood-mode/blob/master/writegood-mode.el#L92">words and phrases</a> to avoid. You can replace or extend this list with your own preferences.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-lisp">(setq bmw/weasel-words
+      '(&quot;actually&quot;
+        &quot;basically&quot;
+        &quot;easily&quot;
+        &quot;easy&quot;
+        &quot;simple&quot;
+        &quot;simply&quot;))
+(setq writegood-weasel-words
+      (-concat writegood-weasel-words bmw/weasel-words))
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Today I just take the take the original list as-is and add my own list of weasel words. <a href="https://github.com/magnars/dash.el#-concat-rest-lists"><code>-concat</code></a> from <a href="https://github.com/magnars/dash.el"><code>dash.el</code></a> returns the result of concatenating two lists into a single list.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>#+BEGIN_NOTE
+<code>dash.el</code> is an Emacs utility library that adds functions for examining and manipulating lists.</p>
+<pre><code>M-x package-install dash
+</code></pre>
+<p>Have fun!
+#+END_NOTE</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Readability tests</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>writegood-mode</code> provides <a href="https://github.com/bnbeckwith/writegood-mode#readability-tests">readability tests</a> based on <a href="https://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests">Flesch-Kincaid</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-lisp">(global-set-key (kbd &quot;C-c C-g g&quot;) 'writegood-grade-level)
+(global-set-key (kbd &quot;C-c C-g e&quot;) 'writegood-reading-ease)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Flesch-Kincaid grade level score</td>
+<td>4.98</td>
+</tr>
+<tr>
+<td>Flesch-Kincaid reading ease score</td>
+<td>77.68</td>
+</tr>
+</tbody>
+</table>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I write simply when possible, so these numbers please me. Readers can find highly technical writing at other sites.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>That’s it</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Professional writers have professional editors. The rest of us do not. A tool like <code>writegood-mode</code> cannot replace a professional editor. However, by highlighting common patterns of lazy writing, it can help us pay attention to our words while we write them.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Excuse me. I need to edit that other post.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2023/A Fun Python Turtle YouTube Playlist
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2023-05-20</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><p><em class="link-missing">python,art</em></p>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/cover-2023-05-20_1705503754199_0.png" alt="cover-2023-05-20.png"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Got a little bored of trying to build relevant skills for my ongoing job search.
+Went through Coding Cassowary’s <a href="https://www.youtube.com/playlist?list=PLBLV84VG7Md9oO4MUOhyqz7gBFOzx8XIw">Generative Art playlist</a> yesterday instead. Had some ideas and fiddled a bit more with those ideas today. Trees should have leaves usually, right?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’ll share the code, but only if you promise to remember this is my brain adding unsorted thoughts to code from the aforementioned playlist. Most of the thoughts in here are unfinished. What I <em>want</em> is for you to watch the playlist. And have some fun drawing with <a href="/python" class="page-link">Python</a> , using <a href="https://docs.python.org/3/library/turtle.html">Turtle</a> or some other library.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">&quot;&quot;&quot;Draw a fractal tree.&quot;&quot;&quot;
+
+import random
+from turtle import Screen, Turtle, _Screen
+from typing import Optional, Tuple
+
+RGBColor = Tuple[float, float, float]
+
+COLOR_CANVAS_DEFAULT: RGBColor = (232 / 255, 210 / 255, 210 / 255)
+COLOR_PEN_DEFAULT: RGBColor = (94 / 255, 71 / 255, 69 / 255)
+COLOR_SKY_LIGHT: RGBColor = (0.53, 0.81, 0.92)
+COLOR_SKY_DARK: RGBColor = (0.008, 0.043, 0.059)
+COLOR_TRUNK_BASE: RGBColor = (0.26, 0.16, 0.11)
+COLOR_TRUNK_LIGHT: RGBColor = (0.96, 0.86, 0.81)
+
+
+def set_theme(
+    screen: _Screen,
+    turtle: Turtle,
+    canvas_width=1000,
+    canvas_height=1000,
+    canvas_color=COLOR_CANVAS_DEFAULT,
+    pen_color=COLOR_PEN_DEFAULT,
+    thickness=1,
+    speed_value=0,
+    tracer_value=0,
+    hide_turtle=True,
+):
+    &quot;&quot;&quot;Set properties for the current drawing.&quot;&quot;&quot;
+    screen.setup(canvas_width, canvas_height)
+    screen.bgcolor(canvas_color)
+    turtle.color(pen_color)
+    turtle.width(thickness)
+    turtle.speed(speed_value)
+    screen.tracer(tracer_value)
+
+    if hide_turtle:
+        turtle.hideturtle()
+
+
+def draw_leaf(turtle: Turtle):
+    &quot;&quot;&quot;Draw a single leaf.&quot;&quot;&quot;
+    leaf_color = (
+        random.uniform(0.25, 0.5),
+        random.uniform(0.5, 0.75),
+        random.uniform(0.25, 0.5),
+    )
+    turtle.color(leaf_color)
+    turtle.begin_fill()
+    turtle.circle(4.0)
+    turtle.end_fill()
+    turtle.color(COLOR_TRUNK_BASE)
+
+
+def grow(turtle: Turtle, length, decrease, angle, noise=0):
+    &quot;&quot;&quot;Draw a single tree segment.&quot;&quot;&quot;
+    if length &lt;= 8:
+        draw_leaf(turtle)
+        return
+
+    length_factor = length / 10
+    trunk_color = lighten_trunk(length_factor)
+
+    turtle.color(trunk_color)
+    turtle.width(length_factor)
+    turtle.forward(length)
+    new_length = length * decrease
+
+    if noise &gt; 0:
+        new_length *= random.uniform(0.9, 1.1)
+
+    angle_l = angle + random.gauss(0, noise)
+    angle_r = angle + random.gauss(0, noise)
+    turtle.left(angle_l)
+    grow(turtle, new_length, decrease, angle, noise)
+    turtle.right(angle_l)
+    turtle.right(angle_r)
+    grow(turtle, new_length, decrease, angle, noise)
+    turtle.left(angle_r)
+    turtle.backward(length)
+
+
+def fit_color(
+    rgb: RGBColor,
+    minimum_rgb: Optional[RGBColor] = None,
+    maximum_rgb: Optional[RGBColor] = None,
+):
+    &quot;Ensure color fits within an allowed RGB range.&quot;
+    fitted_color = rgb
+
+    if minimum_rgb:
+        fitted_color = (
+            min(minimum_rgb[0], fitted_color[0]),
+            min(minimum_rgb[1], fitted_color[1]),
+            min(minimum_rgb[2], fitted_color[2]),
+        )
+    if maximum_rgb:
+        fitted_color = (
+            max(maximum_rgb[0], fitted_color[0]),
+            max(maximum_rgb[1], fitted_color[1]),
+            max(maximum_rgb[2], fitted_color[2]),
+        )
+
+    return fitted_color
+
+
+def draw_sky(screen: _Screen, turtle: Turtle):
+    &quot;&quot;&quot;Draw a fractured sky.&quot;&quot;&quot;
+    size = 30
+    noise = 0.0
+    x_edge = screen.window_width() // 2
+    y_edge = screen.window_height() // 2
+
+    for y in range(-y_edge, y_edge, size):
+        for x in range(-x_edge, x_edge, size):
+            # move to the location
+            turtle.penup()
+            turtle.goto(x, y)
+
+            # rotate
+            angle = random.uniform(-noise, noise)
+
+            if noise:
+                noise_factor = 1 / (y_edge - y) * 100
+                sky_color = darken_sky(noise_factor)
+            else:
+                sky_color = COLOR_SKY_DARK
+
+            turtle.pendown()
+            turtle.color(COLOR_SKY_DARK, sky_color)
+            turtle.begin_fill()
+            turtle.right(angle)
+
+            # draw square
+            for i in range(4):
+                turtle.forward(size)
+                turtle.right(90)
+
+            turtle.left(angle)
+            turtle.end_fill()
+        noise += 1
+
+
+def draw_tree(screen: _Screen, turtle: Turtle):
+    &quot;&quot;&quot;Draw one tree.&quot;&quot;&quot;
+    # start at the bottom edge, off-center for visual interest
+    y_edge = screen.window_height() / 2
+    trunk_x = screen.window_width() / 4 * -1
+    turtle.penup()
+    turtle.goto(trunk_x, -y_edge)
+    turtle.left(90)
+    turtle.pendown()
+    grow(turtle, 140, 0.8, 30, noise=10)
+
+
+def darken_sky(noise_factor: float):
+    &quot;&quot;&quot;Manages a gradual darkening of sky squares.&quot;&quot;&quot;
+    sky_color = tuple(value - noise_factor for value in COLOR_SKY_LIGHT)
+
+    return fit_color(sky_color, maximum_rgb=COLOR_SKY_DARK)
+
+
+def lighten_trunk(length_factor):
+    &quot;&quot;&quot;Manages a gradual lightening of the trunk's color.&quot;&quot;&quot;
+    color_factor = 1 / length_factor
+    trunk_color = tuple(value + color_factor for value in COLOR_TRUNK_BASE)
+
+    return fit_color(trunk_color, minimum_rgb=COLOR_TRUNK_LIGHT)
+
+
+def main():
+    &quot;&quot;&quot;Draw a tree.&quot;&quot;&quot;
+    screen = Screen()
+    turtle = Turtle()
+    set_theme(screen, turtle, canvas_width=1920, canvas_height=1080)
+    draw_sky(screen, turtle)
+    draw_tree(screen, turtle)
+    screen.tracer(True)
+    screen.exitonclick()
+
+
+if __name__ == &quot;__main__&quot;:
+    main()
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

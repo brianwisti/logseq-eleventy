@@ -1,0 +1,1096 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2005/REBOL Babysteps - 03 Making Decisions
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><p><em class="link-missing">rebol,learn,coolnamehere</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2005-02-27</em></p>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p><em class="link-missing">2005/02/27</em>:  Corrected some inaccuracies about <code>equal?</code> and <code>=</code> and <code>==</code>, pointed out by <a href="http://www.compkarori.com/vanilla">Graham Chiu</a></p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>In <a href="/post/2004/rebol-babysteps-01-getting-started" class="page-link">post/2004/REBOL Babysteps - 01 Getting Started</a> I gave you a first cautious glance at the <a href="/rebol" class="page-link">REBOL</a> programming language. <a href="/post/2004/rebol-babysteps-02-getting-started-with-view" class="page-link">post/2004/REBOL Babysteps - 02 Getting Started with View</a> extended that glance to a peek at the excellent REBOL/View GUI library. Let’s continue learning how to program with Rebol. Today I want to get you started with some structured programming by introducing you to selection structures. Selection structures make it possible to decide whether or not to do something based on a test. Here are a few uses for a simple selection structure.</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Tell me if a file exists.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Stop me from continuing the program if I give the wrong password.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Tell me if a new item on <a href="http://www.rebol.com/cgi-bin/blog.r">Carl’s blog</a> has been posted.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Simple Tests</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>if</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The simplest selection structure is <code>if</code>. You give it a <em>test expression</em> and a <em>block</em>. If the test expression turns out to be true, then REBOL runs the block. Otherwise, it ignores the block and moves on to the next statement.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-rebol">REBOL []
+if equal? name &quot;Zim&quot; [ print &quot;Reporting for duty sir!&quot; ]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <table>
+<thead>
+<tr>
+<th>if</th>
+<th>Test Expression</th>
+<th>Block</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>if</code></td>
+<td><code>equal? name &quot;Zim&quot;</code></td>
+<td><code>[ print &quot;Reporting for duty sir!&quot; ]</code></td>
+</tr>
+</tbody>
+</table>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Those two equal signs in there combine to make a special <em>operator</em> that REBOL uses to test for strict equality – making sure that the thing on the left has exactly the same value as the thing on the right. There are a number of comparison functions and operators in REBOL. It’s up to you whether you prefer to use the function approach or the operator approach. My own preference varies according to my mood and the things being compared. Numbers and strings often get the operator treatment, while I lean towards using the functions for more complex things. I’ll stick to using the functions today, because that’s the sort of mood I’m in.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Operator</th>
+<th>Checks For</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>equal?</code></td>
+<td><code>=</code></td>
+<td>Equality</td>
+</tr>
+<tr>
+<td><code>strict-equal?</code></td>
+<td><code>==</code></td>
+<td>Strict Equality</td>
+</tr>
+<tr>
+<td><code>not-equal?</code></td>
+<td><code>&lt;&gt;</code></td>
+<td>Inequality</td>
+</tr>
+<tr>
+<td><code>strict-not-equal?</code></td>
+<td><em>none</em></td>
+<td>Strict Inequality</td>
+</tr>
+<tr>
+<td><code>greater?</code></td>
+<td><code>&gt;</code></td>
+<td>Greater Than</td>
+</tr>
+<tr>
+<td><code>lesser?</code></td>
+<td><code>&lt;</code></td>
+<td>Less Than</td>
+</tr>
+<tr>
+<td><code>greater-or-equal?</code></td>
+<td><code>&gt;=</code></td>
+<td>Equality or Greater Than</td>
+</tr>
+<tr>
+<td><code>lesser-or-equal?</code></td>
+<td><code>&lt;=</code></td>
+<td>Equality or Lesser Than</td>
+</tr>
+</tbody>
+</table>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>equal?</code> doesn’t care about case. “abc” and “ABC” are the same, according to these tests. So are <code>1</code> and <code>1.0</code>. This is the way most of us think about comparisons, but programs sometimes need more careful comparisons in situations where case matters. One example that immediately comes to mind is login and password entry. You need to use <code>strict-equal?</code> or <code>strict-not-equal?</code> if you need an exact test.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>either</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What happens if you want to do one thing if a test is true, but a <em>different</em> thing if the test is false? Let’s say, for example, we want to print out one message if we recognize the user as a master, and print out another message if the user is not a master. Well, I suppose you could have two <code>if</code> statements, like this:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-rebol">REBOL []
+if equal? name &quot;Zim&quot; [ print &quot;Reporting for duty sir!&quot; ]
+if not-equal? name &quot;Zim&quot; [ print &quot;Meow!&quot; ]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This can obviously get ugly very quickly. REBOL gives us the <code>either</code> statement to simplify situations like this.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-rebol">REBOL []
+either equal? name &quot;Zim&quot; [ print &quot;Reporting for duty sir!&quot; ] [ print &quot;Meow!&quot; ]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The <code>either</code> command requires a test expressions and two blocks. Either the test is true and the first block is executed, or the test is false and the second block is executed. That makes sense, doesn’t it? Here’s how that example breaks down.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <table>
+<thead>
+<tr>
+<th><code>either</code></th>
+<th>Test</th>
+<th>Do this if True</th>
+<th>Or do this if False</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>either</code></td>
+<td><code>equal? name &quot;Zim&quot;</code></td>
+<td><code>[ print &quot;Reporting for duty sir!&quot; ]</code></td>
+<td><code>[ print &quot;Meow!&quot; ]</code></td>
+</tr>
+</tbody>
+</table>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now is a good time to point out how flexible REBOL can be. Let’s reexamine our code and see what we are trying to do. We are printing a message, right? The only thing that is different is <em>which</em> message we are printing. We could hand the entire <code>if</code> statement directly to the print command like this:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-rebol">REBOL []
+print either equal? name &quot;Zim&quot; [ &quot;Reporting for duty sir!&quot; ] [ &quot;Meow!&quot; ]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It accomplishes the exact same thing as we did with the original <code>either</code> statement, but removes a little bit of repetition. Some folks think that steps like this do a lot to make program code more readable. Another approach might be to assign the result of the <code>either</code> statement to a variable and then print the variable. I like this approach, because my program might grow later on. I might decide that I want the program to <em>speak</em> the response rather than print it out to the screen.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-rebol">REBOL []
+response: either equal? name &quot;Zim&quot; [ &quot;Yes master I obey!&quot; ] [ &quot;Meow!&quot; ]
+print response
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I don’t want to overwhelm anybody right now, and you can ignore options like these until you are much more comfortable with REBOL. I just wanted you to see how REBOL will let you describe your program in the style that you like best.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Yes, <code>either</code> is a variation of the <code>if/else</code> construct that you find in many other languages.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Having Multiple Tests</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>any</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-rebol">REBOL []
+response: ask &quot;What's your favorite snack? &quot;
+if any [
+	equal? response &quot;tacos&quot;
+	equal? response &quot;waffles&quot;
+] [
+	print &quot;Me too!&quot;
+]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There will be times that you want to check several things, and execute if any of them are true. Fortunately REBOL is there to help us with the <code>any</code> function. <code>any</code> takes a block of tests and returns true if any of those tests are true. This is another one of those definitions that just repeats the obvious, isn’t it? Well, a lot of predefined words in REBOL work like that.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Yes, this does sound like the <code>or</code> logical operator from other languages. Also known as <code>||</code> in C-derived languages. I don’t know about you, but I like <code>any</code> better than <code>||</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>all</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What if you only want to execute the block if <em>all</em> tests are true? It shouldn’t surprise you by this point to find out that REBOL is right there waiting for us with the <code>all</code> statement.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-rebol">REBOL []
+name: ask &quot;Name: &quot;
+password: ask &quot;Password: &quot;
+if all [
+	strict-equal? name &quot;Brian&quot;
+	strict-equal? password &quot;Pretty Please?&quot;
+] [
+	print &quot;Login accepted!&quot;
+]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Yes, this does sound like the <code>and</code> logical operator from other languages. Also known as <code>&amp;&amp;</code> in C-derived languages. I don’t know about you, but I like <code>all</code> better than <code>&amp;&amp;</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Conclusion</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now that you have worked with selection structures, you have a major building block for writing useful programs. Next time around we will take a look at a few of REBOL’s many repetition and iteration structures. Then maybe we can sit down and write a <em>real</em> program!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

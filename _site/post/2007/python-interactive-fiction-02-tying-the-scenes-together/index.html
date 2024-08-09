@@ -1,0 +1,1930 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2007/Python Interactive Fiction - 02 Tying the Scenes Together
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2007-04-20</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><p><em class="link-missing">python,interactive-fiction,coolnamehere</em></p>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This is the second part of <a href="/post/2007/interactive-fiction-with-python" class="page-link">post/2007/Interactive Fiction with Python</a>, about using <a href="/python" class="page-link">Python</a> to create interactive fiction.  I hope to show you one fun use of Python while teaching you more about the basics of this language.  We started by defining how our game was going to work and creating a set of scenes for play. In <a href="/post/2007/python-interactive-fiction-01-handling-a-single-round" class="page-link">post/2007/Python Interactive Fiction - 01 Handling a Single Round</a> we wrote the code to handle a single round of the game. Today we are going to tie all of our scenes together to make a complete, playable game of interactive fiction. We are going to approach it from an experimental view, playing with different approaches until we find one that makes us happy. Well, one that makes <em>me</em> happy.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Specifying a scene</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>ifiction.py</code> already does a good job of describing a scene, but we want to describe any one of several scenes. That won’t happen unless we have an effective way to store all of the scenes and get at a specific one.  It’s immediately obvious that we can’t have a separate variable for each scene along with a separate list for each scene’s available actions. That will become clumsy far too quickly. Let’s think this through.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We are tracking two items for each scene.</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The scene’s description</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>A list of actions the user can take, leading to other scenes.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We need both of these items any time we deal with a scene. It makes sense to store them together. The easiest way to do that with our current knowledge would be to use a list, and grab <code>description</code> and <code>paths</code> from that list.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python"># ifiction.py
+#  - An interactive fiction game
+
+import textwrap
+
+scene = [
+    # description
+    &quot;You are standing in a field. To the north of you are some mountains, &quot; \
+    &quot;to the east of you is a forest, to the west of you is a cave, and to &quot; \
+    &quot;the south of you is a valley.&quot;,
+    # paths
+    [
+        &quot;Go to the mountains&quot;,
+        &quot;Go into the forest&quot;,
+        &quot;Go into the cave&quot;,
+        &quot;Go to the valley&quot;
+    ]
+
+]
+
+description = scene[0]
+paths = scene[1]
+
+print textwrap.fill(description)
+
+# Show the menu for this scene.
+for i in range(0, len(paths)):
+    path = paths[i]
+    menu_item = i + 1
+    print &quot;\t&quot;, menu_item, path
+
+print &quot;\t(0 Quit)&quot;
+next_step = None
+
+# Get the user selection from the menu.
+while next_step == None:
+    try:
+        choice = raw_input(&quot;Make a selection: &quot;)
+        menu_selection = int(choice)
+
+        if menu_selection == 0:
+            next_step = &quot;quit&quot;
+        else:
+            index = menu_selection - 1
+            next_step = paths[ index ]
+            print &quot;Choice&quot;, choice, &quot;-&quot;, next_step
+    except (IndexError, ValueError):
+        print choice, &quot;is not a valid selection!&quot;
+
+print &quot;You decided to:&quot;, next_step
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Did you see that array just sitting there in the middle of <code>scene</code>? Arrays can hold anything, even other arrays. But why didn’t I declare an array variable to hold the paths? Well, the answer boils down to “why bother?” The array of paths doesn’t really have a meaning outside of the scene, so I don’t want to clutter up the names by adding a variable I will only use once. Why do I then go and declare a <code>path</code> array later on? To make it easier to use the paths of different scenes when that becomes an issue for me.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Go ahead and try that code out. It still functions exactly the same. That’s good. You don’t want the whole thing collapsing just because you made one change. So, why did I keep <code>description</code> and <code>paths</code> instead of referring to <code>scene[0]</code> and <code>scene[1]</code> in this version? The answer is as easy as you think it is. No way am I going to remember that <code>scene[1]</code> refers to the paths for that scene. I kept the variable name because it’s easy to remember, and works the same regardless of what scene I use.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Don’t believe me? Here, let’s add another scene.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python"># ifiction.py
+#  - An interactive fiction game
+
+import textwrap
+
+field_scene = [
+    # description
+    &quot;You are standing in a field. To the north of you are some mountains, &quot; \
+    &quot;to the east of you is a forest, to the west of you is a cave, and to &quot; \
+    &quot;the south of you is a valley.&quot;,
+    # paths
+    [
+        &quot;Go to the mountains&quot;,
+        &quot;Go into the forest&quot;,
+        &quot;Go into the cave&quot;,
+        &quot;Go to the valley&quot;
+    ]
+
+]
+
+mountain_scene = [
+    # description
+    &quot;You are standing at the foot of a mountain range. Huge impassable peaks &quot; \
+    &quot;loom over you. There is a cave to the east, and a field south of you &quot;    \
+    &quot;leading into a valley.&quot;,
+    # paths
+    [
+        &quot;Go into the cave&quot;,
+        &quot;Go south into the field&quot;
+    ]
+]
+
+scene = mountain_scene
+description = scene[0]
+paths = scene[1]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Hey, we have two scenes! Did you notice that I added yet another variable layer, by remembering one of the scenes in <code>scene</code>? I am very lazy, and will work extremely hard to avoid extra work. We still haven’t had to do anything to the logic of our application, and we didn’t even have to change how <code>description</code> and <code>paths</code> get assigned.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Oh, did you run it?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ python ifiction.py
+You are standing at the foot of a mountain range. Huge impassable
+peaks loom over you. There is a cave to the east, and a field south of
+you leading into a valley.
+      1 Go into the cave
+      2 Go south into the field
+      (0 Quit)
+Make a selection: 2
+Choice 2 - Go south into the field
+You decided to: Go south into the field
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We have confirmed that our code works equally well regardless of which scene we use. It is time to start tying all the scenes together. First, let’s get all the scenes into the code.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">field_scene = [
+    # description
+    &quot;You are standing in a field. To the north of you are some mountains, &quot; \
+    &quot;to the east of you is a forest, to the west of you is a cave, and to &quot; \
+    &quot;the south of you is a valley.&quot;,
+    # paths
+    [
+        &quot;Go to the mountains&quot;,
+        &quot;Go into the forest&quot;,
+        &quot;Go into the cave&quot;,
+        &quot;Go to the valley&quot;
+    ]
+
+]
+
+mountain_scene = [
+    # description
+    &quot;You are standing at the foot of a mountain range. Huge impassable peaks &quot; \
+    &quot;loom over you. There is a cave to the east, and a field south of you &quot;    \
+    &quot;leading into a valley.&quot;,
+    # paths
+    [
+        &quot;Go into the cave&quot;,
+        &quot;Go south into the field&quot;
+    ]
+]
+
+forest_scene = [
+    # description
+    &quot;A giant confused bear mistakes your for one of her cubs and takes you &quot; \
+    &quot;away with her. Although you eventually learn to love your &quot; \
+    &quot;new bear family, your adventuring days are over.&quot;,
+    # paths
+    # No paths - this is a story ending
+    [ ]
+]
+
+cave_scene = [
+    # description
+    &quot;You are in a long dark cave. You see points of daylight at either end of &quot; \
+    &quot;the cave, one to the northeast and one to the southwest.&quot;,
+    # paths
+    [
+        &quot;Go northwest&quot;,
+        &quot;Go southwest&quot;
+    ]
+]
+
+valley_scene = [
+    # description
+    &quot;You are standing in the middle of a huge, beautiful valley. Standing right &quot; \
+    &quot;before you is ... whatever it was you were looking for. Success!&quot;,
+    # paths
+    # No paths - this is a game ending
+    [ ]
+]
+
+scene = valley_scene
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Experiment with using different scenes for <code>scene</code> in the game, just to make sure everything works.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-plaintext">You are standing in the middle of a huge, beautiful valley. Standing
+right before you is ... whatever it was you were looking for. Success!
+      (0 Quit)
+Make a selection: 0
+You decided to: quit
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>How do we go from selecting a path to describing the selected scene? The easiest way to do that right now is to expand the list of paths for each list, turning a path into a list holding the string describing the path and the name of the scene which the path points to. Another one which is easier to show than to describe.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">field_scene = [
+    # description
+    &quot;You are standing in a field. To the north of you are some mountains, &quot; \
+    &quot;to the east of you is a forest, to the west of you is a cave, and to &quot; \
+    &quot;the south of you is a valley.&quot;,
+    # paths
+    [
+        [ &quot;Go to the mountains&quot;, mountain_scene ],
+        [ &quot;Go into the forest&quot;,  forest_scene   ],
+        [ &quot;Go into the cave&quot;,    cave_scene     ],
+        [ &quot;Go to the valley&quot;,    valley_scene   ]
+    ]
+
+]
+
+mountain_scene = [
+    # description
+    &quot;You are standing at the foot of a mountain range. Huge impassable peaks &quot; \
+    &quot;loom over you. There is a cave to the east, and a field south of you &quot;    \
+    &quot;leading into a valley.&quot;,
+    # paths
+    [
+        [ &quot;Go into the cave&quot;,        cave_scene  ],
+        [ &quot;Go south into the field&quot;, field_scene ]
+    ]
+]
+
+forest_scene = [
+    # description
+    &quot;A giant confused bear mistakes your for one of her cubs and takes you &quot; \
+    &quot;away with her. Although you eventually learn to love your &quot; \
+    &quot;new bear family, your adventuring days are over.&quot;,
+    # paths
+    # No paths - this is a story ending
+    [ ]
+]
+
+cave_scene = [
+    # description
+    &quot;You are in a long dark cave. You see points of daylight at either end of &quot; \
+    &quot;the cave, one to the northeast and one to the southwest.&quot;,
+    # paths
+    [
+        [ &quot;Go northwest&quot;, mountain_scene ],
+        [ &quot;Go southwest&quot;, field_scene    ]
+    ]
+]
+
+valley_scene = [
+    # description
+    &quot;You are standing in the middle of a huge, beautiful valley. Standing right &quot; \
+    &quot;before you is ... whatever it was you were loking for. Success!&quot;,
+    # paths
+    # No paths - this is a game ending
+    [ ]
+]
+
+scene = field_scene
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Of course, my changes broke our code.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-plaintext">$ python ifiction.py
+Traceback (most recent call last):
+File &quot;ifiction.py&quot;, line 6, in ?
+  field_scene = [
+NameError: name 'mountain_scene' is not defined
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Oh, that’s no good at all. Of course we can’t use <code>mountain_scene</code> before we tell Python what <code>mountain_scene</code> actually <em>is</em>. What are we going to do? We could make a handful of <code>None</code> assignments at the beginning of the code, but that fights against the flexibility of a language like Python. We could also create a big list called <code>scenes</code> and use the index of each scene instead of a variable name. That <em>would</em> work, but it’s inconvenient. Everything could break again if we change the number of scenes. We’ll also have to keep good notes in order to remember that <code>scenes[0]</code> is the “field scene”, <code>scenes[1]</code> is the “mountain scene,” and so on. Besides, do we really care what order the scenes are stored in? Everything should fall into place automatically once we decide what the starting scene is.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Python has a wonderful type for collecting things where the order doesn’t matter. That type is called a <em>dictionary</em>, and it will be the subject of the next section.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Dictionaries</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>A dictionary is also the most perfectly named type. We have to think about what strings, integers, and arrays are, but a <em>dictionary</em> is easy.  You know how to use a dictionary, right? You want to know the meaning of a word, so you look it up by name, and there is the definition. The dictionary type works the same way. It uses <em>keys</em> instead of indexes. You look up values in a dictionary using their keys. Hey, we haven’t gone to the console recently, and now’s the perfect time.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-pycon">&gt;&gt;&gt; letters = {
+...     &quot;a&quot;: &quot;The first letter in the alphabet&quot;,
+...     &quot;b&quot;: &quot;The second letter in the alphabet&quot;,
+...     &quot;banana pancakes&quot;: &quot;A tasty and nutritious breakfast treat&quot;
+... }
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Python recognizes that you are creating a hash when you use the curly brackets <code>{}</code>. Your initial keys and values will go within those brackets, much like when creating a list. The items in a hash — sorry, they’re called dictionaries in Python, but hashes in many other languages. Dictionary is a much more sensible name, since it describes how you use it. Still, I do occasionally use the word “hash” instead of dictionary because I’m so used to it from other languages. I could have corrected myself and you never need know, but I thought it seemed nice to take a second and point it out. Now when you hear somebody talking about hashes in Perl or Ruby, you will already know that they are describing what you know as dictionaries.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What was I saying? Oh, right. The items in a <em>dictionary</em> are pairs of keys and values. The bit on the left of the <code>:</code> character is the <em>key</em>, and that’s what we use to look up a value. The <em>value</em> is the item on the right, and that’s the bit you’ll usually cared about. The values are strings in this case, but they can be anything. Actually, the same thing is true for the keys, but string keys are the most common. I will definitely be sticking with string keys in the near future.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Once you’ve defined your dictionary, use square brackets <code>[]</code> to get to individual values. This is similar to the way you get at values in a list. This little bit of consistency is provided because both lists and dictionaries are <em>collection</em> types, and it’s important to provide a consistent interface for similar tasks. The task in this case is accessing individual items in the collection.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-pycon">&gt;&gt;&gt; letters[&quot;a&quot;]
+&quot;The first letter in the alphabet&quot;
+&gt;&gt;&gt; letters[&quot;b&quot;]
+&quot;The second letter in the alphabet&quot;
+&gt;&gt;&gt; letters[&quot;banana pancakes&quot;]
+'A tasty and nutritious breakfast treat'
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Python won’t try to do anything clever when you use a key that hasn’t been defined. It simply raises a <code>KeyError</code> exception.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Using a dictionary is straightforward, as you can see. There is one quirk you need to be aware of, though. Remember how I said that dictionaries were a good collection type for those situations where the order of things collected doesn’t matter? That’s because you cannot assume that the keys in a dictionary have any kind of order.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>See for yourself with the dictionary method <code>keys</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-plaintext">&gt;&gt;&gt; letters.keys()
+['a', 'banana pancakes', 'b']
+&gt;&gt;&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You can see that the keys are not in the alphabetical order you might expect. The reason is a little technical for my mood right now, but basically Python does a little preparation which makes it easier to store and access the keys later. The cost for us is that the keys look unsorted. It’s a small cost, and one that we can work around easily if it’s that important.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Okay, fine. But what was I saying earlier about <em>methods</em>, and why does it look like I have a function call pressed up against <code>letters</code>? That is our first peek at Object Oriented Programming, a popular approach which makes a lot of programs easier to describe.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I am having a hard time coming up with a description for objects, even though the basic idea is easy. You have been dealing so far with simple values for variables, like the number <code>3</code> or the string <code>&quot;bananagram&quot;</code>. Well, an object is <em>like</em> a simple value, but you can ask it to do things. Take a dictionary for example. You can ask it for its keys, you can ask it if it has a particular key, and a few other things. Many of those requests are done with <em>methods</em>. A method looks like an ordinary function, but it is associated with a particular type of object.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I have been lying a little bit about strings, actually. They are objects, not simple values.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-pycon">&gt;&gt;&gt; &quot;surprise&quot;.upper()
+'SURPRISE'
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>An easy way to get at all of the values in a dictionary is to get the list of keys and iterate through the list with <code>for</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-pycon">&gt;&gt;&gt; keys = letters.keys()
+&gt;&gt;&gt; for key in keys:
+...     print key, &quot;is&quot;, letters[key]
+...
+a is The first letter in the alphabet
+banana pancakes is A tasty and nutritious breakfast treat
+b is The second letter in the alphabet
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>And if the order is important to us, we can sort the list of keys with the <code>sort</code> method common to all lists. See, you have been using objects quite a bit already!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-pycon">&gt;&gt;&gt; keys.sort()
+&gt;&gt;&gt; for key in keys:
+...     print key, &quot;is&quot;, letters[key]
+...
+a is The first letter in the alphabet
+b is The second letter in the alphabet
+banana pancakes is A tasty and nutritious breakfast treat
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I think it’s been too long since we worked on our game. Let’s put everything in a dictionary and make our game code work with that. Some big changes are coming to the code, so prepare yourself.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">scenes = {
+    &quot;field&quot;: {
+        &quot;description&quot;: &quot;You are standing in a field. To the north of you are some mountains, &quot; \
+                       &quot;to the east of you is a forest, to the west of you is a cave, and to &quot; \
+                       &quot;the south of you is a valley.&quot;,
+        &quot;paths&quot;: [
+            { &quot;go_to&quot;: &quot;mountains&quot;, &quot;phrase&quot;: &quot;Go to the mountains&quot; },
+            { &quot;go_to&quot;: &quot;forest&quot;,    &quot;phrase&quot;: &quot;Go to the forest&quot; },
+            { &quot;go_to&quot;: &quot;cave&quot;,      &quot;phrase&quot;: &quot;Go into the cave&quot; },
+            { &quot;go_to&quot;: &quot;valley&quot;,    &quot;phrase&quot;: &quot;Go to the valley&quot; }
+        ]
+    },
+    &quot;mountains&quot;: {
+        &quot;description&quot;: &quot;You are standing at the foot of a mountain range. Huge impassable peaks &quot; \
+                       &quot;loom over you. There is a cave to the east, and a field south of you &quot;    \
+                       &quot;leading into a valley.&quot;,
+        &quot;paths&quot;: [
+            { &quot;go_to&quot;: &quot;cave&quot;, &quot;phrase&quot;: &quot;Go into the cave&quot; },
+            { &quot;go_to&quot;: &quot;field&quot;, &quot;phrase&quot;: &quot;Go south into the field&quot; }
+        ]
+    },
+    &quot;forest&quot;: {
+        &quot;description&quot;: &quot;A giant confused bear mistakes your for one of her cubs and takes you &quot;   \
+                       &quot;away with her. Although you eventually learn to love your &quot; \
+                       &quot;new bear family, your adventuring days are over.&quot;,
+        &quot;paths&quot;: [ ]
+    },
+    &quot;cave&quot;: {
+        &quot;description&quot;: &quot;You are in a long dark cave. You see points of daylight at either end of &quot; \
+                       &quot;the cave, one to the northeast and one to the southwest.&quot;,
+        &quot;paths&quot;: [
+            { &quot;go_to&quot;: &quot;mountains&quot;, &quot;phrase&quot;: &quot;Go northwest&quot; },
+            { &quot;go_to&quot;: &quot;field&quot;,     &quot;phrase&quot;: &quot;Go southwest&quot; }
+        ]
+    },
+    &quot;valley&quot;: {
+        &quot;description&quot;: &quot;You are standing in the middle of a huge, beautiful valley. Standing right &quot; \
+                       &quot;before you is ... whatever it was you were looking for. Success!&quot;,
+        &quot;paths&quot;: [ ]
+    }
+}
+
+scene = scenes[&quot;field&quot;]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We are now using key names instead of variable names. This makes Python happier, since we aren’t using variable names that haven’t been defined yet. There is a pleasant side effect, too. Instead of having half a dozen different <code>scene</code> variables, we have contained all of them in a single <code>scenes</code> dictionary. I like to think that this makes the code a little cleaner. We use a convenient name as the key for each scene. Each scene is a dictionary as well, containing the description and paths for that scene. And then the paths collection for each scene is an array of dictionaries. Each element of the <code>paths</code> list contains the destination and a phrase describing the command. *(I’m not comfortable with the</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>names I used for the path dictionaries. Let’s revisit that later.)*</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It all sounds a little confusing, and eventually I’ll come up with a better way to explain it. I think you’ll find that dictionaries provide an incredibly convenient way to store information that is more complicated than a simple string or number as you get comfortable with them.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now we need to fix our scene handling code so that it works with our new dictionary-based scenes.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">scene = scenes[&quot;field&quot;]
+description = scene[&quot;description&quot;]
+paths = scene[&quot;paths&quot;]
+
+print textwrap.fill(description)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I used an array <em>(right name for a list – search and replace through text)</em> for a scene’s paths because I still want to use numbers in our menu listing. This means that order is important, which is the best time to use an array.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Printing the menu is easy. We adjust the <code>print</code> statement so that it prints the value associated with the “phrase” key of <code>path</code>. You know what? That is too much of a mouthful. How about I start saying “the ‘phrase’ for this <code>path</code>” or something like that? It means the same thing, and is probably easier to understand since it is so much shorter.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python"># Show the menu for this scene.
+for i in range(0, len(paths)):
+    path = paths[i]
+    menu_item = i + 1
+    print &quot;\t&quot;, menu_item, path[&quot;phrase&quot;]
+
+print &quot;\t(0 Quit)&quot;
+next_step = None
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Processing the input is going to be a little trickier. We need to get the right assignment for <code>next_step</code>, but we also need to correctly handle a user decision to quit.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python"># Get the user selection from the menu.
+while next_step == None:
+    try:
+        choice = raw_input(&quot;Make a selection: &quot;)
+        menu_selection = int(choice)
+
+        if menu_selection == 0:
+            next_step = &quot;quit&quot;
+        else:
+            index = menu_selection - 1
+            next_step = paths[ index ]
+    except (IndexError, ValueError):
+        print choice, &quot;is not a valid selection!&quot;
+
+if next_step == &quot;quit&quot;:
+    print &quot;Good bye!&quot;
+else:
+    print &quot;You decided to:&quot;, next_step[&quot;phrase&quot;]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That exception handling code is starting to bother me. It catches errors well enough, but it doesn’t give any useful information to the user. We have provided the user with a menu and some numbers, but we are assuming that she knows what she is supposed to enter. Our user needs to know what we expect from her so that she can enjoy the game. Please remember: we are <em>not</em> going to assume that the user is stupid, but we <em>are</em> going to assume that she has better things to do with her time than decipher our menu.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I think we’ll be safe by adding a little bit of direction as part of our input prompt.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">prompt = &quot;Make a selection (0 - %i): &quot; % len(paths)
+
+while next_step == None:
+    try:
+        choice = raw_input(prompt)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Our prompt message is a little more complicated now, so we put it into its own variable. And I have introduced yet another way to construct strings.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>String formatting gives us a mini-language for exact control over the contents of a string. It is a fairly simple language, consisting of placeholders marked with <code>%</code> and a conversion rule. I want to display the length of <code>paths</code> as an integer number, so my conversion rule is <code>i</code>. The string is followed by another <code>%</code> symbol and the value you want converted and placed in the string. Use a tuple after the <code>%</code> if you have more than one conversion to handle in your string:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-pycon">&gt;&gt;&gt; str = &quot;%s are better for you than %s, but I don't care&quot; % (&quot;apples&quot;, &quot;pancakes&quot;)
+&gt;&gt;&gt; str
+'apples are better for you than pancakes'
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Your rules can become very elaborate, and I encourage you to play with them more. I’ve rambled enough and there is a lot more to cover. Let’s move on.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Guess what? It’s time to create the game loop, which means that we are about to have a playable version of our interactive fiction game! Take another break. Shake your fingers out. Have a taste of coffee, juice, or whatever your beverage of choice is. We’ll pick this up again soon.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

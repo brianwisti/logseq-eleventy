@@ -1,0 +1,871 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2014/replyrc And Mojo
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2014-08-19</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+        
+          <tr>
+            <th>banner</th>
+            <td><p>…/assets/cover-2014-08-19_1721221174577_0.png</p>
+</td>
+          </tr>
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It has been a few days since <a href="/post/2014/repl-in-perl-with-reply" class="page-link">post/2014/REPL In Perl With Reply</a>, and I still enjoy <a href="https://metacpan.org/pod/Reply">Reply</a>. Command history features from the <a href="https://metacpan.org/pod/Reply::Plugin::ReadLine">ReadLine plugin</a> became available once I installed <a href="http://cnswww.cns.cwru.edu/php/chet/readline/rltop.html">GNU ReadLine</a> and <a href="https://metacpan.org/pod/Term::ReadLine::Gnu">Term::ReadLine::Gnu</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There are still customizations that I would like to make. For example, I write most of my personal code using <a href="/perl" class="page-link">Perl</a> 5.20’s experimental <a href="http://perldoc.perl.org/perldelta.html#Experimental-Subroutine-signatures">subroutine signature</a> and <a href="http://perldoc.perl.org/perldelta.html#Experimental-Postfix-Dereferencing">postderef</a> features.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Use shiny Perl 5.20 features automatically</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>A default <code>$HOME/.replyrc</code> is created the first time you run Reply - unless you already have one, of course. It includes a selection of plugins that will be loaded and a collection of <code>script_line</code> entries that are evaluated automatically for any new Reply session. I fiddled with mine so that I had a Perl with syntactical sugar in place.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ini">script_line1 = use 5.20.0
+script_line2 = use warnings
+script_line3 = use feature qw(signatures postderef)
+script_line4 = no warnings 'experimental'
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Each line gets its own numbered <code>script_line</code> entry because of the INI format and the way that input is parsed by Reply.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>With this base level of behavior defined, I can run <code>reply</code> and rewrite my <code>greet</code> subroutine.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">0&gt; sub greet ($name) { &quot;Hello $name!&quot; }
+1&gt; my $me = &quot;Brian&quot;
+$res[0] = 'Brian'
+
+2&gt; greet $me
+$res[1] = 'Hello Brian!'
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That’s better.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Enabling the editor</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You need <a href="https://metacpan.org/pod/Proc::InvokeEditor">Proc::InvokeEditor</a> in order to activate the <a href="https://metacpan.org/pod/Reply::Plugin::Editor">Editor plugin</a>. I suppose that makes sense. Proc::InvokeEditor is a module that makes it easy to launch your default text editor on behalf of the application, sending the editor buffer back to your application as user input.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ cpanm Proc::InvokeEditor
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Add the Editor plugin entry to your <code>.replyrc</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ini">[Editor]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>And just like that, here is a new <code>#e</code> command.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">0&gt; #e
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Specifying a module at start</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I have been exploring <em class="link-missing">Mojolicious</em>, which is a surprisingly full-featured framework considering its small size. The <a href="http://mojolicio.us/perldoc/ojo">ojo</a> library is a Mojolicious command line tool focused on making your one-liners even more useful. Since Reply is sort of an extended one-liner environment - okay, you can call it a “shell” - ojo and Reply can go together perfectly.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There is no need to add ojo to my <code>.replyrc</code>, because I will not be needing its functionality every single time I load Reply. Instead I will just tell Reply to load the library when starting those particular sessions.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let’s keep with the <a href="http://Questhub.io">Questhub.io</a> example from the earlier post. I start <code>reply</code> with the <code>-M</code> flag to load a specific module on startup.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">$ reply -Mojo
+0&gt; sort map { $_-&gt;{name} } j( g( 'https://questhub.io/api/realm' )-&gt;body )-&gt;@*
+$res[0] = [
+  'Big Data',
+  'Chaos',
+  'Code',
+  'DC Metro Region',
+  'Fitness',
+  'Haskell',
+  'Japanese',
+  'Lisp',
+  'MOOCs',
+  'Meta',
+  'Node.js',
+  'Perl',
+  'Portland',
+  'Python (Ru)',
+  'Read',
+  'Testing',
+  'Yoga + Meditation'
+]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I know. This is confusing if you are unfamiliar with ojo and the experimental Perl 5.20 postderef feature. We can look at it in smaller pieces.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-perl"># Using ojo::g
+g( 'https://questhub.io/api/realm' )-&gt;body
+
+# is roughly the same as this
+$ua-&gt;get( 'http://questhub.io/api/realm' )-&gt;res-&gt;body
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="http://mojolicio.us/perldoc/ojo#g"><code>g</code></a> is a shortcut for the <code>get</code> method of <a href="http://mojolicio.us/perldoc/Mojo/UserAgent">Mojo::UserAgent</a>. There are shortcuts for numerous HTTP verbs in ojo.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-perl"># using ojo::j and ojo::g
+j( g( 'https://questhub.io/api/realm' )-&gt;body )
+
+# is rougly the same as this
+decode_json( $ua-&gt;get( 'https://questhub.io/api/realm' )-&gt;res-&gt;body )
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="http://mojolicio.us/perldoc/ojo#j"><code>j</code></a> is a convenience function from <a href="http://mojolicio.us/perldoc/Mojo/JSON#j">Mojo::JSON</a> for encoding and decoding JSON. My experience so far has been that it does what I mean when I use it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-perl"># using j, g, and postderef
+j( g( 'https://questhub.io/api/realm' )-&gt;body )-&gt;@*
+
+# is rougly the same as this
+@{ decode_json( $ua-&gt;get( 'https://questhub.io/api/realm' )-&gt;res-&gt;body) }
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>$ref-&gt;@*</code> is an experimental new syntax for accessing the contents of an array reference. It is equivalent to <code>@{ $ref }</code> or <code>@$ref</code>. The postderef syntax is a little easier for me to read, but your experience may be different.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>All done</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That is enough for now. With the ReadLine plugin and Editor plugin enabled, a nice 2014-ish Perl setup in my <code>.replyrc</code>, and ojo available when I want it, Reply is downright useful for me.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

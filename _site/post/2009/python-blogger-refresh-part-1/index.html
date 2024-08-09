@@ -1,0 +1,808 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2009/Python Blogger Refresh, Part 1
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2009-06-09</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>The Idea</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I wrote <a href="/post/2007/python-loves-blogger-part-1" class="page-link">post/2007/Python Loves Blogger (Part 1)</a> a while back about using <a href="/python" class="page-link">Python</a> to write <a href="http://blogspot.com">Blogspot</a> posts from the command line. It took me about two weeks to completely forget about it. Still, it’s one of the few posts on this blog that gets regular visits, and the code … well, the code is not great. It was a fair effort, but it didn’t even accomplish the things I had initially set out to do. Account information is hard-coded into the code, for example. I also blundered along haphazardly with parsing metadata information myself despite the fact that <a href="https://pypi.python.org/pypi/Markdown">Python Markdown</a> has an extension which is perfectly capable of <a href="https://pythonhosted.org/Markdown/extensions/meta_data.html">handling metadata</a>. Well, let’s look at that code again.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There’s a fresh install of <a href="http://ubuntu.com">Ubuntu</a> 9.04 on my laptop and I’ve got projects I feel like talking about. So let’s get started.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The basic flow will be the same. Given a command line that looks like this:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ python post-to-blog.py post.txt
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Here’s what the code will do:</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>load settings</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>create an HTML formatted string based on the Markdown-formatted text found in <code>post.txt</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>request that Blogger store the post using post data and user settings</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>report the result of the publish request</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’ll be starting from the code that already exists in the earlier posts. We can start this project with confidence once we have everything set up and we’re sure the old code still does what we expect it to.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Setup</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Ubuntu 9.04 already has a copy of Python 2.6 installed. I suppose I could grab a fresh copy of the Python source and build it myself, but I don’t really feel like it right now. Sometimes I’m just lazy. Ubuntu’s 2.6 will work well enough for my needs.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Modules are a different matter. I want fresh copies of Python Markdown and <a href="https://github.com/google/gdata-python-client">GData</a>, rather than the somewhat dated modules that are available in the repository. There are a fair number of bug fixes and new features in the latest versions.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-bash">$ cd ~/src
+$ wget http://gdata-python-client.googlecode.com/files/gdata-1.3.3.tar.gz
+$ tar xfz gdata-1.3.3.tar.gz
+$ cd gdata-1.3.3/
+$ sudo python setup.py install
+$ cd ../
+$ wget http://pypi.python.org/packages/source/M/Markdown/Markdown-2.0.tar.gz
+$ tar xfvz Markdown-2.0.tar.gz
+$ cd Markdown-2.0/
+$ sudo python setup.py install
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>The Starting Code</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now that I have the most important dependencies installed, I can revisit the code from the earlier posts. There’s no local copy of the code, so I will just copy and paste the original code, run the tests, and share the starting code. What could possibly go wrong?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ cd ~/Projects/python-blogger
+$ python post-to-blog.py -D
+...
+***Test Failed*** 19 failures.
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Ouch. Something has gone horribly wrong in copying and pasting the code from the posts, the module behaviors have changed, or maybe they never worked as well as I thought they did. Either way, this is bad. Let me fix these issues and then I’ll share the <em>new</em> starting code with you.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>The New Starting Code</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python"># post-to-blog.py
+
+import markdown
+from xml.etree import ElementTree
+from gdata import service
+import gdata
+import atom
+import sys
+
+class BlogPost(object):
+    &quot;&quot;&quot;A single posting for a blog owned by a Blogger account
+
+    &gt;&gt;&gt; post = BlogPost('Brian Wisti', 'me@here.com', 'mysecretpassword')
+    &gt;&gt;&gt; post.body = 'This is a paragraph'
+    &gt;&gt;&gt; print post.body
+    &lt;p&gt;This is a paragraph&lt;/p&gt;
+    &quot;&quot;&quot;
+
+    def __init__(self, author, account, password):
+        self.config = {}
+        self.__body = None
+        self.__author = author
+        self.__account = account
+        self.__password = password
+
+    def set_body(self, bodyText):
+        &quot;&quot;&quot;Stores plain text which will be used as the post body
+
+        &gt;&gt;&gt; post = BlogPost('Brian Wisti', 'me@here.com', 'mysecretpassword')
+        &gt;&gt;&gt; post.set_body('This is a paragraph')
+        &gt;&gt;&gt;
+        &quot;&quot;&quot;
+        self.__body = bodyText
+
+    def get_body(self):
+        &quot;&quot;&quot;Access a HTML-formatted version of the post body
+
+        &gt;&gt;&gt; post = BlogPost('Brian Wisti', 'me@here.com', 'mysecretpassword')
+        &gt;&gt;&gt; post.set_body('This is a paragraph')
+        &gt;&gt;&gt; print post.get_body()
+        &lt;p&gt;This is a paragraph&lt;/p&gt;
+        &quot;&quot;&quot;
+        return markdown.markdown(self.__body)
+
+    body = property(get_body, set_body)
+
+    def parseConfig(self, configText):
+        &quot;&quot;&quot;Reads and stores the directives from the post's config header.
+
+        &gt;&gt;&gt; post = BlogPost('Brian Wisti', 'me@here.com', 'mysecretpassword')
+        &gt;&gt;&gt; import os
+        &gt;&gt;&gt; myConfig = os.linesep.join([&quot;key1: value1&quot;, &quot;key2: value2&quot;])
+        &gt;&gt;&gt; post.parseConfig(myConfig)
+        &gt;&gt;&gt; post.config['key1']
+        'value1'
+        &gt;&gt;&gt; post.config['key2']
+        'value2'
+        &quot;&quot;&quot;
+        textLines = configText.splitlines()
+        for line in textLines:
+            key, value = line.split(': ')
+            self.config[key] = value
+
+    def parsePost(self, postText):
+        &quot;&quot;&quot;Parses the contents of a full post, including header and body.
+
+        &gt;&gt;&gt; import os
+        &gt;&gt;&gt; myText = os.linesep.join([&quot;title: Test&quot;, &quot;--&quot;, &quot;This is a test&quot;])
+        &gt;&gt;&gt; post = BlogPost('Brian Wisti', 'me@here.com', 'mysecretpassword')
+        &gt;&gt;&gt; post.parsePost(myText)
+        &gt;&gt;&gt; print post.config['title']
+        Test
+        &gt;&gt;&gt; print post.body
+        &lt;p&gt;This is a test&lt;/p&gt;
+        &quot;&quot;&quot;
+        header, body = postText.split('--', 1)
+        self.parseConfig(header)
+        self.body = body
+
+  def sendPost(self):
+      &quot;&quot;&quot;Log into Blogger and submit my already parsed post&quot;&quot;&quot;
+
+      # Authenticate using ClientLogin
+      blogger = service.GDataService(self.__account, self.__password)
+      blogger.source = 'post-to-blog.py_v01.0'
+      blogger.service = 'blogger'
+      blogger.server = 'www.blogger.com'
+      blogger.ProgrammaticLogin()
+
+      # Get the blog ID
+      query = service.Query()
+      query.feed = '/feeds/default/blogs'
+      feed = blogger.Get(query.ToUri())
+      blog_id = feed.entry[0].GetSelfLink().href.split('/')[-1]
+
+      # Create the entry to insert.
+      entry = gdata.GDataEntry()
+      entry.author.append(atom.Author(atom.Name(text=self.__author)))
+      entry.title = atom.Title('xhtml', self.config['title'])
+      entry.content = atom.Content(content_type='html', text=self.body)
+
+      # Assemble labels, if any
+      if 'tags' in self.config:
+          tags = self.config['tags'].split(',')
+          for tag in tags:
+              category = atom.Category(term=tag, scheme='http://www.blogger.com/atom/ns#')
+              entry.category.append(category)
+
+      # Decide whether this is a draft.
+      control = atom.Control()
+      control.draft = atom.Draft(text='yes')
+      entry.control = control
+
+      # Submit it!
+      blogger.Post(entry, '/feeds/' + blog_id + '/posts/default')
+
+def runTests():
+    import doctest
+    doctest.testmod()
+
+def main():
+    from optparse import OptionParser
+    parser = OptionParser()
+    parser.add_option(&quot;-D&quot;, &quot;--do-tests&quot;, action=&quot;store_true&quot;, dest=&quot;doTests&quot;,
+                      help=&quot;Run built-in doctests&quot;)
+    parser.add_option(&quot;-f&quot;, &quot;--file&quot;, dest=&quot;filename&quot;,
+                      help=&quot;Specify source file for post&quot;)
+    (options, args) = parser.parse_args()
+
+    if options.doTests:
+        runTests()
+
+    if options.filename:
+        post = BlogPost('Brian Wisti', 'me@here.com', 'mysecretpassword')
+        postFile = open(options.filename).read()
+        post.parsePost(postFile)
+        post.sendPost()
+
+if __name__ == '__main__':
+    main()
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Coming Up Next</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>These posts will be short, since I want to get <em>something</em> up while still getting things done at work. We have our starting point reestablished. <a href="/post/2009/python-blogger-refresh-part-2-settings" class="page-link">post/2009/Python Blogger Refresh Part 2 - Settings</a> concentrates on loading user settings rather than embedding those details right in our code.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

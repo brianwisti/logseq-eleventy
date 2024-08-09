@@ -1,0 +1,1099 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2018/Taskwarrior Due Dates
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2018-01-02</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+        
+          <tr>
+            <th>banner</th>
+            <td><p>…/assets/cover-2018-01-02_1721748207325_0.png</p>
+</td>
+          </tr>
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I checked out some library books again. Time to correctly record their due date in <a href="/taskwarrior" class="page-link">Taskwarrior</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The Taskwarrior documentation includes an excellent page on <a href="https://taskwarrior.org/docs/using_dates.html">using dates</a>. This post just takes what I need from that page.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Due Dates</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Picked up some new stuff from the library the other day. Oh BTW I highly recommend <a href="https://www.goodreads.com/book/show/30139736-the-girl-from-the-other-side">The Girl from the Other Side</a>. I already finished the first volume and put the second on hold.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Anyways, this stuff is due on January 20th. Up until now I used annotations and priorities to remind me about the urgency and any calendar-related details. That worked, in a clunky sort of way. I returned everything on time.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Thing is, Taskwarrior supports assigning due dates directly.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Add a due date</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Give a task a due date with <code>due:</code> and a date. Taskwarrior lets you describe dates in <a href="https://taskwarrior.org/docs/named_dates.html">many ways</a>. When in doubt, use <code>yyyy-mm-dd</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task add return to library due:2018-01-20
+Created task 55.
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The <code>next</code> report has a new column, but my library task gets lost in the shuffle.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task
+[task next]
+
+ID Age   P Project      Tag              Due Description                                     Urg
+51 2d    H fixmusic     homeops music        beet import all Sync Music                      7.91
+2 4w    H              blog taskwarrior     due dates                                       7.06
+46 3d    H              blog music           processing for basic lyrics video               6.92
+26 6d    M fitbit       code health          munge data into csv per type                    5.83
+32 5d    M fixmusic     homeops music        find itunes tracks not in Sync                  5.83
+33 5d    M fixmusic     homeops music        find itunes tracks not on MBP                   5.83
+1 4w    M              crochet              fingerless gloves                               4.87
+7 3w    M              home                 move my stuff upstairs                          4.83
+17 2w    M              home                 make flylady daily and weekly list              4.78
+34 5d    M              home                 evaluate menu planning routine                  4.73
+44 4d    M              learn                run py processing from cli                      4.72
+45 3d    M              homeops              get cat-6 for new office                        4.72
+19 13d   L fixmusic     homeops music        filter duplicate tracks                         3.77
+37 4d    L lyricsvideos learn music          simple text on Linux                            3.72
+39 4d    L lyricsvideos learn music          analyze with libROSA music                      3.72
+24 8d    L fitbit       health               see activity when closest to weight goal        3.64
+11 2w    L              crochet home         door panel                                       3.6
+											  2017-12-27 maybe use
+											http://crochetandknitting.com/curtains.htm
+23 11d   L              homeops music        restore backup                                  3.56
+											  2017-12-25 windows sucks find that hard drive
+22 12d   L              home                 living room curtains                            3.47
+											  2017-12-20 dimensions 94.25 wide 56.5 high
+31 5d    L              art blog code        circular grid generation                        2.83
+55 1min  L              blog taskwarrior     recurrences                                      2.7
+9 2w    L              music                experiment with setting itunes play stats        2.7
+10 2w    L              blog                 create links section                             2.7
+18 13d   L              music                merge rating files                              2.67
+47 3d    L              homeops              move pics to Sync                               2.62
+53 9min                                  2w  return to library                                2.4
+40 4d      lyricsvideos learn music          processing text timed by libROSA                1.92
+41 4d      lyricsvideos learn music          processing visualization manually timed         1.92
+42 4d      lyricsvideos learn music          processing visualization timed by libROSA       1.92
+36 5d                   blog taskwarrior     custom priority report                          0.93
+
+30 tasks
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Where is it? Oh there it is.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>List tasks with a due date</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Fortunately, Taskwarrior lets me use filters. <code>due.any:</code> filters tasks to those which have an assigned due date.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task due.any:
+[task next ( due.any: )]
+
+ID Age   Due Description       Urg 
+53 12min 2w  return to library  2.4
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Waiting tasks</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>A friend and I chatted a minute ago. We plan to meet up on Thursday. Why not add that as a task, since I have this blog post open?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task add meet rainy due:thursday
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Taking advantage of Taskwarrior’s <a href="https://taskwarrior.org/docs/named_dates.html">date flexibility</a> is often quicker than remembering a calendar date.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task due.any:
+[task next ( due.any: )]
+
+ID Age   Due Description       Urg 
+54 26s   2d  meet rainy        7.83
+53 14min 2w  return to library  2.4
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I don’t need a big urgent reminder for that one though. Just remind me on Thursday that we’re meeting Thursday.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task 54 modify wait:due
+Modifying task 54 'meet rainy'.
+Modified 1 task.
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now it doesn’t show up in my due list or in my regular task list. I assume it will appear on Thursday morning.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Of course there’s a report available to see only waiting tasks.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task waiting
+
+ID Age  Wait       Remaining Due        Description
+54 7min 2018-01-04        2d 2018-01-04 meet rainy 
+
+1 task
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Scheduled tasks</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>As long as I’m sitting here: how about a credit card bill?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task add credit card +pay due:2018-01-22
+Created task 56.
+$ task due.any:
+[task next ( due.any: )]
+
+ID Age  Tag Due Description       Urg 
+56 2min pay 2w  credit card        3.2
+53 1h       2w  return to library  2.4
+
+2 tasks
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I don’t get paid until the 15th, so there’s no point fussing about it right now.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What happens if I schedule the credit card for payday?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task 56 modify scheduled:15th
+Modifying task 56 'credit card'.
+Modified 1 task.
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The task still shows up in <code>next</code>, which is fine. I want to stay aware of it. I can use the <code>scheduled</code> filter to see tasks which have a scheduled date.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task scheduled
+[task next ( scheduled )]
+
+ID Age  Tag Due Description Urg 
+56 4min pay 2w  credit card  3.2
+
+1 task
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What about all the non-waiting tasks that are due this month? Time for my first
+<a href="https://taskwarrior.org/docs/tags.html#supported">virtual tag</a> — provided by Taskwarrior as a shorthand for specific complex queries. The <code>+MONTH</code> virtual tag filters on tasks that are due this month.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task +MONTH
+[task next ( +MONTH )]
+
+ID Age  Tag Due Description       Urg 
+56 6min pay 2w  credit card        3.2
+53 1h       2w  return to library  2.4
+
+2 tasks
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This has been a quick post, but I still want something kind of cool for the opening screenshot.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Oh I know: how about a calendar?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task calendar
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

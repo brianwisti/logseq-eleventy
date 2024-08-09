@@ -1,0 +1,1835 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2011/Rake
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2011-07-18</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><p><a href="/coolnamehere" class="page-link">coolnamehere</a></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="https://ruby.github.io/rake/">Rake</a> is a simple build program. You can use it to automate complex or repetitive tasks. It is written in <a href="/ruby" class="page-link">Ruby</a>, but is useful in far more than just Ruby projects.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The great news is that if you have Ruby on your system, you <em>probably</em> already have Rake. It has been included as part of the standard Ruby distribution for a few years.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It is easy to test which version of Rake you have from the command line:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ rake --version
+rake, version 0.9.2
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>If you do not have Rake, then you just need to install a fresh release of Ruby. Go ahead. I’ll wait.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Rake is driven by a <em>Rakefile</em>.  A Rakefile is a collection of Ruby instructions organized into <em>tasks</em>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This is not going to be an in-depth Rake tutorial.  I’ve noticed a lack of simple real-world Rakefile examples, aside from one excellent <a href="https://www.stuartellis.eu/articles/rake">Rake introduction</a>. I have a Rakefile I need to build.  That makes this a good opportunity for me to write a page about Rake.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Building a Simple Rakefile</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I have a Web site. You may have noticed that.  If you only know me from my frequent postings on social network sites like <a href="https://plurk.com">Plurk</a> or Google+. I assure you that I do indeed have a Web site.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The thing about my Web site is that rather than use Drupal or some other convenient Content Management System, I use a tool that generates static HTML.  The static HTML and associated files like images and stylesheets are then uploaded to an inexpensive Web host. Hey.  It works for me. Static HTML serves fast, and I don’t change the content on my site <em>that</em> often.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I invoke a simple command to build my site before uploading it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ python site-builder.py
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That is not painful, but it does get boring. More importantly, I have been thinking about how <a href="http://beta.compass-style.org">Compass</a> would be a great thing to use for my site. But <code>site-builder.py</code> is an ugly, ugly piece of hackery. It is just coherent enough to build the site you’re reading. It is <em>certainly</em> not up to the job of driving Compass. That’s where Rake comes in.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>One Task</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You might want to use the exact same Rake tasks as me while you read this. Here is a dummy version of <code>site-builder.py</code> that you can use. No, it does not build a site. It <em>will</em> give you something to work with for demonstrating Rake, though.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python"># Imaginary version of site-builder.py
+if __name__ == __main__:
+    print &quot;Look at me, I'm building a site!&quot;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>First I will start by creating a Rakefile to handle my current workflow.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby"># Rakefile for coolnamehere.com
+task :html do
+  sh &quot;python site-builder.py&quot;
+end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The simplest Rake <code>task</code> command takes two arguments: a name for that task, and a block of actions to perform when that task is requested. The name can be written as a String or as a Symbol, but I usually see it written as a Symbol.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The block can be any valid Ruby code. The <code>:html</code> block uses my shell to run the Python script that builds <a href="http://coolnamehere.com">coolnamehere.com</a>. You ask Rake to execute a particular task from the command line by using the task’s name.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ rake html
+python site-builder.py
+Look at me, I'm building a site!
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>How do you find out what tasks are available, aside from reading the Rakefile? The -T flag will ask Rake to list all of the available tasks.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-sh">rake -T
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Oh. Hold on a second. Rake will only list the tasks you have described with the <code>desc</code> command.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">desc &quot;Generate Web site&quot;
+task :html do
+  sh &quot;python site-builder.py&quot;
+end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let us try that again. The <code>-T</code> flag will ask Rake to list all of the available <em>described</em> tasks.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ rake -T
+rake html  # Generate Web site
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>A Rakefile can have many tasks, but some of them may be utility tasks which are not expected to be called by the user. That is why limiting the task list to described tasks is a good idea.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>A Second Task</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>As I mentioned before, part of the reason I am writing a Rakefile is because I want to use Compass to define the styles for coolnamehere. I set up a Compass project parallel to my site sources, including the blueprint module. The Compass project is called “style”. My projects generally do not have clever names.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>If you <em>really</em> want to play along, here is how I set up my Compass project.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-sh">gem install compass
+compass create style --using blueprint
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This is another straightforward task.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">desc &quot;Generate style sheets&quot;
+task :css do
+  sh &quot;compass compile style&quot;
+end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I do not expect anything exciting to happen, since I have not changed the SCSS files.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ rake css
+compass compile style
+unchanged style/sass/ie.scss
+unchanged style/sass/print.scss
+unchanged style/sass/screen.scss
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There is still a problem, though. All of the stylesheets are in <code>style/stylesheets</code>,  but the working stylesheets have been over in <code>site/inc/css</code>. I need Rake to copy the finished stylesheets to the expected location.  Might as well copy the images that are sitting in the <code>style</code> project while I am at it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">desc &quot;Generate style sheets&quot;
+task :css do
+  sh &quot;compass compile style&quot;
+  cp Dir.glob(&quot;style/stylesheets/*&quot;), &quot;source/inc/css&quot;, :verbose =&gt; true
+  cp Dir.glob(&quot;style/stylesheets/images/*&quot;), &quot;source/inc/images&quot;, :verbose =&gt; true
+end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Rake conveniently imports the FileUtils module. This lets me use Ruby standard library methods such as <code>cp</code> to copy a list of files rather than relying on platform-specific shell commands.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What does that look like in action?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ rake css
+compass compile style
+unchanged style/sass/ie.scss
+unchanged style/sass/print.scss
+unchanged style/sass/screen.scss
+cp -r style/stylesheets/ie.css style/stylesheets/print.css style/stylesheets/screen.css source/inc/css
+cp -r style/images/grid.png source/inc/images
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Good enough. Excuse me while I adjust my HTML template to point at the right stylesheets.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Setting a Dependency</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There are already awkward bits to the Rakefile as it is right now. I need to run two commands in order to build the site completely. Because <code>site-builder.py</code> also copies the site files to a new location, I must also remember to run the commands in the correct order. If I don’t, then the generated CSS will go into my site sources after the HTML has already been generated and copied.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ rake css
+...
+$ rake html
+...
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What if I made <code>:css</code> a <em>dependency</em> of <code>:html</code>? Rake would make sure that the <code>:css</code> task was executed before it tried to execute the <code>:html</code> task.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>A little syntax trickery simplifies the task of describing a task’s dependencies.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">desc &quot;Generate Web site&quot;
+task :html =&gt; [:css] do
+  sh &quot;python site-builder.py&quot;
+end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now instead of just a name for the task, we are giving <code>task</code> a Hash. The only key of that Hash is the name of the task, and the value is a list of tasks which this one depends on.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ rake html
+compass compile style
+unchanged style/sass/ie.scss
+unchanged style/sass/print.scss
+unchanged style/sass/screen.scss
+cp -r style/stylesheets/ie.css style/stylesheets/print.css style/stylesheets/screen.css source/inc/css
+cp -r style/images/grid.png source/inc/images
+python site-builder.py
+Look at me, I'm building a site!
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Excellent. Now I can generate both CSS and HTML from a single Rake command. I am going to work a little bit on the styles, and to see if I notice any other little issues with my Rakefile.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Setting the Default Task</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It has been pretty effective so far. Incidentally, Compass is kind of awesome. I highly recommend you check it out for your Web design needs.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It would be nice if I could make the <code>rake</code> call a little shorter, though. I have a shortcut set up in <a href="/vim" class="page-link">Vim</a> that invokes Rake with a default argument. It would be nice to use that shortcut while I am working on coolnamehere.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Rake already has rules for default tasks, actually. It looks for a task named “default” or <code>:default</code>. That makes sense. Let me set up a default task that depends on the <code>:html</code> task.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">task :default =&gt; [:html]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That is all I need to do, actually. A task can simply be a name and its dependencies.  You do not <em>need</em> to define a block of actions for that task.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ rake
+compass compile style
+unchanged style/sass/ie.scss
+unchanged style/sass/print.scss
+unchanged style/sass/screen.scss
+cp -r style/stylesheets/ie.css style/stylesheets/print.css style/stylesheets/screen.css source/inc/css
+cp -r style/images/grid.png source/inc/images
+python site-builder.py
+Look at me, I'm building a site!
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Something I Have Been Meaning To Get Around To</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I have been promising myself for years that I will assemble some sort of script that would automate the process of uploading my site. I never get around to it, though. Instead I fire up NCFTP, load the “coolnamehere” bookmark I’ve had for years, and upload.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It is time to fix that by adding an “upload” task. I will take advantage of the <a href="https://github.com/glejeune/syncftp">syncftp</a> Ruby library, which looks like it will handle all of the little details.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-sh">gem install syncftp
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>For the first test, I will just fill in the blanks using the syncftp README as a guide.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">desc &quot;Transfer site to the remote host&quot;
+task :upload =&gt; [:html] do
+  ftp = SyncFTP.new 'ftp.myhost.com',
+    :username =&gt; 'me',
+    :password =&gt; 'supersecret',
+  ftp.sync :local =&gt; 'build',
+    :remote =&gt; 'public_html'
+end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Conclusion</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Here’s the complete Rakefile, with the as-yet untested “upload” task.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">task :default =&gt; [:html]
+
+desc &quot;Generate Web site&quot;
+task :html =&gt; [:css] do
+  sh &quot;python site-builder.py&quot;
+end
+
+desc &quot;Generate style sheets&quot;
+task :css do
+  sh &quot;compass compile style&quot;
+  cp Dir.glob(&quot;style/stylesheets/*&quot;), &quot;source/inc/css&quot;, :verbose =&gt; true
+  cp Dir.glob(&quot;style/stylesheets/images/*&quot;), &quot;source/inc/images&quot;, :verbose =&gt; true
+end
+
+desc &quot;Transfer site to the remote host&quot;
+task :upload =&gt; [:html] do
+  ftp = SyncFTP.new 'ftp.myhost.com',
+    :username =&gt; 'me',
+    :password =&gt; 'supersecret',
+  ftp.sync :local =&gt; 'build',
+    :remote =&gt; 'public_html'
+end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Well, yes. There are differences from the <em>actual</em> Rakefile, but this gets the idea across.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>All that I need to do now is test it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-sh">rake upload
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

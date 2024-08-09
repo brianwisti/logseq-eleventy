@@ -1,0 +1,867 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2022/Building my Eleventy site
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><p>something something “right tool for the right job”</p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2022-01-03</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><p><a href="https://hackers.town/@randomgeek/107562930844947425">Mastodon</a></p>
+</td>
+          </tr>
+        
+      
+        
+      
+        
+          <tr>
+            <th>banner</th>
+            <td><p>…/assets/cover-2022-01-03_1719326862784_0.jpg</p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>banner-caption</th>
+            <td><p>sometimes the tools break</p>
+</td>
+          </tr>
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Not a huge post. I’m using this <a href="/eleventy" class="page-link">Eleventy</a> incarnation of the site as a way to learn a few <a href="/nodejs" class="page-link">Node.js</a> topics, and many of those concepts are still sinking in.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>So how am I building this thing?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We know it’s Eleventy. But what did I find to get a decent web nerd workflow?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let’s go down the list. You may know better choices. I won’t complain if you share them nicely.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You may <em>not</em> know better choices. If you come wandering in from some search engine, <em>this page is not expert opinion.</em> It’s just what I was able to find that could glue everything together long enough to publish a site.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>So let’s go down the list.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>yarn</code> to run everything</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I opted to drive this with <a href="https://yarnpkg.com.">Yarn</a> For my beginner brain it looks equivalent to <a href="https://docs.npmjs.com/cli/v8">npm</a> but I find Yarn’s usage and invocation more pleasant.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>package.json</code> to tell Yarn what I want it to do</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Everybody seems to treat the <a href="https://docs.npmjs.com/cli/v8/configuring-npm/package-json#scripts"><code>scripts</code></a> block of a <a href="https://docs.npmjs.com/cli/v8/configuring-npm/package-json"><code>package.json</code></a> pretty much the same as the targets of a <code>Makefile</code> so I embraced that.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Here are my core scripts / tasks:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-json">{
+  &quot;scripts&quot;: {
+    &quot;dev&quot;: &quot;npm-run-all --parallel serve watch:style&quot;,
+    &quot;build:dev&quot;: &quot;npm-run-all --serial site:img site:style site:content&quot;,
+    &quot;build:prod&quot;: &quot;npm-run-all --serial site:img site:style site:content:prod&quot;,
+    &quot;clean&quot;: &quot;rimraf dist&quot;,
+    &quot;push&quot;: &quot;rsync -av dist/ vps:randomgeekery.org&quot;,
+    &quot;serve&quot;: &quot;eleventy --serve --quiet&quot;,
+    &quot;site:img&quot;: &quot;ts-node build_tasks/process_images.ts&quot;,
+    &quot;site:content&quot;: &quot;eleventy --quiet&quot;,
+    &quot;site:content:prod&quot;: &quot;INCLUDE_ANALYTICS=1 eleventy --quiet&quot;,
+    &quot;site:style&quot;: &quot;sass ./src/assets/scss/main.scss ./dist/assets/css/main.css&quot;,
+    &quot;watch:style&quot;: &quot;sass --watch ./src/assets/scss/main.scss ./dist/assets/css/main.css&quot;
+  }
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Build, develop, clean, upload. All the basics are there. I don’t think <code>package.json</code> <em>really</em> has namespaces, but I use <code>:</code> to pretend.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>#+BEGIN_NOTE
+I have a few more entries but until I smooth them out a bit they’ll just add noise. I left them out for now.</p>
+<p><code>site:img</code> is part of that noise to be honest, but it’s mentioned prominently in other entries. Basically I preprocess my images with <a href="https://www.11ty.dev/docs/plugins/image/">eleventy-img</a>. We’ll talk more about that another day maybe.
+#+END_NOTE</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>ts-node</code> to execute TypeScript code</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>In the process of learning <a href="/typescript" class="page-link">TypeScript</a>, and I’m very much a “learn by doing” sort of person. “Doing” here means “typing the code and making it run.” I’ll learn the compilation framework of <code>tsc</code> soon enough, but <a href="https://typestrong.org/ts-node/">ts-node</a> lets me execute my TypeScript code immediately.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I like that.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>sass</code> to make things pretty — eventually</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’m sure I’ll get deeper into <a href="https://tailwindcss.com">Tailwind</a> or <a href="https://windicss.org">Windi</a> eventually, but for now it’s still easier to write my styles in <a href="https://sass-lang.com">Sass</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>And yes I know my styles are rough right now. Decided if I let myself linger and wait for the perfect layout I’d never push the update. But I’ll get to it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>npm-run-all</code> so I can do <em>two</em> things with <em>one</em> command</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The only thing I couldn’t figure out how to do with <code>package.json</code> was run two tasks with a single command. That’s apparently because it doesn’t do that on its own. <code>package.json</code> is not a <code>Makefile</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Have no fear. <a href="https://github.com/mysticatea/npm-run-all"><code>npm-run-all</code></a> is here. It’s a CLI application focused on letting you run multiple <code>package.json</code> script commands, sequentially or in parallel.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>rsync</code> to share it when I’m ready</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This is a static site served by <a href="https://httpd.apache.org">Apache</a>. It doesn’t need some continuous integration / deployment pipeline. I have files. <a href="https://rsync.samba.org">rsync</a> uploads them with a quickness.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>rsync</code> has been part of my toolkit for years. I’ll replace it when I don’t need it anymore.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>rimraf</code> to clean up after myself</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Everyone else is using <a href="https://github.com/isaacs/rimraf"><code>rimraf</code></a> to clean build and intermediate files. I don’t know enough to choose any different.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>That’s all the important stuff anyways</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I wanted to go over everything, but there’s just too much. A lot of the ideas are still cooking. Expect more on every blogger’s favorite topic: “how I built my blog.”</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’m having fun though!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

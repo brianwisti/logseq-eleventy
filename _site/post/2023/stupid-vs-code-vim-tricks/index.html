@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2023/Stupid VS Code Vim Tricks
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2023-03-20</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><p><em class="link-missing">config,note/2023</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>redirects</th>
+            <td><p>/post/2023/03/stupid-vs-code-vim-tricks</p>
+</td>
+          </tr>
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Still trying my experiment with using <a href="/dendron" class="page-link">Dendron</a> in <a href="/vs-code" class="page-link">VS Code</a> as part of some sort of public second brain. Honestly I don’t know how long that’ll last, so I figure better share the fun stuff I learn here too.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Anyways this afternoon I installed the <a href="https://marketplace.visualstudio.com/items?itemName=vscodevim.vim">Vim</a> extension and learned just enough about custom key bindings to add a few.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-json">{
+  &quot;vim.leader&quot;: &quot;&lt;space&gt;&quot;,
+  &quot;vim.normalModeKeyBindings&quot;: [
+    {
+      &quot;before&quot;: [&quot;&lt;leader&gt;&quot;, &quot;t&quot;, &quot;l&quot;],
+      &quot;commands&quot;: [&quot;workbench.action.toggleSidebarVisibility&quot;]
+    },
+    {
+      &quot;before&quot;: [&quot;&lt;leader&gt;&quot;, &quot;t&quot;, &quot;r&quot;],
+      &quot;commands&quot;: [&quot;workbench.action.toggleAuxiliaryBar&quot;]
+    },
+    {
+      &quot;before&quot;: [&quot;&lt;leader&gt;&quot;, &quot;t&quot;, &quot;t&quot;],
+      &quot;commands&quot;: [&quot;workbench.action.toggleLightDarkThemes&quot;]
+    }
+  ]
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>vim.leader</code> is handy as a prefix for extended custom bindings in Vim; I prefer the spacebar as my leader</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>&lt;leader&gt; t l</code> toggles my left sidebar</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>&lt;leader&gt; t r</code> toggles my right sidebar</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>&lt;leader&gt; t t</code> toggles between light and dark theme</p>
+<p>These bindings look and work very similar to some of <a href="/logseq" class="page-link">Logseq</a>'s default bindings. That’s no accident. I like those bindings.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

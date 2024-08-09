@@ -1,0 +1,1002 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2016/Hello Dancer2
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2016-07-11</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The <a href="https://github.com/PerlDancer/">PerlDancer</a> team’s <a href="https://metacpan.org/pod/Dancer2">Dancer2</a> project is a <a href="/perl" class="page-link">Perl</a> framework for writing Web applications with less <a href="https://en.wikipedia.org/wiki/Boilerplate_code">boilerplate code</a> than other Web frameworks. I am slowly exploring what it offers. Feel free to follow along.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This is sort of a tutorial. I assume you know Perl and maybe a bit about Web server programming, but not that you have mastered either. My pace may annoy you if you <em>have</em> mastered Perl, Web programming, or Dancer2.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Installation</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I use Perl 5.24.0 and <a href="https://metacpan.org/pod/App::cpanminus">cpanm</a> via <a href="http://perlbrew.pl/">Perlbrew</a>. Installation of Dancer2 and its dependencies requires a single command.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ cpanm Dancer2
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Hey</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You do not need much code to create a Dancer2 application.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-perl">use Dancer2;     # Load Dancer2 and its keywords
+
+get '/hey' =&gt; sub { # Define some routes
+  return 'Hey!';
+};
+
+start;           # Run the application
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Even better: you can hand this code to Perl and it starts a server!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ perl hey.pl
+&gt;&gt; Dancer2 v0.200002 server 15388 listening on http://0.0.0.0:3000
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Loading <code>http://localhost:3000/hey</code> in a browser shows our simple message.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/dancer2-hey_1721585605380_0.png" alt="dancer2-hey.png"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Dancer2 gives you a <a href="https://en.wikipedia.org/wiki/Domain-specific_language">DSL</a> — Domain-Specific Language — to describe your application. These DSL <a href="https://metacpan.org/pod/distribution/Dancer2/lib/Dancer2/Manual.pod#DSL-KEYWORDS">keywords</a> cut down the boilerplate code common in some Web development frameworks.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>get</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The <a href="https://metacpan.org/pod/distribution/Dancer2/lib/Dancer2/Manual.pod#get">get</a> keyword defines a <a href="https://metacpan.org/pod/Dancer2::Core::Route">route</a> for Dancer2. Routes tell Dancer2 how to respond when someone requests a path — the /hey bit — from your application. <code>get</code> is also a method from <a href="https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol">HTTP</a>. Use it when you only want to “get” something from the application. Dancer2 has keywords for more HTTP methods, but <code>get</code> is fine for now.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What happens if someone requests a path that you did not define?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Your Dancer2 application returns an error page informing them that the path does not exist.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>With the HTTP method and path defined, the last important part of our route is the code. Your application runs that code and sends its return value to the visitor. Our first route code example is an anonymous subroutine that returns the text “Hello!”, but they can be as complicated as you need.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>start</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="https://metacpan.org/pod/distribution/Dancer2/lib/Dancer2/Manual.pod#start">start</a> tells Dancer2 that you finished defining your application and it can begin serving to the world.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>DSL = Keywords + Sugar</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Keywords make the Dancer2 DSL work, but the code style takes advantage of Perl’s flexible syntax. Our route looks like this with less <a href="https://en.wikipedia.org/wiki/Syntactic_sugar">syntactic sugar</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-perl">get('/hey', sub { return 'Hey!'; });
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Hey you</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>How about greeting the visitor by name? Since form processing involves more steps than I want to think about today, we use route parameters instead.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Dancer2 allows placeholders in route paths. The simplest placeholders are tokens prefixed with a colon, such as <code>:name</code> or <code>:id</code>. When you make a request that matches, such as <code>/hey/brian</code>, Dancer2 saves the matching path part. Here, look at some code.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-perl">use Dancer2;
+
+# A simple greeting: /hey
+get '/hey' =&gt; sub {
+  return 'Hey!';
+  };
+
+# A personalized greeting: /hey/Brian
+get '/hey/:name' =&gt; sub {
+  my $name = route_parameters-&gt;get('name');
+  return &quot;Hey $name!&quot;;
+};
+
+start;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Route handlers can get <a href="https://metacpan.org/pod/distribution/Dancer2/lib/Dancer2/Manual.pod#Route-Handlers">much more complicated</a>, but not today. Our application treats a general greeting and a greeting with a distinct name at two different actions, so we use two different routes.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>In order to use the new code, we need to stop the Perl process. <code>Control-C</code> should do it. Then launch it again, and the new code will be loaded.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ perl hey.pl
+&gt;&gt; Dancer2 v0.200002 server 31385 listening on http://0.0.0.0:3000
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now we should be able to see <code>http://localhost:3000/hey/Brian</code> — or whatever name you prefer.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/dancer2-hey-brian_1721585719225_0.png" alt="dancer2-hey-brian.png"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>route_parameters</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="https://metacpan.org/pod/distribution/Dancer2/lib/Dancer2/Manual.pod#route_parameters">route_parameters</a> returns a <a href="https://metacpan.org/pod/Hash::MultiValue">hash-like object</a> which stores tokens and their values from a route match. Use the <code>get</code> method when you need those values in your route code.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Wrap it up</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We installed Dancer2, made just about the simplest Web application I could think of, and explored a little bit about declaring routes.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What’s next? I plan to look at using template files to produce real Web pages.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

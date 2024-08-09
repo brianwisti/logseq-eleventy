@@ -1,0 +1,792 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2017/Taskwarrior Priorities
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2017-12-25</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+        
+          <tr>
+            <th>banner</th>
+            <td><p>…/assets/cover-2017-12-25_1721664803033_0.png</p>
+</td>
+          </tr>
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Merry Christmas! Time to organize my <a href="/taskwarrior" class="page-link">Taskwarrior</a> tasks.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>My more focused approach to Taskwarrior is working well. I add a task when I get an idea, and mark it <code>done</code> sometime after I finish. Annotations let me add noteworthy details. Tags and projects help both for organizing tasks and describing them. A task bubbles up to the top of <code>task next</code> as I add more information to it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task -work
+[task next ( -work )]
+
+ID Age  Project Tag              Description                                   Urg
+26 9min fitbit  health           get fitbit data                               2.7
+								   2017-12-24 can only grab 31 days at a time
+								   2017-12-24 want all data back to 2016-01
+ 2 3w   ruana   blog knitting    blog about vest                              2.02
+27 8min fitbit  health           see activity when closest to weight goal      1.8
+28 7min fitbit  health           make 2018 exercise plan                       1.8
+24 3d           home             living room curtains                         1.62
+								   2017-12-20 dimensions 94.25 wide 56.5 high
+ 3 3w           blog taskwarrior due dates, recurrences                       1.02
+12 9d           crochet home     door panel                                   0.95
+15 7d           learn music      submit to acousticbrainz                     0.94
+18 6d           blog taskwarrior Priorities                                   0.93
+ 1 3w           crochet          fingerless gloves                            0.92
+ 8 2w           home             move my stuff upstairs                       0.88
+10 10d          music            experiment with setting itunes play stats    0.85
+11 10d          blog             create links section                         0.85
+16 6d           music            music server                                 0.83
+17 6d           learn            try timewarrior                              0.83
+19 6d           home             make flylady daily and weekly list           0.83
+20 4d           music            merge rating files                           0.82
+21 4d           music            filter duplicate tracks                      0.82
+22 4d           knitting         circular hat variant                         0.82
+25 3d           music            restore backup                               0.82
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That bubbling behavior gets in the way sometimes.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I created some tasks for playing with my Fitbit data and added relevant annotations. Taskwarrior follows a rule of “it must be important if you’re talking so much about it,”&quot; and dutifully puts those tasks high on the list.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Thing is, right now I care more about fixing my music library. Long story, but the moral of <em>that</em> tale is be careful with Beets and the <a href="http://beets.readthedocs.io/en/v1.4.6/plugins/duplicates.html">Duplicates</a> plugin. I have slightly different versions of the library on each of my machines, and a backup with all of the music but none of the Beets import information. I could make a project out of it, but it’s more of a thing I poke at when I can.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Anyways — I want my <code>next</code> report to more closely resemble my current priorities. I can do that by manually setting <a href="https://taskwarrior.org/docs/priority.html">Priority</a> for each of my tasks.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Task Priority</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Priority can be added to any task as an attribute, using <code>priority:</code> followed by the Priority you wish to assign. Priority also works as a filter for your reports. The default choices are <code>H</code>, <code>M</code>, <code>L</code>, and none at all — to remove a Priority.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task add return library books priority:M
+Created task 29.
+$ task modify 18 priority:H
+Modifying task 18 'Priorities'.
+Modified 1 task.
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Looking at the first few entries of <code>next</code> shows me the effect of setting Priority.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task -work
+[task next ( -work )]
+
+ID Age  P Project Tag              Description                                   Urg
+18 6d   H         blog taskwarrior Priorities                                   6.93
+29 3min M                          return library books                          3.9
+26 1h     fitbit  health           get fitbit data                               2.7
+									 2017-12-24 can only grab 31 days at a time
+									 2017-12-24 want all data back to 2016-01
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I see a new column reflecting that I now describe some tasks with Priority. Over on the end, <a href="https://taskwarrior.org/docs/urgency.html">Urgency</a> jumps for tasks with any Priority at all. <code>H</code> Priority tasks get a large boost. But what do these Priority values <em>mean</em>?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Priority means something different for everyone. The basic idea is the higher a task’s Priority is, the more important it is to me.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Here’s how I use Priority values for now.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <table>
+<thead>
+<tr>
+<th>Priority</th>
+<th>Represents</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>H</code></td>
+<td>High</td>
+<td>I am — or want to be — working on it right now.</td>
+</tr>
+<tr>
+<td><code>M</code></td>
+<td>Medium</td>
+<td>I want to work on this soon.</td>
+</tr>
+<tr>
+<td><code>L</code></td>
+<td>Low</td>
+<td>I want to work on this eventually.</td>
+</tr>
+<tr>
+<td><em>empty</em></td>
+<td>None</td>
+<td>I haven’t thought about it.</td>
+</tr>
+</tbody>
+</table>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>My usage will change as I learn more about Taskwarrior but this works.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I don’t need to think too much about priority when I’m just adding to the idea bucket. Probably a good idea to periodically review unprioritized tasks and assign a Priority or delete them if they won’t ever be worth my time.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task -work priority:
+[task next ( -work priority: )]
+
+ID Age Project Tag              Description                                   Urg
+26 1h  fitbit  health           get fitbit data                               2.7
+								  2017-12-24 can only grab 31 days at a time
+								  2017-12-24 want all data back to 2016-01
+ 2 3w  ruana   blog knitting    blog about vest                              2.02
+27 1h  fitbit  health           see activity when closest to weight goal      1.8
+28 1h  fitbit  health           make 2018 exercise plan                       1.8
+24 3d          home             living room curtains                         1.62
+								  2017-12-20 dimensions 94.25 wide 56.5 high
+ 3 3w          blog taskwarrior due dates, recurrences                       1.02
+12 9d          crochet home     door panel                                   0.95
+15 7d          learn music      submit to acousticbrainz                     0.94
+ 1 3w          crochet          fingerless gloves                            0.92
+ 8 2w          home             move my stuff upstairs                       0.88
+10 10d         music            experiment with setting itunes play stats    0.85
+11 10d         blog             create links section                         0.85
+16 6d          music            music server                                 0.83
+17 6d          learn            try timewarrior                              0.83
+19 6d          home             make flylady daily and weekly list           0.83
+20 5d          music            merge rating files                           0.83
+21 5d          music            filter duplicate tracks                      0.83
+22 5d          knitting         circular hat variant                         0.83
+25 3d          music            restore backup                               0.82
+
+19 tasks
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Give me a minute while I assign priorities.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task -work
+[task next ( -work )]
+
+ID Age P Project Tag              Description                                      Urg
+18 7d  H         blog taskwarrior Priorities                                      6.94
+25 4d  H         music            restore backup                                  6.82
+26 1d  M fitbit  health           get fitbit data                                 6.61
+									2017-12-24 can only grab 31 days at a time
+									2017-12-24 want all data back to 2016-01
+ 2 3w  M ruana   blog knitting    blog about vest                                 5.92
+ 1 3w  M         crochet          fingerless gloves                               4.83
+ 8 2w  M         home             move my stuff upstairs                          4.79
+19 7d  M         home             make flylady daily and weekly list              4.74
+29 23h M                          return library books                             4.7
+									2017-12-25 due 2017-12-30
+28 1d  L fitbit  health           make 2018 exercise plan                         4.41
+									2017-12-24 keep on what I do now is an option
+27 1d  L fitbit  health           see activity when closest to weight goal        3.61
+24 4d  L         home             living room curtains                            3.42
+									2017-12-20 dimensions 94.25 wide 56.5 high
+ 3 3w  L         blog taskwarrior due dates, recurrences                          2.82
+12 10d L         crochet home     door panel                                      2.75
+15 8d  L         learn music      submit to acousticbrainz                        2.74
+10 11d L         music            experiment with setting itunes play stats       2.66
+11 11d L         blog             create links section                            2.66
+16 7d  L         music            music server                                    2.64
+17 7d  L         learn            try timewarrior                                 2.64
+20 5d  L         music            merge rating files                              2.63
+21 5d  L         music            filter duplicate tracks                         2.63
+22 5d  L         knitting         circular hat variant                            2.63
+
+21 tasks
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I could have added due date information to the library task rather than an annotation, but I’m sticking with this approach of a few features at a time. Otherwise I’ll try to learn everything at one sitting, get overwhelmed and distracted, then abandon the whole thing.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That said, it looks like next I should learn <a href="https://taskwarrior.org/docs/dates.html">dates</a> in Taskwarrior.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

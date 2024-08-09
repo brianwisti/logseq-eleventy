@@ -1,0 +1,1290 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2021/Extracting Rich Output for fun and profit
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><p>Okay maybe not so much on the profit but definitely fun!</p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2021-08-24</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+        
+          <tr>
+            <th>banner</th>
+            <td><p>…/assets/cover-2021-08-24_1721567730212_0.png</p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>banner-caption</th>
+            <td><p>screenshot of the HTML I created to show that I don’t need screenshots</p>
+</td>
+          </tr>
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Somewhere in the middle of <a href="/post/2021/tooting-with-python" class="page-link">post/2021/Tooting with Python</a>, I mentioned I how I get <a href="/rich" class="page-link">Rich</a> output into a post.  That approach was a little clumsy though. I want to run my code and paste its output into whatever draft I’m editing.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>So I’ll figure that one out now.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>#+BEGIN_NOTE
+<em class="link-missing">2021-08-25</em>: I initially posted a version of this post using <a href="https://www.crummy.com/software/BeautifulSoup/">BeautifulSoup</a> for HTML extraction. Then Rich creator <a href="https://www.willmcgugan.com/">Will McGugan</a> pointed out that I could get what I need from Rich itself!</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Great write up!<br><br>You may be able to skip the Beautiful Soup step with the following:<br><br>console.export_html(code_format=&quot;&lt;pre style=&quot;font-family:Menlo,&#39;DejaVu Sans Mono&#39;,consolas,&#39;Courier New&#39;,monospace&quot;&gt;{code}&lt;/pre&gt;&quot;)</p>&mdash; Will McGugan (@willmcgugan) <a href="https://twitter.com/willmcgugan/status/1430452309536956421?ref_src=twsrc%5Etfw">August 25, 2021</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p>Yeah let’s do that instead. Much less to remember.
+#+END_NOTE</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>What are we printing</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>How about a <a href="https://rich.readthedocs.io/en/stable/tables.html">Table</a> of the most popular pages on my site? I use <a href="https://plausible.io">Plausible</a> for stats, and I’ve been meaning to play with their <a href="https://plausible.io/docs/stats-api">API</a>. But I’m here to talk about Rich, not Plausible. Let’s use a static copy of API results so everyone’s using the same data.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">import rich
+from rich.table import Table
+
+STATS = {
+    &quot;results&quot;: [
+        {
+            &quot;page&quot;: &quot;/post/2017/11/drawing-grids-with-python-and-pillow/&quot;,
+            &quot;visitors&quot;: 1114,
+        },
+        {&quot;page&quot;: &quot;/post/2017/01/cinnamon-screenshot-shortcuts/&quot;, &quot;visitors&quot;: 580},
+        {&quot;page&quot;: &quot;/&quot;, &quot;visitors&quot;: 458},
+        {
+            &quot;page&quot;: &quot;/post/2014/06/what-is-build-essentials-for-opensuse/&quot;,
+            &quot;visitors&quot;: 340,
+        },
+        {&quot;page&quot;: &quot;/config/emacs/doom/&quot;, &quot;visitors&quot;: 303},
+        {&quot;page&quot;: &quot;/post/2020/06/csv-and-data-tables-in-hugo/&quot;, &quot;visitors&quot;: 293},
+        {&quot;page&quot;: &quot;/post/2019/05/kitty-terminal/&quot;, &quot;visitors&quot;: 265},
+        {
+            &quot;page&quot;: &quot;/post/2018/02/setting-task-dependencies-in-taskwarrior/&quot;,
+            &quot;visitors&quot;: 263,
+        },
+        {&quot;page&quot;: &quot;/post/2019/02/taskwarrior-projects/&quot;, &quot;visitors&quot;: 260},
+        {
+            &quot;page&quot;: &quot;/post/2019/01/circular-grids-with-python-and-pillow/&quot;,
+            &quot;visitors&quot;: 242,
+        },
+    ]
+}
+
+
+def build_stats_table(stats):
+    &quot;&quot;&quot;Construct a Rich Table from site traffic breakdown.&quot;&quot;&quot;
+
+    table = Table(title=&quot;Plausible.io Traffic Breakdown&quot;)
+    table.add_column(&quot;Page&quot;)
+    table.add_column(&quot;Visitors&quot;, justify=&quot;right&quot;, style=&quot;green&quot;)
+
+    for entry in stats[&quot;results&quot;]:
+        table.add_row(entry[&quot;page&quot;], &quot;{:,}&quot;.format(entry[&quot;visitors&quot;]))
+
+    return table
+
+
+def show_stats():
+    &quot;&quot;&quot;Display Plausible's breakdown of site traffic.&quot;&quot;&quot;
+
+    table = build_stats_table(STATS)
+    rich.print(table)
+
+
+if __name__ == &quot;__main__&quot;:
+    show_stats()
+</code></pre>
+<p>caption:: <code>show-stats.py</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Here’s a screenshot, so you know what this produces in my own terminal.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/showstats-table_1721567937036_0.png" alt="table output"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Okay. Now let’s start talking about exporting output.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>xclip</code> is usually good enough</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This post focuses on the “blog writing and pretty reports” situations. For everyday sharing, all I need is a legibly formatted data dump. <a href="https://github.com/astrand/xclip"><code>xclip</code></a> works for those situations.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-bash">python showstats.py | xclip
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I don’t see anything on my screen, of course, because I piped everything to <code>xclip</code>. But when I paste from the clipboard:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">                    Plausible.io Traffic Breakdown
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━┓
+┃ Page                                                    ┃ Visitors ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━┩
+│ /post/2017/11/drawing-grids-with-python-and-pillow/     │    1,114 │
+│ /post/2017/01/cinnamon-screenshot-shortcuts/            │      580 │
+│ /                                                       │      458 │
+│ /post/2014/06/what-is-build-essentials-for-opensuse/    │      340 │
+│ /config/emacs/doom/                                     │      303 │
+│ /post/2020/06/csv-and-data-tables-in-hugo/              │      293 │
+│ /post/2019/05/kitty-terminal/                           │      265 │
+│ /post/2018/02/setting-task-dependencies-in-taskwarrior/ │      263 │
+│ /post/2019/02/taskwarrior-projects/                     │      260 │
+│ /post/2019/01/circular-grids-with-python-and-pillow/    │      242 │
+└─────────────────────────────────────────────────────────┴──────────┘
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>xclip</code> preserves the basic shape of my output. I see a table. The <em>Visitors</em> column is right-aligned. The title is centered. But it loses some of the finer formatting bits: bold, italicization, color.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p>Also? This renders great on Chrome-based browsers and weird on Firefox.  There are definite limitations to just copying and pasting from the terminal.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let’s pull that clipboard management into the script with Al Sweigart’s <a href="https://pypi.org/project/pyperclip/">Pyperclip</a> library.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Let Rich and Pyperclip handle the clipboard</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Pyperclip gives our code access to the system clipboard, letting us copy and paste from Python.  The Rich <a href="https://rich.readthedocs.io/en/stable/reference/console.html">Console</a> can <a href="https://rich.readthedocs.io/en/stable/console.html#capturing-output"><code>capture</code></a> the characters it would have printed, and hand them to us when needed. Sounds like a great team.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">import pyperclip
+from rich.console import Console
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I set up Pyperclip and create a local Console to handle capturing.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">def show_stats(stats):
+    &quot;&quot;&quot;Display Plausible's breakdown of site traffic.&quot;&quot;&quot;
+
+    table = build_stats_table(stats)
+    pyperclip.set_clipboard(&quot;xclip&quot;)
+    console = Console()
+
+    with console.capture() as capture:
+        console.print(table)
+
+    text_output = capture.get()
+    pyperclip.copy(text_output)
+    print(text_output)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I need to tell Pyperclip about <code>xclip</code> or it gets a bit confused on WSL. Also, since I captured the output, I need to print it myself. Why <code>print</code> instead of <code>rich.print</code> or <code>console.print</code>?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let me answer that question by pasting the contents of my clipboard:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">[3m                    Plausible.io Traffic Breakdown                    [0m
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━┓
+┃[1m [0m[1mPage                                                   [0m[1m [0m┃[1m [0m[1mVisitors[0m[1m [0m┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━┩
+│ /post/2017/11/drawing-grids-with-python-and-pillow/     │[32m [0m[32m    1114[0m[32m [0m│
+│ /post/2017/01/cinnamon-screenshot-shortcuts/            │[32m [0m[32m     580[0m[32m [0m│
+│ /                                                       │[32m [0m[32m     458[0m[32m [0m│
+│ /post/2014/06/what-is-build-essentials-for-opensuse/    │[32m [0m[32m     340[0m[32m [0m│
+│ /config/emacs/doom/                                     │[32m [0m[32m     303[0m[32m [0m│
+│ /post/2020/06/csv-and-data-tables-in-hugo/              │[32m [0m[32m     293[0m[32m [0m│
+│ /post/2019/05/kitty-terminal/                           │[32m [0m[32m     265[0m[32m [0m│
+│ /post/2018/02/setting-task-dependencies-in-taskwarrior/ │[32m [0m[32m     263[0m[32m [0m│
+│ /post/2019/02/taskwarrior-projects/                     │[32m [0m[32m     260[0m[32m [0m│
+│ /post/2019/01/circular-grids-with-python-and-pillow/    │[32m [0m[32m     242[0m[32m [0m│
+└─────────────────────────────────────────────────────────┴──────────┘
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Uh. Oops? <code>console</code> captured <em>exactly</em> what it would have printed, including terminal <a href="https://en.wikipedia.org/wiki/ANSI_escape_code">escape codes</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Rich supports <a href="https://rich.readthedocs.io/en/stable/console.html#exporting">exporting</a> output beyond a raw dump, though.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Let Rich get you some HTML</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="tip"><header>tip</header><p>For safety reasons, most Markdown converters must be explicitly configured to allow raw HTML through. Check the documentation of your converter or blogging tools to see if and how you need to do that.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>A Console created with the <code>record</code> option enabled remembers everything it prints. You can get export your copy at any point. The <a href="https://rich.readthedocs.io/en/stable/reference/console.html#rich.console.Console.export_text"><code>export_text</code></a> method provides a copy with minimal formatting, while <a href="https://rich.readthedocs.io/en/stable/reference/console.html#rich.console.Console.export_html"><code>export_html</code></a> produces HTML pages. That’s for sure something I can paste into my post source. Nice!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>One <em>slight</em> wrinkle. Unless you tell it otherwise, <code>export_html</code> produces a complete HTML file — with <code>&lt;head&gt;</code>, <code>&lt;body&gt;</code>, and even a <code>&lt;style&gt;</code> section. All I want is the <code>&lt;pre&gt;...&lt;/pre&gt;</code> describing my output.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Fortunately, <code>export_html</code> also lets us tell it exactly what we want:</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>code_format</code> lets me specify the HTML fragment to generate</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>turn on <code>inline_styles</code> to directly embed style rules; handy if I don’t have my own CSS definitions for Rich-specific classes</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let’s make some HTML for Pyperclip to copy.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">def show_stats():
+    &quot;&quot;&quot;Display Plausible's breakdown of site traffic.&quot;&quot;&quot;
+
+    # print the stats
+    table = build_stats_table(STATS)
+    console = Console(record=True)
+    console.print(table)
+
+    # copy the stats
+    pyperclip.set_clipboard(&quot;xclip&quot;)
+    exported_html = console.export_html(
+        inline_styles=True, code_format=&quot;&lt;pre&gt;{code}&lt;/pre&gt;&quot;
+    )
+    pyperclip.copy(exported_html)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What do the contents of my clipboard look like now?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><span style="font-style: italic">                    Plausible.io Traffic Breakdown                    </span>
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━┓
+┃<span style="font-weight: bold"> Page                                                    </span>┃<span style="font-weight: bold"> Visitors </span>┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━┩
+│ /post/2017/11/drawing-grids-with-python-and-pillow/     │<span style="color: #008000; text-decoration-color: #008000">    1,114 </span>│
+│ /post/2017/01/cinnamon-screenshot-shortcuts/            │<span style="color: #008000; text-decoration-color: #008000">      580 </span>│
+│ /                                                       │<span style="color: #008000; text-decoration-color: #008000">      458 </span>│
+│ /post/2014/06/what-is-build-essentials-for-opensuse/    │<span style="color: #008000; text-decoration-color: #008000">      340 </span>│
+│ /config/emacs/doom/                                     │<span style="color: #008000; text-decoration-color: #008000">      303 </span>│
+│ /post/2020/06/csv-and-data-tables-in-hugo/              │<span style="color: #008000; text-decoration-color: #008000">      293 </span>│
+│ /post/2019/05/kitty-terminal/                           │<span style="color: #008000; text-decoration-color: #008000">      265 </span>│
+│ /post/2018/02/setting-task-dependencies-in-taskwarrior/ │<span style="color: #008000; text-decoration-color: #008000">      263 </span>│
+│ /post/2019/02/taskwarrior-projects/                     │<span style="color: #008000; text-decoration-color: #008000">      260 </span>│
+│ /post/2019/01/circular-grids-with-python-and-pillow/    │<span style="color: #008000; text-decoration-color: #008000">      242 </span>│
+└─────────────────────────────────────────────────────────┴──────────┘</pre>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That works well enough for a blog post!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>If you’re curious about the exported HTML, here’s a chunk of it:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-html">    &lt;pre&gt;&lt;span style=&quot;font-style: italic&quot;&gt;                    Plausible.io Traffic Breakdown                    &lt;/span&gt;
+    ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━┓
+    ┃&lt;span style=&quot;font-weight: bold&quot;&gt; Page                                                    &lt;/span&gt;┃&lt;span style=&quot;font-weight: bold&quot;&gt; Visitors &lt;/span&gt;┃
+    ┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━┩
+    │ /post/2017/11/drawing-grids-with-python-and-pillow/     │&lt;span style=&quot;color: #008000; text-decoration-color: #008000&quot;&gt;    1,114 &lt;/span&gt;│
+    ...
+    │ /post/2019/01/circular-grids-with-python-and-pillow/    │&lt;span style=&quot;color: #008000; text-decoration-color: #008000&quot;&gt;      242 &lt;/span&gt;│
+    └─────────────────────────────────────────────────────────┴──────────┘
+    &lt;/pre&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Anyways, this was just another thing I wanted to get down before I forgot again.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>What else</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There are a few more pieces that tie it into my particular workflow, but this covers what you’d need to export output from your own Rich programs for easy blogging or information sharing.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

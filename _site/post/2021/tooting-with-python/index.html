@@ -1,0 +1,1940 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2021/Tooting with Python
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><p>spent the day goofing off with <a href="http://Mastodon.py">Mastodon.py</a></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2021-08-15</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>What?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let’s set up a <a href="https://joinmastodon.org">Mastodon</a> application with Python to read and post toots.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>How?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="/python" class="page-link">Python</a> is the <a href="https://twitter.com/glyph/status/1426414435275448324">second best</a> tool for any job in 2021, which makes it an excellent glue language.  I’ve been centering my site workflow around it. That means the <a href="https://mastodonpy.readthedocs.io/en/stable/">Mastodon.py</a> library, which I have dabbled with once or twice before.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Why?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Because I’ve let the <a href="/indieweb" class="page-link">IndieWeb</a> social aspects of this site go stale and one step to fixing that is restoring POSSE automation. The first part of <em>that</em> is making sure I remember how to automate posting to Mastodon.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Ok fine; get on with it</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>If you don’t already know Mastodon, think of it as island versions of <a href="https://twitter.com">Twitter</a>.  Each instance has its own practices and policies depending on who runs it, so it’s very much a “hanging out at a friend’s house” experience. Lots more details, but much more than I feel like covering.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It’s fun. You should try it out maybe. You can even host your own instance if you’re hard-core into DIY.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Registering your application</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I have 2FA enabled, so it turned out to be easier for me to set up the application in account preferences (under the “Development” section).</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I entered an application name, added my Website for “Application website,” and selected the scopes that are important to me for today’s explorations.</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>read</code></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>read all your account’s data</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>write:statuses</code></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>publish statuses</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That’s enough to cover today’s play.  I’m not creating my own full-fledged Mastodon client so I don’t need every permission.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Connecting your application</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">import json
+import os
+import sys
+from dataclasses import dataclass
+from typing import Any, Callable, Dict
+
+from mastodon import Mastodon
+from rich.pretty import pprint
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>#+BEGIN_NOTE
+Spoiler alert: yes I’ll be using <a href="/rich" class="page-link">Rich</a> and <a href="https://docs.python.org/3/library/dataclasses.html">dataclasses</a> along with <a href="http://Mastodon.py">Mastodon.py</a>.  Nothing fancy planned with Rich today. It’s just part of my regular toolkit.</p>
+<p>The dataclasses library comes standard with Python these days, but you may need to install the others:</p>
+<pre><code class="language-bash">pip install --upgrade rich mastodon
+</code></pre>
+<p>#+END_NOTE</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The Mastodon instance developer panel gives me the details I need to connect. I set them as workspace environment variables with <a href="https://direnv.net">direnv</a> out of habit, but you could just as easily hard-code them in Python or define in a config file of your own.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">API_BASE = os.environ.get(&quot;API_BASE&quot;)
+CLIENT_KEY = os.environ.get(&quot;CLIENT_KEY&quot;)
+CLIENT_SECRET = os.environ.get(&quot;CLIENT_SECRET&quot;)
+ACCESS_TOKEN = os.environ.get(&quot;ACCESS_TOKEN&quot;)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>From my first few attempts writing this post, I know I’ll want a class to organize views for the connection.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">@dataclass
+class App:
+    &quot;&quot;&quot;Provides convenience methods for querying an instance and posting toots.&quot;&quot;&quot;
+
+    mastodon: Mastodon
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Once I have a connection, I don’t care about those application config details. Rather than storing them in the instance, I’ll use a class method to handle the work and return my new App with only the details I <em>do</em> care about.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">class App:
+    @classmethod
+    def connect(
+        cls,
+        client_key: str = CLIENT_KEY,
+        api_base_url: str = API_BASE,
+        client_secret: str = CLIENT_SECRET,
+        access_token: str = ACCESS_TOKEN,
+    ) -&gt; &quot;App&quot;:
+        &quot;&quot;&quot;Return an App connected to a specific Mastodon instance.&quot;&quot;&quot;
+
+        mastodon = Mastodon(
+            client_id=client_key,
+            api_base_url=api_base_url,
+            client_secret=client_secret,
+            access_token=access_token,
+        )
+        return cls(mastodon=mastodon)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Basic setup’s done. Let’s create an App and see if it worked.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">if __name__ == &quot;__main__&quot;:
+    app = App.connect()
+    pprint(app)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">App</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">mastodon</span>=<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">mastodon.Mastodon.Mastodon</span><span style="color: #000000; text-decoration-color: #000000"> object at </span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0x7ff14f1e8850</span><span style="font-weight: bold">&gt;)</span>
+</pre>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Exporting Rich output</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>My code doesn’t look <em>exactly</em> like what I’ve shared here. I take advantage of <a href="/rich" class="page-link">Rich</a> export features to simplify sharing program output.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">import rich
+
+# ...
+
+if __name__ == &quot;__main__&quot;:
+    rich.reconfigure(record=True, width=80)
+    # ...
+    rich.get_console().save_html(&quot;output.html&quot;, inline_styles=True)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The extra bits change two aspects of Rich’s default <a href="https://rich.readthedocs.io/en/stable/reference/console.html#rich.console.Console">Console</a> behavior:</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>record output so it can be exported by <code>save_text</code> or <code>save_html</code> and I can add it here in my post</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>set console width to 80, simplifying display of exported output within the confines of a Web page</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>After <code>app</code> does its thing, I export any output as formatted HTML, where I can edit as needed and insert here.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>So anyways, we verified that our connection works. Let’s take a look at what that connection provides.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>The instance</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="http://Mastodon.py">Mastodon.py</a> provides methods specifically for <a href="https://mastodonpy.readthedocs.io/en/stable/#reading-data-instances">reading instance details</a>. For example, <a href="https://mastodonpy.readthedocs.io/en/stable/#mastodon.Mastodon.instance_health"><code>instance_health</code></a> tells of if a quick health check succeeded.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">app = App.connect()
+
+if app.mastodon.instance_health():
+    rich.print(&quot;Connection instance is [green]healthy[/green]&quot;)
+else:
+    rich.print(&quot;Connection instance is [red][b]not[/b] healthy![/red]&quot;)
+    sys.exit(1)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Connection instance is <span style="color: #008000; text-decoration-color: #008000">healthy</span>
+</pre>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Instance details</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Most of the querying methods return a dictionary or a list of dictionaries. <a href="https://mastodonpy.readthedocs.io/en/stable/#mastodon.Mastodon.instance"><code>Mastodon.instance</code></a> returns an <a href="https://mastodonpy.readthedocs.io/en/stable/#instance-dicts">instance dict</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I don’t feel like showing every item in that dictionary, though. Let’s pick a few to make a decent summary. Oh hey, and let’s cache that dictionary to disk so I’m not making a fresh API query every time I check this post while I’m writing it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p>Be considerate about server resources for Mastodon. Most instances are run as personal projects. There’s no need for us to run up their AWS bill.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">def stored(func: Callable) -&gt; Dict[str, Any]:
+    def inner(*args, **kwargs):
+        filename = f&quot;{func.__name__}.json&quot;
+        rich.print(f&quot;stored.inner for {func.__name__}&quot;)
+
+        if os.path.exists(filename):
+            with open(filename, &quot;r&quot;) as f:
+                rich.print(f&quot;Loading data from {filename}&quot;)
+                data = json.load(f)
+            return data
+
+        rich.print(f&quot;Calling {func.__name__}&quot;)
+        data = func(*args, **kwargs)
+
+        with open(filename, &quot;w&quot;) as f:
+            rich.print(f&quot;Writing data to {filename}&quot;)
+            json.dump(data, f, indent=4, default=str)
+
+        return data
+
+    return inner
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I can do proper memoization later. “Look for a file before you hit the server” is good enough for writing a blog post.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">class App:
+
+    @stored
+    def instance(self) -&gt; Dict[str, Any]:
+        &quot;&quot;&quot;Return a dictionary of information about the connected instance.&quot;&quot;&quot;
+
+        return self.mastodon.instance()
+
+    def instance_summary(self) -&gt; Dict[str, Any]:
+        &quot;&quot;&quot;Return a small dictionary of instance information.&quot;&quot;&quot;
+
+        instance = self.instance()
+        fields = [&quot;uri&quot;, &quot;title&quot;, &quot;short_description&quot;]
+        data = {field: instance[field] for field in fields}
+        data[&quot;contact_account&quot;] = instance[&quot;contact_account&quot;][&quot;display_name&quot;]
+
+        return data
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Time to look at that instance summary.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">if __name__ == &quot;__main__&quot;:
+    app = App.connect()
+
+    if app.mastodon.instance_health():
+        rich.print(&quot;Connection instance is [green]healthy[/green]&quot;)
+    else:
+        rich.print(&quot;Connection instance is [red][b]not[/b] healthy![/red]&quot;)
+        sys.exit(1)
+
+    pprint(app.instance_summary())
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Connection instance is <span style="color: #008000; text-decoration-color: #008000">healthy</span>
+stored.inner for instance
+Calling instance
+Writing data to instance.json
+<span style="font-weight: bold">{</span>
+<span style="color: #7fbf7f; text-decoration-color: #7fbf7f">│   </span><span style="color: #008000; text-decoration-color: #008000">'uri'</span>: <span style="color: #008000; text-decoration-color: #008000">'hackers.town'</span>,
+<span style="color: #7fbf7f; text-decoration-color: #7fbf7f">│   </span><span style="color: #008000; text-decoration-color: #008000">'title'</span>: <span style="color: #008000; text-decoration-color: #008000">'hackers.town'</span>,
+<span style="color: #7fbf7f; text-decoration-color: #7fbf7f">│   </span><span style="color: #008000; text-decoration-color: #008000">'short_description'</span>: <span style="color: #008000; text-decoration-color: #008000">"A bunch of technomancers in the fediverse. Keep it fairly clean please. This arcology is for all who wash up upon it's digital shore."</span>,
+<span style="color: #7fbf7f; text-decoration-color: #7fbf7f">│   </span><span style="color: #008000; text-decoration-color: #008000">'contact_account'</span>: <span style="color: #008000; text-decoration-color: #008000">'The_Gibson'</span>
+<span style="font-weight: bold">}</span>
+</pre>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Reading the timelines</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Mastodon’s <a href="https://mastodonpy.readthedocs.io/en/stable/#reading-data-timelines">timeline methods</a> provide different views of recent post activity, both public and private.  To simplify demonstration on this public blog post, I’ll stick to <a href="https://mastodonpy.readthedocs.io/en/stable/#mastodon.Mastodon.timeline_public"><code>timeline_public</code></a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">class App:
+    @stored
+    def timeline_public(self) -&gt; List[Dict[str, Any]]:
+        return self.mastodon.timeline_public()
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The <a href="https://mastodonpy.readthedocs.io/en/stable/#toot-dicts">toot dict</a> also contains far more information than I need, so let’s summarize those like with instances</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python"> class App:
+    def timeline_summary(self) -&gt; Dict[str, Any]:
+        timeline = self.timeline_public()
+        return [
+            {
+                &quot;date&quot;: toot[&quot;created_at&quot;],
+                &quot;author&quot;: toot[&quot;account&quot;][&quot;display_name&quot;],
+                &quot;content&quot;: toot[&quot;content&quot;],
+            }
+            for toot in timeline
+        ]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Adding <code>app.timeline_summary()</code> to the main block:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">if __name__ == &quot;__main__&quot;:
+    app = App.connect()
+
+    if app.mastodon.instance_health():
+        rich.print(&quot;Connection instance is [green]healthy[/green]&quot;)
+    else:
+        rich.print(&quot;Connection instance is [red][b]not[/b] healthy![/red]&quot;)
+        sys.exit(1)
+
+    pprint(app.instance_summary())
+    pprint(app.timeline_summary(), max_string=80)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Connection instance is <span style="color: #008000; text-decoration-color: #008000">healthy</span>
+stored.inner for instance
+Loading data from instance.json
+<span style="font-weight: bold">{</span>
+<span style="color: #7fbf7f; text-decoration-color: #7fbf7f">│   </span><span style="color: #008000; text-decoration-color: #008000">'uri'</span>: <span style="color: #008000; text-decoration-color: #008000">'hackers.town'</span>,
+<span style="color: #7fbf7f; text-decoration-color: #7fbf7f">│   </span><span style="color: #008000; text-decoration-color: #008000">'title'</span>: <span style="color: #008000; text-decoration-color: #008000">'hackers.town'</span>,
+<span style="color: #7fbf7f; text-decoration-color: #7fbf7f">│   </span><span style="color: #008000; text-decoration-color: #008000">'short_description'</span>: <span style="color: #008000; text-decoration-color: #008000">"A bunch of technomancers in the fediverse. Keep it fairly clean please. This arcology is for all who wash up upon it's digital shore."</span>,
+<span style="color: #7fbf7f; text-decoration-color: #7fbf7f">│   </span><span style="color: #008000; text-decoration-color: #008000">'contact_account'</span>: <span style="color: #008000; text-decoration-color: #008000">'The_Gibson'</span>
+<span style="font-weight: bold">}</span>
+stored.inner for timeline_public
+Calling timeline_public
+Writing data to timeline_public.json
+<span style="font-weight: bold">[</span>
+<span style="font-style: italic">    .. skipping a few ...</span>
+<span style="color: #7fbf7f; text-decoration-color: #7fbf7f">│   </span><span style="font-weight: bold">{</span>
+<span style="color: #7fbf7f; text-decoration-color: #7fbf7f">│   │   </span><span style="color: #008000; text-decoration-color: #008000">'date'</span>: <span style="color: #008000; text-decoration-color: #008000">'2021-08-15 22:24:35+00:00'</span>,
+<span style="color: #7fbf7f; text-decoration-color: #7fbf7f">│   │   </span><span style="color: #008000; text-decoration-color: #008000">'author'</span>: <span style="color: #008000; text-decoration-color: #008000">'Endless Screaming'</span>,
+<span style="color: #7fbf7f; text-decoration-color: #7fbf7f">│   │   </span><span style="color: #008000; text-decoration-color: #008000">'content'</span>: <span style="color: #008000; text-decoration-color: #008000">'&lt;p&gt;AAAAAAAAAAAAAAAAAAAAH&lt;/p&gt;'</span>
+<span style="color: #7fbf7f; text-decoration-color: #7fbf7f">│   </span><span style="font-weight: bold">}</span>,
+<span style="color: #7fbf7f; text-decoration-color: #7fbf7f">│   </span><span style="font-weight: bold">{</span>
+<span style="color: #7fbf7f; text-decoration-color: #7fbf7f">│   │   </span><span style="color: #008000; text-decoration-color: #008000">'date'</span>: <span style="color: #008000; text-decoration-color: #008000">'2021-08-15 22:24:43.531000+00:00'</span>,
+<span style="color: #7fbf7f; text-decoration-color: #7fbf7f">│   │   </span><span style="color: #008000; text-decoration-color: #008000">'author'</span>: <span style="color: #008000; text-decoration-color: #008000">'Lynne'</span>,
+<span style="color: #7fbf7f; text-decoration-color: #7fbf7f">│   │   </span><span style="color: #008000; text-decoration-color: #008000">'content'</span>: <span style="color: #008000; text-decoration-color: #008000">'&lt;p&gt;This just touched a single topic that I’ve never heard being brought up anywh'</span>+<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">97</span>
+<span style="color: #7fbf7f; text-decoration-color: #7fbf7f">│   </span><span style="font-weight: bold">}</span>
+<span style="font-weight: bold">]</span>
+</pre>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Nice. Looks like <code>content</code> is in HTML format. Need to remember that if I ever make a more interesting Mastodon client.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>But I’m ready to start tooting.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Writing</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Mastodon <a href="https://mastodonpy.readthedocs.io/en/stable/#writing-data-statuses">write methods</a> let us add toots, polls, replies, reblogs, faves. All that good stuff.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let’s stick with your basic toot for now.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">class App:
+
+   def status_post(self, status: str, visibility: str = &quot;direct&quot;) -&gt; Dict[str, Any]:
+       &quot;&quot;&quot;Post a toot to our connection, private unless we say otherwise.&quot;&quot;&quot;
+
+       return self.mastodon.status_post(status, visibility=visibility)
+
+# ...
+
+if __name__ == &quot;__main__&quot;:
+    app = App.connect()
+
+    if app.mastodon.instance_health():
+        rich.print(&quot;Connection instance is [green]healthy[/green]&quot;)
+    else:
+        rich.print(&quot;Connection instance is [red][b]not[/b] healthy![/red]&quot;)
+        sys.exit(1)
+
+    status_text = &quot;Ignore me, just messing with Mastodon.py&quot;
+    app.status_post(status_text)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/toot_1709405180488_0.jpg" alt="toot.jpg"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Okay my brain is fading. Should probably put away the keyboard soon.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Wrap it up</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Am I done?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Well, no. I still need to turn this into a proper command line application that looks for the newest published blog post and posts a toot about it. But that’s not going to happen in today’s post.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I had fun, and that’s the important part.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2007/Late Night Thoughts About FM
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><p><em class="link-missing">blogspot</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2007-02-03</em></p>
+</td>
+          </tr>
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>FM. FXRuby Media. Or f-m, as known on Rubyforge. I probably should have gone for fmm or something like that, but these things are always more obvious when it is too late.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Oh right. I had thoughts.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Development of version 1 is moving along swimmingly. The basic Track abstraction is in place, along with the code to create Track objects when given MP3 and M4A files. That’s all for now, because that’s what I have. More formats will be supported as I need them or as users submit the needed TrackFormat code.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>And I’ve almost made it to the heel on my knitted sock.The last couple of days have just been loaded with accomplishments.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I noticed that <a href="https://github.com/moumar/ruby-mp3info">ruby-mp3info</a> and <a href="https://github.com/arbarlow/ruby-mp4info">mp4info</a> were choking on a couple of the files in my library. There needs to be a solid way to test both of them against a reasonably large dataset so I can find the issue and fix it. Oh, I know! I can use my iTunes Library XML file as a reference …</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>parse the XML file, creating a hash of hashes — track information keyed to filenames</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Send ruby-mp3info and mp4info chugging along in my Music library, comparing parsed results to those claimed by the XML file</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It’ll take a while, but at least I will know if my fixes break something else. That’s always handy for patches.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Version zero of FM used <a href="/sqlite" class="page-link">SQLite</a> for storing track details. I might do that again, but I am also taking a serious look at <a href="https://github.com/gurugeek/KirbyBase/">KirbyBase</a>. I really like the idea of using Ruby code for my query. Installed system libraries matter less when your application relies less on non-Ruby code. Then again, I had a nice little abstraction layer on top of the SQL calls which already makes my life easy enough for this app. It wasn’t as pretty as real code, though. Maybe I’ll try both. Maybe I’ll just use KirbyBase. Maybe I’ll stick to the practical side of lazy for now and keep using SQLite. This is my project, so it’s subject to my whims.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>FM files won’t be available for at least a week. I want to have something that approximates what I have now (plus tests) before I go posting code all over the globe.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I also need to do a little research on mock objects (for testing the database layer) and — what do they call it when you automate UI testing? Well, whatever they call it. That’s something else I want to look into.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It’s 3:21. I’m coding, blogging, drinking wine, and watching Black Books. Fun as all that is, I think it’s time for sleep.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

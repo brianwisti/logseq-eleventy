@@ -1,0 +1,2444 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2020/Letting Ruby build Asciidoctor files for Hugo
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2020-05-18</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><p><a href="https://hackers.town/@randomgeek/104191542874551454">Mastodon</a></p>
+</td>
+          </tr>
+        
+      
+        
+      
+        
+          <tr>
+            <th>banner</th>
+            <td><p>…/assets/cover-2020-05-18_1719423497995_0.jpg</p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>banner-caption</th>
+            <td><p>actually really proud of myself but this post needs all the disclaimers</p>
+</td>
+          </tr>
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>#+BEGIN_WARNING
+Normal people: don’t do any of this.  The whole post is me compensating for making Hugo do things it’s not good at.</p>
+<p>Stick with <a href="/markdown" class="page-link">Markdown</a> if you use <a href="/hugo" class="page-link">Hugo</a> .  Use <a href="https://gohugo.io/content-management/shortcodes/">shortcodes</a> or <a href="https://gohugo.io/getting-started/configuration-markup#markdown-render-hooks">render hooks</a> if you want to make things interesting. Experiment with <a href="/restructuredtext" class="page-link">reStructuredText</a> or <a href="/asciidoctor" class="page-link">Asciidoctor</a> — but anything past a few pages slows builds dramatically.  Move <em>away</em> from Hugo if you prefer those formats.  Try [Nikola][nikola] for <code>rst</code> blogs.  [Gatsby][gatsby] has a <a href="https://www.gatsbyjs.org/packages/gatsby-transformer-asciidoc/?=asciidoctor">plugin</a> to directly transform <code>adoc</code> content.  You have options!
+#+END_WARNING</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Asciidoctor?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Asciidoctor is yet another lightweight formatting language, with official implementations in Ruby, JavaScript, and Java.  Processing tools transform it into HTML, PDF, and other formats.  Like Markdown, I find it easy to read and write the format.  Like reStructuredText and <em class="link-missing">Org</em>, it provides structures suited for technical and long form writing.  Oh, and clearly labeled hooks for extending if the built-in structures don’t quite meet your needs.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>What’s this got to do with Hugo?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Hugo shines with Markdown, but you can use other <a href="https://gohugo.io/content-management/formats/">content formats</a> as well.  It supports Org files directly through <a href="https://github.com/niklasfasching/go-org">go-org</a>.  reStructuredText is supported if you have <code>rst2html.py</code> installed. Asciidoc and Asciidoctor are supported if you have their processors installed. And like <a href="/jekyll" class="page-link">jekyll</a>, Hugo supports HTML as an HTML authoring language if you tack some front matter onto it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I enjoy the flexibility.  And that bit about supporting HTML as an authoring language is about to come in real handy.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="tip"><header>tip</header><p>go-org is nice, but <a href="https://ox-hugo.scripter.co/"><code>ox-hugo</code></a> excels if you want Hugo support tightly integrated with Org mode.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>So what’s the problem?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What’s up with this?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">$ hugo
+
+                   |  EN
+-------------------+-------
+  Pages            | 1353
+  Paginator pages  |  128
+  Non-page files   |  442
+  Static files     |   31
+  Processed images | 1195
+  Aliases          | 1261
+  Sitemaps         |    1
+  Cleaned          |    0
+
+Total in 15929 ms
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Sixteen seconds might look impressive compared to Jekyll.  It’s more alarming if you know Hugo’s reputation for speed.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I think my Asciidoctor files might be causing this slowdown.  I do have quite a few of them.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ make formats
+hugo list all | raku -e 'bag(lines[1..*].map({ .split(&quot;,&quot;)[0].IO.extension })).say'
+Bag(adoc(206), html, md(424))
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>How to confirm this?  Well, I could run <code>hugo</code> in debug mode and scan the output.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ hugo --debug &gt; debug.log
+
+Building sites … INFO 2020/05/14 21:44:50 syncing static files to /home/random/Sites/rgb-hugo/randomgeekery.org/
+⋮
+INFO 2020/05/14 21:44:50 Rendering contact.adoc with /home/random/Sites/rgb-hugo/scripts/asciidoctor ...
+⋮
+INFO 2020/05/14 21:45:07 Rendering post/2020/05/querying-hugo-content-with-python/index.adoc with /home/random/Sites/rgb-hugo/scripts/asciidoctor ...
+⋮
+Total in 17235 ms
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Interesting.  I only updated a single <code>.adoc</code> file — this one — but Hugo rebuilds <em>all</em> of them.  It also spends about 17 seconds doing so.  17,000 of the 17,235 milliseconds spent in this build go to rebuilding mostly unchanged Asciidoctor files.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Okay.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Fine I’ll do it myself</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I could always build the <code>adoc</code> files myself instead of making Hugo do it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Hang on — is that even worth it?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>How long does it take for a single process to build HTML from all the <code>adoc</code> files in my site?  Not much point in this idea if Asciidoctor takes 17 seconds on its own.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>All right.  Let’s try this with roughly the same arguments Hugo does with <a href="https://gohugo.io/content-management/formats/#external-helpers">external helpers</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">require &quot;fileutils&quot;
+
+require &quot;asciidoctor&quot;
+
+SRC_DIR = &quot;content&quot;
+BUILD_DIR = &quot;adoc-out&quot;
+
+if File.exist? BUILD_DIR
+  FileUtils.rm_r BUILD_DIR
+end
+
+Dir[&quot;#{SRC_DIR}/**/*.adoc&quot;].each do |filename|
+  # Mirror the nested folder structure where I found the `adoc` file
+  dirname = File.dirname(filename)
+  branch = dirname.sub %r[^#{SRC_DIR}/?], &quot;&quot;
+  target_dir = &quot;#{BUILD_DIR}/#{branch}&quot;
+  target_base = File.basename(filename).sub %r{adoc$}, &quot;html&quot;
+  target_file = &quot;#{target_dir}/#{target_base}&quot;
+
+  Asciidoctor.convert_file filename, to_file: target_file,
+    header_footer: false, safe: true, mkdirs: true
+end
+</code></pre>
+<p>caption:: <code>build-adoc</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This fills a temporary folder with Asciidoctor’s generated HTML, keeping it out of Hugo’s way.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ time ruby scripts/build-adoc
+0.61user 0.03system 0:00.65elapsed 98%CPU (0avgtext+0avgdata 20584maxresident)k
+0inputs+3680outputs (0major+7188minor)pagefaults 0swaps
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>0.65 seconds to build all the <code>.adoc</code> files.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>So yes.  Building them fresh myself is quicker than 17 seconds.  That’s about what I figured, since Hugo apparently starts a fresh Ruby process for each <code>adoc</code> file.  I used a single process for all of them.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This experiment is worth pursuing further.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Give it a shot</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It will be fiddly, though.  I’m going to end up adding a build step, and complicating Hugo’s normally straightforward site generation process.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Keep the front matter</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Asciidoctor has its own <a href="https://asciidoctor.org/docs/asciidoc-syntax-quick-reference/#document-header">document header</a> rules, but I don’t have to think too much about that.  To better support <a href="https://asciidoctor.org/docs/user-manual/#static-website-generators">static site generators</a>, Asciidoctor can be told what to do with YAML front matter.  I want front matter glued back to output before saving to Hugo’s <code>content</code> folder.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You can <a href="https://asciidoctor.org/docs/user-manual/#extensions">extend</a> Asciidoctor at multiple points in the conversion pipeline, with code blocks or full classes.  I’ll register a block extension for the postprocessor stage: after the document has been converted, but before it gets saved.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby"># ...
+require &quot;asciidoctor&quot;
+require &quot;asciidoctor/extensions&quot;
+
+Asciidoctor::Extensions.register do
+  # reinsert &quot;front-matter&quot; attribute
+  postprocessor do
+    # Create a YAML front matter + HTML content document that Hugo can work with
+    process do |document, output|
+      front_matter = document.attr &quot;front-matter&quot;
+      output = &quot;---\n#{front_matter}\n---\n\n#{output}&quot;
+    end
+  end
+end
+
+# ...
+
+Dir[&quot;#{SRC_DIR}/**/*.adoc&quot;].each do |filename|
+  # ...
+  Asciidoctor.convert_file filename, to_file: target,
+    header_footer: false, safe: true, mkdirs: true,
+    # extract front matter into a `front-matter` document attribute.
+    attributes: {
+      &quot;skip-front-matter&quot; =&gt; true,
+    }
+end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>What about page resources?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>For adoc files, I’ll treat the Asciidoctor content folder as the source of truth.  Cover images and other <a href="https://gohugo.io/content-management/page-bundles/">page bundle</a> files go with the <code>adoc</code>.  <code>build-adoc</code> will copy them over when converting files.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby"># ...
+Dir[&quot;#{SRC_DIR}/**/*.adoc&quot;].each do |filename|
+  # ...
+  Dir[&quot;#{dirname}/*&quot;].each do |supplemental|
+    # We're just looking for resource bundle files
+    next if File.directory? supplemental
+
+    # We already grabbed the adoc file(s)
+    next if supplemental =~ %r{adoc$}
+
+    FileUtils.cp supplemental, target_dir
+  end
+end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Only rebuild new stuff</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I might save a little more time — and disk writes — by limiting my build to updated adoc and supplemental files.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Course, it helps to stop deleting <code>BUILD_DIR</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby"># ...
+Dir[&quot;#{dirname}/*&quot;].each do |supplemental|
+  # We're just looking for resource bundle files
+  next if File.directory? supplemental
+
+  # We already grabbed the adoc file(s)
+  next if supplemental =~ %r{adoc$}
+
+  supplemental_base = File.basename supplemental
+  target_file = &quot;#{target_dir}/#{supplemental_base}&quot;
+
+  copy_needed = if File.exist? target_file
+                  File.mtime(filename) &gt; File.mtime(target_file)
+                else
+                  true
+                end
+
+  if copy_needed
+    puts &quot;Converting #{filename}&quot;
+
+    FileUtils.copy supplemental, target_file
+  end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>If processing a single file was more expensive, I’d use something more careful than a timestamp check.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Make it official</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let’s skip the gory details, but I eventually moved all the <code>adoc</code> posts, notes, and drafts to their own folder.  Now <code>build-adoc</code> officially generates HTML content with YAML front matter for Hugo.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">SRC_DIR = &quot;adoc&quot;
+BUILD_DIR = &quot;content&quot;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Since Asciidoctor finishes so promptly, I’ll run it every time I build the site.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-Makefile">.PHONY: adoc build
+adoc:
+    ruby scripts/build-adoc
+
+build: adoc ## Build live version of site
+    INCLUDE_ANALYTICS=1 hugo
+    cp etc/robots.txt randomgeekery.org/
+    cp etc/htaccess randomgeekery.org
+</code></pre>
+<p>caption:: <code>Makefile</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>What do we have now?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I finished my basic Asciidoctor + Hugo flow. How long does it take to build the site now? Let’s find out.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Every <code>adoc</code> file gets processed in the first run.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">$ time make build
+# every adoc file is converted
+...
+done
+INCLUDE_ANALYTICS=1 hugo
+
+                   |  EN
+-------------------+-------
+  Pages            | 1353
+  Paginator pages  |  128
+  Non-page files   |  431
+  Static files     |   31
+  Processed images | 1188
+  Aliases          | 1261
+  Sitemaps         |    1
+  Cleaned          |    0
+
+Total in 1416 ms
+cp etc/robots.txt randomgeekery.org/
+cp etc/htaccess randomgeekery.org
+3.80user 0.78system 0:02.87elapsed 159%CPU (0avgtext+0avgdata 198236maxresident)k
+24inputs+505056outputs (0major+19157minor)pagefaults 0swaps
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Less than three seconds. I like that time more than 15-18 seconds.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I went to a bit of trouble to only process updated <code>adoc</code> files. Does it help?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">$ time make build
+ruby scripts/build-adoc
+Converting adoc/draft/letting-ruby-build-asciidoctor-files-for-hugo/index.adoc
+done
+INCLUDE_ANALYTICS=1 hugo
+
+                   |  EN
+-------------------+-------
+  Pages            | 1354
+  Paginator pages  |  128
+  Non-page files   |  432
+  Static files     |   31
+  Processed images | 1189
+  Aliases          | 1271
+  Sitemaps         |    1
+  Cleaned          |    0
+
+Total in 1458 ms
+cp etc/robots.txt randomgeekery.org/
+cp etc/htaccess randomgeekery.org
+3.11user 0.72system 0:01.90elapsed 200%CPU (0avgtext+0avgdata 212324maxresident)k
+64inputs+500976outputs (0major+61675minor)pagefaults 0swaps
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Less than two seconds.  Then again, load from other system processes can add a second — or more, if I opened a browser tab to some JavaScript-intensive URL.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>But it appears to help somewhat.  And again, I get happy when there are fewer disk writes.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Highlighting code samples</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>So at first, Asciidoctor wasn’t highlighting code samples. I had <code>:source-highlighter: rouge</code> in my document header, but it was being ignored. Rather than add preprocessor logic to ensure that the document header gets processed, I specified the same attributes for <em>every</em> file converted:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby"># ...
+Asciidoctor.convert_file filename, to_file: target_file,
+  header_footer: false, safe: true, mkdirs: true,
+  attributes: {
+    &quot;icons&quot; =&gt; &quot;font&quot;,
+    &quot;source-highlighter&quot; =&gt; &quot;rouge&quot;,
+    &quot;skip-front-matter&quot; =&gt; true,
+  }
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>All good now, right?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">Rebuild failed:
+&quot;/home/random/Sites/rgb-hugo/content/post/2015/07/making-a-jekyll-collection/index.html:223:53&quot;: got closing shortcode, but none is open
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>When Hugo sees <code>{{ … }}</code> in my new HTML content files, it thinks that’s a shortcode!  That’s great if I <em>want</em> to invoke a shortcode.  Not so great in a post with code samples for working with templates, like <a href="/post/2015/making-a-jekyll-collection" class="page-link">post/2015/Making a Jekyll Collection</a>.  Those aren’t supposed to get processed.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>No problem.  <a href="http://rouge.jneen.net/">Rouge</a> handles syntax highlighting for my <code>adoc</code> files.  I need to take tokens that have already been transformed and make sure paired double curly braces are replaced with appropriate <a href="https://dev.w3.org/html5/html-author/charref">HTML entities</a>.  All I need is a slight  adjustment to <code>Rouge::Formatters::HTML#safe_span</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’d prefer to subclass <code>Rouge::Formatter::HTML</code>, but Asciidoctor chooses and creates formatters right in the middle of a <a href="https://github.com/asciidoctor/asciidoctor/blob/master/lib/asciidoctor/syntax_highlighter/rouge.rb#L15">highlight</a> method.  I would also need to create a new Asciidoctor adapter for syntax highlighting and update all my <code>adoc</code> content to use that adapter.  Great idea for later, but I don’t have that kind of time today.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’ll <a href="https://en.wikipedia.org/wiki/Monkey_patch">monkey patch</a>  Rouge::Formatters::HTML<code>directly, redefining</code>safe_span` to perform the needed transformation.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby"># ...
+require &quot;asciidoctor/extensions&quot;
+require &quot;rouge&quot;
+
+# Make Rouge output safe for Hugo
+class Rouge::Formatters::HTML
+  def safe_span(tok, safe_val)
+    safe_val = safe_val.gsub(/\{\{/, &quot;&amp;#123;&amp;#123;&quot;).gsub(/\}\}/, &quot;&amp;#125;&amp;#125;&quot;)
+
+    if tok == Rouge::Token::Tokens::Text
+      safe_val
+    else
+      shortname = tok.shortname \
+        or raise &quot;unknown token: #{tok.inspect} for #{safe_val.inspect}&quot;
+
+      &quot;&lt;span class=\&quot;#{shortname}\&quot;&gt;#{safe_val}&lt;/span&gt;&quot;
+    end
+  end
+end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>What about shortcodes I want to keep?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This is just general advice to make Asciidoctor and Hugo play nice with each other. You don’t need to rebuild your entire site flow to use this information.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Say I’ve got a shortcode for displaying images as figures.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">{{&lt; show-figure image=&quot;cover.png&quot; description=&quot;Taskwarrior edit view&quot; &gt;}}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Asciidoctor transforms unsafe characters into HTML entities.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-html">{{&lt; show-figure image=&quot;cover.png&quot; description=&quot;Taskwarrior edit view&quot; &gt;}}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>And it looks kind of embarrassing.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/escaped-shortcode_1719425154836_0.png" alt="escaped-shortcode.png"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The solution? Wrap that shortcode in a <a href="https://asciidoctor.org/docs/user-manual/#pass-macros">passthrough macro</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-adoc">pass:[{{&lt; show-figure image=&quot;cover.png&quot; description=&quot;Taskwarrior edit view&quot; &gt;}}]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/correct-shortcode_1719425221710_0.png" alt="correct-shortcode.png"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Much better.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><em>Now</em> what do we have?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’m not sure. Let’s find out with a typical <code>build all</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">$ time make all
+ruby scripts/build-adoc
+Converting adoc/draft/letting-ruby-build-asciidoctor-files-for-hugo/index.adoc
+done
+INCLUDE_ANALYTICS=1 hugo
+
+                   |  EN
+-------------------+-------
+  Pages            | 1354
+  Paginator pages  |  128
+  Non-page files   |  432
+  Static files     |   31
+  Processed images | 1189
+  Aliases          | 1271
+  Sitemaps         |    1
+  Cleaned          |    0
+
+Total in 1447 ms
+cp etc/robots.txt randomgeekery.org/
+cp etc/htaccess randomgeekery.org
+perl scripts/generate-archives
+prove -r
+./t/site/test_archive.t .... ok
+./t/site/test_links.t ......
+# [mailto:brianwisti@pobox.com] is an email link, friend
+./t/site/test_links.t ...... ok
+./t/test_db.t .............. ok
+./t/test_db_persistence.t .. ok
+./t/test_pod.t ............. ok
+All tests successful.
+Files=5, Tests=10,  7 wallclock secs ( 0.26 usr  0.05 sys +  6.65 cusr  0.29 csys =  7.25 CPU)
+Result: PASS
+make all  10.44s user 1.15s system 114% cpu 10.108 total
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Yeah there’s a lot of stuff there I still need to write about.  Long story short: by directly using Ruby to convert Asciidoctor files into HTML for Asciidoctor, build and test <em>combined</em> take noticeably less time than build alone when Hugo had to manage the whole thing.  And it’s not that different from how <code>ox-hugo</code> manages Org content.  A similar approach would probably work for <code>rst</code> files.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I like it for now. Keeps me from getting bored.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>But — and this is a big but — I couldn’t recommend this approach for normal  people with things to do. Site generation now has more moving parts, which I must test and maintain if I want to share the least little note.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>What now?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Yay, everything works!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What’s next?  I’m not sure.  Hugo is an ever-smaller piece of my site-building workflow.  That’s <em>somewhat</em> intentional.  Still grumbly about having to fiddle with all my Markdown files last year.  But still.</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Probably explore some AsciiDoctor extensions. If most of the work happens  when I write a file, I won’t care much if that file takes a second to turn into HTML. And there are so many to choose from, from <a href="https://asciidoctor.org/docs/asciidoctor-diagram">Asciidoctor Diagram</a> to the <a href="https://github.com/asciidoctor/asciidoctor-extensions-lab">Extensions Lab</a> and beyond.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Maybe turn my shortcodes into macros? Write some of my <em>own</em> extension classes?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Keep exploring site generators. I love to putter. A framework that encourages puttering might suit me better than Hugo.  <a href="/eleventy" class="page-link">Eleventy</a>, for example.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

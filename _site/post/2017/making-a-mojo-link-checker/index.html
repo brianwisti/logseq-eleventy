@@ -1,0 +1,1789 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2017/Making A Mojo Link Checker
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2017-04-11</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I wrote a <a href="/perl" class="page-link">Perl</a> script using utility features in Mojolicious to check all of the links in my site.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Nothing lasts forever. Sites get reorganized, move, or disappear. As my own site has gotten older — some of these pages are over fifteen years old — links from old posts stop working. <a href="https://en.wikipedia.org/wiki/Link_rot">link rot</a> is a fact of life on the Internet. I want to minimize it here.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Instead of manually checking each of the 245 posts on this site, I chose to write some code that identifies the dead end links. Then I could manually adjust the bad links. Yay! That’s hand-crafted automation there.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Use Mojo</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><em class="link-missing">Mojolicious</em> is a Perl framework for making Web applications. It also happens to provide <a href="http://mojolicious.org/perldoc#REFERENCE">excellent support</a> for a wide range of Web-related programming.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I mentioned Mojolicious here before. I use it as a part of my daily dev toolkit, even though I <em>still</em> haven’t made a real Web app with it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>The code</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I could just dump the script here and go on with my day, but I feel like typing a lot for some reason. Let’s go through the major chunks of the code.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>The setup</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-perl">use 5.24.0;
+use warnings;
+use experimental 'signatures';
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Whenever possible, I specify the latest version of Perl (currently <a href="http://perldoc.perl.org/perl5240delta.html">5.24</a>. It enables some features and deprecates others. If nothing else, it reminds me when I last worked on the code. Recent Perl versions automatically enable <a href="http://perldoc.perl.org/strict.html"><code>strict</code></a>, but it’s useful for me to also turn on <a href="http://perldoc.perl.org/warnings.html"><code>warnings</code></a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The <a href="https://metacpan.org/pod/experimental"><code>experimental</code></a> CPAN module saves some boiler plate when using Perl features that have not fully stabilized — such as function <a href="http://perldoc.perl.org/feature.html#The-'signatures'-feature">signatures</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-perl">use Mojo::DOM;
+use Mojo::File;
+use Mojo::JSON qw(decode_json);
+use Mojo::URL;
+use Mojo::UserAgent;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Mojolicious provides a remarkable amount of functionality for such a small installation. This is just what I’m explicitly using.</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="http://mojolicious.org/perldoc/Mojo/DOM">Mojo::DOM</a></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>HTML/XML DOM parser that supports <a href="https://www.w3.org/TR/CSS2/selector.html">CSS Selectors</a></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="http://mojolicious.org/perldoc/Mojo/File">Mojo::File</a></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>for handling filepaths and easy reading / writing files.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="http://mojolicious.org/perldoc/Mojo/JSON">Mojo::JSON</a></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>decode_json</code> lets me turn the <a href="http://gohugo.io/">Hugo</a> <code>config.json</code> file into a Perl structure.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="http://mojolicious.org/perldoc/Mojo/URL">Mojo::URL</a></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>understands the components of Uniform Resource Locators</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="http://mojolicious.org/perldoc/Mojo/UserAgent">Mojo::UserAgent</a></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>makes HTTP and WebSocket requests (similar to <a href="https://metacpan.org/pod/LWP::UserAgent">LWP::UserAgent</a>, or <a href="http://docs.python-requests.org/en/master/">Requests</a> for Python people)</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>From the top</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-perl">my $config_file   = &quot;config.json&quot;;
+my $config        = decode_json(Mojo::File-&gt;new($config_file)-&gt;slurp);
+my $site          = Mojo::URL-&gt;new($config-&gt;{BaseURL});
+my $root          = $config-&gt;{publishDir} || 'public';
+my $checked_links = {};
+my $ua            = Mojo::UserAgent-&gt;new;
+$ua-&gt;max_redirects( 5 ); # some sites love lots of redirects
+
+my $test_file = shift @ARGV // '';
+
+if ( $test_file ) {
+  check_links_in( $test_file, $ua );
+}
+else {
+  my $path = Mojo::File-&gt;new( $root );
+  my $files = $path-&gt;list_tree-&gt;grep( qr{ \. (?:html|xml )$ }x );
+
+  $files-&gt;each( sub { check_links_in($_); } );
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This is the important bit: load the config, create a user agent, and check links in one or all of the generated HTML files. I checked the generated HTML files in <code>public</code> because I didn’t feel like messing with <code>hugo server</code> or a Mojolicious mini-app. Scraping a local server could be an option later.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Using Mojolicious for everything was so much fun that I rewrote <code>config.yaml</code> as <code>config.json</code> to allow using <code>Mojo::JSON</code> here. Hugo’s built-in support for different <a href="http://gohugo.io/overview/configuration/">configuration format</a> made that a painless shift. Then Mojo lets me <a href="http://mojolicious.org/perldoc/Mojo/File#slurp"><code>slurp</code></a> the contents of the config file into a single string, which <a href="http://mojolicious.org/perldoc/Mojo/JSON#decode_json"><code>decode_json</code></a> turns into a hash reference.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="http://mojolicious.org/perldoc/Mojo/File#list_tree"><code>list_tree</code></a> gives a recursive directory listing of everything under <code>$root</code> as a <a href="http://mojolicious.org/perldoc/Mojo/Collection">Mojo::Collection</a>. Collections provide a tidy toolkit of list handling functionality without requiring me to go back and forth between arrays and array references.
+I could find and iterate over all the HTML and XML files in vanilla Perl 5, but I like this better.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>After a few runs, I added the ability to specify a single file in <a href="http://perldoc.perl.org/perlvar.html#%40ARGV"><code>@ARGV</code></a>. That way I can figure things out when that one link in that one file causes trouble.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Checking links in a file</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-perl">sub check_links_in($filename) {
+  my $html = Mojo::File-&gt;new( $filename )-&gt;slurp;
+  my $dom = Mojo::DOM-&gt;new( $html );
+  my $links = $dom-&gt;find( '[href], [src]' );
+
+  $links-&gt;each( sub($link, $n) {
+    my $target = $link-&gt;attr( &quot;href&quot; ) || $link-&gt;attr( &quot;src&quot; );
+
+    # Assume status will not change during the same run.
+    return if exists $checked_links-&gt;{ $target };
+
+    $checked_links-&gt;{ $target } = 1;
+    my $url = Mojo::URL-&gt;new( $target );
+
+    # Ignore email links
+    return if $url-&gt;scheme &amp;&amp; $url-&gt;scheme eq 'mailto';
+
+    $checked_links-&gt;{ $target } = file_exists_for( $url )
+      // external_link_works_for( $url )
+      // 0;
+
+    # In this version we only care about invalid links.
+    unless ( $checked_links-&gt;{ $target } ) { say summary_for( $target, $filename ); }
+  });
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Once again I <code>slurp</code> a file into a string. This time it gets handed off to <code>Mojo::DOM</code> so it can <a href="http://mojolicious.org/perldoc/Mojo/DOM#find"><code>find</code></a> any elements with <code>src</code> or <code>href</code> attributes, and then create a <code>Mojo::URL</code> from the appropriate <a href="http://mojolicious.org/perldoc/Mojo/DOM#attr"><code>attr</code></a>. <code>Mojo::URL</code> does the tedious work of parsing URLs and making components like <a href="http://mojolicious.org/perldoc/Mojo/URL#scheme"><code>scheme</code></a> available.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Leaning on the <code>//</code> defined-or logical shortcut lets me take advantage of the three boolean states of Perl: truthy, falsey, and “I dunno.” Each URL-testing subroutine can return <code>undef</code> to indicate that it doesn’t know what to do with the URL, and let the next subroutine in line handle it. If nobody knows what to do with it, then that’s a bad link and gets remembered as a falsey value.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="http://mojolicious.org/perldoc/Mojo/Collection#each"><code>each</code></a> hands two items to the subroutine it invokes: an item in the collection and what number in the collection that item is (starting from 1). No, I don’t use <code>$n</code>, but I wanted you to see that it’s available. You can also access the item as <code>$_</code> as I did earlier. You can even do your subroutine arguments the old fashioned way with <code>@_</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Is it an internal link</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-perl">sub file_exists_for($url) {
+  # Ignore full urls that aren't pointed at my site.
+  if ( $url-&gt;host &amp;&amp; $url-&gt;host ne $site-&gt;host ) {
+    return;
+  }
+
+  if ( $url-&gt;fragment &amp;&amp; $url-&gt;path eq '') {
+    # Points to a URL fragment within itself
+    # Today I don't care about those.
+    # If I did, I'd remember what file $url came from, load it, and check the DOM.
+    return 1;
+  }
+
+  my $path = $url-&gt;path
+    or return;
+
+  if ( $path eq '/' || $path-&gt;trailing_slash ) {
+    $path = $path-&gt;merge(&quot;index.html&quot;)
+  }
+
+  my $file = $root . $path;
+  return -f $file;
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I would check for <code>../</code> abuse if this was a general purpose script, but it’s mostly links I added by hand and checked manually at some point in the last fifteen years. So - assuming past me was not acting maliciously or foolishly, we rule out more likely situations:</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The URL <a href="http://mojolicious.org/perldoc/Mojo/URL#host"><code>host</code></a> points to something besides my site, which means it can’t be a local file.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The link has a <a href="http://mojolicious.org/perldoc/Mojo/URL#fragment"><code>fragment</code></a> pointing to a named anchor and nothing else. I only have that on <a href="/post/2014/blog-writing-in-org-mode" class="page-link">post/2014/Blog Writing in Org Mode</a> right now, and I don’t feel like complicating this script for a single page.]]</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The <a href="http://mojolicious.org/perldoc/Mojo/URL#path"><code>path</code></a> isn’t set, which at this point means an empty link. That can’t be good.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>If the link <em>is</em> to a local file, we check whether it exists.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="http://mojolicious.org/perldoc/Mojo/Path">Mojo::Path</a> manipulation delights me. Sure, this could be a regular expression substitution with fewer characters of code, but someone else seeing <a href="http://mojolicious.org/perldoc/Mojo/Path#merge"><code>merge</code></a> after a check for a <a href="http://mojolicious.org/perldoc/Mojo/Path#trailing_slash">trailing slash</a> would probably understand that I’m adjusting for the common practice of <code>/thing/</code> being a link to <code>/thing/index.html</code>. They might understand even if they weren’t Perl developers!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Is it a working external link</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-perl">sub external_link_works_for($url, $ua) {
+  my $response;
+
+  # Ignore tutorial demo links
+  return 1
+    if $url-&gt;host &amp;&amp; $url-&gt;host eq 'localhost';
+
+  # Ex: //www.youtube.com/embed/bWqSuBg8AMo
+  # Produced by some Hugo shortcodes.
+  my $is_protocol_relative = !$url-&gt;scheme &amp;&amp; $url-&gt;host &amp;&amp; $url-&gt;host ne $site-&gt;host;
+
+  if ( $is_protocol_relative ) {
+    # Use my site's choice of HTTP / HTTPS
+    $url-&gt;scheme( $site-&gt;scheme );
+  }
+
+  eval {
+    $response = $ua-&gt;head( $url )-&gt;result;
+  };
+
+  if ( $@ ) {
+    warn &quot;When checking $url: $@&quot;;
+    return;
+  }
+
+  return $response-&gt;is_success;
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>After some quick checks to ensure I’m not looking at a blog demo link and that I handle <a href="https://www.paulirish.com/2010/the-protocol-relative-url/">protocol-relative URLs</a> correctly, I wrap a simple <a href="http://mojolicious.org/perldoc/Mojo/UserAgent#head"><code>head</code></a> request in an <code>eval</code> block.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I use <a href="https://ochronus.com/http-head-request-good-uses/"><code>HTTP HEAD</code></a> because I only care about whether the link is valid. I don’t want the full content at the link. <code>eval</code> lets me catch timeouts and requests being sent to Web sites which no longer exist. Assuming no errors, this eventually returns whether the <a href="http://mojolicious.org/perldoc/Mojo/Transaction#result"><code>result</code></a> of the <a href="http://mojolicious.org/perldoc/Mojo/Transaction/HTTP">HTTP transaction</a> succeeded with <a href="http://mojolicious.org/perldoc/Mojo/Message/Response#is_success"><code>is_success</code></a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Summarize it</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-perl">sub summary_for($target, $filename) {
+  die &quot;Didn't check [$target]?&quot;
+    unless exists $checked_links-&gt;{ $target };
+
+  my $status = $checked_links-&gt;{ $target }
+    ? &quot;+&quot;  # It worked!
+    : &quot;-&quot;  # Something went wrong.
+    ;
+  return &quot;$status $filename $target&quot;;
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Today I only looked for bad links, but it can be useful to know the status of <em>all</em> links in my site. I used it a few times during development. May as well leave that bit of logic in.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>What’s that do</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ ./scripts/link-checker &gt; links.txt
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>A couple hundred lines like this, basically.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>When checking http://coolnamehere.com: Premature connection close at scripts/check-links.pl line 53.
+- public/categories/blogspot/index.html http://coolnamehere.com
+- public/categories/blogspot/index.html http://blogspot.com
+When checking http://vim.org/: Can't connect: Name or service not known at scripts/check-links.pl line 53.
+- public/categories/blogspot/index.html http://vim.org/
+When checking http://jruby.codehaus.org: Connect timeout at scripts/check-links.pl line 53.
+- public/categories/blogspot/index.html http://jruby.codehaus.org
+- public/categories/blogspot/index.html http://devzone.zend.com/article/2262-Zend-Framework-1.0.0-production-release
+When checking http://jruby.codehaus.org/: Connect timeout at scripts/check-links.pl line 53.
+- public/categories/coolnamehere/index.html http://jruby.codehaus.org/
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Goodness those are embarrassing.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Okay I’m gonna go fix this.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Some links just won’t work with this code. I may revisit this later, but I got what I need. All links should at least work in a browser for now.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>An added bonus that I didn’t expect: this code also ran on Windows 10 with no  changes needed.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>More ideas</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Improvements that I thought of while putting this together, which I may eventually try out.</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Be a good bot citizen by paying attention to <a href="http://www.robotstxt.org/robotstxt.html"><code>robots.txt</code></a>. I tried that in an early version of the script, but hardly any of the sites provided one. I’ll ponder and try not to run the script too often for now.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Wrap things up in a <a href="http://mojolicious.org/perldoc/Mojo/Base">Mojo::Base</a> class for organization.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Run an instance and scrape that live - see if it makes a difference!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Use non-blocking requests, since <a href="http://mojolicious.org/perldoc/Mojo/UserAgent">Mojo::UserAgent</a> supports them.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Cache results to disk, since working links tend to stay that way for <em>at least</em> a few days.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Find out why some URLs didn’t work. Was it a <code>robots.txt</code> thing? A weird redirect? They worked in the browser, after all.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Honestly the script does what I need it to, and I might never implement these other ideas.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

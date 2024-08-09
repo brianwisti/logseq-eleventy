@@ -1,0 +1,605 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2007/GNU screen
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2007-01-25</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><p><em class="link-missing">unix,coolnamehere</em></p>
+</td>
+          </tr>
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Sometimes it’s helpful to have multiple consoles open during a <a href="/linux" class="page-link">Linux</a> session. The best example I can think of is when you are logged in to a machine via <code>ssh</code>. There are other ways, of course. You could try to log in to the server with ‘-X’ so that X11 applications can run on the remote host but display on your computer. That’s not always easy, though. The administrator of the server may not allow X11 forwarding. Your machine may not allow or even understand X11 requests. You could log in to multiple <code>ssh</code> sessions. This is what I did for several years. It works, but it’s not the most convenient approach, since it clutters up your desktop. <code>screen</code> is a better option.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>screen</code> lets you log in once, and have multiple command line consoles open and controlled from within your single <code>ssh</code> session. It even keeps your session active as an added bonus. This means that after the inevitable network hiccup that hoses your <code>ssh</code> login, you can log in once more and simple start from where you left off with a simple <code>screen -Dr</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Where to find <code>screen</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>screen</code> is part of the <a href="http://www.gnu.org/">GNU</a> project. You can find more info at the <a href="https://savannah.gnu.org/projects/screen/">GNU Screen project page</a>. It’s also on many distributions, so search with your package manager before you download and install the source package.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>How to use <code>screen</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Once you’ve installed screen by whatever approach needed, starting a screen session is as simple as invoking the <code>screen</code> command.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ screen
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>From there the best way to learn is to monkey around with screen, using the quick list of commands below as your guide. All <code>screen</code> commands start with <code>Ctrl-A</code>, as seen below.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Common <code>screen</code> commands</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <table>
+<thead>
+<tr>
+<th>Combination</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Ctrl-A C</code></td>
+<td>Create a new window</td>
+</tr>
+<tr>
+<td><code>Ctrl-A A</code></td>
+<td>Switch to the last window you were in</td>
+</tr>
+<tr>
+<td><code>Ctrl-A N</code></td>
+<td>Switch to the next window in <code>screen</code> internal list</td>
+</tr>
+<tr>
+<td><code>Ctrl-A P</code></td>
+<td>Switch to the previous window in <code>screen</code> internal list</td>
+</tr>
+<tr>
+<td><code>Ctrl-A K</code></td>
+<td>Kill the current window</td>
+</tr>
+<tr>
+<td><code>Ctrl-A D</code></td>
+<td>Detach your <code>screen</code> session</td>
+</tr>
+<tr>
+<td><code>Ctrl-A ?</code></td>
+<td>Get the help screen</td>
+</tr>
+<tr>
+<td><code>Ctrl-A A</code></td>
+<td>Send an actual <code>Ctrl-A</code> signal to your current shell</td>
+</tr>
+</tbody>
+</table>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p>Note that using <code>exit</code> to quit the shell for that window will also close the window.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The commands are fairly straightforward. For example, to create a new window:</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Hold down the Control key</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Press “A”</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Release the Control key</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Press “C”</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You may already know this particular shorthand for key combos, but I wanted to have the information just in case you didn’t.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Detaching your session may be the coolest aspect of <code>screen</code>. Your screen session stays in the same state until you can come back and resume later. This lasts days - I know, I have tested it - and won’t actually go away unless forcibly killed by you or an admin. Well, shutting down the computer <em>will</em> end your screen session completely, so try to bear that in mind whenever you are about to reboot.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You reattach a session with <code>screen -r</code> from the command line. You can also reattach a session that you lost because of network failure or some other minor accident with <code>screen -Dr</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Be careful with <code>Ctrl-A Ctrl-K</code>! If you are used to working in Emacs or using emacs-style movement in your shell, you may be accustomed to that key combo moving you to the beginning of the current line and cutting that line into the kill ring. In the screen
+world, you would use <code>Ctrl-A A Ctrl-K</code> to get the same effect.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

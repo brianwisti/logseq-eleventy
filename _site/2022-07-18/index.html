@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        2022-07-18
+      
+      </h2>
+      
+  
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><h2>&lt;2022-07-18 Mon 09:16&gt;</h2>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Cats haven’t checked in on me for a bit. It’s nice. A bit creepy, but nice.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/2022-07-18-cats_1712459699407_0.jpg" alt="2022-07-18-cats.jpg"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Oh and for a little bit of <a href="/nushell" class="page-link">Nushell</a> geekery, here’s how I copied the newest photo from Dropbox sync to the folder for this post — since neither are named in a readily accessible pattern for quick typing:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-nushell">cp (ls ~/Dropbox/Camera | last | get name) $&quot;(ls content/posts/2022/07/ | last | get name)/cats.jpg&quot;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><h2>&lt;2022-07-18 Mon 17:04&gt;</h2>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Figured out how to do <a href="https://code.visualstudio.com/docs/editor/userdefinedsnippets">text snippets</a> in Visual Studio Code for <a href="/dendron" class="page-link">Dendron</a> notes. My wish for this world is less JSON.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Would YAML be better? Maybe, but no. I’m thinking something more like Emacs <a href="https://github.com/joaotavora/yasnippet">yasnippet</a> Sure a file for every snippet may sound like overkill. It’s a heck of a lot easier to figure out what a single template looks without filtering from JSON list and then translating from JSON string to template string.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Anyways, snippets for timestamped list items in Dendron.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-json">{
+    &quot;itime&quot;: {
+        &quot;prefix&quot;: &quot;itime&quot;,
+        &quot;scope&quot;: &quot;markdown&quot;,
+        &quot;body&quot;: &quot;- **$CURRENT_HOUR:$CURRENT_MINUTE:** &quot;,
+        &quot;description&quot;: &quot;timestamp for interstitial notes&quot;
+    },
+    &quot;inow&quot;: {
+        &quot;prefix&quot;: &quot;inow&quot;,
+        &quot;scope&quot;: &quot;markdown&quot;,
+        &quot;body&quot;: &quot;- **$CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE $CURRENT_HOUR:$CURRENT_MINUTE:** &quot;,
+        &quot;description&quot;: &quot;datetime for interstitial notes&quot;
+    }
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Handy for <a href="https://betterhumans.pub/replace-your-to-do-list-with-interstitial-journaling-to-increase-productivity-4e43109d15ef">interstitial journaling</a>. Take the claims about interstitial journaling with as much salt as you need. I use timestamped notes to remember when I did, said, or thought a thing.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>For some of us “time tracking” is just a tool to — um — track time.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

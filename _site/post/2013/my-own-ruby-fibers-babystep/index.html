@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2013/My Own Ruby Fibers Babystep
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2013-11-25</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="/post/2013/rereading-the-pickaxe" class="page-link">post/2013/Rereading the Pickaxe</a> reached the chapter on <a href="/ruby" class="page-link">Ruby</a> Fibers. Interesting stuff. Thought I would extrapolate from their initial example. My old static pages started from a MANIFEST file that looked something like this:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>index.html
+/babblings/index.html
+/babblings/2013-05-30-javascript.html
+/babblings/2013-04-05-perl-and-opensuse.html
+/babblings/2013-03-big-updates.html
+/babblings/seattle.html
+/babblings/stalkingswfans.html
+/babblings/bra.html
+/brian/index.html
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>And so on. The path components create a topic hierarchy. There are only 89 files. This is not a lot to track, but it is enough that I can still be hazy about some high level details. For example, I have no idea how many pages are in each section.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">sections = Fiber.new do
+  File.foreach &quot;MANIFEST&quot; do |line|
+    line.match %r{^/(?&lt;path&gt;\w+)/} do |section|
+      Fiber.yield section[:path]
+    end
+  end
+
+  nil
+end
+
+counts = Hash.new 0
+
+while section = sections.resume
+  counts[section] += 1
+end
+
+counts.keys.sort.each { |section| puts &quot;#{section}: #{counts[section]}&quot; }
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Yes, this is just the example from the Pickaxe book with <code>line.scan</code> changed to <code>line.match</code> with a slightly altered regular expression.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ ruby nom-manifest.rb
+babblings: 7
+brian: 2
+geekery: 78
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This isn’t that helpful though. I already knew that the majority of my pages were in <code>/geekery/</code>. Let’s adjust the regular expression so that the first two pieces of the entry count as a section.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">sections = Fiber.new do
+  File.foreach &quot;MANIFEST&quot; do |line|
+    line.match %r{
+      ^/(?&lt;path&gt;\w+ # main section: /geekery
+      (?:/\w+)?)    # subsection:   /ruby
+      /             # stop at path separator
+    }x do |section|
+        Fiber.yield section[:path]
+    end
+  end
+  nil
+end
+```'</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now I’m looking for possible subsections and lumping them with the top level section. Does this change get me more useful information (for varying definitions of useful)?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ ruby nom-manifest.rb
+babblings: 7
+brian: 2
+geekery: 2
+geekery/editors: 3
+geekery/js: 1
+geekery/lisp: 1
+geekery/osx: 1
+geekery/parrot: 17
+geekery/perl: 13
+geekery/php: 2
+geekery/python: 9
+geekery/rakudo: 3
+geekery/rebol: 10
+geekery/ruby: 10
+geekery/tools: 2
+geekery/unix: 2
+geekery/xml: 2
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Yeah. It does. I can now see that the most of my static pages are about Parrot or Perl.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I recognize that all I’m doing in this example is shuffling complexity around. There’s nothing in the task that screams “OMG YOU NEED FIBERS TO DO THIS!” Still - I need to figure this stuff out somehow.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Anyways, back to work.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

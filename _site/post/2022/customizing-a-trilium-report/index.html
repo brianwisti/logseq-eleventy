@@ -1,0 +1,553 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2022/Customizing a Trilium Report
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><p>In which I frolic with a note system that lets me use SQL</p>
+</td>
+          </tr>
+        
+      
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><p><a href="https://hackers.town/@randomgeek/108794247029275591">Mastodon</a></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2022-08-09</em></p>
+</td>
+          </tr>
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/cover-2022-08-09_1712365183230_0.png" alt="Trilium with a pie chart showing pie chart of note type distribution"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Been exploring <em class="link-missing">Trilium</em> for notes. One thing I’ll say is the nerdy features are directly accessible to my existing skills.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>See, each note system has some way — or a plugin providing some way — to query information about your collected notes. Logseq <a href="https://docs.logseq.com/#/page/advanced%20queries">uses</a> Datascript, which is uh Lisp-ish? Obsidian — if you add the <a href="https://blacksmithgu.github.io/obsidian-dataview/">Dataview</a> plugin — has DQL, which is SQL-ish.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Trilium keeps everything in a <a href="https://sqlite.org">SQLite</a> database that you can query directly.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/trilium-sql-console_1712365410183_0.png" alt="trilium-sql-console.png"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>My immediate reaction on realizing what I was seeing? Look I don’t usually communicate on this site via memes and image captions, but:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/its-a-unix-system-I-know-this_1712365440425_0.jpg" alt="Jurassic Park: &quot;It's a UNIX system. I know this.&quot;"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I know the gist of SQL. Let’s play with this.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Made a custom <a href="https://github.com/zadam/trilium/wiki/Template">template</a> for notes about people. Assigned that template to the appropriate notes. Got curious about how my template-using notes were spread out.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Copied the query from <em>Trilium Demo / Statistics / Note type count</em> and tweaked it a little for my needs.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-sql">SELECT
+    templateNote.title,
+    SUM(
+        CASE WHEN note.isDeleted=0 THEN 1 ELSE 0 END
+    ) AS countNotDeleted,
+    SUM(
+        CASE WHEN note.isDeleted=1 THEN 1 ELSE 0 END
+    ) AS countDeleted
+FROM attributes attr
+INNER JOIN notes note
+    ON note.noteId = attr.noteId
+INNER JOIN notes templateNote
+    ON attr.value = templateNote.noteId
+WHERE
+    attr.name = 'template'
+GROUP BY attr.value
+ORDER BY countNotDeleted desc
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <table>
+<thead>
+<tr>
+<th>title</th>
+<th>countNotDeleted</th>
+<th>countDeleted</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Day template</td>
+<td>182</td>
+<td>18</td>
+</tr>
+<tr>
+<td>Person Template</td>
+<td>120</td>
+<td>0</td>
+</tr>
+<tr>
+<td>task template</td>
+<td>6</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Biography template</td>
+<td>4</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Book template</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p>I renamed the Trilium demo’s included <em>People template</em> to <em>Biography template</em> for clarity here.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/trilium-template-usage-report_1712365513398_0.png" alt="Trilium Notes showing pie chart of template usage"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The demo graph uses <a href="https://www.chartjs.org">Chart.js</a>, which is fine. I’m already thinking about using <a href="https://vega.github.io">Vega</a> instead.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>One thing at a time.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Trilium. It’s got SQL. I like that.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

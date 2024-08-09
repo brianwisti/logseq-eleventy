@@ -1,0 +1,2106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2015/Making a Jekyll Collection
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><p>In which I try out Jekyll’s experimental Collections</p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2015-07-10</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><em class="link-missing">Jekyll</em> currently generates the HTML for my site. I am curious about the experimental <a href="http://jekyllrb.com/docs/collections/">collections</a> feature, and whether it could be useful for me.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This post should not be too difficult to read along with — and I will happily fix any problems you notice — but I do assume you know the basics of creating a blog with Jekyll. The code and templates were initially build on Jekyll 3.0.0.beta8.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>What? Why?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>So what the heck is a collection? From the Jekyll collections documentation:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <blockquote>
+<p>Not everything is a post or a page. Maybe you want to document the  various methods in your open source project, members of a team, or talks at a conference. Collections allow you to define a new type of document that behave like Pages or Posts do normally, but also have their own unique properties and namespace.</p>
+</blockquote>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Collections could be useful when you have things you want to show on your site without necessarily being tied to the blog-centric structure of Posts or the simple content dump of a Page.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Who would that help, besides the slightly technical examples from the description?</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>A writer could organize their stories into collections</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>An artist could present their works as one or more collections</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>A knitter could put their yarn projects in a collection.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Anyone who takes pictures could use collections as photo galleries.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Recipes, maybe?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Music playlists!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>All the books I own, and the few I have actually read!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>A blog post probably works for most of these use cases. Maybe fiddle a bit with categories and put a tag here and there, and your content is out there for anyone. Good enough.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>“Good enough” isn’t good enough for every case, though. Occasionally you want to tune some of your content in a special way. You may find this is easier with collections than with blog posts.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There are also dedicated sites for all of these ideas, and those are good enough too. Some excel at the services they provide. They have concerns too. Now the visibility of your creations is tied to the fortunes and policies of whoever provides that service. Keeping that in a collection on your own site gives you a backup if the service goes away, at least.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I could use collections for my knitting and crochet projects. I have a couple of <em class="link-missing">Knitting</em> blog posts here. My <a href="http://www.ravelry.com/people/brianwisti">account</a> on <a href="https://www.ravelry.com">Ravelry</a> highlights a handful of other WIPs and FOs: <em>Works In Progress</em> and <em>Finished Objects</em>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The blog posts work fine as blog posts, but I still want a separate way to organize those projects. The stuff on Ravelry can only be seen if you have an account with the service. That’s fine, but I have spent 2015 consolidating material I’ve created elsewhere onto my site. Ravelry is a reasonable next target for me.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Fine. How?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>First I need to add a <code>collections</code> entry to my <code>_config.yml</code>
+<a href="http://jekyllrb.com/docs/configuration/">configuration</a> file. This entry contains a list of all collections in the site, and metadata for each collection. I want these collections displayed on the site, so I must set the <code>output</code> metadata for the collection to <code>true</code>. I also want give consistent URLs for my project pages. This has been an issue for me bouncing between Jekyll 2.5.3 and 3.0.0 beta. Setting <code>permalink</code> takes care of that issue.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-yaml">collections:
+  crafts:
+    output: true
+    permalink: /crafts/:path/
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Next I create the folder to hold this collection. By default its name must match the collection name with an underscore prefix.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ mkdir _crafts
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>One Thing</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Time to put something in the collection. I can use <a href="/post/2015/quick-garter-stitch-scarf" class="page-link">post/2015/Quick Garter Stitch Scarf</a>  as a starting point, filling in the details of a new collection item from that post.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-markdown">---
+name: Quick Garter Stitch Scarf
+layout: craft
+image: /img/2015/garter-scarf-wrapped.jpg
+finished: 2015-04-04
+posts:
+  - title: A Quick Garter Stitch Scarf
+    url: /marginalia/2015/04/04_quick-garter-scarf.html
+---
+
+I made this scarf as a quick break from all the socks I made or tried to make
+over the last few years. The scarf pleased its new owner immensely, and she
+wears it whenever the weather permits.
+</code></pre>
+<p>caption:: <code>crafts/garter-scarff-wrapped.md</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I can add more detail later, but this gives me a good start.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>How about a layout template for the project? This is the best I could come up with using my current knowledge of <a href="https://github.com/Shopify/liquid">Liquid templates</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-liquid">---
+layout: default
+---
+&lt;article class=&quot;post&quot;&gt;
+  &lt;header class=&quot;post-header&quot;&gt;
+    &lt;h1 class=&quot;post-title&quot;&gt;{{ page.name }}&lt;/h1&gt;
+    &lt;span class=&quot;post-meta&quot;&gt;
+      Finished {{ page.finished | date: site.date_format }}
+    &lt;/span&gt;
+  &lt;/header&gt;
+  &lt;div class=&quot;post-content&quot;&gt;
+    &lt;figure&gt;
+      {% img {{ page.image }} class=&quot;pure-img&quot; alt=&quot;{{ page.name }}&quot; %}
+      &lt;figcaption&gt;{{ page.name }}&lt;/figcaption&gt;
+    &lt;/figure&gt;
+    {{ content }}
+    {% if page.posts %}
+    &lt;h2&gt;Posts About This Project&lt;/h2&gt;
+    &lt;ul&gt;
+      {% for link in page.posts %}
+        &lt;li&gt;&lt;a href=&quot;{{ link.url }}&quot;&gt;{{ link.title }}&lt;/a&gt;&lt;/li&gt;
+      {% endfor %}
+    &lt;/ul&gt;
+    {% endif %}
+  &lt;/div&gt;
+&lt;/article&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>As far as Jekyll is concerned, the collection item is just another page. Use <code>page</code> to get at front matter for this item.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Oh and while I was putting this page together I learned about the <a href="https://github.com/octopress/image-tag">Octopress Image Tag</a> plugin. I expect to be using that a lot more in the future!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/crafts-project_1719424536450_0.png" alt="crafts-project.png"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now I have a page for this project, but how will visitors know it’s there? How about I start with some sort of summary on the site’s index page?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Just The New Things</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Here is a simple approach. Just make a list of the items in the collection.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-liquid">&lt;div class=&quot;home&quot;&gt;
+  &lt;h2&gt;My Crafts Projects&lt;/h2&gt;
+  &lt;ul&gt;
+    {% for project in site.crafts %}
+      &lt;li&gt;&lt;a href=&quot;{{ project.url }}&quot;&gt;{{ project.name }}&lt;/a&gt;&lt;/li&gt;
+    {% endfor %}
+  &lt;/ul&gt;
+  &lt;ul class=&quot;post-list&quot;&gt;
+    {% for post in site.posts %}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/crafts-summary-01_1719424589692_0.png" alt="crafts-summary-01.png"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Sure, that works for the moment. Let’s get some more projects in that collection. I can add the projects from my Ravelry account for now.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/crafts-summary-02_1719424613797_0.png" alt="crafts-summary-02.png"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Ok, new problem.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I see aesthetic issues here, but that’s not the problem. My site index limits itself to only showing this year’s blog posts. This collection summary shows every craft project I ever documented.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The project list should only show projects I have finished so far in the year.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-liquid">{% assign this_year = 'now' | date: &quot;%Y&quot; %}
+&lt;h2&gt;{{ this_year }} Crafts Projects&lt;/h2&gt;
+&lt;ul&gt;
+  {% assign projects = site.crafts | sort: 'finished' | reverse %}
+  {% for project in projects %}
+    {% assign finished_in = project.finished | date: &quot;%Y&quot; %}
+    {% if finished_in == this_year %}
+      &lt;li&gt;&lt;a href=&quot;{{ project.url }}&quot;&gt;{{ project.name }}&lt;/a&gt;&lt;/li&gt;
+    {% endif %}
+  {% endfor %}
+&lt;/ul&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Jekyll sorts collections by filename. Since time finished matters to me now, I create a copy of the crafts collection sorted from most recently finished to oldest. Now I can step through that copy, only summarizing projects completed this year. Liquid may have an easier way, but I haven’t learned it yet.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/crafts-summary-03_1719424653975_0.png" alt="crafts-summary-03.png"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>All The Things</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Wait. How will a visitor find those old projects? Time to make an archive page. I can follow the idea of the post archive for now, listing every project ever. <code>crafts/index.html</code> will hold that archive.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-liquid">---
+title: My Crafts Projects
+layout: page
+permalink: /crafts/
+---
+
+&lt;p&gt;Not every project I have ever done, but every project I have ever documented.&lt;/p&gt;
+
+{% assign projects = site.crafts | sort: 'finished' | reverse %}
+{% for project in projects %}
+  {% assign year_finished = project.finished | date: &quot;%Y&quot; %}
+  {% if year_finished != year %}
+    {% unless forloop.first %}
+      &lt;/ul&gt;
+    {% endunless %}
+    &lt;h2&gt;{{ year_finished }}&lt;/h2&gt;
+    &lt;ul&gt;
+    {% assign year = year_finished %}
+  {% endif %}
+  &lt;li&gt;&lt;a href=&quot;{{ project.url }}&quot;&gt;{{ project.name }}&lt;/a&gt;&lt;/li&gt;
+  {% if forloop.last %}
+    &lt;/ul&gt;
+  {% endif %}
+{% endfor %}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Then add a link to my index page and craft project template.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>&lt;p&gt;See the &lt;a href=&quot;/crafts/&quot;&gt;Crafts&lt;/a&gt; page to see all projects.
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/crafts-index_1719424723943_0.png" alt="crafts-index.png"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Well it is painfully obvious that I need to dig through my photos and fill in gaps for those missing years.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The “Jekyll collections” part of this blog post is done. I talked about building a collection, creating detail pages — though not every collection needs those — along with a summary for the site index and a page listing every item in the collection. We are done here.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>But —</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I know. I mentioned an aesthetic issue earlier. You want to <em>see</em> the knitting projects in those summaries. I will gloss over the details. They deserve a blog post of their own.</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Make thumbnails for each of my craft pictures.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Add a <code>thumbnail</code> item with a thumbnail path to the Front Matter for each project.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Include a thumbnail pic in the project summary.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Fiddle a bunch with CSS for the summary and craft index views.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Generating a thumbnail and associating it with the project sounds like the sort of thing that should be automated, but none of the Jekyll plugins I found were quite right for the task. I may end up making my own plugin at some point, assuming I stick with a single blog generator long enough to learn how to make plugins.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Anyways, I add a <code>thumbnail</code> front matter entry for each collection item.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-yaml">    thumbnail: /img/2015/garter-scarf-wrapped-thumbnail.jpg
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Adding thumbnails and captions makes the item summary a little more complex, so I create <code>_includes/craft-summary-item.html</code> to hold that summary.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-liquid">&lt;figure class=&quot;crafts-item-thumbnail&quot;&gt;
+  &lt;a href=&quot;{{ project.url }}&quot;&gt;
+    &lt;img src=&quot;{{ project.thumbnail }}&quot;
+      height=&quot;128&quot; width=&quot;128&quot;
+      alt=&quot;{{ project.name }}&quot;&gt;
+  &lt;/a&gt;
+  &lt;figcaption&gt;&lt;a href=&quot;{{ project.url }}&quot;&gt;{{ project.name }}&lt;/a&gt;&lt;/figcaption&gt;
+&lt;/figure&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I update <code>index.html</code> to reference the new include file.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-liquid">{% assign this_year = 'now' | date: &quot;%Y&quot; %}
+&lt;h2&gt;{{ this_year }} Crafts Projects&lt;/h2&gt;
+&lt;ul class=&quot;crafts-collection&quot;&gt;
+  {% assign projects = site.crafts | sort: 'finished' | reverse %}
+  {% for project in projects %}
+    {% assign finished_in = project.finished | date: &quot;%Y&quot; %}
+    {% if finished_in == this_year %}
+      &lt;li&gt;{% include craft-summary-item.html %}&lt;/li&gt;
+    {% endif %}
+  {% endfor %}
+&lt;/ul&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>And then the same to the Crafts index.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-liquid">{% assign projects = site.crafts | sort: 'finished' | reverse %}
+{% for project in projects %}
+  {% assign year_finished = project.finished | date: &quot;%Y&quot; %}
+  {% if year_finished != year %}
+    {% unless forloop.first %}
+      &lt;/ul&gt;
+    {% endunless %}
+    &lt;h2&gt;{{ year_finished }}&lt;/h2&gt;
+    &lt;ul class=&quot;crafts-collection&quot;&gt;
+    {% assign year = year_finished %}
+  {% endif %}
+  &lt;li&gt;{% include craft-summary-item.html %}&lt;/li&gt;
+  {% if forloop.last %}
+    &lt;/ul&gt;
+  {% endif %}
+{% endfor %}
+</code></pre>
+<p>caption:: <code>crafts/index.html</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Add just enough styling to make it work on my machine - then a little more styling to make it work on my phone.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-scss">figure {
+  text-align: center;
+  margin: 1em auto;
+
+  img {
+    border: thin solid $grey-color-dark;
+    text-align: center;
+    margin: auto;
+  }
+}
+
+.crafts-collection {
+  list-style: none;
+  display: -webkit-flex;
+  display: flex;
+
+  figure {
+    width: 160px;
+    height: 160px;
+  }
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/crafts-summary-04_1719424878504_0.png" alt="crafts-summary-04.png"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’m fairly sure something is horribly wrong with my CSS, but if I clean this bit up I’ll just have to clean everything. This works for now.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Next?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Judging by my new yarncraft collection? More knitting and crochet. I need to fill that space! Also, I will gradually hunt down other projects I completed and add them to the collection. Probably some more layout and automation work.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Mostly I want to find out what other Jekyll bloggers use collections for, or want to use collections for. I’d love to hear what you’ve got going on. Feel free to comment, email, tweet, or whatever!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Related</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="http://ben.balter.com/2015/02/20/jekyll-collections/">Explain Like I’m Five: Jekyll Collections</a> by Ben Balter</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="http://www.sitepoint.com/getting-started-jekyll-collections/">Getting Started with Jekyll Collections</a> by Taylor Jones</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

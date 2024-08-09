@@ -1,0 +1,2020 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2009/Parrot Babysteps 03 - Simple Control Structures
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2009-09-11</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><p><em class="link-missing">parrot,learn,coolnamehere</em></p>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I won’t spend a whole lot of time on what control structures <em>are</em> and more time on how to implement them in <a href="/parrot" class="page-link">Parrot</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This material follows pretty much the same steps as the Parrot book chapter on <a href="http://docs.parrot.org/parrot/latest/html/docs/book/pir/ch05_control_structures.pod.html">control structures</a>. You could follow that chapter and end up with the same knowledge that you would get from reading today’s step. Maybe even a little more.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Sequence</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>As usual for many programming languages, the the sequence control structure is implemented in Parrot as a pattern of one instruction following another.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-pir"># example-03-01.pir
+.sub main :main
+    .const string PROMPT = &quot;What is your name? &quot;
+    .local string name
+    .local string response
+    .local pmc    stdin
+
+    stdin = getstdin
+    name = stdin.'readline_interactive'(PROMPT)
+    response = &quot;Hello, &quot; . name
+    say response
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Selection</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Parrot uses simple mechanisms for building selection and repetition structures. Why is this? This is because Parrot and PIR are built for designing new programming languages. The designers opted to have the core control structures be simplistic so you wouldn’t be stuck with what Parrot thinks a repetition loop - as one example - should look like. This does mean that moderately experienced developers such as myself must release some of our prejudices about what is “good” or “bad” in code. Very experienced developers and complete newcomers should have an easier time with Parrot’s controls, due to broadened horizons or lack of preconceptions.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Selection structures are created in Parrot with a combination of labels, <code>goto</code>, and <code>if</code> test instructions. Yes, the <a href="http://www.c2.com/cgi/wiki?GotoConsideredHarmful">infamous <code>goto</code></a>. Let’s relinquish our <a href="http://en.wikipedia.org/wiki/Cargo_cult_programming">cargo cult</a> habits and start learning how <code>goto</code> is used in Parrot.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We’ll look at labels first, which are how we tell <code>goto</code> where to go.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Labels</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Labels consist of a series of letters, numbers, and underscores followed by a colon <code>:</code> character.  Although it’s not strictly required, I use uppercase letters for label identifiers. You will generally find labels by themselves, outdented from the other instructions around it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">&lt;IDENTIFIER&gt;:
+    # Code following instruction
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Again: this is not required. I follow this convention because I believe it makes my code easier to read. You could just as easily have the following instruction on the same line, but it has the risk of making your code visually cluttered.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-pir">SET_NAME: $S0 = 'Brian'
+say $S0
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Labels serve as markers in your code. They don’t accomplish much by themselves, but can show some of your program structure if named and placed intelligently.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-pir"># example-03-02.pir
+.sub main :main
+    .const string PROMPT = &quot;What is your name? &quot;
+    .local string name
+    .local string response
+    .local pmc    stdin
+
+    stdin = getstdin
+
+GET_NAME:
+    name = stdin.'readline_interactive'(PROMPT)
+
+    response = &quot;Hello, &quot; . name
+    say response
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>goto</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>A <code>goto</code> instruction sends Parrot execution to a specific labelled location in your code.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">goto &lt;LABEL_IDENTIFIER&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>When it follows a <code>goto</code>, Parrot picks up by executing the first instruction following the label. In this example, it creates an infinite loop which can only be interrupted by pressing Control-C.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-pir"># example-03-03.pir
+.sub main :main
+    .const string PROMPT = &quot;What is your name? &quot;
+    .local string name
+    .local string response
+    .local pmc    stdin
+
+    stdin = getstdin
+
+GET_NAME:
+    name = stdin.'readline_interactive'(PROMPT)
+
+    goto GET_NAME
+
+    response = &quot;Hello, &quot; . name
+    say response
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Infinite loops have their occasional uses, but most of the time they’re just annoying.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ parrot example-03-03.pir
+What is your name? Brian
+What is your name? Brian
+What is your name? I said &quot;Brian!&quot;
+What is your name? &lt;Control-C&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>if</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The <code>if</code> operation lets us perform specific instructions when a particular condition is true by branching control. At our level of expertise, that branching is performed with <code>goto</code>. So for us, the general <code>if</code> syntax looks like this:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">if &lt;conditional&gt; goto &lt;LABEL&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let’s see <code>if</code> in action by adding a little control logic to our name prompt.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-pir"># example-03-04.pir
+.sub 'main' :main
+    .const string PROMPT = &quot;What is your name? &quot;
+    .local string name
+    .local string response
+    .local pmc    stdin
+
+    stdin = getstdin
+
+    name = stdin.'readline_interactive'(PROMPT)
+    if name == &quot;Brian&quot; goto GREETING_FOR_BRIAN
+    response = &quot;Hello, &quot; . name
+    goto SAY_IT
+
+  GREETING_FOR_BRIAN:
+    response = &quot;Hey, Brian!&quot;
+
+  SAY_IT:
+    say response
+
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I admit it. This example is all about making me feel good. One greeting is prepared for users named Brian, while another greeting is prepared for everybody else. The program accomplishes this by examining the value of <code>name</code>. If <code>name</code> is “Brian”, the program is instructed to <code>goto</code> the label  <code>GREETING_FOR_BRIAN</code>. Otherwise it continues on, preparing a generic response and going to the <code>SAY_IT</code> label. <code>GREETING_FOR_BRIAN</code> prepares a custom response and follows up to the next instruction, which happens to be the <code>SAY_IT</code> code. Remember that labels are just markers. They don’t cut the labeled code off from the rest of your code.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Conditionals</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The conditional in an <code>if</code> operation is checked to see if it looks false. The conditional can be a simple variable, in which case the value of the variable is examined. False looks a little different for each of the types.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <table>
+<thead>
+<tr>
+<th>For This Type</th>
+<th>False looks like this</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Integer</td>
+<td><code>0</code></td>
+</tr>
+<tr>
+<td>Number</td>
+<td><code>0.0</code></td>
+</tr>
+<tr>
+<td>String</td>
+<td><code>&quot;&quot;</code>, <code>&quot;0&quot;</code></td>
+</tr>
+</tbody>
+</table>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Anything that doesn’t look false is considered true.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You can also use comparison operators to compare two values in your conditional.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-pir"># example-03-05.pir
+.sub main :main
+    .local int    a
+    .local int    b
+    .local pmc    stdin
+
+    stdin = getstdin
+
+    a = stdin.'readline_interactive'('a: ')
+    b = stdin.'readline_interactive'('b: ')
+
+    if a &gt; b goto A_IS_GREATER
+    if b &gt; a goto B_IS_GREATER
+    goto BOTH_EQUAL
+
+A_IS_GREATER:
+    say &quot;a is greater&quot;
+    goto END
+B_IS_GREATER:
+    say &quot;b is greater&quot;
+    goto END
+BOTH_EQUAL:
+    say &quot;a and b are the same&quot;
+    goto END
+
+END:
+    say &quot;Wasn't that fun?&quot;
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This little script grabs two values from the user and reports which one is greater - or reports the special case when they are the same.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ parrot example-03-05.pir
+a: 5
+b: 10
+b is greater
+Wasn't that fun?
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Here are the comparison operators that are available for your conditionals.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <table>
+<thead>
+<tr>
+<th>Operator</th>
+<th>Tests</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>a == b</code></td>
+<td>Are <code>a</code> and <code>b</code> the same value?</td>
+</tr>
+<tr>
+<td><code>a !== b</code></td>
+<td>Are <code>a</code> and <code>b</code> different values?</td>
+</tr>
+<tr>
+<td><code>a &gt; b</code></td>
+<td>Is <code>a</code> greater than <code>b</code>?</td>
+</tr>
+<tr>
+<td><code>a &lt; b</code></td>
+<td>Is <code>a</code> less than <code>b</code>?</td>
+</tr>
+<tr>
+<td><code>a &gt;= b</code></td>
+<td>Is <code>a</code> greater than or equal to <code>b</code>?</td>
+</tr>
+<tr>
+<td><code>a &lt;= b</code></td>
+<td>Is <code>a</code> less than or equal to <code>b</code>?</td>
+</tr>
+</tbody>
+</table>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What about having multiple tests? For example, maybe you will only accept a number if it’s within a certain range. Parrot does not let us chain comparisons, but we can still use multiple tests with the <code>and</code> and <code>or</code> opcodes.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-pir"># example-03-06.pir
+.sub main :main
+    .const int MINIMUM = 10
+    .const int MAXIMUM = 100
+    .local int input
+    .local int input_is_valid
+    .local pmc stdin
+
+    stdin = getstdin
+
+GET_NUMBER:
+    print &quot;Enter a number (&quot;
+    print MINIMUM
+    print &quot; - &quot;
+    print MAXIMUM
+    print &quot;)&quot;
+    input = stdin.'readline_interactive'(': ')
+    $I0 = input &gt;= MINIMUM
+    $I1 = input &lt;= MAXIMUM
+    input_is_valid = and $I0, $I1
+    if input_is_valid goto VALID_INPUT
+    say &quot;That is not in the acceptable range!&quot;
+    goto END_PROGRAM
+
+  VALID_INPUT:
+    say &quot;That is in the acceptable range.&quot;
+
+  END_PROGRAM:
+    say &quot;Thank you!&quot;
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>and</code> compares its arguments, and returns true if the arguments all look true. Parrot lets you store test results in a variable, as you can see. Then you can examine the truthiness of the variable in your <code>if</code> condition.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ parrot example-03-06.pir
+Enter a number (10 - 100): 990
+That is not in the acceptable range!
+Thank you!
+$ parrot example-03-06.pir
+Enter a number (10 - 100): 82
+That is in the acceptable range.
+Thank you!
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This approach looked odd enough to me that I thought I’d show the equivalent Perl code.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This Parrot code:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-pir">  $I0 = input &gt;= MINIMUM
+  $I1 = input &lt;= MAXIMUM
+  input_is_valid = and $I0, $I1
+  if input_is_valid goto VALID_INPUT
+  say &quot;That is not in the acceptable range!&quot;
+  goto END_PROGRAM
+
+VALID_INPUT:
+  say &quot;That is in the acceptable range.&quot;
+
+END_PROGRAM:
+  say &quot;Thank you!&quot;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>is roughly equivalent to the following Perl code:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-perl">if ($input &gt;= $MINIMUM &amp;&amp; $input &lt;= $MAXIMUM) {
+    say &quot;That is in the acceptable range.&quot;;
+} else {
+    say &quot;That is not in the acceptable range.&quot;;
+}
+
+say &quot;Thank you!&quot;;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We could also use <code>or</code>, which compares its arguments and returns true if <em>either</em> argument looks true.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-pir"># example-03-07.pir
+.sub 'main' :main
+    .const int MINIMUM = 10
+    .const int MAXIMUM = 100
+    .local int input
+    .local int input_is_invalid
+    .local pmc stdin
+
+    stdin = getstdin
+
+GET_NUMBER:
+    print &quot;Enter a number (&quot;
+    print MINIMUM
+    print &quot; - &quot;
+    print MAXIMUM
+    print &quot;)&quot;
+    input = stdin.'readline_interactive'(': ')
+    $I0 = input &lt;= MINIMUM
+    $I1 = input &gt;= MAXIMUM
+    input_is_invalid = or $I0, $I1
+    if input_is_invalid goto WARN_USER_ABOUT_INPUT
+    goto END_PROGRAM
+
+WARN_USER_ABOUT_INPUT:
+    say &quot;That is not in the acceptable range!&quot;
+
+END_PROGRAM:
+    say &quot;Thank you!&quot;
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>unless</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Sometimes the normal <code>if</code> test does not clearly describe your needs. You may only want to branch if a test fails. While you <em>can</em> do this with <code>if</code>, Parrot also provides the <code>unless</code> test for exactly this situation. <code>unless</code> looks similar to <code>if</code>:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">unless &lt;conditional&gt; goto &lt;LABEL&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I can use it in the user prompt program to streamline the description of the application’s response to anyone but me.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-pir"># example-03-08.pir
+.sub main :main
+    .const string PROMPT = &quot;What is your name? &quot;
+    .local string name
+    .local string response
+    .local pmc    stdin
+
+    stdin = getstdin
+
+    name = stdin.'readline_interactive'(PROMPT)
+    unless name == &quot;Brian&quot; goto GENERIC_GREETING
+    response = &quot;Hey, Brian!&quot;
+    goto SAY_IT
+
+  GENERIC_GREETING:
+    response = &quot;Hello, &quot; . name
+
+  SAY_IT:
+    say response
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The program will run the same after this little change. Try it and see.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Usage of <code>unless</code> is a personal choice. I like it because it lets me describe my program a little more concisely. Others don’t like to use <code>unless</code> because it adds to the mental load of reading application code: “let’s see, <code>unless</code> means '<code>if</code> this is not true.” Both points of view are valid, and ultimately it’s up to you whether <code>unless</code> belongs in your code.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Repetition</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We saw the infinite loop earlier when we first looked at <code>goto</code>. Let’s explore more controlled loops.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Believe it or not, the combination of <code>if</code> and <code>goto</code> provide us with the core features we need for a wide range of control structures. Things can get interesting now that we’ve added these tools to our kit.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>How about a countdown?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-pir"># example-03-09.pir
+.sub 'main' :main
+    .const int start = 10
+    .const int stop  = 0
+    .local int current
+
+    current = start
+  COUNTDOWN:
+    if current &lt; stop goto LIFTOFF
+    say current
+    current -= 1
+    goto COUNTDOWN
+
+  LIFTOFF:
+    say &quot;Liftoff!&quot;
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This presents a simple count-controlled loop. We set a loop counter <code>current</code> to a reasonable start value before we start looping. We check the value of the loop counter each time we start the loop, quitting if <code>current</code> is less than our stopping value. After our check, we display the value, subtract one, and run the loop again.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>A condition-controlled loop is easy, too.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-pir"># example-03-10.pir
+.sub main :main
+    .const string PROMPT = &quot;What is your name? &quot;
+    .local string name
+    .local string response
+    .local pmc    stdin
+
+    stdin = getstdin
+
+GET_NAME:
+    name = stdin.'readline_interactive'(PROMPT)
+    if name goto GREET_USER
+    goto GET_NAME
+
+GREET_USER:
+    response = &quot;Hello, &quot; . name
+    say response
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Our script will now continue to check to see if the user actually entered anything for a name. If the user has entered a name, control goes to the <code>GREET_USER</code> label. Otherwise, control is sent backwards to the <code>GET_USER</code> label.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ parrot example-03-10.pir
+What is your name? 
+What is your name? Brian
+Hello, Brian
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Collection loops such as list iterators will have to wait until we examine PMCs.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Summary</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Adding <code>if</code> and <code>goto</code> to our toolkit has given us the means to build fundamental control structures in our Parrot programs. We know how to use simple conditionals as well as how to create more complex conditionals using <code>and</code> and <code>or</code>. We have <code>unless</code> for those situations when <code>if</code> doesn’t describe our intent clearly enough. We can use the simple combination of <code>if</code> and <code>goto</code> to create counter and condition controlled loops. A really determined person could create useful programs with just this information. However, even simple useful programs would benefit from using the library of PMCs that are available.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

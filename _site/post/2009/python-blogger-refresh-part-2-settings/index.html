@@ -1,0 +1,1327 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2009/Python Blogger Refresh Part 2 - Settings
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2009-06-12</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>The Idea</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I had to focus my efforts in <a href="/post/2009/python-blogger-refresh-part-1" class="page-link">post/2009/Python Blogger Refresh, Part 1</a> on restoring the original functionality of my <a href="/python" class="page-link">Python</a> Blogger script. That’s out of the way. I can now start looking at enhancements. The first annoyance - of many - is the fact that Blogger connection settings are hard-coded into the script. Do you want to post to a different blog? That’s going to require editing the source.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let’s fix that in three ways:</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>add the ability to define connection details from the command line</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>add the ability to define connection details from a config file</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>add the ability to interactively request connection details when they have not been specified</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>From the Command Line</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We’re already using <a href="https://docs.python.org/library/optparse.html">optparse</a> , so adding the ability to define connection settings from the command line won’t be difficult. Three options are needed:</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Author Name</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Email</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Password</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Add those options in <code>main</code> with <code>parser.add_option</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">def main():
+    from optparse import OptionParser
+    parser = OptionParser()
+    parser.add_option(&quot;-D&quot;, &quot;--do-tests&quot;, action=&quot;store_true&quot;, dest=&quot;doTests&quot;,
+                      help=&quot;Run built-in doctests&quot;)
+    parser.add_option(&quot;-f&quot;, &quot;--file&quot;, dest=&quot;filename&quot;,
+                      help=&quot;Specify source file for post&quot;)
+    parser.add_option(&quot;-a&quot;, &quot;--author&quot;, dest=&quot;author&quot;,
+                      help=&quot;The author for this post&quot;)
+    parser.add_option(&quot;-e&quot;, &quot;--email&quot;, dest=&quot;email&quot;,
+                      help=&quot;The email of the blog owner&quot;)
+    parser.add_option(&quot;-p&quot;, &quot;--password&quot;, dest=&quot;password&quot;,
+                      help=&quot;The password of the blog owner&quot;)
+    (options, args) = parser.parse_args()
+
+    if options.doTests:
+        runTests()
+
+    # Only process post options if user specified a file to post.
+    if options.filename:
+        try:
+            if not options.author:
+                raise NameError(&quot;Author required. --help for usage&quot;)
+            if not options.email:
+                raise NameError(&quot;Email required. --help for usage&quot;)
+            if not options.password:
+                raise NameError(&quot;Password required. --help for usage&quot;)
+        except NameError as e:
+            parser.print_help()
+            print e
+            sys.exit(1)
+
+        author = options.author
+        email = options.email
+        password = options.password
+        post = BlogPost(author, email, password)
+        postFile = open(options.filename).read()
+        post.parsePost(postFile)
+        post.sendPost()
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let’s see how that behaves. First I’ll try using the old way, which is now the wrong way.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ python post-to-blog.py -f python-blogger-part-2-settings.mkd
+/usr/local/lib/python2.6/dist-packages/gdata/tlslite/utils/cryptomath.py:9: \
+DeprecationWarning: the sha module is deprecated; use the hashlib module instead
+  import sha
+Usage: post-to-blog.py [options]
+
+Options:
+  -h, --help            show this help message and exit
+  -D, --do-tests        Run built-in doctests
+  -f FILENAME, --file=FILENAME
+                        Specify source file for post
+  -a AUTHOR, --author=AUTHOR
+                        The author for this post
+  -e EMAIL, --email=EMAIL
+                        The email of the blog owner
+  -p PASSWORD, --password=PASSWORD
+                        The password of the blog owner
+Author required. --help for usage
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That <code>DeprecationWarning</code> is coming from inside GData. I won’t worry about it for the moment, but I <em>will</em> keep my eyes open for new releases.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Anyways, how about when running it correctly?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ python post-to-blog.py -f python-blogger-part-2-settings.mkd -a &quot;Brian Wisti&quot; \
+-e &quot;me@here.com&quot; -p &quot;mysecretpassword&quot;
+/usr/local/lib/python2.6/dist-packages/gdata/tlslite/utils/cryptomath.py:9:     \
+DeprecationWarning: the sha module is deprecated; use the hashlib module instead
+  import sha
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>A quick look at the drafts in my Blogspot dashboard confirms that the code works. That command line has gotten a bit long, though. How about adding a config file?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>From a Config File</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It’s good to have a configuration file holding most of your details. We can keep sensitive information out of the application code, and not have to remember them on the command line every time we run the script.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I am going to make a separate <code>config</code> directory to hold my config. Why? This makes it easier for me to expand my definition of what a configuration <em>is</em>. If I want to use non-core Markdown extensions later - and I will - I can place them here rather than dirtying my Python <code>site-packages</code> folder. Or <code>dist-packages</code>, in Ubuntu’s case. Why do they always have to be different?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The actual config file will be a simple ini-style file spiked with <em>key</em>=<em>value</em> lines. Here’s mine.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ini"># config/blog.cfg
+[connection]
+author=Brian Wisti
+email=me@here.com
+password=mysecretpassword
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The <a href="http://docs.python.org/library/configparser.html">ConfigParser</a> library will be used to handle opening and reading in these options. Using both a config file and command line parsing is going to require poking a little bit at everything, so I’m going to move along slowly.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>In <code>main</code>, I’ll set up the ConfigParser.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">def main():
+    from optparse import OptionParser
+    import ConfigParser
+
+    config_file = &quot;config/blog.cfg&quot;
+    config = ConfigParser.ConfigParser()
+    config.read(config_file)
+
+    parser = OptionParser()
+    parser.add_option(&quot;-D&quot;, &quot;--do-tests&quot;, action=&quot;store_true&quot;, dest=&quot;doTests&quot;,
+                      help=&quot;Run built-in doctests&quot;)
+    parser.add_option(&quot;-f&quot;, &quot;--file&quot;, dest=&quot;filename&quot;,
+                      help=&quot;Specify source file for post&quot;)
+    parser.add_option(&quot;-a&quot;, &quot;--author&quot;, dest=&quot;author&quot;,
+                      help=&quot;The author for this post&quot;)
+    parser.add_option(&quot;-e&quot;, &quot;--email&quot;, dest=&quot;email&quot;,
+                      help=&quot;The email of the blog owner&quot;)
+    parser.add_option(&quot;-p&quot;, &quot;--password&quot;, dest=&quot;password&quot;,
+                      help=&quot;The password of the blog owner&quot;)
+    (options, args) = parser.parse_args()
+
+    if options.doTests:
+        runTests()
+
+    # Allow command line options to overwrite config settings
+    if options.author:
+        config.set(&quot;connection&quot;, &quot;author&quot;, options.author)
+
+    if options.email:
+        config.set(&quot;connection&quot;, &quot;email&quot;, options.email)
+
+    if options.password:
+        config.set(&quot;connection&quot;, &quot;password&quot;, options.password)
+
+    if options.filename:
+        try:
+            author = config.get(&quot;connection&quot;, &quot;author&quot;)
+            email = config.get(&quot;connection&quot;, &quot;email&quot;)
+            password = config.get(&quot;connection&quot;, &quot;password&quot;)
+        except ConfigParser.NoSectionError:
+            print &quot;%s is missing the [connection] section!&quot; % config_file
+            sys.exit(1)
+        except ConfigParser.NoOptionError as e:
+            parser.print_help()
+            print e
+            print &quot;Options can be defined in %s or on command line&quot; % config_file
+            sys.exit(1)
+
+        post = BlogPost(author, email, password)
+        postFile = open(options.filename).read()
+        post.parsePost(postFile)
+        post.sendPost()
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The application reads the configuration file before handling the command line to set up the normal behavior. It still processes the command line, though. Maybe I don’t want to keep all of my information in the config, or maybe I’m posting to a completely different blog.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It’s nice to get the settings both ways, but I think we can be a little nicer still.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Interactively</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What if there’s no config file, or the config file is incomplete, and there are still missing pieces even after parsing the command line? The behavior I would hope for in an app like this is that it would ask me to fill in the missing blanks. Might as well allow the post filename to be one of the blanks.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">def main():
+    # ...
+    if options.password:
+        config.set(&quot;connection&quot;, &quot;password&quot;, options.password)
+
+    if options.filename:
+        config.set(&quot;connection&quot;, &quot;filename&quot;, options.filename)
+
+    for option in [ &quot;author&quot;, &quot;email&quot;, &quot;password&quot;, &quot;filename&quot; ]:
+        try:
+            value = config.get(&quot;connection&quot;, option)
+        except ConfigParser.NoOptionError, NameError:
+            value = raw_input(&quot;%s: &quot; % option)
+            config.set(&quot;connection&quot;, option, value)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Hey, it works and I don’t even have to use a config file if I don’t want to!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The only problem is that now I’ve messed up the way testing behaves.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ python post-to-blog.py -D
+/usr/local/lib/python2.6/dist-packages/gdata/tlslite/utils/cryptomath.py:\
+9: DeprecationWarning: the sha module is deprecated; use the hashlib modu\
+le instead
+  import sha
+filename:
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That’s easy enough to fix. I’ll just exit after running the tests. You would think I would have  noticed that before. Why would I? I never used the <code>-f</code> flag at the same time as the <code>-D</code> flag, so this issue wouldn’t have come up.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">def main():
+# ...
+if options.doTests:
+    runTests()
+    sys.exit(0)
+# ...
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let’s stop here and get ready for the next leg.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>What Was Accomplished</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>At the start of this post, we had a script which would submit a blog posting based on a filename command parameter, using connection settings that were hard-coded into the script. After a little fiddling around, we’ve added the ability to get all connection details from the command line, from a configuration file, from interactive input, or some combination of all three. That’s a pretty big step in making this blog post code more useful for people who aren’t me.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Next Time</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This code gets the job done, but I will freely admit that this code is getting ugly. Half the application has tests, and the other half is in <code>main</code>. Next time I visit this code I’ll have to take a long hard look at refactoring and maybe adding some tests for the stuff that is currently in <code>main</code>. I should also look at packaging the whole thing up with <a href="https://docs.python.org/library/distutils.html">distutils</a>. The next post is going to be a long one, isn’t it?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p><em class="link-missing">2024-06-17</em>: Guess not.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Getting The Code</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Although it’s still small enough to reasonably paste the code into this blog posting, I think it might be a little easier for folks to work with if they just had an archive of what’s been done so far.  I’m going to start making it available directly from coolnamehere.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p><em class="link-missing">2015-03-28</em>: Oh, <em>that’s</em> what that zip file was for. No, it’s long gone now.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

@@ -1,0 +1,1081 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2009/In Which Brian Whinges About The Perl 5 Release Schedule
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2009-07-02</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><em class="link-missing">2015-03-27</em>: The current version of <a href="/perl" class="page-link">Perl</a> 5 is 5.20.2. My complaints from this post have been addressed and then some since 2009.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><em class="link-missing">2010-02-23</em>: I just have to say that none of this is personal against the pumpkings. It’s a tough job, and not many people have the right combination of skills and time to pull it off. I just had thoughts I wanted to get off my chest.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>First, The Whinging</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Perl 5.10.0 was released on 18 December, 2007. <a href="http://modernperlbooks.com">chromatic</a>, a fairly prominent Perl hacker, has been pushing hard for some kind of update to Perl 5 since - well, probably about 19 December 2007. For their own reasons, the pumpkings have not been willing to produce such an update. That is annoying.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now, don’t get me wrong. I know Perl 5 is widely installed. I know Perl 5 can be a bit of a monster to patch and maintain. I know that large shops dread the release of a new Perl 5 because it will be a matter of minutes before their developers starting pleading for the update to be available to them so they can fix old annoyances in millions of lines of production code - okay, maybe only hundreds of thousands in that <em>particular</em> shop - that barely works. CPAN authors will release new versions of their libraries which don’t work on the old Perl. Old code will break if it uses the new Perl.  There will be chaos. Panic. Forty years of darkness. The dead rising from the grave.  Human sacrifice, dogs and cats living together - mass hysteria.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That doesn’t mean we should stop improving Perl 5, though. You don’t have to update your code if doing so will cause your organization to spontaneously combust. The old versions of Perl 5 are <a href="http://www.cpan.org/src/">still available to download</a>. Older versions of CPAN modules are also readily available. Maintenance programmers can keep on being maintenance programmers and the rest of us can start working on new stuff. We won’t combust. Please, for the sake of the language, put something out there that we can point and say that shows Perl 5 is still active.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I know, Perl’s not dead. But to paraphrase Jello Biafra: <em>Perl’s not dead, it just deserves to die when it becomes another stale maintenance language</em>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’m not even asking for Perl 5.12.0. I wouldn’t mind. I’m asking for less than that, though. I’m asking for signs of life, a regular <em>blip</em> next to the “Latest Version” text at <a href="https://perl.org">https://perl.org</a>.  A bug fix release would be nice.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What prompted this bit of extended whining? Well, on the ride to work this morning I was thinking about chromatic’s <a href="http://www.modernperlbooks.com/mt/2009/07/fearpm.html">latest post</a>, which got me thinking about his other posts, which got me thinking about how long it’s been since Perl 5.10.0 was released. What has happened in the languages I pay attention to in the year and a half since 18 December 2007?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>So I looked up the language releases as well as I could. Not the alphas, betas, or even the release candidates. Not the supplemental projects like <a href="https://metacpan.org/pod/Moose">Moose</a>, <a href="https://rubyonrails.com">Rails</a>, or <a href="https://pygame.org">Pygame</a> which add tons of fun to their respective languages and application domains. Just language releases, including bug fixes.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Releases Between 18 December 2007 and 2 July 2009 of Languages I Care About</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Python</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <table>
+<thead>
+<tr><th>Version</th><th>Released On</th></tr>
+</thead>
+<tbody>
+<tr><td>3.1.0</td><td>27 June 2009</td></tr>
+<tr><td>2.6.2</td><td>14 April 2009</td></tr>
+<tr><td>3.0.1</td><td>13 February 2009</td></tr>
+<tr><td>3.0.0</td><td>3 December 2008</td></tr>
+<tr><td>2.5.4</td><td>23 December 2008</td></tr>
+<tr><td>2.5.3</td><td>19 December 2008</td></tr>
+<tr><td>2.4.6</td><td>19 December 2008</td></tr>
+<tr><td>2.6.1</td><td>4 December 2008</td></tr>
+<tr><td>2.6.0</td><td>1 October 2008</td></tr>
+<tr><td>2.4.5</td><td>11 March 2008</td></tr>
+<tr><td>2.3.7</td><td>11 March 2008</td></tr>
+<tr><td>2.5.2</td><td>21 February 2008</td></tr>
+</tbody>
+</table>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Total releases since 18 December 2007: <em>12</em></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Ruby</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <table>
+<thead>
+<tr>
+<th>Version</th>
+<th>Released On</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.9.1-p129</td>
+<td>12 May 2009</td>
+</tr>
+<tr>
+<td>1.8.7-p160</td>
+<td>18 April 2009</td>
+</tr>
+<tr>
+<td>1.8.6-p368</td>
+<td>18 April 2009</td>
+</tr>
+<tr>
+<td>1.9.1</td>
+<td>30 January 2009</td>
+</tr>
+<tr>
+<td>1.8.7-p72</td>
+<td>11 August 2008</td>
+</tr>
+<tr>
+<td>1.8.6-p287</td>
+<td>11 August 2008</td>
+</tr>
+<tr>
+<td>1.8.7</td>
+<td>31 April 2008</td>
+</tr>
+<tr>
+<td>1.9.0</td>
+<td>25 December 2007</td>
+</tr>
+</tbody>
+</table>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Total releases since 18 December 2007: <em>8</em></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>PHP</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <table>
+<thead>
+<tr>
+<th>Version</th>
+<th>Released On</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5.3.0</td>
+<td>30 June 2009</td>
+</tr>
+<tr>
+<td>5.2.10</td>
+<td>18 June 2009</td>
+</tr>
+<tr>
+<td>5.2.9</td>
+<td>26 February 2009</td>
+</tr>
+<tr>
+<td>5.2.8</td>
+<td>8 December 2008</td>
+</tr>
+<tr>
+<td>5.2.7</td>
+<td>4 December 2008</td>
+</tr>
+<tr>
+<td>4.4.9</td>
+<td>7 August 2008</td>
+</tr>
+<tr>
+<td>5.2.6</td>
+<td>1 May 2008</td>
+</tr>
+<tr>
+<td>4.4.8</td>
+<td>3 January 2008</td>
+</tr>
+</tbody>
+</table>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Total releases since 18 December 2007: <em>8</em></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Parrot</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Parrot releases are harder to count because of their prolific release cycle. 1.0.0 is considered the “stable” release, although the 3 monthly releases since then are quite stable for me and the project had many public monthly releases prior to 1.0.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <table>
+<thead>
+<tr>
+<th>Version</th>
+<th>Released On</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.3.0</td>
+<td>16 June 2009</td>
+</tr>
+<tr>
+<td>1.2.0</td>
+<td>20 May 2009</td>
+</tr>
+<tr>
+<td>1.1.0</td>
+<td>21 April 2009</td>
+</tr>
+<tr>
+<td>1.0.0</td>
+<td>17 March 2009</td>
+</tr>
+<tr>
+<td>0.9.1</td>
+<td>17 February 2009</td>
+</tr>
+<tr>
+<td>0.9.0</td>
+<td>21 January 2009</td>
+</tr>
+<tr>
+<td>0.8.2</td>
+<td>17 December 2008</td>
+</tr>
+<tr>
+<td>0.8.1</td>
+<td>19 November 2008</td>
+</tr>
+<tr>
+<td>0.8.0</td>
+<td>21 October 2008</td>
+</tr>
+<tr>
+<td>0.7.1</td>
+<td>17 September 2008</td>
+</tr>
+<tr>
+<td>0.7.0</td>
+<td>19 August 2008</td>
+</tr>
+<tr>
+<td>0.6.4</td>
+<td>15 July 2008</td>
+</tr>
+<tr>
+<td>0.6.3</td>
+<td>17 June 2008</td>
+</tr>
+<tr>
+<td>0.6.2</td>
+<td>20 May 2008</td>
+</tr>
+<tr>
+<td>0.6.1</td>
+<td>15 April 2008</td>
+</tr>
+<tr>
+<td>0.6.0</td>
+<td>18 March 2008</td>
+</tr>
+<tr>
+<td>0.5.3</td>
+<td>21 February 2008</td>
+</tr>
+<tr>
+<td>0.5.2</td>
+<td>15 January 2008</td>
+</tr>
+<tr>
+<td>0.5.1</td>
+<td>18 December 2007</td>
+</tr>
+</tbody>
+</table>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Total releases since 18 December 2007: <em>19</em>, <em>4</em>, or <em>1</em> depending on whether you count all public releases, all 1.x releases, or only the stable 1.0.0 release.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Rakudo</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It’s not completely fair to include Rakudo in this list, since it’s still shy of a 1.0 release. However, it is worth pointing out that Rakudo has had 5 monthly development releases since outgrowing Parrot and adopting its own cycle in early 2009.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Perl</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <table>
+<thead>
+<tr>
+<th>Version</th>
+<th>Released On</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5.8.9</td>
+<td>16 December 2008</td>
+</tr>
+<tr>
+<td>5.10.0</td>
+<td>18 December 2007</td>
+</tr>
+</tbody>
+</table>
+Total releases since 18 December 2007: *2*
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>What Do These Numbers Say To Me?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Not much, really. They’re numbers. This is not detailed analysis. This is just looking, whining, and pondering. But the overall feel I get when I look at this list is that Perl 5 is not active compared to other languages.  Its maintainers have things to do besides fix or apply patches for <a href="https://rt.perl.org/rt3/Public/Search/Simple.html?Query=Queue%20=%20%27perl5%27%20AND%20%28Status%20=%20%27open%27%20OR%20Status%20=%20%27new%27%20OR%20Status%20=%20%27stalled%27%29">existing bugs</a> or new features. If I were a developer or startup CTO looking for a language to work and play with - and that’s the perspective I’m taking, rather than the grizzled veterans maintaining 12 year old apps running on a custom patched Perl - I would have a hard time believing that Perl is worth my time.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Those releases are more than just a bundle of features and fixes. They are how we take the pulse of a language. They are how we measure its health.  Perl 5’s pulse is a little slow, a little unsteady. You might think that this is a sign of stability. I don’t agree. It’s a sign of stagnancy to me. It has the stink of sickness.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’m not going to be alarmist and say that Perl is dead or dying. Programming languages rarely if ever die. But wouldn’t it be great if Perl 5 was healthy and strong? Please, ignore the people that insist on stagnancy and release Perl more often!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>P.S. If you didn’t like my Jello Biafra paraphrasing, you should be grateful I didn’t go with my other idea of “Perl 5’s not dead, it’s being kept in a hole in the basement and told to put the lotion on its skin.” Because sharing that would have been pretty tasteless.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

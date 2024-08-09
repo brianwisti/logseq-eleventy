@@ -1,0 +1,1548 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2003/Ruby Babysteps 01 - First Steps
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2003-06-12</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><p><em class="link-missing">ruby,learn,coolnamehere</em></p>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="/ruby" class="page-link">Ruby</a> is an exciting language with a huge number of features that appeal to advanced programmers. You should not let that intimidate you, though. The language is very easy to get started with, and you can work your way into the more arcane corners.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This page is intended to provide the non-programmer with a gentle introduction to the Ruby programming language. When you are done with it, you should feel ready to learn more. You won’t be any kind of expert, but you will be able find the information you need to go farther. Beginners and experts alike should feel free to send suggestions about how to improve this tutorial.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Installing Ruby</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Of course, if you want to use Ruby, you have to install it. To be honest, installation used to be the trickiest part of dealing with Ruby. It’s a lot easier to install it these days, depending on your operating system.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Linux</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>As with all things Linux, getting Ruby depends on your distribution. See if it is already installed on your system. If not, check to see if it’s available on your distribution discs. If that fails as well, you might as well move on to the world of compiling software yourself. See a little further below for details.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Mac OS X</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>OS X users have it good. Sort of. A fairly recent Ruby is already available on the Developer Disk for OS X, so you don’t need to mess with any of that other stuff to get started. It’s likely that you will want to later on, but you’ve got enough to get you started. Definitely more than you’ll be needing with this tutorial!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>See below if you are willing to enter the world of compiling your own software. It is not as bad as it sounds, trust me.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Windows</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Users of Microsoft Windows are definitely not used to compiling their own software. Fortunately, the <a href="http://rubyinstaller.org/">RubyInstaller</a> project provides an installer for Windows users.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Installing From Source</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Okay, so there’s no “grab and install” version of Ruby available for your computer. If you are the adventurous sort, and have a C compiler handy, you might as well use the traditional UNIX approach: build it yourself!</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Download the current stable release of  <a href="http://www.ruby-lang.org/">Ruby</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Extract it into a new folder.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>cd</code> into the directory with ruby source in it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>./configure</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>make</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>su</code> into the root account</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>make install</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>exit the <code>su</code> session.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Start playing with Ruby!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Creating Ruby Programs</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You’ll probably want to start writing programs at this point. Well, now that you have installed Ruby, all you need to do is fire up a text editor and start writing code.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>As soon as you’ve been around the programming culture for a while — sometimes as long as two days - you might notice that some folks have strong opinions about which is the One True Editor, which you should use for all of your programming. That’s kind of silly, though. This early, you can probably make do with almost anything that lets you edit text.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Here are a couple of my favorite popular choices:</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="/emacs" class="page-link">Emacs</a></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="/vim" class="page-link">Vim</a></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Hello, World</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It is traditional to start programming by creating a program that displays a simple phrase, such as “Hello, World!” I am not about to argue with tradition. Type the following into your text editor:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby"># hello.rb
+#  Displays a warm greeting
+
+puts &quot;Hello, World!&quot;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Save the file as <code>hello.rb</code>. We’ll be running it in a few moments, but first - what’s with those first couple of lines?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Well, they’re Ruby <em>comments</em>. Comments start from the character <code>#</code>, and extend to the end of the line that you wrote them on. Ruby ignores comments, which means that you can use them to explain what is going on in your code. Comments are good. When you come back to look at a complex script after several months, you might forget what some block of code does. Having the comments there to remind you will make it that much easier to sort everything out.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I like to start every one of my scripts off with a quick header to describe the purpose of the program. Here is the rough template:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby"># hello.rb
+#  Displays a warm greeting
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Of course, your header can be as complicated as you like:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby"># hello.rb
+#  Displays a warm greeting.
+#
+# = AUTHOR
+#   Brian Wisti (brian@coolnamehere.com)
+# = DATE
+#   9 March 2009
+# = VERSION
+#   1.0
+# = PURPOSE
+#   Demonstration script for my Ruby tutorial at
+#   http://www.coolnamehere.com/geekery/ruby/rubytut/
+# = USAGE
+#   ruby hello.rb
+# = LICENSE
+#   You may copy and redistribute this program as you see fit, with no
+#   restrictions.
+# = WARRANTY
+#   This program comes with NO warranty, real or implied.
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Just try to match the header complexity to the program. Using this header for a program that consists of one line of code might be just a <em>little</em> bit of overkill. I usually start with the two-line header and expand it as I see fit.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now you probably would like to know how to actually run a program. Save the file you have been editing, and switch to a command line. Type the following at the command prompt:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ ruby hello.rb
+Hello, World!
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That was kind of cool. It would be nice to customize it a little bit. Maybe we could change the program so that it says “Hello” to us personally.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby"># hello.rb
+#  Displays a warm greeting.
+
+name = &quot;Brian&quot;
+puts &quot;Hello, #{name}&quot;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Save the file, and run it again.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ ruby hello.rb
+Hello, Brian!
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We stored the string “Brian” in the variable <code>name</code>. A <em>variable</em> is basically just something you want the computer to remember so that you can get to it later. You can get a lot more complicated than that if you want, and a lot of programmers do. However, this definition should do for a long time.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The string itself is a special sort of variable called an <em>object</em>. Objects are very powerful things — so powerful that every variable in Ruby is an object. You can do a lot more with a variable than just ask the computer what the object’s value is. An object has a set of things that it knows how to do. For example: a String knows how to ask Ruby to work out a value when you place some Ruby code - such as a variable name — inside the string. The code is marked by special characters. Then it will take the value that Ruby found, and insert it where the special marker was placed. You could change the value of <code>name</code> and rerun the program. The correct value will be displayed in the greeting string.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">name = &quot;Matt&quot;
+puts &quot;Hello, #{name}!&quot;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Having a program that displays the exact same message every time you run it is nice when it comes to being consistent, but not so entertaining as a program. Let’s make things a little more interesting still. Instead of changing the value of <code>name</code> in the code of the program, we can use the <code>gets</code> method to get a name from the user.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">print &quot;What is your name? &quot;
+reply = gets
+name = reply.chomp
+puts &quot;Hello, #{name}!&quot;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Running this is a little more fun:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">What is your name? Brian
+Hello, Brian!
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The <code>gets</code> method … wait, I used that word again, “method”. You might be wondering what that is supposed to be. A <em>method</em> is one thing that an object is capable of. We have to call it by name. You can’t just say “Ball, do whatever it is you do.” We have to say “Ball, bounce!” In the real world, of course, talking to the ball would not be very helpful. But you get the idea.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>gets</code> is a method that gets a line of text from the user and <em>returns</em> it to - or hands back to - the program. What do we do with that reply? We <code>chomp</code> it! <code>gets</code> returns <em>all</em> of the text it gets, including the bit that represents the ENTER key you pressed. We don’t want to keep that, though, so we need a safe way to remove the ENTER character without doing anything to the rest of the string. <code>chomp</code> is a method associated with Strings of text which asks the string to remove that rogue ENTER character. A cleaner copy of the string is returned for you to display.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>If you don’t believe me about the ENTER character, you can test it for yourself. In the string which is printed by <code>puts</code>, replace <code>name</code> with <code>reply</code>. You’ll see what I am talking about.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">puts &quot;Hello, #{reply}!&quot;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Generally, you call an object’s methods by tagging a dot and the method name at the end, like <code>object.method</code>. There are lots of things you can do with methods, and lots of ways to treat them, but that is beyond the scope of this article.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>For now, though, you’ve learned enough to get started, and now I want you to play around with what you’ve learned and enjoy yourself a little bit.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Conclusion</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Congratulations! You have just begun learning Ruby. You just wrote a complete program which gets input from a user, and prints output which includes a modified version of their input! Stop for a minute and think about that. Of course there’s a lot more to learn, but it’s well within your abilities. There is an ever-growing abundance of resources for the “Ruby Newbie”, and you should take advantage of as many of them as possible!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The <a href="http://www.ruby-lang.org/">Ruby home page</a> is pretty much the   best place to start, since that is where you’ll find Ruby itself, as   well as information about user mailing lists that you might be   interested in subscribing to. Never underestimate the potential help   that you can get from the rest of the community.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The <a href="https://www.ruby-forum.com/">Ruby Forum</a> site provides Web access to all of the major Ruby and Rails mailing lists. You can check archives, see recent posts, and even post from this interface.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

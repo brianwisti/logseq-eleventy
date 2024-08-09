@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2023/Hugo Render Hooks for Titled Code Blocks
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><p><em class="link-missing">hugo</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2023-01-19</em></p>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/cover-2023-01-19_1705510060416_0.png" alt="cover-2023-01-19.png"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I like to label my code blocks, especially when they describe the contents of a specific file.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That’s been possible with Hugo since 0.93.0, using <a href="https://gohugo.io/templates/render-hooks/#render-hooks-for-code-blocks">render hooks for code blocks</a>. Render hooks let you use custom templates for all instances of certain Markdown structures such as links, headers, images, and code! I didn’t think to try them out for labeling code until just now, though. This <a href="https://discourse.gohugo.io/t/is-there-a-good-reason-not-to-have-a-mechanism-facilitating-a-title-for-code-blocks/40554/3">comment</a> from Hugo Discourse user pamubay got me started. My template builds directly on theirs.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-html">{{- $isVerbatim := true -}}
+{{- if isset .Attributes &quot;verbatim&quot; -}}
+  {{- $isVerbatim = .Attributes.verbatim -}}
+{{- end -}}
+&lt;figure class=&quot;highlight&quot;&gt;
+{{- with .Attributes.title }}
+  &lt;figcaption&gt;
+    {{- if $isVerbatim -}}
+      &lt;tt&gt;{{ . }}&lt;/tt&gt;
+    {{- else -}}
+      &lt;span&gt;{{ . }}&lt;/span&gt;
+    {{- end -}}
+  &lt;/figcaption&gt;
+{{- end }}
+{{- if transform.CanHighlight .Type }}
+  &lt;pre tabindex=&quot;0&quot; class=&quot;chroma&quot;
+    &gt;&lt;code class=&quot;language-{{ .Type }}&quot; data-lang=&quot;{{ .Type }}&quot;&gt;
+    {{- with transform.HighlightCodeBlock . -}}
+      {{ .Inner }}
+    {{- end -}}
+  &lt;/code&gt;&lt;/pre&gt;
+{{- else }}
+  &lt;pre tabindex=&quot;0&quot;
+    &gt;&lt;code class=&quot;language-{{ .Type }}&quot; data-lang=&quot;{{ .Type }}&quot;
+      &gt;{{ .Inner }}&lt;/code&gt;&lt;/pre&gt;
+{{- end }}
+&lt;/figure&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The HTML changes are personal aesthetics. I’ve been using <code>&lt;figure/&gt;</code> more and more often for illustrative examples beyond — you know — illustrations.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>My render hook looks for two attributes, <code>title</code> and <code>verbatim</code>. These attributes are added after the language identifier for the fenced code block.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-markdown">\```html{title=&quot;layouts/_default/render-codeblock.html&quot;}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>title</code> is the intended title / caption to attach. The <code>verbatim</code> flag indicates whether I want this in a monospaced font. Grabbed that one from the Org folks since it seems like a useful differentiator between code and not-code.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Most of the time when I label code samples, I use a filename or identifier, and I’m used to seeing those in monospace. So it makes sense to have code block captions as verbatim by default. So the <code>verbatim</code> flag only matters if I set it to false, such as for explanatory captions.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-markdown">\```markdown{title=&quot;Titled code block&quot; verbatim=false}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>So now I can rest happily with Hugo now that it can do almost exactly what I — ooh <a href="https://pandoc.org/releases.html#pandoc-3.0-2023-01-18">Pandoc 3.0</a> is out!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

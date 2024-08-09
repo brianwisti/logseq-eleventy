@@ -1,0 +1,1772 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2010/Parrot Babysteps 0b - Subroutine Params
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2010-06-15</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It’s time to treat the star database like a database. Well, it’s time to treat it like something we can search, anyways. I know this is not a trivial task in <a href="/parrot" class="page-link">Parrot</a> , so the <a href="/post/2009/parrot-babysteps" class="page-link">post/2009/Parrot Babysteps</a> have been building up to it slowly. First, we figured out how to read from the database file and display its contents in a meaningful fashion. Second, we added subroutines to massage the data a little and produce some usable names for the thousands of stars in the database that do not have proper names. Then we suddenly spun off in a seemingly random direction, talking about testing and setting up larger projects. That was intentional, though. This sort of project requires more work in Parrot than in a language like Perl, due to Parrot’s lower-level nature. I wanted to be sure we could test this application as we add search functionality. We just pushed our script into the Stellar project to get that testing foundation.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>First I am going to describe what is being built, then I’m going to work on the very important detail of examining a single star. We’ll have to wait until the next Baby Step before we start searching the catalog.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Thinking Through The Problem</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We could start by creating a simple search function, testing every line in the HYG Catalog and verifying the results by hand. That will obviously not work. Part of the reason we have been writing this is because the catalog is not easily read without a little computer help.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It might be a better idea to take a smaller set and search against it. How small is good enough? A thousand? A hundred? Ten? We could reasonably start by searching a set of one star. It is certainly easy to manage. Okay, so we’ll start with a set of one star.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What do I mean when I talk about searching through the catalog? The basic idea is that we have a catalog of stars and some conditions, like “the ProperName is ‘Sol’.” We build a list of matches by examining each star, seeing if the conditions are true for that star. If they are, then that star goes in the list of matches. Either way, we then move on to the next star.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>How do we determine if a single star is a match? Okay, we have a single star and some conditions. We determine if the star is a match by testing each condition. We can stop testing when we find a condition that is not true or we have run out of conditions to test. We know that this star is a match if every condition we tested was true.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There are a lot of technical details that we would think about if this code was intended for use in the real world. Large match lists could use a lot of memory. The conditions would need to allow for ranges or approximate matches. Luckily, this code is not indented for use in the real world. I can be as clumsy as I want, as long as my program gives the right answer.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Writing Code</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now we’re ready to go back to the <code>stellar</code> project and write some code.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Testing a Condition</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Our first approach to checking a star’s details will be to check a single field. The star <code>ProperName</code> is a good field to start with:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-0b-01/t/04-check-star.t
+.include 'lib/stellar.pir'
+
+.sub 'main' :main
+	.include 'test_more.pir'
+	.local string header_string
+	.local string star_string
+	.local string delimiter
+	.local pmc    header_fields
+	.local pmc    star
+
+	header_string = &quot;StarID,HIP,HD,HR,Gliese,BayerFlamsteed,ProperName,RA,Dec,Distance,PMRA,PMDec,RV,Mag,AbsMag,Spectrum,ColorIndex,X,Y,Z,VX,VY,VZ&quot;
+	delimiter = &quot;,&quot;
+	star_string = &quot;0,,,,,,Sol,0,0,0.000004848,0,0,0,-26.73,4.85,G2V,0.656,0,0,0,0,0,0&quot;
+
+	plan(2)
+
+	header_fields = split delimiter, header_string
+	star = extract_from_csv_line(star_string, header_fields, delimiter)
+	$S0 = 'Sol'
+
+	$I0 = check_star_proper_name(star, 'Sol')
+	ok($I0, 'Sol should have ProperName of &quot;Sol&quot;')
+	$I0 = check_star_proper_name(star, 'Arcturus')
+	nok($I0, 'Sol should not have ProperName of &quot;Arcturus&quot;')
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>check_star_proper_name</code> is an easy sub to write. My version is more verbose than necessary, to be honest:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-0b-01/lib/stellar.pir
+
+# ...
+
+.sub check_star_proper_name
+	.param pmc    star
+	.param string desired_value
+	.local string actual_value
+	.local int    check_result
+
+	actual_value = star['ProperName']
+	check_result = desired_value == actual_value
+	.return(check_result)
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The sub returns the result of comparing our desired <code>ProperName</code> with the actual value held in the <code>star</code>. I rely on Parrot to do the right thing when comparing <code>desired_value</code> with <code>actual_value</code>. Remember that Parrot automatically handles any type conversions, so we can ignore type for now.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Revisiting the <code>header_string</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I want to stop for a moment and look at my tests. One annoying fact is that every single test file includes the full <code>header_string</code> and <code>delimiter</code>. That is explicit behavior, which I like. Then again, it is also cluttering up my tests. The headers never change, yet I always include them. What if I could make the header string and delimiter optional?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I <em>can</em> make those parameters optional. Let’s reopen the test file <code>03-extract-from-csv.t</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-0b-02/03-extract-from-csv.t
+.sub main ':main'
+	# ...
+	plan(4)
+	# ...
+	star = extract_from_csv_line(star_string, header_fields)
+	$S0 = summarize_star(star)
+	is($S0, summary, &quot;delimiter should be optional&quot;)
+
+	star = extract_from_csv_line(star_string)
+	$S0 = summarize_star(star)
+	is($S0, summary, &quot;header_fields should be optional&quot;)
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>How do we make those fields optional? We use the parameter modifiers <code>:optional</code>
+and <code>:opt_flag</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>.sub extract_from_csv_line
+	.param string star_string
+	.param pmc    header_fields     :optional
+	.param int    has_header_fields :opt_flag
+	.param string delimiter         :optional
+	.param int    has_delimiter     :opt_flag
+
+	if has_delimiter goto CHECK_HEADER_FIELDS
+	delimiter = ','
+  CHECK_HEADER_FIELDS:
+	if has_header_fields goto BEGIN_EXTRACTING
+	.local string header_string
+	header_string = &quot;StarID,HIP,HD,HR,Gliese,BayerFlamsteed,ProperName,RA,Dec,Distance,PMRA,PMDec,RV,Mag,AbsMag,Spectrum,ColorIndex,X,Y,Z,VX,VY,VZ&quot;
+	header_fields = split delimiter, header_string
+
+  BEGIN_EXTRACTING:
+	.local pmc    star_fields
+	.local pmc    star
+
+	star_fields = split delimiter, star_string
+	star = extract_star_details(header_fields, star_fields)
+
+	.return(star)
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The <code>:optional</code> modifier makes sense. Use it to tell Parrot that a particular parameter is not required for the sub to perform its duties. <code>:opt_flag</code> might require a little bit of explanation, though. It is a bookkeeping parameter provided by Parrot to let you know whether or not the preceding optional parameter was provided by the caller. You test the flag to see if the optional parameter was set. The name of the flag doesn’t matter.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-0b-03.pir
+.sub 'main' :main
+	.local string eggs
+	.local string topping 
+	.local string order
+
+	eggs = 'over easy'
+	topping = &quot;Frank's RedHot&quot;
+
+	order = breakfast(eggs, topping)
+	say order
+
+	order = breakfast(eggs)
+	say order
+.end
+
+.sub breakfast
+	.param string eggs
+	.param string topping   :optional
+	.param int    has_stuff :opt_flag
+
+	.local string breakfast_order
+	breakfast_order = 'Eggs cooked ' . eggs
+
+	unless has_stuff goto SERVE_BREAKFAST
+	breakfast_order .= ' topped with '
+	breakfast_order .= topping
+
+  SERVE_BREAKFAST:
+	.return(breakfast_order)
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This program executes without a hitch. There is nothing important about the name of the flag.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ parrot example-0b-03.pir
+Eggs cooked over easy topped with Frank's RedHot
+Eggs cooked over easy
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Order <em>does</em> matter, though. You always want to put the flag after the optional parameter in your <code>.param</code> directives, or bad things will happen.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-0b-04.pir
+.sub 'main' :main
+	.local string eggs
+	.local string topping 
+	.local string order
+
+	eggs = 'over easy'
+	topping = &quot;Frank's RedHot&quot;
+
+	order = breakfast(eggs, topping)
+	say order
+
+	order = breakfast(eggs)
+	say order
+.end
+
+.sub breakfast
+	.param string eggs
+	.param int    has_stuff :opt_flag
+	.param string topping   :optional
+
+	.local string breakfast_order
+	breakfast_order = 'Eggs cooked ' . eggs
+
+	unless has_stuff goto SERVE_BREAKFAST
+	breakfast_order .= ' topped with '
+	breakfast_order .= topping
+
+  SERVE_BREAKFAST:
+	.return(breakfast_order)
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>See?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ parrot example-0b-04.pir
+Eggs cooked over easy
+too few positional arguments: 1 passed, 2 (or more) expected
+current instr.: 'breakfast' pc 34 (example-0b-04.pir:19)
+called from Sub 'main' pc 26 (example-0b-04.pir:15)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Back to <code>stellar</code>. <code>extract_from_csv_line</code> can work the headers out for itself now. Let’s clean up our test code.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-0b-05/t/04-check-star.t
+.sub 'main' :main
+	.include 'test_more.pir'
+	.local string header_string
+	.local string star_string
+	.local string delimiter
+	.local pmc    header_fields
+	.local pmc    star
+
+	star_string = &quot;0,,,,,,Sol,0,0,0.000004848,0,0,0,-26.73,4.85,G2V,0.656,0,0,0,0,0,0&quot;
+	star = extract_from_csv_line(star_string)
+
+	plan(2)
+
+	$I0 = check_star_proper_name(star, 'Sol')
+	ok($I0, 'Sol should have ProperName of &quot;Sol&quot;')
+	$I0 = check_star_proper_name(star, 'Arcturus')
+	nok($I0, 'Sol should not have ProperName of &quot;Arcturus&quot;')
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It is a little easier now to tell what I am actually testing in this code. Good. I know I should be all methodical and orderly about checking my star fields, but I have not had enough sleep for that to be practical. Let’s check <code>Spectrum</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-0b-06/t/04-check-star.t
+
+.sub 'main' :main
+	# ...
+	plan(4)
+	# ...
+	$I0 = check_star_spectrum(star, 'G2V')
+	ok($I0, 'Sol should have Spectrum of &quot;G2V&quot;')
+	$I0 = check_star_spectrum(star, 'K3V')
+	nok($I0, 'Sol should not have Spectrum of &quot;K3V&quot;')
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Meanwhile, in <code>stellar.pir</code>:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-0b-06/lib/stellar.pir
+.sub check_star_spectrum
+	.param pmc star
+	.param string desired_value
+	.local string actual_value
+	.local int check_result
+
+	actual_value = star['Spectrum']
+	check_result = desired_value == actual_value
+	.return(check_result)
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This works perfectly, but compare <code>check_star_spectrum</code> to <code>check_star_proper_name</code>. They are almost identical. In fact, the only difference between the code for the two subs is which field gets grabbed for <code>actual_value</code>. It seems to me that the same behavior could be described by a single sub.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-0b-06/t/04-check-star.t
+.sub 'main' :main
+	# ...
+
+	plan(8)
+
+	# ...
+
+	$I0 = check_star_field(star, 'ProperName', 'Sol')
+	ok($I0, 'Sol should have ProperName of &quot;Sol&quot;')
+	$I0 = check_star_field(star, 'ProperName', 'Arcturus')
+	nok($I0, 'Sol should not have ProperName of &quot;Arcturus&quot;')
+	$I0 = check_star_field(star, 'Spectrum', 'G2V')
+	ok($I0, 'Sol should have Spectrum of &quot;G2V&quot;')
+	$I0 = check_star_field(star, 'Spectrum', 'K3V')
+	nok($I0, 'Sol should not have Spectrum of &quot;K3V&quot;')
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>check_star_field</code> looks like a generic version of <code>check_star_proper_name</code> and check_star_spectrum`.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-0b-06/lib/stellar.pir
+
+# ...
+
+.sub check_star_field
+	.param pmc star
+	.param string field
+	.param string desired_value
+	.local string actual_value
+	.local int check_result
+
+	actual_value = star[field]
+	check_result = desired_value == actual_value
+	.return(check_result)
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>All tests are still passing. You <em>are</em> working along with me and running tests, right? It’s time to decide what to do with those specific subs now that we have a nice general purpose field checker. You could argue that those subs should stick around but as wrappers that call <code>check_star_field</code>. That is entirely reasonable. I am comfortable using the general purpose sub as my main checker, though. I will delete the specific subs and their tests in my code.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Testing Multiple Conditions</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>stellar</code> does a convincing job of checking a single field in a star. The next step is figuring out how to check multiple fields.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-0b-07/t/04-check-star.t
+.include 'lib/stellar.pir'
+
+.sub 'main' :main
+	.include 'test_more.pir'
+	.local string header_string
+	.local string star_string
+	.local string delimiter
+	.local pmc    header_fields
+	.local pmc    star
+
+	star_string = &quot;0,,,,,,Sol,0,0,0.000004848,0,0,0,-26.73,4.85,G2V,0.656,0,0,0,0,0,0&quot;
+	star = extract_from_csv_line(star_string)
+
+	plan(9)
+
+	$I0 = check_star_field(star, 'ProperName', 'Sol')
+	ok($I0, 'Sol should have ProperName of &quot;Sol&quot;')
+	$I0 = check_star_field(star, 'ProperName', 'Arcturus')
+	nok($I0, 'Sol should not have ProperName of &quot;Arcturus&quot;')
+	$I0 = check_star_field(star, 'Spectrum', 'G2V')
+	ok($I0, 'Sol should have Spectrum of &quot;G2V&quot;')
+	$I0 = check_star_field(star, 'Spectrum', 'K3V')
+	nok($I0, 'Sol should not have Spectrum of &quot;K3V&quot;')
+
+	$I0 = check_star(star, 'ProperName', 'Sol')
+	ok($I0, 'Sol should have ProperName &quot;Sol&quot;')
+	$I0 = check_star(star, 'ProperName', 'Sol', 'Spectrum', 'G2V')
+	ok($I0, 'Sol should have ProperName &quot;Sol&quot; and Spectrum &quot;G2V&quot;')
+	$I0 = check_star(star, 'ProperName', 'Arcturus', 'Spectrum', 'G2V')
+	nok($I0, 'Sol should not have ProperName &quot;Arcturus&quot; and Spectrum &quot;G2V&quot;')
+	$I0 = check_star(star, 'ProperName', 'Sol', 'Spectrum', 'K3V')
+	nok($I0, 'Sol should not have ProperName &quot;Sol&quot; and Spectrum &quot;K3V&quot;')
+	$I0 = check_star(star, 'ProperName', 'Arcturus', 'Spectrum', 'K3V')
+	nok($I0, 'Sol should not have ProperName &quot;Arcturus&quot; and Spectrum &quot;K3V&quot;')
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Yes, I did go through several variations on testing multiple fields. I wanted to make sure that <code>check_star</code> behaved <em>exactly</em> the way I expected. How am I going to make those tests succeed?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>:slurpy</code> and <code>:flat</code> Save the Day</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Parrot gives us two excellent modifiers that simplify the job of checking multiple fields. The <code>:slurpy</code> param modifier to effectively say “Oh, there might be some other params. Just put them in an array.” The flip side of that is the <code>:flat</code> modifier in subroutine calls, which lets us say “Oh, I have this array of stuff. Just tack its elements to the param list for the sub I’m about to call.”</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Enough imaginary dialog. Here’s what <code>check_star</code> looks like.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-0b-07/lib/stellar.pir
+.sub check_star
+	.param pmc    star
+	.param string field
+	.param string desired_value
+	.param pmc    extra_fields :slurpy
+	.local int    match_result
+	.local int    extra_field_count
+
+	match_result = check_star_field(star, field, desired_value)
+
+	# We're done if this match fails.
+	unless match_result goto RETURN_RESULT
+
+	extra_field_count = extra_fields
+	# We're done if there are no extra fields.
+	unless extra_field_count goto RETURN_RESULT
+
+	# Grab the result of checking the extra fields.
+	match_result = check_star(star, extra_fields :flat)
+
+  RETURN_RESULT:
+	.return(match_result)
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I tried to make it clear what was going on the comments. <code>check_star</code> is given a star and a handful of conditions. It only cares about the first condition, and stuffs the rest into <code>extra_fields</code>. If the first condition fails, we’re done. There’s no point in checking any more fields, so jump down to return the failure. If there are no other conditions to check - which we determine by looking at the size of <code>extra_fields</code> - we return the result, which should be a success.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>If there <em>are</em> more conditions to check, we call <code>check_star</code> again, using the star and the conditions we had stuffed into <code>extra_fields</code>. That goes through the same process of testing and looking for extra conditions until it has completed the last test. The result of all the completed tests is handed back to <code>check_star</code>, which then hands it back to us.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This process of <a href="http://en.wikipedia.org/wiki/Recursion_(computer_science)">recursion</a> - solving a complex problem by breaking it down into small problems - is common in many programming languages, so it is supported by Parrot. After all, Parrot is supposed to be used for creating new languages. It is not just for browsing some guy’s star catalog.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The “<a href="http://en.wikipedia.org/wiki/Tail_call">tail call</a>” pattern of evaluating a sub and immediately returning its result is so common that Parrot provides the <code>.tailcall</code> directive to optimize its behavior. <code>.tailcall</code> essentially tells Parrot to immediately return the result of evaluating the sub rather than storing it in memory. It may not do much in a case like <code>check_star</code>, but you should see a difference in complex problems.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Then again, it might help <code>check_star</code> immensely. I don’t really know about Parrot optimization effects yet.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-0b-08/lib/stellar.pir
+.sub 'main' :main
+	# ...
+
+	# Return the result of checking the extra fields.
+	.tailcall check_star(star, extra_fields :flat)
+
+  RETURN_RESULT:
+	.return(match_result)
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Conclusion</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We can now examine multiple fields to determine if a star matches a description we’ve provided. Along the way, we explored subroutine parameters. We learned how to make a parameter optional. We learned how to grab all of a subroutine’s params and stuff them into a list. We also learned how to paste the contents of a list onto the parameters of a subroutine call. We even dabbled in recursion, the fine art of breaking a big problem down with small solutions.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>In our next step, we will use <code>check_star</code> to search through sets of stars. That’s the part I’ve been looking forward to for a while!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>In the meantime, continue your own Parrot exploration. You might review the <a href="/post/2009/parrot-babysteps-07-writing-subroutines" class="page-link">post/2009/Parrot Babysteps 07 - Writing Subroutines</a> a little more. I hardly left that page while working through this step. Whatever you do, remember to have fun!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

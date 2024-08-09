@@ -1,0 +1,1673 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2023/Running Dart Code
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2023-01-17</em></p>
+</td>
+          </tr>
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I haven’t played with <a href="https://dart.dev">Dart</a> since – oh, I don’t know, 2013 or so. It was nice, but nothing felt compelling compared to the languages I already used. I stopped hearing about Dart when I stopped using Google+.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Nowadays, Dart is a bit more interesting.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The language itself has evolved, of course. So have all the other languages. What’s interesting is that Dart powers <a href="https://flutter.dev">Flutter</a>, Google’s cross-platform application development framework. You can write Flutter applications for Windows, macOS, Linux, iOS, Android, and oh yeah Web frontends.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That’s pretty dang cool.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I want to look at the Dart language itself – figure out how to use it for basic command line applications before I confuse myself with multi-platform GUI development.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><h2>Writing a Dart script</h2>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I start exploring a new or forgotten language by answering a few questions:</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>How do I print something out in a terminal?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>How do I get user input in a terminal?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>How do I print variables such as user input?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There are nearly always multiple answers to each, but here’s a start.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-dart">import 'dart:io';
+
+void main() {
+  print('What is your name?');
+  final name = stdin.readLineSync();
+  print('Hello, $name!');
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The basic answers to my basic questions:</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="https://api.dart.dev/stable/2.18.7/dart-io/dart-io-library.html">dart:io</a> gives us handles for standard output, standard error, and standard input</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>print()</code> prints a string of text on its own line</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="https://api.dart.dev/stable/2.18.7/dart-io/Stdin/readLineSync.html">Stdin.readLineSync()</a> gets us a line of input from the user</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Dart strings support variable interpolation</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The big question though is how to I even run the dang thing.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><h3>Running my Dart script</h3>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ dart run greet_me.dart
+What is your name?
+Brian
+Hello, Brian!
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I <em>could</em> give it a <code>#!/usr/bin/env</code>​ shebang line at the top and <code>chmod 755 hello.dart</code>​. Then I’d have a nice traditional script executable on any machine with the Dart runtime. But there’s a better way, and that starts with using the Dart compiler.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><h3>Using the Dart compiler</h3>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Compiling this Dart code into an executable for my current machine takes one line.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ dart compile exe greet_me.dart
+Info: Compiling with sound null safety
+Generated: /Users/random/Projects/dart/running_dart_code/script/greet_me.exe
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Dart’s executable compilation adds an <code>.exe</code>​ extension to the output file regardless of platforn by default. That extension doesn’t matter to macOS or Linux – a filename is just a filename on those platforms – but I dislike seeing a <code>.exe</code>​ anywhere but on Windows.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ dart compile exe greet_me.dart -o greet_me
+Info: Compiling with sound null safety
+Generated: /Users/random/Projects/dart/running_dart_code/script/greet_me
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I can put that on any macOS device and run it without installing Dart on it. Of course, I only have one macOS device, and it has Dart installed on it. But the <em>idea</em> is the important part.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>And the idea here is a simpler one: the same commands will compile the same code, regardless of what machine I’m on. I wrote most of this post on a Windows desktop. I edited and fine-tuned on an Apple laptop. The code worked as-is. The only invocation change I made was the <code>-o</code>​ option for personal taste.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><h4>Compile Targets</h4>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Dart cannot cross-compile for other platforms yet. Compiling an executable on Windows gets you a Windows executable. But dart compile​ <a href="https://dart.dev/tools/dart-compile">subcommands</a> provide multiple targets in a Dart context. Some will run on any device. Some can run without a Dart runtime.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <table>
+<thead>
+<tr>
+<th>Subcommand</th>
+<th>Explanation</th>
+<th>Run without Dart?</th>
+<th>Multi-Platform?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>exe</code></td>
+<td>standalone executable</td>
+<td>yes</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>jit-snapshot</code></td>
+<td>just-in-time snapshot with hot reloading</td>
+<td>no</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>aot-snapshot</code></td>
+<td>ahead-of-time snapshot</td>
+<td>no</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>kernel</code></td>
+<td>intermediate representation of code</td>
+<td>no</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>js</code></td>
+<td>JavaScript [^1]</td>
+<td>yes</td>
+<td>yes</td>
+</tr>
+</tbody>
+</table>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>[^1]: use <a href="https://dart.dev/tools/webdev">webdev</a> instead for JS targets</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Oh, and trivia: <code>dart run greet_me.dart</code> compiles a JIT snapshot in the background and runs that.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Next problem: I’m coming in from Python and <a href="https://rich.readthedocs.io/en/stable/text.html">Rich</a> for CLI applications. That name prompt should look so much better. I’m not ready to port Rich and Textual to Dart just yet. Maybe somebody has put some kind of console prompt handler on <a href="https://pub.dev">pub.dev</a>, the Dart package repository?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Looks like <a href="https://dcli.onepub.dev">DCli</a> has what I’m looking for today, and functions for stuff I want to do later as well. Let’s try it out!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Time to move from a standalone script file to a project, so I can more easily manage dependencies.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><h2>Building a Dart Project</h2>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="https://dart.dev/tools/dart-create"><code>dart create</code></a> generates a project scaffold. It needs at least a project name. By default it creates what you need for a command line application, and those defaults are exactly what I need today. More than I need today, really.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">$ dart create greet_me
+Creating greet_me using template console...
+- .gitignore
+analysis_options.yaml
+CHANGELOG.md
+pubspec.yaml
+README.md
+bin/greet_me.dart
+lib/greet_me.dart
+test/greet_me_test.dart
+- Running pub get...
+...
+Changed 46 dependencies!
+- Created project greet_me in greet_me! In order to get started, run the following commands:
+- cd greet_me
+dart run
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There’s a lot going on in there, most of which I ignore in my dedicated pursuit of “running some Dart code.”</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><h3>Add a project dependency</h3>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The <a href="https://dart.dev/tools/pub/cmd"><code>dart pub</code></a> commands handle dependency management and publishing your project to Pub. So let’s use that to add Dcli as a dependency.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-sh">dart pub add dcli
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Since this is a <code>pub</code>​ command, it does not surprise me that this dependency detail has been added to <code>pubspec.yaml</code>​. That’s where I’ll find most information <em>about</em> the project.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-yaml">name: greet_me
+description: A sample command-line application.
+version: 1.0.0
+# homepage: https://www.example.com
+
+environment:
+  sdk: '&gt;=2.18.6 &lt;3.0.0'
+
+dev_dependencies:
+  lints: ^2.0.0
+  test: ^1.16.0
+dependencies:
+  dcli: ^1.36.0
+</code></pre>
+<p>title:: greet_me/pubspec.yaml</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Back to the code! I’ll write a cute little greeter function in <code>lib/greet_me.dart</code>​ which adds a lightly formatted prompt to my name request.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-dart">import 'package:dcli/dcli.dart';
+
+void greetMe() {
+	final prompt = red('What is your name?');
+	final name = ask(prompt);
+	print('Hello, $name!');
+}
+</code></pre>
+<p>title:: greet_me/lib/greet_me.dart</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I can just have <code>main</code>​ use that greeter function. When I start thinking in terms of projects rather than scripts, I tend to make the application entry point minimal, with the logic out in project library files where they’re easier to test.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-dart">import 'package:greet_me/greet_me.dart';
+
+void main(List&lt;String&gt; arguments) =&gt; greetMe();
+</code></pre>
+<p>title:: greet_me/bin/greet_me.dart</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Not that I’m writing any test code today.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><h3>Run the project application</h3>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>dart run</code>​ works without arguments here, probably because I only have a single file with <code>main()</code>​ defined.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ dart run
+Building package executable...
+Built greet_me:greet_me.
+What is your name? Brian
+Hello, Brian!
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Neat. Okay there’s not much in a straight paste of output. Here’s a screenshot, so you can see the visual effect from <code>red()</code>​.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/dcli-dart-run_1705455794798_0.png" alt="The same output, with red bold text for the user prompt"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That’s better than what I had.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><h3>Compile the project application</h3>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What if I want to compile it? That’s pretty much the same process as with the script. Dart doesn’t make any assumptions about files when it comes to compiling an executable.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-sh">dart compile exe bin/greet_me.dart -o ./greet_me
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’m sure there’s some kind of build tool out there to simplify the process, but my knowledge hasn’t gotten that far yet. Until then, this invocation could be put in a <a href="https://just.systems/man/en/">justfile</a>``​ for my normal project flow.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><h2>What now?</h2>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’m still early in my exploration of Dart and Flutter, learning not just what Dart code looks like but what it <em>should</em> look like. I may add some notes about linting and code analysis tools later. I’m sure to explore DCli, which has a wealth of functions relevant to command line utility scripts. And I definitely want to learn more about how big cross-platform Dart projects are handled.</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>connect to some Dart <a href="https://dart.dev/community">community resources</a></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>check out the <a href="https://github.com/yissachar/awesome-dart">Awesome Dart</a> repository to see cool things other folks do with the language</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

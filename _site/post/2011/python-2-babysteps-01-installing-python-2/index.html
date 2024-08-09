@@ -1,0 +1,3543 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2011/Python 2 Babysteps 01 Installing Python 2
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2011-06-16</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><p><a href="/coolnamehere" class="page-link">coolnamehere</a></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Installation</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You need to <em>get</em> <a href="/python" class="page-link">Python</a> before you can <em>use</em> Python. There are many versions available, such as <a href="http://www.activestate.com/activepython">ActivePython</a>, <a href="http://jython.org/">Jython</a>, and <a href="http://www.codeplex.com/wikipage?ProjectName=IronPython">IronPython</a>. They each offer distinct advantages. ActivePython offers commercial support. Jython runs on the <a href="/java" class="page-link">Java</a> platform, providing access to the underlying JVM and many support libraries. IronPython runs on the <a href="http://www.microsoft.com/NET/">.NET</a> and <a href="http://www.mono-project.com/Python">Mono</a> platforms, providing access to <em>their</em> underlying virtual machine and support libraries.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I decided to focus on the official release of Python rather than get overwhelmed by choice. You can probably follow along if you decide to install an alternate Python. I will provide notes where I can, but cannot make any guarantees about their accuracy. Check the documentation for your Python choice.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Why Not Python 3?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Python 3 has been available for a while now, and is actually up to <a href="http://python.org/download/releases/3.2/">Python 3.2</a>. Why don’t I cover it in this Babystep? I would rather talk about the newest Python release. but that’s impractical. Many widely used libraries have not been updated so that they are compatible with the Python 3 series. Although the differences between Python 2 and Python 3 are small, they add up for large projects like <a href="http://djangoproject.com">Django</a>. I want you to be able to use your Python skills right away.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Fortunately, the Python developers continue to support the 2.x line, and continue to release versions with fixes and new features for Python 2. If you started learning Python 2 today, it would continue to be useful for quite some time.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>OS X</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You must install the Xcode and Developer Tools to get the full usage out of Python on OS X, although I will not be spending any time in the XCode environment. The Developer Tools should have come with your installation kit. If not, they are available online.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>OS X 10.6 includes Python 2.6.1, which is probably good enough for our purposes. I like having the latest version of a language, though.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Just Download It</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>If you are using a version of OX X older than 10.6, or you don’t care about 64 bit functionality, just grab the <a href="http://python.org/ftp/python/2.7.2/python-2.7.2-macosx10.3.dmg">Mac OS X 32-bit i386/PPC</a> installer and skip to “Installing Python From the Disk Image”.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Python uses <a href="http://www.tcl.tk/">TCL/Tk</a> for its default graphical development environment IDLE. These Python Babysteps assume that we will be using IDLE. Since there are <a href="http://www.python.org/download/mac/tcltk/">cautionary notes</a> about using IDLE with Apple’s default TCL, we will heed those notes and grab our own copy of <a href="http://www.activestate.com/activetcl">ActiveTcl</a>. We can just grab the <a href="http://www.activestate.com/activetcl/downloads">current ActiveTcl download</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Opening the ActiveTCL disk image in the Finder will present us with an installer called <code>ActiveTCL-8.5.pkg</code>. Double-click that package file to start the installer and accept its defaults.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Right. Now you have ActiveTCL installed. Eject the ActiveTCL disk image whenever you like.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p>All of this is unnecessary to play with Python in general. These steps just make it possible for us to take advantage of the full 64 bit functionality of OS X, using the latest Python release and IDLE. Feel free to skip the ActiveTCL download if you do not want to use IDLE.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now that we have the right TCL/Tk installed (or have decided that we don’t care), go to the download page for <a href="http://python.org/download/releases/2.7.2/">Python 2.7.2</a> and grab the <a href="http://python.org/ftp/python/2.7.2/python-2.7.2-macosx10.6.dmg">Mac OS X 64-bit/32-bit Installer</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Installing Python From the Disk Image</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Open the image and double click <code>Python.mpkg</code> to run the installation. The default settings should be good enough.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Well that wasn’t hard. Okay, there were a few details if you insisted on the latest and greatest.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>MacPorts</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>On my home machine, I use <a href="http://macports.org">MacPorts</a> to access a large repository of open source software that can be installed on OS X. Although <a href="http://www.macports.org/install.php">installing MacPorts</a> is not difficult, it is well beyond the scope of this tutorial. I will instead show you the commands I ran from a Terminal to install Python 2.7 on that machine.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ sudo port install python-2.7
+$ sudo port select python python-2.7
+$ python -V
+Python 2.7.1
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That will do. The differences between 2.7.1 and 2.7.2 are so small that I doubt I will notice any of them.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Homebrew</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>And some of you use <a href="http://mxcl.github.com/homebrew/">Homebrew</a> to install open source software. No problem. Here are the instructions for installing and verifying a fresh Python once you <a href="https://github.com/mxcl/homebrew/wiki/Installation">install Homebrew</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ brew install python
+$ python -V
+Python 2.7.2
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Linux</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Python is well supported in Linux.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Redhat-based Distributions (Fedora)</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="http://fedoraproject.org">Fedora</a> 15 ships with Python 2.7.1, and that is good enough for me. We need to install the <code>python-tools</code> package if we want IDLE, though.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ su -
+# yum install python-tools
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Debian-based Distributions (Ubuntu,Mint)</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="http://ubuntu.com">Ubuntu</a> 11.04 has Python 2.7.1 installed by default, and that’s good enough for us.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ python -V
+Python 2.7.1+
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I am not sure what the <code>+</code> means. I assume the Ubuntu developers made some customizations to Python.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>IDLE is not installed by default, though. That can be fixed.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ sudo apt-get install idle
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Other Distributions</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Check the documentation for your distribution. The odds are that you already have Python installed, or can easily install it using your distribution’s tools.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Windows</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I do not have a Windows installation handy right now, so most of this section is just going from memory. Thank goodness installation on Windows is easy.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You can always find links to download the latest version of Python at the Python site itself:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="http://www.python.org/download">http://www.python.org/download</a></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Somewhere around the top of the page is a link to the latest version. Look for the first version that doesn’t have “alpha”, “beta”, or “release candidate” in its name. Follow that link, which is currently:</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="http://python.org/ftp/python/2.7.1/python-2.7.1.msi">http://python.org/ftp/python/2.7.1/python-2.7.1.msi</a> for 32-bit   Windows, and</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="http://www.python.org/ftp/python/2.7.1/python-2.7.1.amd64.msi">http://www.python.org/ftp/python/2.7.1/python-2.7.1.amd64.msi</a> for 64-bit Windows installations</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The kind folks who run the <a href="http://python.org">python.org</a> site make sure there are links to the latest Windows Python 32 bit download from their <a href="http://python.org">front page</a>. Look on the left side of the page for <em>“Quick Links &gt;&gt; Windows Installer”</em>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Windows will ask you if you want to save the file or run it directly from the site. That’s up to you. If you have the disk space, and know how to find and run a file on your hard drive, I recommend you save the installer program to disk. That way you can redo an installation you messed up. On the other hand, if you don’t have much space on the computer, or you aren’t sure how to find a file once you’ve save it, you are probably better off opening the file straight from the site. I have screwed up so many installations that I pretty much automatically select “Save” when downloading an installer.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Once you have downloaded the installer, you need to run it. If you told Windows that you wanted to open it from the current location, you can skip this step. Otherwise, you will need to find your file. You will probably find it in “Downloads”, within the “My Documents” section of the computer. Dig or search in your hard drive until you find the installer executable, named <code>Python-2.7.1.msi</code>. Double-click the icon to run the program, and you are on your way to installing Python!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’m going to skim through the next bit here, because most of the installation is   imply “Do you want me to install Python in folder X?” and “Do you want me to call it Python?” Most of the options you can safely run through by clicking “Next”, but stay alert for anything that you might want different from the defaults.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Eventually, you are presented with a little progress bar while the installer puts all of the Python files where they belong. This is the stage where you sip some coffee (or tea, or soda) and dream about all the great things you will be able to do as a programmer.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Guess what? You are now a proud owner of Python 2! All that’s left is learning how to program.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Building From Source</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>And if you are feeling bold, you can grab the <a href="http://python.org/ftp/python/2.7.2/Python-2.7.2.tar.bz2">source distribution</a> and build your own copy. It is not difficult, but will require installing different tools on different machines. Go right ahead and do this if you want to. The instructions within the source distribution are clear enough. I am not going to build my own copy. I have installed Python four times today, and frankly that is enough.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It is time to get acquainted with this new language.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Using Python</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There are already a lot of online tutorials for learning Python. Maybe that’s because Python is as fun to teach as it is to learn. Anyways, I am not going to try and tell you that <em>my</em> rough little Web site has the best introduction you’ll ever find.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You can pick and choose from links at the Python <a href="http://wiki.python.org/moin/BeginnersGuide">BeginnersGuide wiki page</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That page has links to articles which discuss Python, tutorials, and comparisons to other languages. Python was largely written for educational environments: learning how to do things “the Python way” makes it easier to write clean, readable programs for any language. Plus, its flexibility makes it useful way past the classroom — unlike the stuff like Applesoft BASIC that <em>I</em> learned in class. There is nothing like spending years trying to forget what BASIC taught me about programming.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Even though those links will teach you about how to program in Python, I ask you to stick with me a little bit longer. I still have to tell you how to get started with the tools that you just installed.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I will be focussing on IDLE — and the simple stuff — at that. You can just as easily use PythonWin or the Python shell, which you get into from the console by typing python.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>IDLE is Python’s Integrated DeveLopment E&gt;nvironment. It’s just a coincidence that the acronym <em>happens</em> to spell out the last name of one of the members of a British comedy troupe — whose name just <em>happens</em> to contain the word “Python”. That’s right, just a coincidence. <em>Wink wink, nudge nudge</em></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>IDLE gives you access to everything you need to write Python code in a graphical pointy-clicky environment like Windows. There’s a version of the Python shell, as well as features allowing you to write, save, and run your own Python programs with ease.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You can find some information about IDLE at its <a href="http://docs.python.org/library/idle.html">documentation page</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>In the next couple of sections, I will help you with the basics of using IDLE. We’ll use the shell for some simple code, then make and run our own little Python script. That’s right, you’ll be creating your own programs within the next few minutes.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>How To Use IDLE</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Starting IDLE under Windows is a matter of finding it in your Start menu.</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Find the Python folder in your Start menu.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Find the menu item for IDLE within the Python folder.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Select it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>On Windows Vista and Windows 7, you can launch IDLE by entering “idle” in the Start Menu search field and selecting the program when it appears in search results.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Given the wide, wild range of desktop environments available for Linux, there is no way I could simply tell you which menu option runs IDLE. Instead, you get these instructions:</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Open a terminal (XTerm, Konsole, Gnome Terminal … whatever)</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>In the terminal, type <code>idle[ENTER]</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>If you happen to have IDLE in your environment’s equivalent of a Start menu, then you can just use that. It’s in the “Programming” group on Ubuntu.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>IDLE will start with something that looks like some sort of command line interface (kind of like a colorful DOS box or XTerm). That is the shell, and it allows you to perform the next step:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Using the IDLE Shell (Writing Code)</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let’s see, how do we run Python code in the IDLE shell? Type it in and watch it go!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Hmm… maybe a <em>little</em> more detail would be helpful here.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The IDLE shell allows you to enter code (from simple statements to function and class definitions), and execute it immediately. Since you have the shell open already, type in this example:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>&gt;&gt;&gt; print &quot;Hello, world!&quot;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/idle_1720299690376_0.png" alt="idle.png"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The <code>&gt;&gt;&gt;</code> is the shell prompt, showing that you can type something here. You may notice that the characters you type show up in different colors as you enter them into the shell. This is called “syntax highlighting.” It’s basically just the environment helping you out so that you know more or less how the code will be broken down by Python (important <em>keywords</em> are one color, <em>strings</em> of text are another, etcetera).</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Press the ENTER key, and the shell will perform that command right away:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>&gt;&gt;&gt; print &quot;Hello, world!&quot;
+Hello, world!
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The shell allows you to define more complex things, too. Say you want to get the user’s name, and print a customized “Hello you!” for the user.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>First, you have to get their name:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>&gt;&gt;&gt; name = raw_input(&quot;Please enter your name: &quot;)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>raw_input()</code> is a function that displays a prompt to the user, gets some keyboard input from them, and sends what they typed back to you. I want to use that typed-in name in a moment, so I save the result in the variable <code>name</code>. A <em>variable</em> is basically just something you want the computer to remember so that you can use it later. What’s a <em>function</em>? Basically, it’s something you feed data into, and get data out of — kind of a mini-program in your program. That’s all we need to know for right now.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>When you press <code>[ENTER]</code> this time, you will be shown a prompt. In IDLE, this prompt shows up simply as some text printed out in the shell.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>&gt;&gt;&gt; name = raw_input(&quot;Enter your name: &quot;)
+Enter your name:
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I provide my name (“Brian”), and Python quietly saves that answer in the variable <code>name</code>, then waits for me to do something new. One of the things that confused me when I first tried <code>raw_input()</code> in the Python shell: how do I know that Python actually grabbed the name I gave? Well, it turns out that it’s easy enough to ask:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>&gt;&gt;&gt; print name
+Brian
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>When you want to get at a value that Python has stored for you, all you have to do is call it by name. In this case, I just wanted to print out the value of <code>name</code> — which was filled in when I typed my name at the prompt — and that’s exactly what I told Python to do. Pretty simple, yes?
+Okay, so it has my name. What was I trying to do again? Oh yeah, the custom “Hello” thing. Let’s make it print “Hello, Brian” - or “Craig”, or “Susan”, or whatever name you gave to <code>raw_input()</code> …​ ummm …​ I lost myself again. Let me get back on track here.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Wait. How are we supposed to do this? You know, take a value, and write it along with some other text?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Here’s the easiest way:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>&gt;&gt;&gt; print &quot;Hello&quot;, name
+Hello Brian
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Every time you normally tell Python to print something, it will print that something out, and then start a new line. If you paste a comma onto the end of the thing you want to print, it’s just like a comma in conversation. It means that you’re pausing for air, and the sentence isn’t done yet. Instead of starting a new line, Python just inserts a space. The next thing that gets printed will show up on the same line.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>In this case, Python prints the phrase “Hello”, followed by a space, and ending with the name that was given to it by <code>raw_input</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You can print several things at once, too. Just put a comma in between each item to be printed.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>&gt;&gt;&gt; print &quot;Hello&quot;, name, &quot;- good to see you!&quot;
+Hello Brian - good to see you!
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Wow. That made me feel pretty good. It’s amazing how just a few nice words can lift your mood — even if you have to write them yourself.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What if we wanted to be able to get that warm fuzzy feeling any time? It’s only two lines of code. We could probably enter that in the shell when we wanted some warm words. But there’s a school of programming that tells us Laziness is a virtue. Why write the same two lines again and again, when we could write them once, call it a program, and run that program anytime we felt blue?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let’s find out how to do just that.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>How to Make Your Own Python Program</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Even though the IDLE shell is pretty neat, and <em>very</em> useful for figuring out whether a code idea will work, it’s not any good for actual programs.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Don’t get all huffy. I said the IDLE <em>shell</em> wasn’t good for programs, not that <em>IDLE</em> is no good for programs.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>To edit a Python script in IDLE, simply go to the “File” menu and select “New Window”. This will open a new window for editing Python stuff. This is not a shell, but a NotePad-like text editing environment.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>In your new window, enter this code:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python"># hello.py
+#  Get the user's name and print a friendly hello
+name = raw_input(&quot;Please enter your name: &quot;)
+print &quot;Hello&quot;, name, &quot;- good to see you!&quot;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Most of it is the same as what we entered in the shell, but what’s with those first couple of lines?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Well, they’re Python comments. Comments start from the character <code>#</code>, and extend to the end of the line that you wrote them on. Python ignores comments, which means that you can use them to explain what is going on in your code. Comments are good. When you come back to look at a complex script after several months, you might forget what some block of code does. Having the comments there to remind you will make it that much easier to sort everything out.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I like to start every one of my scripts off with a quick header to describe the purpose of the program. Here is the rough template:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Python docstrings would actually be better for script headers, but:</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I haven’t described those yet</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I needed an excuse to show you what comments look like.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python"># filename
+#  A quick description of what this program does
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Of course, your header can be as complicated as you like:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python"># # # # # # # #
+# hello.py
+#  Get the user's name and print a friendly hello
+#
+# AUTHOR
+#  Brian Wisti (brianwisti@pobox.com)
+# DATE
+#  26 December 2008
+# VERSION
+#  1.1
+# PURPOSE
+#  Demonstration script for my python tutorial at
+#  http://www.coolnamehere.com/geekery/python/pythontut.html
+# USAGE
+#  python hello.py
+# LICENSE
+#  You may copy and redistribute this program as you see fit, with no
+#  restrictions.
+# WARRANTY
+#  This program comes with NO warranty, real or implied.
+# HISTORY
+#  1.0 19 January 2001
+#    Initial release for Python Babysteps Tutorial
+#  1.1 26 December 2008
+#    Updated for Python version 2.6
+#  1.2 16 June 2011
+#    Updated for Python version 2.7.2
+# # # # # # # #
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Just try to match the header complexity to the program. Using this header for a program that consists of two lines of code might be a <em>little</em> bit of overkill. I usually start with something like the two-line header and expand it as I see fit.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>After you enter your script, you need to save it. That’s easy. Just go to the “File” menu and select “Save As…​” You will be shown a dialog that should look pretty familiar if you’ve ever worked with an editing program. Choose a directory to place your program, enter a name ending with <code>.py</code> to let your computer know that this is a Python file, and click “Save”. You have now saved your file.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I bet you’re just itching to run that program! Since you’ve already got <code>hello.py</code> open, all you have to do is go to the “Run” menu, and select “Run module”. Python puts you in the IDLE shell, where you see something like this:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>Python 2.7.1 (r271:86832, Nov 27 2010, 18:30:46) [MSC v.1500 32 bit (Intel)] on win32
+Type &quot;copyright&quot;, &quot;credits&quot; or &quot;license()&quot; for more information.
+&gt;&gt;&gt; ================================ RESTART ================================
+&gt;&gt;&gt;
+Please enter your name:
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Enter your name, press ENTER, and there’s your warm fuzzy greeting!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You may be happy with <code>hello.py</code> right now, but you will probably want to change it later: make it print out a different greeting, for example. To do that, you need to know how to open a Python file for editing.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Actually, it’s pretty easy. Go to the “File” menu, select “Open…​” and select your file. IDLE automatically opens your file in an editing window, where you can edit, save, and run your program to your heart’s content.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There are two more ways to run a Python program in Windows.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The Python installation automatically associates the <code>py</code> extension with Python program. That tells Windows that anything ending with <code>.py</code> should be handed over to Python. That means you can just double-click on <a href="http://hello.py">hello.py</a>, and Python will automatically run it. Unfortunately, that’s not very helpful for most of the stuff we’ll be writing. Try it yourself. You get a DOS box prompting you for your name, but the box disappears almost as soon as you press ENTER! That is kind of annoying.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>But there’s another trick which we can use until we’re writing more complex applications which can keep themselves open or don’t need a DOS box. Simply open your own DOS box (‘Start MenuAccessories|Command Prompt’), move to the directory that contains your script, and call Python yourself:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>C:&gt;cd scripts
+C:\scripts&gt;python hello.py
+Please enter your name: Brian
+Hello Brian - good to see you!
+C:\scripts&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>In order for this to work, you’ll have to have your Python installation directory specified as part of your environment variable <code>PATH</code>. How you do that depends on what version of Windows (or which command line shell for Linux) you are running. Once again, I’m lazy, so I’m leaving it alone.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>To be honest, I recommend you stick with IDLE interface for now. There is less to remember.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Finally, you might want to know how to <em>leave</em> IDLE. The menu command ‘File|Exit’ is all you need to remember. If you haven’t saved all of the files you have been editing, IDLE will check if you want to save them before you quit. Answer as you see fit, save any files you want, and you’re out of IDLE in the real world.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>And you know what? You know how to use the IDLE shell, as well as how to
+edit, save, and run your very own Python scripts. You’re a programmer
+now! Okay, there’s still plenty more to learn, but you are ready to
+start exploring.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>What Next?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This was just the quickest introduction to Python. Hopefully you are warmed up and ready for more. Now you should start one of the recommended tutorials at the <a href="http://wiki.python.org/moin/BeginnersGuide">Python BeginnersGuide</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I have a few favorites of my own.</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="http://docs.python.org/tutorial/">The Official Python Tutorial</a></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Dive Into Python</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="http://www.diveintopython.net/">http://www.diveintopython.net/</a></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="http://www.diveintopython3.net/">http://www.diveintopython3.net/</a></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="http://openbookproject.net/thinkcs/python/english2e/">How To Think Like a Computer Scientist In Python</a></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Quick Reference: Using IDLE</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <table>
+<thead>
+<tr>
+<th>To Do This…</th>
+<th>Use This Menu Command</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Start IDLE</td>
+<td>“Start/Programs/Python 2.7/IDLE (Python GUI)”</td>
+</tr>
+<tr>
+<td>Edit a New Python File</td>
+<td>“File/New Window”</td>
+</tr>
+<tr>
+<td>Save a New Python File</td>
+<td>“File/Save As…”</td>
+</tr>
+<tr>
+<td>Open a Python File</td>
+<td>“File/Open”</td>
+</tr>
+<tr>
+<td>Save a Python File</td>
+<td>“File/Save”</td>
+</tr>
+<tr>
+<td>Run your script in IDLE</td>
+<td>“Run/Run Module”</td>
+</tr>
+<tr>
+<td>Quit IDLE</td>
+<td>“File/Exit”</td>
+</tr>
+</tbody>
+</table>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

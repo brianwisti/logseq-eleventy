@@ -1,0 +1,2476 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2021/Using markdown-it in Python
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><p>Figuring out just enough markdown-it-py to write this post</p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2021-10-16</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p>I hope the information I share here is useful, but I’m just documenting what I needed to know <em>after</em> reading the markdown-it-py <a href="https://markdown-it-py.readthedocs.io/en/latest/using.html">user guide</a> for basic usage and principles.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>What is it</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="https://pypi.org/project/markdown-it-py/">markdown-it-py</a> is a Python markdown library based on <a href="https://github.com/markdown-it/markdown-it">markdown-it</a> from the JavaScript world. markdown-it-py provides the core flexibility needed by <a href="https://myst-nb.readthedocs.io/en/latest/use/markdown.html">MyST Markdown</a>, a particularly capable Markdown flavor for the <a href="https://executablebooks.org/en/latest/">Executable Book Project</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>markdown-it-py is configurable, extensible, and — most important for me today — not too hard to get started with.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>How do I install it</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>markdown-it-py alone gets you “enough”. Everything you need for <a href="https://commonmark.org">CommonMark</a>, at least. But I want more than enough. I want all the features I can reasonably gather under one install.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ pip install markdown-it-py[linkify,plugins]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What did that just install?</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>markdown-it-py</code></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>provides core markdown handling sufficient for common expected behavior</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="https://pypi.org/project/linkify-it-py/"><code>linkify-it-py</code></a></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>enables recognition of URLs embedded in text strings; needs additional plugins to <em>do</em> anything with those URLs</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="https://pypi.org/project/mdit-py-plugins/"><code>mdit-py-plugins</code></a></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>provides a collection of core plugins that make <code>markdown-it-py</code> useful to a feature-happy person such as myself</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>How do I use it</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">from markdown_it import MarkdownIt
+
+markdown = &quot;Hello, **world**&quot;
+md = MarkdownIt()
+print(md.render(markdown))
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-html">&lt;p&gt;Hello, &lt;strong&gt;world&lt;/strong&gt;&lt;/p&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>But I need to be just a <em>little</em> fancier than “Hello World.” Let’s build a little <a href="https://typer.tiangolo.com">Typer</a> application that takes a markdown path and makes an HTML fragment. While I’m at it, I can borrow from my <em class="link-missing">neovim rplugin</em> to fit everything into my Hugo site.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">import typer
+from markdown_it import MarkdownIt
+
+def make_html(markdown):
+    &quot;&quot;&quot;Return HTML string rendered from markdown source.&quot;&quot;&quot;
+
+    md = MarkdownIt()
+
+    return md.render(markdown)
+
+
+def main(source_path: str):
+    &quot;&quot;&quot;Transforms markdown into HTML with markdown-it-py.&quot;&quot;&quot;
+
+    target_path = source_path.replace(&quot;.md.txt&quot;, &quot;.html&quot;)
+
+    with open(source_path, encoding=&quot;utf-8&quot;) as fp:
+        markdown = fp.read()
+
+    html = make_html(markdown)
+
+    with open(target_path, &quot;w&quot;, encoding=&quot;utf-8&quot;) as fp:
+        fp.write(html)
+
+
+if __name__ == &quot;__main__&quot;:
+    typer.run(main)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>For the moment I’ll rely on Python to let me know if I try rendering a Markdown file that doesn’t exist.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This will turn a single <code>.md.txt</code> file - the extension I’m using to slide past Hugo’s default Markdown handling - into HTML. I even get a nice <code>--help</code> blurb.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ python rendermd.py --help
+
+Usage: rendermd.py [OPTIONS] SOURCE_PATH
+
+  Transforms markdown into HTML with markdown-it-py.
+
+Arguments:
+  SOURCE_PATH  [required]
+
+Options:
+  --install-completion [bash|zsh|fish|powershell|pwsh]
+                                  Install completion for the specified shell.
+  --show-completion [bash|zsh|fish|powershell|pwsh]
+                                  Show completion for the specified shell, to
+                                  copy it or customize the installation.
+  --help                          Show this message and exit.
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now I start adding capabilities. If you see this post on the site, you’ll know it worked.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Picking a preset for common patterns</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>markdown-it-py</code> provides predefined parser presets, allowing you to choose between common parsing patterns.</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>commonmark</code></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>the default; sticks with the core CommonMark specification; probably good enough for 80% of the Markdown that gets written</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>gfm-like</code></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>similar to Github-flavored Markdown; better if you need tables and URL transformation</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>js-default</code></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>similar to markdown-it base behavior; adds typographical replacements like “smart quotes” to the <code>gfm-like</code> set</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>zero</code></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>basically just breaks text into paragraphs; provides a bare minimum for you to build a highly custom Markdown parser</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I went with <code>js_default</code> for my own baseline because it enables the most core features.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">def make_html(markdown):
+    &quot;&quot;&quot;Return HTML string rendered from markdown source.&quot;&quot;&quot;
+
+    md = MarkdownIt(&quot;js-default&quot;)
+
+    return md.render(markdown)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Using options to tune your parser</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Even with presets available, there are common tweaks that some folks can’t live with and others can’t live without. <code>markdown-it-py</code> wraps those up in a single dictionary of options.</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>maxNesting</code></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>recursion protection; think of it as a number for “how fancy can I get with my Markdown?”</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>html</code></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>allow raw HTML through</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>linkify</code></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>transform URLs into links</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>typographer</code></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>processes assorted <a href="https://markdown-it-py.readthedocs.io/en/latest/using.html#typographic-components">typographic conventions</a> including proper quote marks</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>quotes</code></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>what double and single quotes look like if you enable <code>typographer</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>xhtmlOut</code></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>ensure output is valid in the ancient XHTML dialect</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>breaks</code></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>treat line breaks in source as <code>&lt;br&gt;</code> elements</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>langPrefix</code></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>CSS class prefix for code blocks; <code>language-python</code>, <code>language-console</code> etc</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>highlight</code></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>a function to provide syntax highlighting for code blocks</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Presets have default values for each of these options.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I like fancy quotes. I expect URLs to display as links. I occasionally need to fall back to raw <abbr title="HyperText Markup Language">HTML</abbr>.But most importantly on this here blog: I insist on syntax highlighting.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Adding a highlight function</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Rather than decide for themselves how syntax highlighting is done, the markdown-it-py folks added a single option for us to hook in a function using <em>our</em> preferred approach.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The highlight function should take three arguments:</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>the string of code to highlight</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>the lexer name</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>a dictionary of any additional attributes</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You could use whatever highlighting code you want. You could even have your function call out to an external program. I use <a href="https://pygments.org">Pygments</a> because it’s familiar.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Also, I’m going to ignore <code>attrs</code> for now. I rarely add special options to my code samples, so it’s kind of wasted on me. So far.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Better make a note or something in case I forget that I’m ignoring it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">def highlight_code(code, name, attrs):
+    &quot;&quot;&quot;Highlight a block of code&quot;&quot;&quot;
+
+    if attrs:
+        rich.print(f&quot;Ignoring {attrs=}&quot;)
+
+    lexer = get_lexer_by_name(name)
+    formatter = HtmlFormatter()
+
+    return highlight(code, lexer, formatter)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Okay, what’s <code>make_html</code> look like now, with options set and highlighting function defined?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">def make_html(markdown):
+    &quot;&quot;&quot;Return HTML string rendered from markdown source.&quot;&quot;&quot;
+
+    md = MarkdownIt(
+        &quot;js-default&quot;,
+        {
+            &quot;linkify&quot;: True,
+            &quot;html&quot;: True,
+            &quot;typographer&quot;: True,
+            &quot;highlight&quot;: highlight_code,
+        },
+    )
+
+    return md.render(markdown)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Still a few pieces missing from <em>my</em> minimal toolkit. I need to dig a little deeper than I planned for a “hey friends, markdown-it-py looks like fun” post. But I at least want to render the kind of posts I would write.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>For that I need to use some plugins. Good thing I installed <code>mdit-py-plugins</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Adding parser functionality with plugins</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>mdit-py-plugins bundles many plugins into a single library. Today I need no plugins beyond what that library provides.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>definition lists</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dl">Description lists</a> have been core to my HTML authoring flow since forever. I’ll write the HTML myself if I have to. Fortunately, I don’t have to, thanks to the <a href="https://mdit-py-plugins.readthedocs.io/en/latest/#definition-lists">deflist</a> plugin.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">from mdit_py_plugins import deflist
+
+def make_html(markdown):
+    # ...
+    md.use(deflist.deflist_plugin)
+
+    return md.render(markdown)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now I can write a definition list:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-markdown">[`markdown-it-py`][markdown-it-py]
+: provides core markdown handling sufficient for common expected behavior
+
+[`linkify-it-py`][linkify-it-py]
+: enables recognition of URLs embedded in text strings; needs additional plugins
+  to *do* anything with those URLs
+
+[`mdit-py-plugins`][mdit-py-plugins]
+: provides a collection of core plugins that make `markdown-it-py` useful to a 
+  feature-happy person such as myself
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>And markdown-it-py produces a proper description list:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-html">&lt;dl&gt;
+    &lt;dt&gt;&lt;a href=&quot;https://pypi.org/project/markdown-it-py/&quot;&gt;&lt;code&gt;markdown-it-py&lt;/code&gt;&lt;/a&gt;&lt;/dt&gt;
+    &lt;dd&gt;provides core markdown handling sufficient for common expected behavior&lt;/dd&gt;
+    &lt;dt&gt;&lt;a href=&quot;https://pypi.org/project/linkify-it-py/&quot;&gt;&lt;code&gt;linkify-it-py&lt;/code&gt;&lt;/a&gt;&lt;/dt&gt;
+    &lt;dd&gt;Enables recognition of URLs embedded in text strings; needs additional plugins
+    to &lt;em&gt;do&lt;/em&gt; anything with those URLs&lt;/dd&gt;
+    &lt;dt&gt;&lt;a href=&quot;https://pypi.org/project/mdit-py-plugins/&quot;&gt;&lt;code&gt;mdit-py-plugins&lt;/code&gt;&lt;/a&gt;&lt;/dt&gt;
+    &lt;dd&gt;Provides a collection of core plugins that make &lt;code&gt;markdown-it-py&lt;/code&gt; useful to a
+    feature-happy person such as myself&lt;/dd&gt;
+&lt;/dl&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>admonition blocks</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>So about a week ago, I was writing the first version of this post. I was nearly done. Then I got a little too tired and deleted the wrong file — without adding it to the repo first!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Oops.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Anyways, this redraft is less of a tutorial and more of a notes dump. I want to warn folks about that with a little blurb at the top. I can use the <a href="https://mdit-py-plugins.readthedocs.io/en/latest/#containers">containers</a> plugin for that. The plugin provides slots for validation and deeper processing. All I want today is a <code>&lt;div&gt;</code> with custom class. I can use CSS for the rest.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Using the container plugin with a <code>name</code> option provides that much.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">from mdit_py_plugins import container, deflist
+
+def make_html(markdown):
+    # ...
+    md.use(container.container_plugin, name=&quot;note&quot;)
+
+    return md.render(markdown)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>A <code>note</code> container looks like this in the markdown:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>::: note
+This is my *note*.
+:::
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Without any additional configuration, it produces this HTML:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-html">&lt;div class=&quot;note&quot;&gt;
+    &lt;p&gt;This is my &lt;em&gt;note&lt;/em&gt;.&lt;/p&gt;
+&lt;/div&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Good enough</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Stopping here because it’s good enough for what I wrote so far today. But there is plenty more to explore. markdown-it-py allows reviewing and manipulating parsed <a href="https://markdown-it-py.readthedocs.io/en/latest/using.html#the-token-stream">tokens</a> directly. Plus there’s the whole MyST Markdown thing to explore.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>But for now we’re good. Let me drop in the Python code that transformed this post in the context of my Hugo site, then go convert the Typer logic to <a href="/pyinvoke" class="page-link">Pyinvoke</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">#!/usr/bin/python
+
+import frontmatter
+import rich
+import typer
+from markdown_it import MarkdownIt
+from mdit_py_plugins import container, deflist
+from pygments import highlight
+from pygments.formatters import HtmlFormatter
+from pygments.lexers import get_lexer_by_name
+
+
+def highlight_code(code, name, attrs):
+    &quot;&quot;&quot;Highlight a block of code&quot;&quot;&quot;
+
+    if attrs:
+        rich.print(f&quot;Ignoring {attrs=}&quot;)
+
+    lexer = get_lexer_by_name(name)
+    formatter = HtmlFormatter()
+
+    return highlight(code, lexer, formatter)
+
+
+def make_html(markdown):
+    &quot;&quot;&quot;Return HTML string rendered from markdown source.&quot;&quot;&quot;
+
+    md = MarkdownIt(
+        &quot;js-default&quot;,
+        {
+            &quot;linkify&quot;: True,
+            &quot;html&quot;: True,
+            &quot;typographer&quot;: True,
+            &quot;highlight&quot;: highlight_code,
+        },
+    )
+    md.use(deflist.deflist_plugin)
+    md.use(container.container_plugin, name=&quot;note&quot;)
+
+    return md.render(markdown)
+
+
+def main(source_path: str):
+    &quot;&quot;&quot;Transforms markdown into HTML with markdown-it-py.&quot;&quot;&quot;
+
+    target_path = source_path.replace(&quot;.md.txt&quot;, &quot;.html&quot;)
+    post = frontmatter.load(source_path)
+    post.content = make_html(post.content)
+    post.metadata[&quot;format&quot;] = &quot;md&quot;
+
+    with open(target_path, &quot;w&quot;, encoding=&quot;utf-8&quot;) as fp:
+        fp.write(frontmatter.dumps(post))
+
+
+if __name__ == &quot;__main__&quot;:
+    typer.run(main)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

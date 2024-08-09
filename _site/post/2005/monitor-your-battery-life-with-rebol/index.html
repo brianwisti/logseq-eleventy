@@ -1,0 +1,2677 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2005/Monitor Your Battery Life with REBOL
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><p><em class="link-missing">rebol,learn,coolnamehere</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2005-02-28</em></p>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>One thing you like to keep track of on your laptop is how much juice is left in your battery. There’s nothing quite like being in the middle of some insane hacking session and watching as the computer suddenly gets tired and blacks out on you. Of course, I’ve already got a handy battery monitor in my <a href="https://kde.org">KDE</a> panel, but what if I’m not in KDE? Okay, okay, there are handy battery monitors for nearly every desktop environment out there. That’s not my point, though.
+My point is that I’d like to explore some basic system stuff using REBOL on an <a href="https://ubuntu.com">Ubuntu</a> 8.10 system. Got it? Okay, good. Now that we’ve settled this little detail, let’s move on.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p>I should mention that if all you want is a command-line printout of your battery information on Linux, you can get that with the command <code>acpi -b</code>. Still, reinventing wheels can be fun. Why not give this a shot?</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>The Raw Materials</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Text is like water in UNIX-type systems. It is everywhere, and nearly everything can be accessed as a text file. Linux follows this ideal by keeping system information in a number of files in the <code>/proc/</code> directory. I could probably find everything I might want to know about the system in that directory, but let’s just focus on the directories which contain battery information.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Ubuntu keeps the files in <code>/proc/</code>, but other distros may keep the files in other locations, such as <code>/var/proc/</code>. Poke around on your own system to find out the specifics for your distribution.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">&gt;&gt; read %/proc/acpi/battery/
+== [%BAT0/]
+&gt;&gt; read %/proc/acpi/battery/BAT0/
+== [%alarm %state %info]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I only have one battery, and this time I only see one folder under <code>/proc/acpi/battery</code>. There were two folders when I ran this on another machine a while back.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">&gt;&gt; print read %/proc/acpi/battery/BAT0/state
+present:                 yes
+capacity state:          ok
+charging state:          charged
+present rate:            0 mA
+remaining capacity:      4263 mAh
+present voltage:         12495 mV
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That one battery happens to be fully charged. Good thing, because it’s been sitting plugged in all day. I’m curious. Let’s see what the <code>state</code> file looks like when I unplug the computer.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">&gt;&gt; print read %/proc/acpi/battery/BAT0/state
+present:                 yes
+capacity state:          ok
+charging state:          discharging
+present rate:            0 mA
+remaining capacity:      4341 mAh
+present voltage:         12107 mV
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Okay, so it is pretty easy to tell when your computer is plugged in and when it isn’t. The <code>info</code> file contains some more useful information about the battery which will come in handy later on.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">&gt;&gt; print read %/proc/acpi/battery/BAT0/info
+present:                 yes
+design capacity:         4400 mAh
+last full capacity:      4263 mAh
+battery technology:      rechargeable
+design voltage:          10800 mV
+design capacity warning: 210 mAh
+design capacity low:     147 mAh
+capacity granularity 1:  63 mAh
+capacity granularity 2:  4053 mAh
+model number:            Primary
+serial number:
+battery type:            LION
+OEM info:                Hewlett-Packard
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What about the <code>alarm</code> file?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">&gt;&gt; print read %/proc/acpi/battery/BAT0/alarm
+alarm:                   unsupported
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Oh well, I wasn’t really sure what I’d do with that information anyhow.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now that we’ve seen what the raw information looks like, let’s work on making a useful utility which processes that information.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Beginning the Script</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-rebol">#!/usr/local/bin/rebol -qs
+
+REBOL [
+    Title: &quot;Battery Monitor&quot;
+    File: %battery.r
+    Date: 24-Feb-2009
+    Author: &quot;Brian Wisti&quot;
+]
+
+battery-dir: %/proc/acpi/battery/
+
+batteries: read %/proc/acpi/battery/
+
+foreach battery batteries [
+    print battery
+    battery-state: rejoin [ battery-dir battery &quot;state&quot; ]
+    print read battery-state
+]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We need that <code>-s</code> command line parameter in there if we want to run this script peacefully. What happens if we don’t? Every time we run the script, REBOL throws a little dialog asking us if we’re sure we want this script touching our precious files. All in all, a good thing to do, but we <em>know</em> we are okay with this script reading our files, precious or otherwise.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Right. We are looking for every battery directory, and printing out its <code>state</code>. What does that look like? Not much, right now.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">BAT0/
+present:                 yes
+capacity state:          ok
+charging state:          charged
+present rate:            0 mA
+remaining capacity:      4360 mAh
+present voltage:         12465 mV
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It’s time to start looking at REBOL’s <code>parse</code> rules.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Tell me not to be scared.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Playing at Parse</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Each item is on one line. The key is on the left side, then there’s a colon and some whitespace before reaching the actual value. I’d like to get at the information in this file as a hash: a dictionary datatype where values on the right are tied to keys on the left. Let’s use Parse and split along the colon character, like so.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-rebol">#!/usr/local/bin/rebol -qs
+
+REBOL [
+    Title: &quot;Battery Monitor&quot;
+    File: %battery.r
+    Date: 24-Feb-2009
+    Author: &quot;Brian Wisti&quot;
+]
+
+battery-dir: %/proc/acpi/battery/
+
+batteries: read %/proc/acpi/battery/
+
+foreach battery batteries [
+    print battery
+    battery-state: read rejoin [ battery-dir battery &quot;state&quot; ]
+    print battery-state
+    state: make hash! parse/all battery-state &quot;:&quot;
+
+    ; Print out what we have so far for debugging purposes.
+    foreach [ key value ] state [
+        print [ key &quot;--&quot; value ]
+    ]
+]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That doesn’t <em>quite</em> do the job we wanted, unfortunately. All of the whitespace is stuck with <code>value</code>, obscuring the actual value.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">BAT0/
+present:                 yes
+capacity state:          ok
+charging state:          discharging
+present rate:            0 mA
+remaining capacity:      4310 mAh
+present voltage:         12081 mV
+
+present --                  yes
+capacity state
+ok
+charging state --           discharging
+present rate
+0 mA
+remaining capacity --       4310 mAh
+present voltage
+12081 mV
+-- none
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We want to get rid of the leading whitespace for each value.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I need to think for a minute…</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Okay, I know how I would do this with a regular expression in <a href="/perl" class="page-link">Perl</a>:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-perl">#!/usr/bin/perl
+
+use Modern::Perl;
+use Fatal qw(open close);
+
+my %state = ();
+open(my $state, &quot;/proc/acpi/battery/BAT0/state&quot;);
+while (my $line = &lt;$state&gt;) {
+  chomp($line);
+  my ($key, $value) = split(/:/, $line);
+  $value =~ s{^\s*}{};
+  $state{$key} = $value;
+}
+
+close $state;
+
+# Print out what we have so far for debugging purposes.
+foreach my $key (keys %state) {
+  say $key, &quot; -- &quot;, $state{$key};
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This obviously isn’t the only Perl solution I could have chosen, but it was the first one that came to mind. The point is that it gets the job done. It’s kind of ugly, but Perl is kind enough to let you be ugly if you’re in a hurry.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ perl battery.pl
+present voltage -- 12021 mV
+capacity state -- ok
+present rate -- 0 mA
+remaining capacity -- 4088 mAh
+charging state -- discharging
+present -- yes
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>How do I strip the leading whitespace in Rebol? I know there’s a “right” way, but for now I just want to get those spaces out of there.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-rebol">#!/usr/local/bin/rebol -qs
+
+REBOL [
+    Title: &quot;Battery Monitor&quot;
+    File: %battery.r
+    Date: 24-Feb-2009
+    Author: &quot;Brian Wisti&quot;
+]
+
+battery-dir: %/proc/acpi/battery/
+
+batteries: read %/proc/acpi/battery/
+
+foreach battery batteries [
+    battery-file: rejoin [ battery-dir battery &quot;state&quot; ]
+    state: make hash! []
+    print battery
+
+    foreach line read/lines battery-file [
+        parse line [
+            copy key thru &quot;:&quot;
+            copy value to end
+        ]
+        value: trim value
+        append state key
+        append state value
+    ]
+
+    ; Print out what we have so far for debugging purposes.
+    foreach [ key value ] state [
+        print [ key &quot;--&quot; value ]
+    ]
+]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This is a lot longer than the Perl version, but you could argue that it’s easier to read. And I just <em>know</em> that there’s a better way to do it. Sadly, we won’t know what the better way is until we learn a little more about how Parse works.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ ./battery.r
+BAT0/
+present: -- yes
+capacity state: -- ok
+charging state: -- discharging
+present rate: -- 0 mA
+remaining capacity: -- 4242 mAh
+present voltage: -- 12375 mV
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Well, that colon is still in there, but at least I got rid of the leading spaces in the values.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’ll come back to that issue after I’ve learned a little bit more about Parse. For now, let’s focus on the fact that we are finally getting to the data. That means we have reached a milestone, and it also means we can stretch our legs for a minute. Good circulation is important, after all. Let’s refactor before we move on. I like to have my code as clean as I know how to make it each step of the way.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-rebol">#!/usr/local/bin/rebol -qs
+
+REBOL [
+    Title: &quot;Battery Monitor&quot;
+    File: %battery.r
+    Date: 24-Feb-2009
+    Author: &quot;Brian Wisti&quot;
+]
+
+battery-dir: %/proc/acpi/battery/
+batteries: make hash! [ ]
+
+; Load battery information
+foreach battery read battery-dir [
+    battery-file: rejoin [ battery-dir battery &quot;state&quot; ]
+    state: make hash! []
+
+    foreach line read/lines battery-file [
+        parse line [
+            copy key to &quot;:&quot;
+            skip
+            copy value to end (trim value)
+        ]
+        repend state [ key value ]
+    ]
+    repend batteries [ battery state ]
+]
+
+; Print out what we have so far for debugging purposes.
+foreach [ name info ] batteries [
+    print name
+    foreach [ key value ] info [
+        print [ key &quot;--&quot; value ]
+    ]
+]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You aren’t supposed to change the actual functionality during refactoring, because the whole idea is to make it do exactly the same thing it did before, but in a more sane style. I was hit by a lightbulb moment while refactoring the <code>parse</code> rule, though, and decided to see what would happen if <code>skip</code> would get me past that colon. Sure enough, that did the trick!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ ./battery.r
+BAT0/
+present -- yes
+capacity state -- ok
+charging state -- charged
+present rate -- 0 mA
+remaining capacity -- 4299 mAh
+present voltage -- 12540 mV
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Useful Output</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now let’s take this raw data and turn it into output that I can actually do something with. To do that, we need to decide what information we care about and what we don’t.</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I don’t care about batteries I don’t have. Don’t show them to me.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I care about whether the computer is plugged in or not.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I can’t convert remaining capacity of total capacity in my head. Just show me a percentage remaining.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I <em>certainly</em> can’t convert present rate and remaining capacity. Show me a time value instead.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Don’t Show Batteries I Don’t Have</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This should be the easiest step. All we need to do is check the value of the “present” key. Should be no problem at all.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-rebol">; Print out what we have so far for debugging purposes.
+foreach [ name info ] batteries [
+    if &quot;yes&quot; = select info &quot;present&quot; [
+        print name
+        foreach [key value] info [
+            print [ key &quot;--&quot; value ]
+        ]
+    ]
+]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Show Me if the Computer is Plugged In</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We are now officially out of the “print out what we have for debugging purposes” stage. From here on, we will be creating the output we expect to see.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-rebol">foreach [ name info ] batteries [
+    if &quot;yes&quot; = select info &quot;present&quot; [
+        charging-state: select info &quot;charging state&quot;
+        print [ name charging-state ]
+    ]
+]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Rather than step through and display every single item of data, we are printing one line with minimal information: the name of the battery and whether it is charging or not.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ ./battery.r
+BAT0/ discharging
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I like this. It is easy for me to understand this output compared to the raw files.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Show Me Percentage of Remaining Battery Capacity</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I will want to know how much power is remaining if the battery is either “charging” or “discharging”. I don’t know what <code>mAh</code> is – <em>milliAmp-hours?</em>. I prefer to see this in terms of what percentage is remaining. A full battery has 100%, and an empty battery has 0%. Seems easy enough, but we don’t have the total capacity listed in the state file. To get this information, we will need to look at the <code>info</code> file.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-rebol">foreach [ name info ] batteries [
+    if &quot;yes&quot; = select info &quot;present&quot; [
+        charging-state: select info &quot;charging state&quot;
+        prin [ name charging-state ]
+        info-file: rejoin [ battery-dir name &quot;info&quot; ]
+        foreach line read/lines info-file [
+            if parse line [
+                &quot;design capacity:&quot;
+                copy capacity to end (trim capacity)
+            ] [
+                items: parse capacity none
+                cap: to-integer items/1
+                items: parse select state &quot;remaining capacity&quot; none
+                rem: to-integer items/1
+                per: to-integer (rem / cap * 100)
+                prin join &quot; &quot; [ per &quot;%&quot; ]
+                break
+            ]
+        ]
+        print []
+    ]
+]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now I can see the percentage remaining:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ ./battery.r
+$ BAT0/ discharging 91%
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Yes, that’s the output that I want, but the code is turning into something … <em>evil</em>. Or at least something <em>ugly</em>. I should consider refactoring again before I move on to the next step. I will just show you the end result of the refactoring, but these are the ideas that guided me as I looked at my code:</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Go ahead and read all the data files. It’s not like memory is an issue for an app like this. Don’t forget to look for duplicate keys when assembling the hash.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Remove duplication where possible.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Only use <code>print</code> once for each battery. Narrowing down the sources of output can make debugging and reading easier.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>And here’s the refactoring.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Refactored <code>battery.r</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-rebol">#!/usr/local/bin/rebol -s
+
+REBOL [ ]
+
+;;
+;; Function Definitions
+;;
+
+get-value: func [
+    &quot;Get numeric part of a value in the battery info hash&quot;
+    information [hash!]   &quot;A Hash containing battery data&quot;
+    key         [string!] &quot;A key to look up in the hash&quot;
+    /local value tokens numeric-value
+] [
+    value: select information key
+    tokens: parse value none
+    numeric-value: to-integer tokens/1
+    return numeric-value
+]
+
+;;
+;; Main logic starts here.
+;;
+
+battery-dir: %/proc/acpi/battery/
+batteries: make hash! [ ]
+
+; Load battery information.
+foreach battery read battery-dir [
+    state: make hash! []
+    battery-files: read rejoin [ battery-dir  battery ]
+
+    foreach file battery-files [
+        full-path: rejoin [ battery-dir battery file ]
+
+        foreach line read/lines full-path [
+            parse line [
+                copy key to &quot;:&quot;
+                skip
+                copy value to end (trim value)
+            ]
+            unless select state key [
+                repend state [ key value ]
+            ]
+        ]
+    ]
+    repend batteries [ battery state ]
+]
+
+; Display information for each battery
+foreach [ name info ] batteries [
+
+    ; ... but only if the battery is present.
+    if &quot;yes&quot; = select info &quot;present&quot; [
+        charging-state: select info &quot;charging state&quot;
+
+        capacity: get-value info &quot;design capacity&quot;
+        remaining: get-value info &quot;remaining capacity&quot;
+        percent: to-integer (remaining / capacity * 100)
+
+        battery-text: reform [
+            name
+            charging-state
+            join percent [ &quot;%&quot; ]
+        ]
+        print battery-text
+    ]
+]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The end result is the same as before, but I’ve made the code easy to read again. This process of writing and refactoring is pretty much standard to my  development style. Well, I’m not the <em>only</em> one who writes code like this.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Anyhow. Let’s move on, shall we?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Show Me Estimated Time Remaining</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>In order to calculate the time remaining before the battery runs out, we need to get the remaining charge and the rate that we’re using it up.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-rebol">        ...
+        print battery-text
+        print select info &quot;remaining capacity&quot;
+        print select info &quot;present rate&quot;
+    ]
+]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Wow, I really don’t know what those numbers mean. We could fake it until we get a result that looks like what I see when I scrub the mouse over my KDE battery applet. I think I will do a little bit of searching on the Web, though. There is probably some sort of reference to the ACPI state files.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I have a rule not to spend more than fifteen minutes looking something up online, unless the end result of such a search would be money or finding something that pleases my wife. This is neither, and I’ve just spent fifteen minutes making a few clumsy stabs at finding a reference for the ACPI state file. No luck, so let’s go with the faking it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The KDE panel says I have a little over two hours left on my laptop. With a couple of quick hacks, my script more or less agrees with KDE. There’s an occasional difference of a minute or two, but that is not an urgent issue for something like this. I would be much more concerned if this script was going to be used in a production environment, or in an environment where being off by a couple of seconds could cost somebody their life. On the other hand, what are they doing using some script they cobbled off the Web to keep their loved ones alive? And then they’ll probably get mad at <em>me</em> when it goes wrong. I swear, some people are just too strange for words.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What? Oh, right. Here’s the finished version of the utility. Took me a couple of hours, but a lot of that was me learning the basics of <code>parse</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>battery.r</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-rebol">#!/usr/local/bin/rebol -s
+
+REBOL [
+    Title: &quot;Battery Monitor&quot;
+    File: %battery.r
+    Date: 14-mar-2005
+    Author: &quot;Brian Wisti&quot;
+]
+
+;;
+;; Function Definitions
+;;
+
+get-value: func [
+    &quot;Get numeric part of a value in the battery info hash&quot;
+    information [hash!]   &quot;A Hash containing battery data&quot;
+    key         [string!] &quot;A key to look up in the hash&quot;
+    /local value tokens numeric-value
+] [
+    value: select information key
+    tokens: parse value none
+    numeric-value: to-integer tokens/1
+    return numeric-value
+]
+
+;;
+;; Main logic starts here.
+;;
+
+battery-dir: %/proc/acpi/battery/
+batteries: make hash! [ ]
+
+; Load battery information.
+foreach battery read battery-dir [
+    state: make hash! []
+    battery-files: read rejoin [ battery-dir battery ]
+
+    foreach file battery-files [
+        full-path: rejoin [ battery-dir battery file ]
+
+        foreach line read/lines full-path [
+            parse line [
+                copy key to &quot;:&quot;
+                skip
+                copy value to end (trim value)
+            ]
+            unless select state key [
+                repend state [ key value ]
+            ]
+        ]
+    ]
+    repend batteries [ battery state ]
+]
+
+; Display information for each battery
+foreach [ name info ] batteries [
+
+    ; ... but only if the battery is present.
+    if &quot;yes&quot; = select info &quot;present&quot; [
+        charging-state: select info &quot;charging state&quot;
+
+        capacity: get-value info &quot;design capacity&quot;
+        remaining: get-value info &quot;remaining capacity&quot;
+        percent: to-integer (remaining / capacity * 100)
+
+        rate: get-value info &quot;present rate&quot;
+        either rate &gt; 0 [
+            seconds: remaining / rate * 60 * 60
+            time-remaining: to-time to-integer seconds
+        ] [
+            time-remaining: &quot;--&quot;
+        ]
+
+        battery-text: reform [
+            name
+            charging-state
+            join percent [ &quot;%&quot; ]
+            time-remaining
+        ]
+        print battery-text
+    ]
+]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Running it shows a problem on Ubuntu. The discharge rate in the state file is listed as zero, which means the script has no way to determine estimated time remaining.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ ./battery.r
+BAT0/ discharging 82% --
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This is a known issue, but I do not yet know a way around it. I left the original code intact just in case <em>your</em> laptop does not have this problem.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now, if I wanted to make this readily accessible from the command line, which I do, then I would just copy <code>laptop.r</code> to someplace on my path. I might even rename to something like <code>check-battery</code> without the “.r” suffix, to make it look more like any old command. This is a common maneuver on the command line. Many of the commands you use every day in the shell are just thinly disguised scripts, written in one language or another.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-bash">$ cp battery.r ~/bin/check-battery
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>And now I have one written in REBOL.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Conclusion</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This project was an exercise to see how difficult it would be to create a relatively simple utility. It was a challenge until I started getting the hang of Parse. I think Parse is easier to understand than regular expressions, but regular expressions have the advantage that they are familiar to more Linux developers. Still - get Parse out of the way, and creating useful applications in REBOL suddenly becomes very easy.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Additional Ideas</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There are a number of different things you could do to enhance or refine this script. Here are a couple of ideas.</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This script is <em>not</em> portable. It assumes that you have the same file setup as my HP notebook running me version of Ubuntu. Any differences brought on by different distributions or operating systems are unaccounted for. You might want to alter the script to look in the right places for your machine.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The script is <em>not</em> robust. What happens if there’s a zero in the wrong place, or ACPI can’t figure out what the rate of discharge is? I don’t know, but it’s probably not something good. You might want to make it more robust by checking for possible errors.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Hey, what about writing this as a View application? Yeah, you could make a cute little picture of a battery that empties out as the remaining power drops. Why stop there? You could implement a whole system monitor, like <a href="http://gkrellm.net/">gkrellm</a>. That might be fun.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

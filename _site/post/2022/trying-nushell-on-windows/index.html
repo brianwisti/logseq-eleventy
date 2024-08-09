@@ -1,0 +1,1038 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2022/Trying Nushell on Windows
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2022-04-22</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><p><a href="https://hackers.town/@randomgeek/108179615012858475">mastodon</a></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><p>They say I can run Nushell on Windows. Let’s try that.</p>
+</td>
+          </tr>
+        
+      
+        
+      
+        
+          <tr>
+            <th>banner-caption</th>
+            <td><p>Hugo’s article list piped through multiple Nushell built-ins</p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>banner</th>
+            <td><p>…/assets/cover-2022-04-22_1712546928856_0.png</p>
+</td>
+          </tr>
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p>THE IMPORTANT BIT: Jack — one of the cats — has recovered from whatever was bothering him with a little help from vet drugs. Thank goodness for that! Now I can get back to puttering.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I have been puttering a little here and there with <a href="/nushell" class="page-link">Nushell</a> , a command line shell in the spirit of Bash, Zsh, and Fish. It’s different from any of the above, though. It starts from the same “let me run my commands” starting point, but data handling, filtering, and transformation are core to Nu’s functionality.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>You said something about Windows</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Right. I have also been spending more time in <em class="link-missing">Microsoft Windows</em> recently. No big deal. I bounce between emphasizing Windows and Linux on my hard drive routinely.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Installing Nushell with Winget</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The Nushell <a href="https://www.nushell.sh/book/installation.html">documentation</a> suggests using <a href="/winget" class="page-link">Winget</a> . Lucky me, I happen to have played with that recently enough to remember it’s there.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ winget install nushell
+Found nu [Nushell.Nushell] Version 0.61.0
+This application is licensed to you by its owner.
+Microsoft is not responsible for, nor does it grant any licenses to, third-party packages.
+Downloading https://github.com/nushell/nushell/releases/download/0.61.0/nu_0_61_0_windows.msi
+  ██████████████████████████████  10.8 MB / 10.8 MB
+Successfully verified installer hash
+Starting package install...
+Successfully installed
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That installed Nushell to my Program Files. <code>nu.exe</code> itself is under <code>C:/Program Files/nu/bin</code>. I run that and agree to everything — I don’t know Nushell all that well yet, and I certainly don’t know Nushell under Windows enough yet.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ C:\&quot;Program Files&quot;\nu\bin\nu
+No environment config file found at C:\Users\brian\AppData\Roaming\nushell\env.nu
+Would you like to create one with defaults (Y/n):
+y
+Config file created at: C:\Users\brian\AppData\Roaming\nushell\env.nu
+No config file found at C:\Users\brian\AppData\Roaming\nushell\config.nu
+Would you like to create one with defaults (Y/n):
+y
+Config file created at: C:\Users\brian\AppData\Roaming\nushell\config.nu
+C:\Users\brian\AppData\Local〉 ls | sort-by modified | last 5
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>And it works!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/nu-win-initial-ls_1712547328612_0.png" alt="output of  in Nushell on Windows"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Integrating with Windows Terminal</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="https://docs.microsoft.com/windows/terminal/">Windows Terminal</a> is my preferred terminal emulator over in the Windows world. Though I could absolutely point and click my way through adding a Nushell profile, I’ll follow <a href="https://www.nushell.sh/book/installation.html#setting-the-default-shell-windows-terminal">Setting the default shell</a> and update <code>settings.json</code> myself.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Here are the relevant changes to my profile.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-json">{
+    &quot;defaultProfile&quot;: &quot;{2b372ca1-1ee2-403d-a839-6d63077ad871}&quot;,
+    &quot;profiles&quot;:
+    {
+        &quot;list&quot;:
+        [
+            {
+                &quot;guid&quot;: &quot;{2b372ca1-1ee2-403d-a839-6d63077ad871}&quot;,
+                &quot;hidden&quot;: false,
+                &quot;name&quot;: &quot;Nu Shell&quot;,
+                &quot;commandline&quot;: &quot;C:/Program Files/nu/bin/nu.exe&quot;,
+                &quot;colorScheme&quot;: &quot;Fairy Floss&quot;,
+                &quot;font&quot;:
+                {
+                    &quot;face&quot;: &quot;FantasqueSansMono NF&quot;,
+                    &quot;size&quot;: 14
+                }
+            }
+        ]
+    }
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I add an entry for Nu Shell to the profile list, and make that entry my default in Windows Terminal. I chopped out everything not immediately relevant, so this is <em>not</em> a complete <code>settings.json</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You can ignore my choices for font and color scheme. But if you <em>do</em> want exactly the same look, install the <a href="https://www.nerdfonts.com">Nerd Fonts</a> version of <a href="https://github.com/belluzj/fantasque-sans">Fantasque Sans Mono</a> and add this entry for <a href="http://sailorhg.github.io/fairyfloss/">Fairy Floss</a> colors to the <code>schemes</code> section of your <code>settings.json</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-json">        {
+            &quot;background&quot;: &quot;#5A5475&quot;,
+            &quot;black&quot;: &quot;#464258&quot;,
+            &quot;blue&quot;: &quot;#6C71C4&quot;,
+            &quot;brightBlack&quot;: &quot;#C19FD8&quot;,
+            &quot;brightBlue&quot;: &quot;#6796E6&quot;,
+            &quot;brightCyan&quot;: &quot;#C2FFDF&quot;,
+            &quot;brightGreen&quot;: &quot;#FFB8D1&quot;,
+            &quot;brightPurple&quot;: &quot;#AE81FF&quot;,
+            &quot;brightRed&quot;: &quot;#F44747&quot;,
+            &quot;brightWhite&quot;: &quot;#F8F8F0&quot;,
+            &quot;brightYellow&quot;: &quot;#FFF352&quot;,
+            &quot;cursorColor&quot;: &quot;#FFFFFF&quot;,
+            &quot;cyan&quot;: &quot;#AFECAD&quot;,
+            &quot;foreground&quot;: &quot;#F8F8F0&quot;,
+            &quot;green&quot;: &quot;#AD5877&quot;,
+            &quot;name&quot;: &quot;Fairy Floss&quot;,
+            &quot;purple&quot;: &quot;#B267E6&quot;,
+            &quot;red&quot;: &quot;#FF857F&quot;,
+            &quot;selectionBackground&quot;: &quot;#FFFFFF&quot;,
+            &quot;white&quot;: &quot;#CCCCCC&quot;,
+            &quot;yellow&quot;: &quot;#E6C000&quot;
+        },
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Integration with Starship</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Nushell provides all sorts of customization options, but I prefer <a href="https://starship.rs">Starship</a>’s cross-shell prompt setup. Unfortunately Starship is not yet available through Winget on my system. It is available through <a href="https://chocolatey.org">Chocolatey</a>. It just so happens I have Chocolatey installed.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Open myself an administrator terminal by Control-clicking the PowerShell entry on my Windows Terminal menu, and away we go!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-plaintext">$ choco install starship
+Chocolatey v1.1.0
+Installing the following packages:
+starship
+By installing, you accept licenses for the packages.
+Progress: Downloading starship 1.4.2... 100%
+
+starship v1.4.2 [Approved]
+starship package files install completed. Performing other installation steps.
+The package starship wants to run 'chocolateyInstall.ps1'.
+Note: If you don't run this script, the installation will fail.
+Note: To confirm automatically next time, use '-y' or consider:
+choco feature enable -n allowGlobalConfirmation
+Do you want to run the script?([Y]es/[A]ll - yes to all/[N]o/[P]rint): y
+
+Downloading starship
+  from 'https://github.com/starship/starship/releases/download/v1.4.2/starship-x86_64-pc-windows-msvc.zip'
+Progress: 100% - Completed download of C:\Users\brian\AppData\Local\Temp\chocolatey\starship\1.4.2\starship-x86_64-pc-windows-msvc.zip (2.31 MB).
+Download of starship-x86_64-pc-windows-msvc.zip (2.31 MB) completed.
+Hashes match.
+Extracting C:\Users\brian\AppData\Local\Temp\chocolatey\starship\1.4.2\starship-x86_64-pc-windows-msvc.zip to C:\ProgramData\chocolatey\lib\starship\tools...
+C:\ProgramData\chocolatey\lib\starship\tools
+Add the following to the end of ~\Documents\PowerShell\Microsoft.PowerShell_profile.ps1 'Invoke-Expression (&amp;starship init powershell)'
+ ShimGen has successfully created a shim for starship.exe
+ The install of starship was successful.
+  Software installed to 'C:\ProgramData\chocolatey\lib\starship\tools'
+
+Chocolatey installed 1/1 packages.
+ See the log for details (C:\ProgramData\chocolatey\logs\chocolatey.log).
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Nushell explicitly allows for multiple segments in your prompt, with <code>PROMPT_COMMAND</code> and <code>PROMPT_COMMAND_RIGHT</code>. I’ll keep their right-hand prompt, but use Starship for the left-hand prompt in my <code>env.nu</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-sh">let-env STARSHIP_SHELL = &quot;nu&quot;
+
+def create_left_prompt [] {
+    starship prompt --cmd-duration $env.CMD_DURATION_MS $'--status=($env.LAST_EXIT_CODE)'
+}
+
+def create_right_prompt [] {
+    let time_segment = ([
+        (date now | date format '%m/%d/%Y %r')
+    ] | str collect)
+
+    $time_segment
+}
+
+# Use nushell functions to define your right and left prompt
+let-env PROMPT_COMMAND = { create_left_prompt }
+let-env PROMPT_COMMAND_RIGHT = { create_right_prompt }
+
+# The prompt indicators are environmental variables that represent
+# the state of the prompt
+let-env PROMPT_INDICATOR = { &quot;&quot; }
+let-env PROMPT_INDICATOR_VI_INSERT = { &quot;: &quot; }
+let-env PROMPT_INDICATOR_VI_NORMAL = { &quot;〉&quot; }
+let-env PROMPT_MULTILINE_INDICATOR = { &quot;::: &quot; }
+
+# ...
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/nu-win-themed-starship_1712547493022_0.png" alt="Nushell with Fairy Floss theme and a Starship prompt"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’ll keep the Starship default config for now.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That’s pretty much it! I’m good to go explore the world of Nushell on Windows.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Sure but why</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Well, now that I have all this set up along with a local checkout of the site’s current <a href="/hugo" class="page-link">Hugo</a> iteration, I can play with Hugo’s article listing.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-plaintext">❯ hugo list all | from csv | select title publishDate draft | sort-by -r publishDate | first 5
+╭───┬──────────────────────────────────────────────────┬───────────────────────────┬───────╮
+│ # │                      title                       │        publishDate        │ draft │
+├───┼──────────────────────────────────────────────────┼───────────────────────────┼───────┤
+│ 0 │ Trying Nushell on Windows                        │ 2022-04-22T18:11:46-07:00 │ true  │
+│ 1 │ Didn't I do this last year too?                  │ 2022-04-17T22:15:00-07:00 │ false │
+│ 2 │ Logseq's Export Formats                          │ 2022-03-13T00:00:00Z      │ false │
+│ 3 │ Added an Emacs config based off of nano-emacs    │ 2022-02-19T23:30:00-08:00 │ false │
+│ 4 │ Thinking about Hugo again but maybe with Site.js │ 2022-01-26T23:50:00-08:00 │ false │
+╰───┴──────────────────────────────────────────────────┴───────────────────────────┴───────╯
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Okay sure you can do exactly the same thing with some combination of a POSIX shell, GNU CoreUtils, and maybe <a href="https://github.com/BurntSushi/xsv">xsv</a>. Or just write Python code. <a href="/post/2020/querying-hugo-content-with-python" class="page-link">post/2020/Querying Hugo Content with Python</a> should get you started.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>But I get all this in one tool! Hypothetically, a tool that works the same on Windows and Linux! And as I <a href="https://hackers.town/@randomgeek/108162569000821645">tooted</a> at a friend while gushing over Nushell:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <blockquote>
+<p>Now you no longer need two dozen separate tools installed on each of a million systems. Now you can do it all with one tool installed on a couple dozen systems wait hang on</p>
+</blockquote>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Anyways it’s fun. That’s all the reason I need.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

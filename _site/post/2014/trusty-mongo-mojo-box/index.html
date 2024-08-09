@@ -1,0 +1,1611 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2014/Trusty Mongo Mojo Box
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2014-08-05</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><em class="link-missing">tldr</em></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Install Vagrant &amp; VirtualBox.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>mkdir my-box
+cd my-box
+vagrant init brianwisti/trusty-mongo-mojo
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Be aware that this is my first packaged Vagrant box, and it is probably not great.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Motivation</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I want to explore <a href="http://mojolicio.us/">Mojolicious</a> framework for <a href="/perl" class="page-link">Perl</a> along with <a href="https://www.mongodb.org/">MongoDB</a>. Both of these are available for each operating system I use. Unfortunately, each operating system is a unique environment, with its own quirks. I usually work my way around these quirks, but I also want to explore a number of <a href="http://en.wikipedia.org/wiki/Virtualization">virtualization</a> tools that have become popular. This is an opportunity to learn how to set up a <a href="http://vagrantup.com">Vagrant</a> box for my Mojolicious / MongoDB explorations.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Creating the box</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>A <a href="http://en.wikipedia.org/wiki/Virtual_machine">virtual machine</a> is basically a simulated operating system running on whatever your host machine is: Windows, Linux, OS X - whatever. That virtual machine lives its life as if it has its own environment. It is useful for application development, testing, application hosting, and security research. You can have a library of guest virtual machines, each dedicated to a particular task.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I have now exhausted my knowledge of virtualization, so let us move on.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Vagrant provides a single configuration and command set for managing
+aspects of multiple virtual machine managers. You can use Vagrant to
+create identical virtual machine “boxes” on host operating systems.
+These definitions — and the boxes themselves — can be shared with
+others.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Although multiple virtual machine managers are supported by Vagrant, <a href="https://www.virtualbox.org/">VirtualBox</a> is widely used and has the best support.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>My Vagrant box needs an operating system. This is my first time through, so I will keep it simple: <a href="http://ubuntu.com">Ubuntu</a> 14.04. I figure that I can find plenty of resources online if I get stuck.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Go to <a href="https://vagrantcloud.com/">Vagrant Cloud</a> for packaged Vagrant boxes with your favorite distribution and virtual machine provider. Vagrant Cloud provides a social network approach to shared boxes, allowing you to find and favorite useful options or even sharing your own. There is an Ubuntu account on Vagrant Cloud with a <a href="https://vagrantcloud.com/ubuntu/trusty64">trusty64</a> box, presenting a 14.04 64 bit release that can be used in VirtualBox.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The <code>vagrant init</code> command initializes a new Vagrant box. I will
+reference trusty64 to give this box a starting point.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ mkdir mongo-mojo
+$ cd mongo-mojo
+$ vagrant init ubuntu/trusty64
+A `Vagrantfile` has been placed in this directory. You are now
+ready to `vagrant up` your first virtual environment! Please read
+the comments in the Vagrantfile as well as documentation on
+`vagrantup.com` for more information on using Vagrant.
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I could start the box up now and have a more or less blank starting point. Instead I will provision it so that it has the packages and tools needed for me to start development quickly. My goal is to get the latest releases of MongoDB, Perl 5, Mojolicious, and <a href="https://metacpan.org/pod/Mango">Mango</a> — a pure Perl MongoDB driver written by the same developer who created Mojolicious.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Vagrant <a href="http://docs.vagrantup.com/v2/provisioning/index.html">provisioning</a> can be done via several approaches, but I go for the short and sweet method of writing a <a href="http://docs.vagrantup.com/v2/provisioning/shell.html">shell script</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I am going to install MongoDB via the <a href="http://docs.mongodb.org/manual/tutorial/install-mongodb-on-ubuntu/">provided Ubuntu packages</a>, so that I do not have to worry about startup scripts and all that. I will also install <code>build-essential</code> so that I can build <a href="http://perlbrew.pl/">Perlbrew</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-bash">#!/bin/bash
+
+# Install MongoDB
+apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
+echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' \
+  | tee /etc/apt/sources.list.d/mongodb.list
+apt-get -q update
+apt-get -q -y install mongodb-org
+service mongod start
+
+# Install development dependencies
+apt-get -q -y install build-essential
+
+# Set up vagrant user environment
+su -c &quot;source /vagrant/bootstrap/user.sh&quot; vagrant
+</code></pre>
+<p>caption:: <code>bootstrap/system.sh</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>system.sh</code> invokes <code>user.sh</code> as the default vagrant user. <code>user.sh</code> contains the instructions to install Perlbrew and the latest <a href="http://perl.org">Perl</a>. Once that is out of the way, <a href="https://metacpan.org/pod/cpanm">cpanm</a> will install Mojolicious and Mango.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-bash">#!/bin/bash
+
+# Install perlbrew
+curl -L http://install.perlbrew.pl | bash
+echo 'source ~/perl5/perlbrew/etc/bashrc' &gt;&gt; $HOME/.profile
+source ~/perl5/perlbrew/etc/bashrc
+
+# Install local Perl and app libs
+perlbrew install perl-5.20.0
+perlbrew switch perl-5.20.0
+perlbrew install-cpanm
+cpanm Mojolicious
+cpanm Mango
+</code></pre>
+<p>caption:: <code>bootstrap/user.sh</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>My Vagrantfile varies only a little from the default. One thing to notice is that I have set up port forwarding so I can view running Mojolicious applications from a browser in the host system.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">VAGRANTFILE_API_VERSION = &quot;2&quot;
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+  # Use Ubuntu 14.04 64 bit
+  config.vm.box = &quot;ubuntu/trusty64&quot;
+
+  # Install system requirements
+  config.vm.provision &quot;shell&quot;, path: &quot;bootstrap/system.sh&quot;
+
+  # Configure guest services to be accessible on host
+  config.vm.network &quot;forwarded_port&quot;, guest: 3000, host: 3000
+end
+</code></pre>
+<p>caption:: <code>Vagrantfile</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now just run <code>vagrant up</code> and wait.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ vagrant up
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I end up waiting quite a while.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Okay, okay. I admit that it took me a couple of tries to get those shell scripts working right. After each correction, <code>vagrant provision</code> reran the provisioning stage of <code>vagrant up</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Eventually it finishes.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Testing the box</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I will not even pretend I know what I am doing here. The whole point of this exercise is to learn Mojolicious, MongoDB, and Mango. Oh yeah, and Vagrant. I just copy the sample application from the <a href="https://github.com/kraih/mango">Mango Github README</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-perl">use Mojolicious::Lite;
+use Mango;
+use Mango::BSON ':bson';
+
+my $uri = 'mongodb://localhost:27017/test';
+helper mango =&gt; sub { state $mango = Mango-&gt;new($uri) };
+
+# Store and retrieve information non-blocking
+get '/' =&gt; sub {
+  my $c = shift;
+
+  my $collection = $c-&gt;mango-&gt;db-&gt;collection('visitors');
+  my $ip         = $c-&gt;tx-&gt;remote_address;
+
+  # Store information about current visitor
+  $collection-&gt;insert({when =&gt; bson_time, from =&gt; $ip} =&gt; sub {
+    my ($collection, $err, $oid) = @_;
+
+    return $c-&gt;render_exception($err) if $err;
+
+    # Retrieve information about previous visitors
+    $collection-&gt;find-&gt;sort({when =&gt; -1})-&gt;fields({_id =&gt; 0})-&gt;all(sub {
+      my ($collection, $err, $docs) = @_;
+
+      return $c-&gt;render_exception($err) if $err;
+
+      # And show it to current visitor
+      $c-&gt;render(json =&gt; $docs);
+    });
+  });
+};
+
+app-&gt;start;
+</code></pre>
+<p>caption:: <code>app.pl</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I would like to configure my editor to invoke needed commands through Vagrant. Perhaps later. For now, SSH will do.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ vagrant ssh
+$ cd /vagrant
+$ morbo app.pl
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Back in my browser, I hit <code>http://localhost:3000</code> a couple times and get:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-json">[
+  {
+    &quot;from&quot;: &quot;10.0.2.2&quot;,
+    &quot;when&quot;: 1407276553541
+  },
+  {
+    &quot;from&quot;: &quot;10.0.2.2&quot;,
+    &quot;when&quot;: 1407276551337
+  }
+]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Well how about that? Everything works!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Packaging</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Installing everything took a <em>long</em> time. I do not want to wait for the full provisioning process every time I create a new box. Can I take a snapshot of this box and use it for other projects?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Of course I can. The Vagrant docs provide some <a href="http://docs.vagrantup.com/v2/boxes/base.html">guidelines</a> for creating a new box for packaging.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>#+BEGIN_WARNING
+There is a warning in the packaging documentation that looks serious.</p>
+<blockquote>
+<p><strong>Advanced topic!</strong> Creating a base box can be a time consuming and tedious process, and is not recommended for new Vagrant users. If you’re just getting started with Vagrant, we recommend trying to find existing base boxes to use first.</p>
+</blockquote>
+<p>Blah, blah, blah. If I listened to every warning, I wouldn’t know what my hair smells like when it’s on fire. <em>You</em> may want to be more careful,  though.
+#+END_WARNING</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The Vagrant <a href="http://docs.vagrantup.com/v2/cli/package.html">package command</a> takes your virtual machine and wraps it up into a single box file that you can reuse or share with others. Maybe I can just package my trusty64-derived box.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ vagrant package
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Apparently yes. The resulting box is about 750MB, which seems large.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="http://williamwalker.me/">William Walker</a> wrote a post about <a href="http://williamwalker.me/blog/creating-a-custom-vagrant-box.html">Creating a Custom Vagrant Box</a>, with many useful instructions. I am ignoring most of those useful instructions right now, though I will come back to them later. What caught my eye was his suggestion for reducing the size of the box. You can use <code>dd</code> to clear out some space from inside the box.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ vagrant ssh
+$ sudo dd if=/dev/zero of=/EMPTY bs=1M
+$ sudo rm -f /EMPTY
+$ sudo shutdown -h now
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I rebuild my package. That brings it down to 649MB - still large, but better than 750. I will come back later when I have the time and see if I can cut it down a little more.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ vagrant add test-trusty-mongo-mojo package.box
+$ cd ..
+$ mkdir test-tmm
+$ cd test-tmm
+$ vagrant init test-trust-mongo-mojo
+A `Vagrantfile` has been placed in this directory. You are now
+ready to `vagrant up` your first virtual environment! Please read
+the comments in the Vagrantfile as well as documentation on
+`vagrantup.com` for more information on using Vagrant.
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I test it with the same Mojolicious application I used above and — hot dog — it works.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Sharing</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now is the part where I jump straight off the cliff of rational thinking and share every horrible mistake I made with you and anyone else who wants it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Should you use MongoDB in production? I have no idea, but I bet that it’s a really bad idea to use my <a href="https://vagrantcloud.com/brianwisti/trusty-mongo-mojo">trusty-mongo-mojo box</a> in production. Still — could be interesting to play with.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ vagrant init brianwisti/trusty-mongo-mojo
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Have fun.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Was it worth it?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That’s a good question. It was great as a learning experience. I enjoyed learning more about <a href="http://vagrantup.com">Vagrant</a>. I don’t know yet whether it was worth my time to create this bundle. Mojolicious and MongoDB are already fairly easy to install on whatever platform. We’ll see. I do know that I’d like to revisit this package, clean it up, and maybe follow up with a similar package for <a href="http://perldancer.org/">Dancer</a>. It’s just plain <em>fun</em> to make these packages.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>What now?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>All that’s left now is to learn all the things. The online <a href="http://perldoc.perl.org/">Perl documentation</a> is current with Perl 5.20. <a href="http://mojolicio.us/perldoc/Mojolicious/Lite">Mojolicious::Lite</a> is as good a place as any to start with learning Mojolicious. There’s a <a href="http://docs.mongodb.org/manual/">MongoDB manual</a> to peruse. Mango does not yet have the polished guides that Mojolicious does, but browsing the <a href="https://metacpan.org/release/Mango">Mango MetaCPAN page</a> will get me a ways.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Oh yeah. When I’m done for the day, I’ll exit my vagrant session and suspend the virtual machine.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ vagrant exit
+$ vagrant suspend
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

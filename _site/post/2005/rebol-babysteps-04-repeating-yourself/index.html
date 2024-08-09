@@ -1,0 +1,1655 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2005/REBOL Babysteps - 04 Repeating Yourself
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><p><em class="link-missing">rebol,learn,coolnamehere</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2005-03-07</em></p>
+</td>
+          </tr>
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now we know how to do things, and we know how to choose whether or not we will do something. We’re getting close to having some real skills with <a href="/rebol" class="page-link">REBOL</a>. We just need to get the understanding of one more concept before we reach the first little plateau of programming knowledge. We need to learn how to do a task more than once. Well, besides just running the script again, but that doesn’t really count.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Simple Loops</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The simplest sort of repetition involves doing exactly the same thing again and again.
+The simplest sort of repetition involves doing exactly the same thing again and again.
+The simplest sort of repetition involves doing exactly the same thing again and again.
+The simplest sort of repetition –</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Sorry, I got carried away. Hopefully you get the idea. Sometimes all you need to do is repeat a process a set number of times.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>loop</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">&gt;&gt; loop 5 [
+[    print &quot;Spam!&quot;
+[    ]
+Spam!
+Spam!
+Spam!
+Spam!
+Spam!
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That’s a little boring. Let’s try something a little more involved. Maybe we could use <code>loop</code> to create a simple math quiz program.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-rebol">REBOL [
+    Title: &quot;Simple Math Quiz&quot;
+    File: %math.r
+]
+
+; Seed the randomizer with the current time to get better random values
+random/seed now
+
+correct: 0
+questions: 5
+
+loop questions [
+
+    ; Create a simple multiplication problem.
+    a: random 10
+    b: random 10
+    answer: a * b
+
+    ; Get the user's response (converting it to the right datatype)
+    response: to-integer ask [ a &quot;x&quot; b &quot;= &quot; ]
+
+    ; Evaluate the response.
+    either strict-equal? answer response [
+        correct: correct + 1
+        print &quot;That's correct!&quot;
+    ] [
+        print [ &quot;Sorry, it's&quot; answer ]
+    ]
+]
+
+; Display the final results.
+print [ &quot;Out of&quot; questions &quot;questions, you answered&quot; correct &quot;correctly&quot; ]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Nothing fancy is going on here. We just <code>loop</code> through the question and answer process a few times, keeping track of the user’s correct answers. <code>random/seed now</code> is necessary to get  something close to what we would consider random. If we don’t provide it, then we get a specific sequence whenever we call <code>random</code>. Try commenting out the <code>random/seed</code> line and run the program a few times. You’ll see what I mean.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You’re right. A plain old <code>loop</code> isn’t very interesting. Let’s move on.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Looping <code>forever</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’m only telling you this because I can see that one or two of you really want to know. What if you want to run a loop forever? Well, you don’t want to. Maybe you want to run a loop until some signal is received, or the user wants to quit, or something sensible like that. You don’t want a loop to run forever. But that doesn’t mean you <em>can’t</em> run a loop forever. REBOL provides us with the <code>forever</code> word to let us do exactly that.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">&gt;&gt; forever [ print &quot;spam.&quot; ]
+spam.
+spam.
+spam.
+...
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>And so on until you hit <code>Ctrl + C</code>, or kill the process, or do something to make the program <em>stop saying “spam”</em>!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>But please, don’t use <code>forever</code> without a mighty good reason.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>break</code> out of a loop</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Sometimes you’re right in the middle of a loop and you want to break out of it and get back to the rest of the program. That’s easy enough.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">&gt;&gt; i: 0
+== 0
+&gt;&gt; forever [
+[    prin i
+[    i: i + 1
+[    if equal? i 5 [
+[        print &quot;Augh!&quot;
+[        break
+[        ]
+[    ]
+01234Augh!
+&gt;&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Oh, you noticed that <code>prin</code> in there? That’s a different way of printing. Each call to <code>prin</code> puts its output immediately after the output from the previous <code>prin</code>, rather than on a new line. It’s nothing major, but it is a nice feature to take advantage of every once in a while.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Right. So we’ve covered simple loops. Now let’s start getting a little more interesting.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Monitored Loops</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Plain old repetition isn’t actually all that common. We usually want to do something a little different each time we step through the loop. REBOL gives us a few words which help us in that situation.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>repeat</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>repeat</code> works almost exactly the same as <code>loop</code>. The main difference is that it stores the number of trips you’ve taken through the loop in a variable that you can get to from inside the loop. The variable has a value of <code>1</code> on the first trip through, <code>2</code> on the second trip through, and so on.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">&gt;&gt; repeat count 9 [
+[    print [ &quot;3 x&quot; count &quot;is&quot; 3 * count ]
+[    ]
+3 x 1 is 3
+3 x 2 is 6
+3 x 3 is 9
+3 x 4 is 12
+3 x 5 is 15
+3 x 6 is 18
+3 x 7 is 21
+3 x 8 is 24
+3 x 9 is 27
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>for</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The next sort of repetition structure is <code>for</code>, which adds a starting point, stopping point, and step size to the <code>repeat</code> loop. <code>for</code> is useful for producing very specific loops. It might be a little wordy for simple loops which can be handled by the <code>repeat</code> word:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">&gt;&gt; for num 1 9 1 [ print [&quot;3 x&quot; num &quot;is&quot; 3 * num] ]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We have a loop variable, <code>num</code>, which starts at <code>1</code> and goes up to <code>9</code> <code>1</code> number at a time. Of course, <code>repeat num 9</code> does exactly the same thing. <code>for</code> tends to be more useful in loops for “real-world” code, though, where you need more control over what’s being looped. You want some real world code? Hmm. Oh, I know. Let’s answer the age-old question, &quot;How much should I tip? That way we can play a little bit with some <a href="/post/2004/rebol-datatypes" class="page-link">post/2004/REBOL Datatypes</a> while helping out our friends in the food service industry. Hey, what do you expect from me? I was a waiter for ten years, so this is the sort of stuff that pops into my head!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">    &gt;&gt; for bill $10 $20 $1 [
+    [    tip: bill * .15
+    [    print [&quot;Bill:&quot; bill &quot;-- Tip:&quot; tip]
+    [    ]
+    Bill: $10.00 -- Tip: $1.50
+    Bill: $11.00 -- Tip: $1.65
+    Bill: $12.00 -- Tip: $1.80
+    Bill: $13.00 -- Tip: $1.95
+    Bill: $14.00 -- Tip: $2.10
+    Bill: $15.00 -- Tip: $2.25
+    Bill: $16.00 -- Tip: $2.40
+    Bill: $17.00 -- Tip: $2.55
+    Bill: $18.00 -- Tip: $2.70
+    Bill: $19.00 -- Tip: $2.85
+    Bill: $20.00 -- Tip: $3.00
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We can’t do <em>that</em> with a <code>repeat</code> loop. At least, I don’t think we can. We set the starting bill at <code>$10</code>, and moved up to <code>$20</code> by <code>$1</code> at a time, showing the bill and corresponding average tip. It’s still a very small thing. The fact that it recognizes the values as money and treats it appropriately is a special thrill for me. If you haven’t programmed before, then you might just assume that things are supposed to work like this. You would be right. Things <em>should</em> work like this: transparent, and the obvious stuff should do the obvious. But in C, there would be all sorts of chaos and <code>printf</code> madness and general ugliness that would get you so angry that you might not even bother leaving a tip.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>And that would be bad, my friends. Very bad indeed.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>As long as I’m looking at datatypes in <code>for</code> loops, let’s look at another example. Starting from Saturday, January 3 2009, what is the calendar date of each following Saturday until March 7 2009?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">&gt;&gt; for day 3-jan-2009 7-mar-2009 7 [ print day ]
+3-Jan-2009
+10-Jan-2009
+17-Jan-2009
+24-Jan-2009
+31-Jan-2009
+7-Feb-2009
+14-Feb-2009
+21-Feb-2009
+28-Feb-2009
+7-Mar-2009
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Start on January 3, step 7 days at a time until we reach March 7, and print the calendar date at each step. Not bad, eh? I know that these all occurred on a Saturday, but you’ll have to wait until later for me to explain it. You want a clue? Oh, all right. I used <code>day/weekday</code>, got <code>6</code>, and figured out that the sixth day of the week is Saturday.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Or maybe I looked at a calendar. I’ll never tell.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Conditional Loops</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Then there are the times when you aren’t sure exactly when you’ll need to stop. You need to keep going until it’s time to stop, basically. Now, you could use a <code>forever</code> loop and <code>break</code> whenever you need to stop. But I don’t want you to do that. Why am I so opposed to an approach like that? It comes down to clarity. Somebody will be reading your code a few weeks, months, or even years after you write it. That person could be you.
+Don’t laugh - I’m still haunted by a script that I wrote years ago when I was first learning Perl. I thought I’d just be throwing that script away, but I still use it. I still cringe every time I have to read it, too. And yes, it had a couple of <code>forever</code>-style loops. I want to save you from the embarrassment of bad code whenever possible.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>But I digress. Let’s look at the conditional loops. There are two main conditional loops, <code>until</code> and <code>while</code>. The difference between the two from our perspective is when they test to see whether it’s time to quit the loop.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Keep going <code>until</code> something is true</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The <code>until</code> loop tests at the end of each step of the loop. If the block returns true, then it’s time to quit. How do you know if the block returns <code>true</code>? Because the block returns the value of the last statement in the block. This means that we could put a simple test as the last statement, using the guidelines from <a href="/post/2005/rebol-babysteps-03-making-decisions" class="page-link">post/2005/REBOL Babysteps - 03 Making Decisions</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">&gt;&gt; until [
+[    print &quot;Spam&quot;
+[    response: ask &quot;? &quot;
+[    equal? response &quot;Bloody Vikings!&quot;
+[    ]
+Spam
+? Spam
+Spam
+? Bacon Eggs and Spam
+Spam
+? I don't like Spam!
+Spam
+? Bloody Vikings!
+== true
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Because it doesn’t test until the end of the loop, <code>until</code> will step through the loop at least once.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Keep going <code>while</code> something is true</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>while</code> takes a test block and a loop block. There’s all sorts of clever things we can do in the test block, but for now we’ll just put simple tests in it. If the test comes up false, then <code>while</code> doesn’t bother running through the loop. If it’s true, then it runs through the loop and tests again.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Hrm, I need to think of a decent example of <code>while</code>. For now, let’s just make a variation of what we might do with an <code>until</code> loop.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">&gt;&gt; response: none
+== none
+&gt;&gt; while [ not-equal? response &quot;Bloody Vikings!&quot; ] [
+[    print &quot;Spam.&quot;
+[    response: ask &quot;? &quot;
+[    ]
+Spam.
+? flerg
+Spam.
+? flop
+Spam.
+? Bloody Vikings!
+== &quot;Bloody Vikings!&quot;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>while</code> will not run at all if the condition isn’t true at the start of the loop, because it tests the condition before beginning each step.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Stepping Through a List</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The last form of repetition is iterating through a list. A copy of each item in the list is passed to a temporary variable that you can play with in the loop block. I will only look briefly at this form of repetition in this chapter, because list manipulation and iteration is a big topic in its own right. Nevertheless, many of you will want to do <em>something</em> with lists before I get around to writing that next chapter.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>foreach</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The basic list iteration function is <code>foreach</code>. It takes a name, a list variable, and a block. <code>foreach</code> repeats the loop once for each item in the list. The name is set to the value of the current item in the list. It is easier to demonstrate a <code>foreach</code> loop than it is to describe one.
+Here’s a quick example.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">&gt;&gt; colors: to-list [ &quot;red&quot; &quot;green&quot; &quot;blue&quot; ]
+== make list! [&quot;red&quot; &quot;green&quot; &quot;blue&quot;]
+&gt;&gt; foreach color colors [ print color ]
+red
+green
+blue
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I would like to close this chapter with something a little meatier than that example, though. Let’s write a script that takes a list of dates and tells us how far from today each of those dates are.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-rebol">REBOL [
+    file: %days.r
+    purpose: { Simple demonstration of iterating through a list }
+]
+
+; Feel free to create your own list of days
+days: to-list [
+    23-Jan-2009 24-Feb-2009 13-Mar-2009 30-Apr-2009 31-Oct-2009 5-Jan-2010
+]
+
+foreach day days [
+    ; Determine how many days we are from 'day'
+    day-span: day - now
+
+    ; 'day_span' will be negative for days in the past, and we need a
+    ; positive number for our phrase below
+    absolute-span: abs day-span
+
+    ; Make sure that our phrase uses the correct form of the word 'day'
+    day-string: either absolute-span &gt; 1 [ &quot;days&quot; ] [ &quot;day&quot; ]
+
+    either day-span &gt; 0 [
+        ; 'day' is in the future.
+        print [ day &quot;is in&quot; day-span day-string ]
+    ] [
+        either day-span &lt; 0 [
+            ; 'day' is in the past.
+            print [ day &quot;was&quot; absolute-span day-string &quot;ago&quot; ]
+        ] [
+            print [ day &quot;is today!&quot; ]
+        ]
+    ]
+]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now that we’ve written the code, let’s run the script:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">23-Jan-2009 was 32 days ago
+24-Feb-2009 is today!
+13-Mar-2009 is in 17 days
+30-Apr-2009 is in 65 days
+31-Oct-2009 is in 249 days
+5-Jan-2010 is in 315 days
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Naturally, your results may vary. In fact, they will almost definitely vary unless you read this article the day I updated it or your clock is set wrong. I encourage you to play with this script and come up with your own variations. How about a script that asks the user for a date and tells how far that day is from today? You’ll probably need to use <code>to-date</code> on the user input.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Conclusion and Congratulations</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Completing this chapter means you have hit a significant milestone in programming by learning all of the basic elements of something called “Structured Programming”. It is now possible for you to build non-trivial, “real-world” programs using REBOL. I will try to keep this in mind when putting together future chapters in this tutorial.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

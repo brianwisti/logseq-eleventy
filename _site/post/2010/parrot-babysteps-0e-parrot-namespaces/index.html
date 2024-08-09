@@ -1,0 +1,1582 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2010/Parrot Babysteps 0e - Parrot Namespaces
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2010-10-11</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Where was I? In <a href="/post/2010/parrot-babysteps-0d-the-spacetrade-project" class="page-link">post/2010/Parrot Babysteps 0d - The SpaceTrade Project</a> , I started working out some rough ideas for a version of the old school <a href="https://en.wikipedia.org/wiki/Star_Trader">Star Trader</a> game written in <a href="/parrot" class="page-link">Parrot</a> PIR. I made a quick description and sketched up a list of the  features that would need to be created. One of those features was an interactive shell to be used in developing and hacking on that Space Trade game. I wrote a simple shell that could be extended, making it easier to expand the capabilities of the shell in the future - or even use the shell in some completely unforeseen future application.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I like that shell, but it is not perfect. Programming languages like Parrot support <a href="http://en.wikipedia.org/wiki/Namespace_(computer_science)">namespaces</a>, which you can think of as dictionaries that the language uses to look up variables and subroutines. My problem with the shell today revolves around the fact that every subroutine used in defining or extending the shell exists in the global namespace. They are available everywhere - in every line of code for the SpaceTrade game and anything that uses it. This may not be a huge problem by itself, because right now there are only a few subroutines. The number of subroutines will grow as the project evolves, however. This will have a couple of different effects.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Subroutine names will be harder to remember, because the global namespace is one big bucket. I like to put related subroutines into little boxes so that I can focus on shell behavior when I’m looking at shell code, and game behavior when I’m looking at game code.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Subroutine names could get rather contorted. What happens if I make Space Trade available, and against all odds it becomes a runaway success? Five, maybe even ten people download it and play it. It is likely that at least one of those people will want to write their own shell for the game. They will have to come up with some odd names for their shell code, such as <code>register_awesome_commands</code>, because I have selfishly used all the good names for my own shell.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Namespaces</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Namespaces provide a way to insulate the parts of a computer program from each other. The subroutines and variables defined in one namespace will not interfere with the subroutines and variables in another. This means that I can have my <code>register_default_commands</code> subroutine for my own shell, and you can have a  <code>register_default_commands</code> subroutine in your own shell, and they never need to know about each other. It does mean you must take extra steps if you want to use the subroutine from my package in your own code, or I must somehow provide a means to push the subroutines that I consider appropriate into your namespace. That is what <a href="https://github.com/parrot/parrot/blob/master/runtime/parrot/include/test_more.pir">Test::More</a> does. Defining something like that is an exercise in careful judgment and reasonable coding. In other words, we will not be doing that with SpaceTrade any time soon.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I will try to focus on the most important elements of <a href="http://docs.parrot.org/parrot/latest/html/docs/book/pir/ch04_variables.pod.html#Namespaces">Parrot Namespaces</a> rather than get carried away with all of the little details.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Organizing the Namespaces</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Even though the SpaceTrade game has very little code right now, I want to put a little thought into organizing my namespaces before I create them. The first layer is easy: all of the code supporting the SpaceTrade game will go in the “SpaceTrade” namespace.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Parrot supports nested namespaces, so “SpaceTrade” can contain any number of namespaces. I’m sure there will be many contained namespaces for game setup and play, but I will only specify the one I am working on today: “SpaceTrade::Shell.”</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>SpaceTrade: Code for the SpaceTrade Game</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>SpaceTrade::Shell: A simple interactive shell for SpaceTrade</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The names do not mean anything to Parrot. It does not force a particular way of organizing your namespaces. Nested namespaces are a convenience so that <em>we</em> know two chunks of code are somewhat related.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>The <code>.namespace</code> Directive</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The <code>.namespace</code> directive is used to tell Parrot that the following code belongs in a particular namespace. Its argument is a hash index specifying the name.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>.namespace ['SpaceTrade']
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Use a complex key to indicate a nested namespace.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>.namespace ['SpaceTrade';'Shell']
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>All of the code after the <code>.namespace</code> directive gets filed in the namespace associated with the key you handed to it. This lasts until you declare a new namespace.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It’s time to try it out in <code>spacetrade.pir</code>. All of the code written so far is for the shell, so I can probably get away with putting my <code>.namespace</code> directive at the top of the file.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-0e-01/lib/spacetrade.pir
+.namespace ['SpaceTrade';'Shell']
+
+.sub 'main' :main
+	run_shell()
+.end
+
+.sub run_shell
+	# ...
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Why do I say “SpaceTrade::Shell” rather than <code>['SpaceTrade';'Shell']</code> when talking about my namespace in this article? That is mainly because I am lazy. My fingers do not enjoy typing out all the characters to say <code>['SpaceTrace';'Shell']</code>, so I want to use a shorthand. “SpaceTrade::Shell” mimics a convention used by some Parrot programmers when talking about namespaces. It is a convention derived from the way that namespaces - or “packages” - are declared in <a href="/perl" class="page-link">Perl</a>, which is another language of choice for many Parrot developers. I will switch to another convention if I see one that is both widely used and easy to type.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Back to SpaceTrade. I run <code>setup.pir test</code> out of curiosity.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ parrot setup.pir test
+t/01-shell-metacommands.t .. ok
+All tests successful.
+Files=1, Tests=6,  0.015 wallclock secs
+Result: PASS
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The tests pass, which is kind of cool. But <em>why</em> do they pass, if I have defined a namespace in <code>spacetrade.pir</code>? The tests should complain about missing subroutines if they are in a different namespace, right?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Yes, that is right. However, the <code>.include</code> directive effectively dumps the code from your included file right where you put the directive. The tests exist in the <code>['SpaceTrade';'Shell']</code> namespace because we never indicated that we were moving onto a new one.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That might even be okay for these tests. After all, they are just telling me that the shell subroutines work, not that namespace handling works. The SpaceTrade namespaces are going to get more cluttered as time goes on, though. I am going to be more explicit in the namespace handling for my tests in order to prepare for that clutter.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>The Default Namespace</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>To specify that you are going back to the default namespace, hand an empty key to the <code>.namespace</code> directive.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>.namespace [ ]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I understand the idea here. The default namespace is no namespace at all, so it gets an empty key. Let’s put that line in <code>01-shell-metacommands.pir</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-0e-02/t/01-shell-metacommands.pir
+
+.include 'lib/spacetrade.pir'
+
+.namespace [ ]
+
+.sub 'main' :main
+	.include 'test_more.pir'
+	# ...
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What happens if I run the tests now?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ parrot setup.pir test
+t/01-shell-metacommands.t .. Dubious, test returned 1
+Failed 6/6 subtests
+
+Test Summary Report
+-------------------
+t/01-shell-metacommands.t (Tests: 0 Failed: 0)
+  Non-zero exit status: 1
+  Parse errors: Unknown TAP token: &quot;Could not find sub register_default_commands&quot;
+				Unknown TAP token: &quot;current instr.: 'main' pc 275 (t/01-shell-metacommands.t:14)&quot;
+Bad plan.  You planned 6 tests but ran 0.
+Files=1, Tests=0,  0.014 wallclock secs
+Result: FAIL
+test fails
+current instr.: 'setup' pc 829 (runtime/parrot/library/distutils.pir:379)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This is the error I was expecting to see initially, so I am happy. I suppose I could have put that <code>.namespace [ ]</code> directive at the end of <code>spacetrade.pir</code> - Parrot does not have any rules about where to end one namespace and start another - but I feel like that would have broken the way <code>.include</code> behaves. I will probably learn a better way to handle these little namespace issues eventually.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now I have library code tucked into a namespace and test code that doesn’t know about the shell subroutines. A quick look at <em class="link-missing">07-writing-subroutines/</em> shows how to get those shell subroutines into our current namespace. The <code>get_global</code> opcode allows us to grab a variable from another namespace. We used it in to grab the <code>chomp</code> subroutine from the String::Utils namespace. Let’s use <code>get_global</code> to make the tested subroutines available.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-0e-03/t/01-shell-metacommands.t
+.include 'lib/spacetrade.pir'
+
+.namespace [ ]
+
+.sub 'main' :main
+	.include 'test_more.pir'
+
+	plan(6)
+
+	.local pmc    register_default_commands
+	.local pmc    evaluate_command
+	.local pmc    register_command
+	.local pmc    commands
+	.local string expected
+	.local string output
+
+	register_default_commands = get_global ['SpaceTrade';'Shell'], 'register_default_commands'
+	evaluate_command = get_global ['SpaceTrade';'Shell'], 'evaluate_command'
+	register_command = get_global ['SpaceTrade';'Shell'], 'register_command'
+
+	commands = register_default_commands()
+
+	# ...
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>As we can see, that’s <em>almost</em> good enough.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>1..6
+ok 1 - :help should be a registered default command
+ok 2 - :quit should be a registered default command that returns an empty string
+ok 3 - :help should reflect registered commands
+not ok 4 - User command &quot;:dude&quot; should result in string &quot;Dude!&quot;
+# Have: Invalid command: :dude points to nonexistent sub say_dude
+# Want: Dude!
+ok 5 - Shell should warn about unknown commands
+ok 6 - Shell should warn about invalid commands
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Up until now we have been using subroutine names when registering commands, but that is not going to work anymore. SpaceTrade no longer knows exactly where it should look for the subroutines with those names. Instead of names, let’s try using the subroutines themselves.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-0e-04/lib/spacetrade.pir
+.sub register_command
+	.param pmc    commands
+	.param string name
+	.param pmc    code
+	.param string explanation
+
+	.local pmc    command
+	.local pmc    callback
+
+	command = new 'Hash'
+	command['code'] = code
+	command['explanation'] = explanation
+
+	commands[name] = command
+	goto RETURN_COMMANDS
+
+  RETURN_COMMANDS:
+	.return(commands)
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>register_command</code> doesn’t look a lot different. The names have changed to show what is going on, but we are still just building a Hash of commands and relying on <code>evaluate_command</code> to sort out any problems.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Naturally, that means <code>evaluate_command</code> is where the changes become obvious.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-0e-04/lib/spacetrade.pir
+.sub evaluate_command
+	.param pmc    commands
+	.param string name
+
+	.local int    has_command
+	.local pmc    command_info
+	.local pmc    code
+	.local int    is_invokable
+	.local pmc    command_sub
+	.local string output
+
+	has_command = exists commands[name]
+	unless has_command goto UNKNOWN_COMMAND
+
+	command_sub = commands[name;'code']
+	if_null command_sub, INVALID_COMMAND
+
+	is_invokable = does command_sub, 'invokable'
+	unless is_invokable goto INVALID_COMMAND
+
+	output = command_sub(commands)
+	goto RETURN_OUTPUT
+
+  UNKNOWN_COMMAND:
+	output = &quot;Unknown command: &quot; . name
+	goto RETURN_OUTPUT
+
+  INVALID_COMMAND:
+	output = &quot;Invalid command: &quot; . name
+	output .= &quot; does not point to a valid subroutine&quot;
+
+  RETURN_OUTPUT:
+	.return(output)
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We do a few simple checks when somebody tries to evaluate a command.</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Do we have an entry for the command?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Is there something actually <em>at</em> the entry?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Is the thing stored for the command look like something we can treat as a subroutine?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That’s what the <code>does</code> check handles, incidentally. Right now we only know about subroutines, but later on we may get into strange creations that aren’t subroutines but can be invoked as if they were. From what the folks on IRC <code>#parrot</code> tell me, you would ask <code>command_sub</code> if it is invokable. All I know is that it worked and that I like the folks on <code>#parrot</code> very much.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We should make one more change before heading over to the tests. <code>register_default_commands</code> needs to adjust to the new way of  registering commands.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-0e-04/lib/spacetrade.pir
+.sub register_default_commands
+	.local pmc commands
+	.local pmc help_command
+	.local pmc quit_command
+
+	commands = new 'Hash'
+	help_command = get_global 'default_help'
+	quit_command = get_global 'default_quit'
+	commands = register_command(commands, ':help', help_command, 'This view')
+	commands = register_command(commands, ':quit', quit_command, 'Exit the shell')
+
+	.return(commands)
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>If you don’t explicitly hand a namespace to <code>get_global</code>, it will use whatever namespace it’s called from. In this case, that is the SpaceTrade::Shell namespace.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We have to change the tests themselves now. There is actually only one test that needs to be changed. Look in <code>01-shell-metacommands.t</code> for the line that registers the <code>:dude</code> command.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-0e-03/t/01-shell-metacommands.t
+# ...
+commands = register_command(commands, ':dude', 'say_dude', 'Say &quot;Dude!&quot;')
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Once again, we’re using <code>get_global</code> to grab from the current namespace, which is the default namespace now.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>All right, the tests should run okay.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It is possible to set and get truly global variables with <code>get_root_global</code> and <code>set_root_global</code>, but I do not recommend it. What happens if you decide that the global <code>my_config</code> should be an Array instead of a Hash? Every piece of code that uses a global variable must be updated.
+The same problem exists with package globals, even though it may be on a smaller scale. There’s a solution - or at least a way to make the problem even smaller. Whenever I see data and several subroutines that need to work on that data, I start to see objects.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

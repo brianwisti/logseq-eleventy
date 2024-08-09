@@ -1,0 +1,3192 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2009/Parrot Babysteps 01 - Getting Started
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2009-07-12</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><p><em class="link-missing">parrot,learn,coolnamehere</em></p>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I want to explore basic installation and usage of <a href="/parrot" class="page-link">Parrot</a>. The usage will include output, simple variables, and input. PIR, the <a href="http://docs.parrot.org/parrot/latest/html/docs/book/pir/ch03_basic_syntax.pod.html">Parrot Intermediate Representation</a> language, will be my language of choice. This is the same pattern as my other Babysteps tutorials, but the fact  that PIR is a lower level language means that these are going to be some pretty big steps. I encourage you to walk along with me if you’re curious about PIR.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>As always, I welcome suggestions from both novice and experienced Parrot hackers on how to improve this material for newcomers to Parrot.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>My Setup</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Linux</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’m running <a href="http://www.ubuntu.com">Ubuntu</a> 10.10 with <a href="http://packages.ubuntu.com/lucid/build-essential">build-essential</a> and Perl 5 installed. Perl 5 is installed by default on Ubuntu, and <code>build-essential</code> is easy enough.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-bash">sudo apt-get install build-essential
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There may be other dependencies already installed on this machine that I do not know about. I tend to install <em>many</em> packages on my system, such as <a href="http://packages.ubuntu.com/lucid/wget">wget</a>. Perl 5 and  <code>build-essential</code> should do it as far as I know, though.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You will probably want a good text editor as well. Vim is my choice, but you’re welcome to use anything that makes you happy.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>OS X</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The iMac which rules our home is currently running OS X 10.6 with the Developer Tools and <a href="http://www.macports.org">MacPorts</a>. As usual, my text editor of choice for this platform is Vim. I have my essential toolkit including <code>wget</code> installed via MacPorts.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Windows</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’m using 32 bit Microsoft Windows 7 Ultimate on the other partition of my laptop. Hey, it’s better than Vista. I’m also using Vim to edit my files on this platform because I am a creature of habit.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Installation</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You need to get Parrot before you can use it. The <a href="http://www.parrot.org/download">download page</a> shows where you can get versions of Parrot appropriate to your system, including <a href="http://sourceforge.net/projects/parrotwin32/">Windows packages</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Linux and OS X</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I will be grabbing the latest <a href="http://parrot.org/source.html">stable source release</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ cd ~/src
+$ wget http://www.parrot.org/release/supported
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Previous versions of these Babysteps were using the development releases of Parrot. Why did I switch? I have trouble keeping my articles up to date with the pace of Parrot development while also developing new material and working, so my focus moved to the slower “supported” cycle. I may switch back to using development releases if stable is horribly broken for something the Babysteps need. You’re welcome to use development. Most of the material will <em>probably</em> work as-is.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’ve gone through a few installations of Parrot by now, and have finally noticed that bad things happen if you ignore your old installation. Cleaning up the important files for the old installation is a good idea. So, if you are upgrading:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ sudo rm -rf /usr/local/lib/*parrot*
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Of course, you better make sure that anything matching that name pattern is actually related to your old Parrot install before nuking them like this.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Next I’ll unpack, build, and test my download.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ tar xfvz parrot-3.0.0.tar.gz
+$ cd parrot-3.0.0
+$ perl Configure.pl
+$ make
+$ make test
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>make test</code> takes a little longer each time I install a new version of Parrot. They add tests in every iteration. Just think of those extra few seconds as proof that someone cares about the quality of software they’re writing for the world.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The Parrot authors can always use additional feedback about how well their baby works on different platforms. One piece of information that can be useful for them is a smoke report with test results telling them how well Parrot works on your machine. You can very easily do this on Linux and OS X:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ sudo cpan TAP::Harness::Archive
+$ make smoke
+...
+All tests successful.
+Files=381, Tests=13848, 155 wallclock secs ( 2.36 usr  1.43 sys + 102.37 cusr 28.89 csys = 135.05 CPU)
+Result: PASS
+
+TAP Archive created at /Users/brian/src/parrot/parrot-3.0.0/parrot_test_run.tar.gz
+Test report successfully sent to Smolder at
+http://smolder.parrot.org/app/projects/report_details/14424
+You can see other recent reports at
+http://smolder.parrot.org/app/projects/smoke_reports/1 .
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>My smoke report and the <a href="http://smolder.parrot.org/app/projects/smoke_reports/1">list of recent reports</a> are fun to look at in a nerdy sort of way.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There. Now I’ll install Parrot.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ sudo make install
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Oh, editor support is also available. Since I’m using Vim, I’ll need to make <code>vim-install</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ cd editor
+$ make vim-install
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This gives me syntax highlighting and template generation for new PIR files.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Windows</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It appears to be even more straightforward to install Parrot on Microsoft Windows. The <a href="http://www.parrot.org/download">Parrot download page</a> includes a link to an installer file.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="http://sourceforge.net/projects/parrotwin32/files/parrotwin32%20setup/">parrot-win32 setup files</a></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The stable setup file available currently is <code>setup-parrot-3.0.0.exe</code>. If you browse around, you will find a lot of interesting setup files. I won’t be exploring them right now, but I encourage you to check them out.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I will download the latest stable installer and run it, following all the defaults for now. That was easy. Don’t miss the CHM Parrot documentation in <code>C:\Parrot-2.3.0\share\doc\parrot</code>!  It is good to have documentation handy when exploring strange new software.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’m not sure if this warning is still true, since my recent reinstallation of Windows means I don’t have a previous Parrot install to overwrite. Still, it’s worth checking out.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>When you install a new version of Parrot, the default behavior is to place it in the same location as your previous installation. This means 3.0 would sit in <code>C:\Parrot-2.9.0</code> on my machine. That can cause trouble, since some important Parrot settings may be based on assumptions about where it was installed. The safest thing before upgrading Parrot on Windows is to uninstall old versions through the Control Panel, and to make sure that previous Parrot bin folders are not sitting on your Path. Check for that in Computer → System Properties → Advanced System Settings → Environment Variables. It gets easier to remember those steps after you’ve clicked them a few times. <strong>Do not install a new Parrot until you have removed the old one!</strong></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>So - installing Parrot is easy, but I still want my Vim support. The installer was made with the reasonable assumption that Parrot users on Windows weren’t going to need support for their favorite Unix editors. Reasonable assumptions tend to break down around me, though.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>If you’re not using Vim on Windows, you can just move on to the next section. As for the rest of us, let’s get to it.</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Take your browser to the <a href="https://github.com/parrot/parrot/tree/RELEASE_3_0_0/editor">editor</a> directory for the latest stable Parrot release.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Download the files that are important for Vim support:</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>filetype_parrot.vim</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>indent_pir.vim</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>pasm.vim</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>pmc.vim</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>pir_vim.in</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>skeleton.pir</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Create a <code>vimfiles</code> directory in your home folder if you don’t already have one.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Using <a href="https://github.com/parrot/parrot/blob/RELEASE_3_0_0/editor/README.pod">README.pod</a> as your guide, move the support files into your <code>vimfiles</code> directory:</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>filetype_parrot.vim</code> → <code>vimfiles\ftdetect\filetype_parrot.vim</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>indent_pir.vim</code> → <code>vimfiles\indent\pir.vim</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>pasm.vim</code> → <code>vimfiles\syntax\pasm.vim</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>pmc.vim</code> → <code>vimfiles\syntax\pmc.vim</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>pir_vim.in</code> → <code>vimfiles\syntax\pir.vim</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>skeleton.pir</code> → <code>vimfiles\skeleton.pir</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Open <code>vimfiles\ftdetect\filetype_parrot.vim</code> and execute the following:</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>:4s/\.vim/vimfiles</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Or yeah, you can move to where it says <code>.vim</code> and manually replace that with <code>vimfiles</code> if that’s how you like to do things.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The steps may be a little more involved than just “click and run”, but it’s worth it for me. I <em>like</em> having Vim support.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Output</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It is time to start writing code. Move to your projects directory and create a new directory for the Parrot Babysteps project.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ cd ~/projects
+$ mkdir parrot-babysteps
+$ cd parrot-babysteps
+$ gvim example-01-01.pir
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>When I’m connected to the iMac via <code>ssh</code> I settle for</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ vim example-01-01.pir
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The steps are the more or less the same on Windows. First, open a command prompt by whatever means you’re comfortable with. I prefer typing <code>cmd</code> into the “Search programs and files” field of the Start menu. Then, move to your projects directory and create a new directory for the Parrot Babysteps project.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">C:\Users\brian&gt; cd \projects
+C:\projects&gt; mkdir parrot-babysteps
+C:\projects&gt; cd parrot-babysteps
+C:\projects\parrot-babysteps&gt; gvim example-01-01.pir
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>From here on, the differences between Windows and other platforms become small enough that I feel comfortable ignoring them until something really significant catches my attention.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We immediately see some benefit from installing editor support.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-pir"># Copyright (C) 2011 Parrot Foundation.
+
+.sub 'main' :main
+    # For Parrot developers.
+.end
+
+# Local Variables:
+#   mode: pir
+#   fill-column: 100
+# End:
+# vim: expandtab shiftwidth=4 ft=pir:
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That looks like a heck of a lot for an otherwise empty file, but most of those lines are actually comments.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Comments</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>PIR comments start with a <code>#</code> character. Everything from that <code>#</code> to the end of the line is ignored by the parser.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-pir"># This is a comment
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Comments are handy. They can explain why you chose a particular solution, concerns you have about the code, or pretty much anything else. The comments in our template serve to identify where the template file came from and a few directives for Vim to remember when editing this file.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Directives</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There are only two important lines left when we ignore the comments.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-pir">.sub main :main
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Lines that start with a period (<code>.</code>) are <em>directives</em>, special instructions for PIR. There are a number of directives for Parrot, and it is possible to create your own. The <code>.sub</code> line is telling PIR that this line begins a compilation unit called “main” which serves as the <code>:main</code> compilation unit in the program. Compilation units are tasty named tidbits of code that get a particular job done. They seem roughly the same as subroutines in other languages, so that’s what I’m going to call them from here on. Less typing that way. Once you have created a subroutine,  you can call it elsewhere in your code.
+Subroutines can also have a tag after their name to add a little extra information. The subroutine tagged as <code>:main</code> is the main entry point for a PIR application - it’s where the program actually starts running. When you hand a <code>.pir</code> script to parrot, it directly executes the code contained in <code>:main</code>. If it can’t find a subroutine tagged with <code>:main</code>, then Parrot will directly execute the first subroutine in your code. It is a good idea to specify which is <code>:main</code> so you don’t have to rely on the default behavior.
+The <code>.end</code> directive tells PIR that it has reached the end of this particular subroutine. Any <code>.sub</code> must be followed by <code>.end</code> eventually. Everything in between is the body of the subroutine - the stuff that gets executed when the subroutine is called.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We now basically know what a subroutine is, what it looks like, and how Parrot goes about figuring out which one to run first. We still don’t have anything to be executed, though. How about making this program <em>do</em> something?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Building the Program</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-pir"># example-01-01.pir
+.sub main :main
+    say &quot;Hello, world!&quot;
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Finally - code! Fairly self-explanatory code at that. Well, almost. <code>say</code> is an <a href="http://docs.parrot.org/parrot/latest/html/ops.html"><em>opcode</em></a> - a native Parrot command - for presenting values to the user. <code>say</code> won’t normally speak the phrase “Hello, world!” through your speakers. It will, however print the phrase on a line in your console.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">    $ parrot example-01-01.pir
+    Hello, World!
+    $
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Variables</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What if I want to change the greeting, so that it displays my name as part of the greeting? While simply rewriting the phrase does technically work …</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-pir"># example-01-02.pir
+.sub main :main
+    say &quot;Hello, Brian!&quot;
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>… I want something a little more flexible. I want to be able to define a name, and then print a greeting with the name. This will require adding a variable. We use variables whenever we want the program to remember something.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There are four types of things that Parrot can keep track of:</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><strong>integers</strong></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Simple counting numbers, like 13 or -485</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><strong>numbers</strong></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Decimal numbers like 1.3 or -1.3e+5</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><strong>strings</strong></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>text and phrases like “Hello, Brian”</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><strong>Polymorphic Containers, or PMCs</strong></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>A special type that basically refers to anything that’s not an integer, number, or string</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Parrot has special rules for dealing with each of these types, so it is important to tell Parrot how you want your variable treated. One way to do that is with <em>register variables</em>. Registers can be thought of as variable buckets: one bucket for each type. Okay, maybe not a bucket. More like four rows of nicely organized variables, with each variable type in its own row.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Register variables are prefixed with the dollar sign <code>$</code> and an uppercase letter indicating their type. The rest of the variable name is a whole number from zero on up. Here, let me show you:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-pir"># example-01-03.pir
+.sub main :main
+    $S0 = &quot;Brian&quot;
+    $S1 = &quot;Hello, &quot; . $S0
+    $S1 = $S1 . &quot;!&quot;
+    say $S1
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Assignment to register variables is pretty straightforward, as you can see. You tell Parrot which position in which row is being assigned to on one side of the <code>=</code> symbol, and the value to assign on the other.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Oh, did you see what I did when creating <code>$S1</code>? I did mention that Parrot has special rules for handling each type of variable. One thing you can do with string variables is paste two of them together, making a whole new string. You use the <code>.</code> operator for that. But only for pasting two strings together. If you want more, you’ll need to do it on two lines like I did.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Back to register variables. No, it doesn’t really matter which numbers you use. I could have used <code>$S9999</code> to hold the name and Parrot wouldn’t care. We just need to remember what purpose each variable serves.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Actually, that’s the main problem with register variables. Their names don’t tell you much about what purpose the variable serves. Sure, it’s easy enough to see that <code>$S1</code> is a string, but will I still remember that it’s being used to hold the name once I’ve added a few hundred lines of code? Probably not. I’m getting flashbacks to programming BASIC in grade school, when I kept a cheat sheet of variable names handy.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Parrot is thankfully there for us with the <code>.local</code> directive. <code>local</code> allows us to create a readable name for our variable, asking Parrot to deal with the register side of things.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Creation of a local variable requires the <code>.local</code> directive, followed by type information and lastly a variable name.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-pir">.local &lt;type&gt; &lt;name&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The type names match up to the Parrot types, of course:</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>int</code> for integers</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>num</code> for numbers</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>string</code> for strings</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>pmc</code> for PMCs</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Variables created with the <code>.local</code> directive can be treated the same as a register variable.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-pir"># example-01-04.pir
+.sub main :main
+    .local string name
+    .local string greeting
+
+    name = &quot;Brian&quot;
+    greeting = &quot;Hello, &quot; . name
+    greeting = greeting . &quot;!&quot;
+    say greeting
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You know, that line where we append an exclamation to our greeting is longer than it needs to be. The PIR provides special operators for when you are doing something to a variable and then assigning the result back to the same variable. That means we could describe “append an exclamation point to <code>greeting</code>” this way, too:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-pir"># example-01-05.pir
+# ...
+greeting = &quot;Hello, &quot; . name
+greeting .= &quot;!&quot;
+# ...
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Input</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We’ve covered a lot of conceptual ground already. What has it earned us?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ parrot example-01-05.pir
+Hello, Brian!
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This is not impressive. We’ve actually increased the amount of code significantly compared to just saying “Hello, Brian!”. Splitting the name off into its own variable does lay the groundwork for a slightly more impressive task, though. Let’s make the program ask the user for his name when run.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-pir"># example-01-06.pir
+.sub main :main
+    .local string name
+    .local string greeting
+    .local pmc stdin
+
+    stdin = getstdin
+    name = stdin.'readline_interactive'(&quot;Please enter your name: &quot;)
+    greeting = &quot;Hello, &quot; . name
+    greeting .= &quot;!&quot;
+    say greeting
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We’ve only added a few lines, but these few lines have added a lot of functionality. The first thing you probably noticed was the <em>pmc</em> variable named <code>stdin</code>. PMCs are used in Parrot for complex types, like classes in other languages. They often have special subroutines called <em>methods</em> tied to them. Those methods can greatly simplify the creation of complex programs.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We use the opcode <code>getstdin</code> to figure out standard input and assign it to our <code>stdin</code> PMC. Standard input - widely referred to as <em>stdin</em> - is a <a href="http://docs.parrot.org/parrot/latest/html/src/pmc/filehandle.pmc.html">FileHandle</a> that describes where we expect user input to come from. That can be any number of places, but usually refers to the keyboard. The FileHandle method we care about most today is <code>readline_interactive</code>.  <code>readline_interactive</code> prompts the user for input, and hands that input back to the program.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ parrot example-01-06.pir
+Please enter your name: Brian
+Hello, Brian
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Conclusion</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We’ve done quite a bit today. We installed Parrot, created a simple script that prints a greeting to the console, then expanded our script to get the user’s name and incorporate the name into the greeting. It took less effort than I thought it would despite the fact that PIR is low-level compared to languages like Python and Perl 5.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The ability to handle user input makes it easier to create meaningful programs even with a bare minimum of knowledge, and can be very handy as we explore Parrot, the PIR syntax, and the many [PMCs][<a href="http://docs.parrot.org/parrot/latest/html/pmc.html">Parrot 8.1.0-devel - PMCs</a>]. From this starting point, we can go deeper into the <a href="http://docs.parrot.org/parrot/latest/html/">Parrot</a> and <a href="http://docs.parrot.org/parrot/latest/html/docs/pdds/pdd19_pir.pod.html">PIR</a> documentation, and search the Web for Parrot tutorials.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Remember also that Parrot is released monthly. I do try to keep these pages up to date, but sometimes work and life demand more of my time, or I get distracted by bright shiny things. So don’t assume my version numbers are correct. Double-check them for yourself.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Most of all, have fun!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

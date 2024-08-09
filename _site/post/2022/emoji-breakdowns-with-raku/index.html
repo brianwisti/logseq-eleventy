@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2022/Emoji Breakdowns with Raku
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>banner</th>
+            <td><p>…/assets/cover-2022-08-14_1712329464013_0.png</p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2022-08-14</em></p>
+</td>
+          </tr>
+        
+      
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><p><a href="https://hackers.town/@randomgeek/108823061585109635">Mastodon</a></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><p>In which I write a Raku emoji reverse lookup tool.</p>
+</td>
+          </tr>
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Had to share, but gotta make this quick because I am about three tangents removed from the stuff I planned to do today. This <a href="/raku" class="page-link">Raku</a> script prints out code points for emoji characters with a little help from <a href="https://raku.land/cpan:ANTONOV/Pretty::Table">Pretty::Table</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku">#!/usr/bin/env raku
+
+use Pretty::Table;
+
+sub emoji-table(Str $emoji) {
+  my $table = Pretty::Table.new:
+    title =&gt; &quot;Emoji Breakdown&quot;,
+    field-names =&gt; [
+      &quot;Name&quot;,
+      &quot;Code&quot;,
+      &quot;Hex Code&quot;,
+      &quot;Emoji&quot;,
+    ],
+    border =&gt; False,
+    align =&gt; %(
+      Code =&gt; &quot;r&quot;,
+      &quot;Hex Code&quot; =&gt; &quot;r&quot;,
+    )
+  ;
+
+  for $emoji.ords -&gt; $ord {
+    my $chr = $ord.chr;
+    $table.add-row: [
+      $chr.uniname,
+      $ord,
+      $ord.base(16),
+      $chr,
+    ];
+  }
+
+  return $table;
+}
+
+sub MAIN(Str $emoji) {
+  say &quot;&quot;;
+  say emoji-table($emoji);
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>And here’s what it looks like in action:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ rakumoji 🦋
+
+| Emoji Breakdown |
+    Name      Code  Hex Code  Emoji
+ BUTTERFLY  129419     1F98B    🦋
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>So I’m doing a thing with a CSS stylesheet involving display of emojis. You don’t want the emoji in a stylesheet though. More portable to use code points, the numeric value or values a computer uses to identify the character.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The problem: I don’t know the code point. I use a convenient emoji picker. All it gives me is a character.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’ve had some luck looking this stuff up online. But why spend 10 seconds <a href="https://unicode-table.com/en/1F98B/">looking it up</a> when I could spend half an hour writing code and another hour rationalizing my decision in a blog post?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="https://docs.raku.org/type/Str#(Cool)_routine_ord"><code>Str.ord</code></a> gets me the ordinal for a single character. That’s not always what I need though. What looks like a single character could be composed of several codepoints.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Unicode is weird.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="https://docs.raku.org/type/Str#(Cool)_routine_ords"><code>Str.ords</code></a> gives me a list of all code points in the string, whether one or several. I get the name of the emoji as well with <a href="https://docs.raku.org/type/Str#(Cool)_routine_uniname"><code>str.uniname</code></a>. I can use that name with <a href="https://docs.raku.org/type/Str#routine_uniparse"><code>Str.uniparse</code></a> to get the emoji again.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ raku -e 'say &quot;butterfly&quot;.uniparse;'
+🦋
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Pretty::Table makes it look nice — or as nice as my terminal can manage — no matter how many code points are in the emoji.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ rakumoji 🏄‍♀️
+
+| Emoji Breakdown |
+          Name            Code  Hex Code  Emoji
+         SURFER         127940     1F3C4    🏄
+   ZERO WIDTH JOINER      8205      200D    ‍
+      FEMALE SIGN         9792      2640    ♀
+ VARIATION SELECTOR-16   65039      FE0F    ️
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I helped the terminal out by putting the emoji character at the end of each line. Otherwise the pretty table layouts get offset weird.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Anyways I had fun. And now I’m only two tangents away from the day’s intended tasks.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

@@ -1,0 +1,628 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2017/Full Content Hugo Feeds
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2017-09-15</em></p>
+</td>
+          </tr>
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="/hugo" class="page-link">Hugo</a> defaults to filling your <a href="/follow" class="page-link">Follow</a> with the summary of every post. I prefer the full content of the most recent posts. Today I make my <a href="/rss" class="page-link">RSS</a> feed reflect my preferences.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>The Problem</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Hugo RSS feeds have minor quirks that annoy me.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>First off, it includes <em>every</em> page and post by default. The site content includes posts going all the way back to the year 2000. Most sites I subscribe to on <a href="https://feedly.com/">Feedly</a> show only the most recent posts. I want to do the same here.
+Also, Hugo uses the <code>.Summary</code> of my content in the description for each item of the feed. There’s nothing wrong with this, but I like being able to read a full post without leaving Feedly - or whatever I use for RSS this week.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>A Solution</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The <a href="https://gohugo.io/templates/rss/">Hugo RSS Template documentation</a> tells me what I need to know. I can change the entry count in site config, and handle the content of each entry with a template.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Limit Entry Count</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Just the relevant bits of my <code>config.json</code>. Twenty entries seems like a good arbitrary value.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-json">{
+  &quot;languageCode&quot;: &quot;en-us&quot;,
+  &quot;copyright&quot;: &quot;This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License&quot;,
+  &quot;rssLimit&quot;: 20,
+
+  &quot;author&quot;: {
+    &quot;name&quot;: &quot;Brian Wisti&quot;,
+    &quot;email&quot;: &quot;brianwisti@pobox.com&quot;
+  }
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>All The Content</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>All I need to do here is copy the <a href="https://gohugo.io/templates/rss/#the-embedded-rss-xml">default</a> RSS template into <code>layouts/_default/rss.xml</code>, then make my changes.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>My changes are small indeed. I place the post <code>.Content</code> in the description instead of the <code>.Summary</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-xml">&lt;description&gt;{{ .Content | html }}&lt;/description&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The full entry looks like this.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p>Updated for Hugo 0.57, which changed how <code>.Pages</code> worked. Now use <code>.RegularPages</code>, and for top-level RSS use <code>.Site.RegularPages</code></p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-xml">{{- $pages := .RegularPages -}}
+{{- if .IsHome -}}
+  {{- $pages = .Site.RegularPages -}}
+{{- else -}}
+{{- end -}}
+&lt;rss version=&quot;2.0&quot; xmlns:atom=&quot;http://www.w3.org/2005/Atom&quot;&gt;
+  &lt;channel&gt;
+    &lt;title&gt;{{ if eq  .Title  .Site.Title }}{{ .Site.Title }}{{ else }}{{ with .Title }}{{.}} on {{ end }}{{ .Site.Title }}{{ end }}&lt;/title&gt;
+    &lt;link&gt;{{ .Permalink }}&lt;/link&gt;
+    &lt;description&gt;Recent content {{ if ne  .Title  .Site.Title }}{{ with .Title }}in {{.}} {{ end }}{{ end }}on {{ .Site.Title }}&lt;/description&gt;
+    &lt;generator&gt;Hugo -- gohugo.io&lt;/generator&gt;{{ with .Site.LanguageCode }}
+    &lt;language&gt;{{.}}&lt;/language&gt;{{end}}{{ with .Site.Author.email }}
+    &lt;managingEditor&gt;{{.}}{{ with $.Site.Author.name }} ({{.}}){{end}}&lt;/managingEditor&gt;{{end}}{{ with .Site.Author.email }}
+    &lt;webMaster&gt;{{.}}{{ with $.Site.Author.name }} ({{.}}){{end}}&lt;/webMaster&gt;{{end}}{{ with .Site.Copyright }}
+    &lt;copyright&gt;{{.}}&lt;/copyright&gt;{{end}}{{ if not .Date.IsZero }}
+    &lt;lastBuildDate&gt;{{ .Date.Format &quot;Mon, 02 Jan 2006 15:04:05 -0700&quot; | safeHTML }}&lt;/lastBuildDate&gt;{{ end }}
+    {{ with .OutputFormats.Get &quot;RSS&quot; }}
+        {{ printf &quot;&lt;atom:link href=%q rel=\&quot;self\&quot; type=%q /&gt;&quot; .Permalink .MediaType | safeHTML }}
+    {{ end }}
+    {{ range $pages }}
+    &lt;item&gt;
+      &lt;title&gt;{{ .Title }}&lt;/title&gt;
+      &lt;link&gt;{{ .Permalink }}&lt;/link&gt;
+      &lt;pubDate&gt;{{ .Date.Format &quot;Mon, 02 Jan 2006 15:04:05 -0700&quot; | safeHTML }}&lt;/pubDate&gt;
+      {{ with .Site.Author.email }}&lt;author&gt;{{.}}{{ with $.Site.Author.name }} ({{.}}){{end}}&lt;/author&gt;{{end}}
+      &lt;guid&gt;{{ .Permalink }}&lt;/guid&gt;
+      &lt;description&gt;
+        {{- $coverImage := .Resources.GetMatch &quot;cover*&quot; -}}
+        {{- if $coverImage -}}
+          &amp;lt;a href=&amp;#34;{{ .Permalink }}&amp;#34; title=&amp;#34;{{ .Title }}&amp;#34;&amp;gt;
+            &amp;lt;img src=&amp;#34;{{ ($coverImage.Resize &quot;600x&quot;).RelPermalink }}&amp;#34; alt=&amp;#34;{{ .Title }}&amp;#34;&amp;gt;
+          &amp;lt;/a&amp;gt;
+        {{- end -}}
+        {{ .Content | html }}
+      &lt;/description&gt;
+    &lt;/item&gt;
+    {{ end }}
+  &lt;/channel&gt;
+&lt;/rss&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That ought to do it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>What Else?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What else I could do with the feed?</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This <a href="http://www.rssboard.org/rss-profile">RSS Best Practices Profile</a> includes things I could tweak in my RSS   template, though that’s more about nice form than any urgent need.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="https://www.raymondcamden.com/2017/05/18/creating-a-json-feed-for-hugo/">Raymond Camden wrote a post</a> about adding a <a href="https://jsonfeed.org/">JSON Feed</a> to your Hugo site. It might be fun to do that here.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

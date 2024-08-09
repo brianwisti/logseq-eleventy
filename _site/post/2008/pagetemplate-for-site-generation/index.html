@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2008/PageTemplate for Site Generation
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2008-01-06</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>So I was looking at <a href="/post/2007/python-loves-blogger-part-1" class="page-link">post/2007/Python Loves Blogger (Part 1)</a> and I tried implementing the same thing in <a href="/ruby" class="page-link">Ruby</a>. <a href="https://code.google.com/p/gdata-ruby-util/">gdata-ruby</a> confusion stymied me. I still don’t know whether library issues or my own ignorance blocked me.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That, of course, set me off on yet another thought. What if I tried to define my posts in a <em class="link-missing">pagetemplate</em> file and used filters to handle the dirty work? Well, that might be a little challenge. But what if I used this approach to generate a whole Web site? Okay, yeah. That may have come out of nowhere for you. The truth is that I love static site generation tools, from <a href="http://zenspider.com/ZSS/Products/ZenWeb/index.html">ZenWeb</a> to <a href="http://webmake.taint.org">WebMake</a>. These tools appeal to me because <a href="/coolnamehere" class="page-link">coolnamehere</a> is a static site and I love anything which can give that pile of pages a common format without making heavy server demands. Honestly, loading up PHP just so I can have a templated site seems like overkill.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let’s see if I can build a site like coolnamehere with Ruby and PageTemplate. I plan to borrow heavily from ZenWeb, since there are a lot of things to like about the ZenSpider approach. I especially like   building a site from a collection of pages and a chain of filters. Hey, PageTemplate has filters thanks to Greg Millam. Why don’t I try <em>using</em> them?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Start Small</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I am going to start small, by teaching SiteTemplate about <a href="https://github.com/bhollis/maruku">Maruku</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It took me a bit of time to get that much done, because I needed to relearn how PageTemplate initializes. <em>Note to self: don’t ever go a full year without using your own library.</em></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The test is simple: create a template using the Maruku filter. Compare the output of that template with the text minus PageTemplate directives and fed into Maruku. The test passes if they look alike, or close enough.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">#!/usr/local/bin/ruby
+
+require 'rubygems'
+require 'test/unit'
+require 'sitetemplate'
+
+class TC_MarukuFilter &lt; Test::Unit::TestCase
+  require 'maruku'
+
+  def test_maruku_filter
+    content = &quot;This is a paragraph&quot;
+
+    # template_file contains the text &quot;[%filter :maruku%]This is a paragraph[%end%]&quot;
+    template_file = &quot;maruku.txt&quot;
+    maruku_doc = Maruku.new(content)
+    pt = PageTemplate.new()
+    pt.load(template_file)
+    assert_equal(maruku_doc.to_html + &quot;\n&quot;, pt.output,
+      &quot;Check if Maruku filter ran successfully&quot;)
+  end
+end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Then the code I needed to make that test pass:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">#!/usr/local/bin/ruby
+# Utility for generating a static site with PageTemplate
+
+require 'rubygems'
+require 'maruku'
+require 'pagetemplate'
+
+class PageTemplate
+  class DefaultPreprocessor
+    class &lt;&lt; self
+      def maruku(text)
+        return Maruku.new(text).to_html
+      end
+    end
+  end
+end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I cut corners by adding the <code>maruku</code> filter method to PageTemplate’s DefaultPreprocessor. PageTemplate’s internals need a little work, since this isn’t the prettiest way a person might want to add filters. It works well, but it’s not pretty.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That works well enough. Next time I’ll try a template filter, which puts the Maruku output into a template file of my choosing. That way we get the standard look for pages.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

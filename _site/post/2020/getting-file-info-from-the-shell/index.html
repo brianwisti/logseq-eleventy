@@ -1,0 +1,1127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2020/Getting File Info From The Shell
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2020-04-21</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><p><a href="https://hackers.town/@randomgeek/104038902820824748">Mastodon</a></p>
+</td>
+          </tr>
+        
+      
+        
+      
+        
+          <tr>
+            <th>banner</th>
+            <td><p>…/assets/cover-2020-04-21_1719421060064_0.jpg</p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>banner-caption</th>
+            <td><p>also, it is time to vacuum my desk again</p>
+</td>
+          </tr>
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="pinned"><header>pinned</header><p>Use <a href="https://en.wikipedia.org/wiki/File_(command)"><code>file</code></a> for everyday summaries. Use <a href="https://exiftool.org/">ExifTool</a> when you need to know <strong>everything</strong>.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>The Problem</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I am once again puttering around with my site.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I have an image here.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/basement-original_1719421175342_0.jpg" alt="basement-original.jpg"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Do I need to resize it? Should find out how big it is first.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ exa basement-original.jpg
+Permissions Size User   Date Modified Git Name
+.rw-rw-r--  131k random 20 Apr  9:04   -- basement-original.jpg
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>No I don’t mean file size. I mean geometry. How many pixels wide, and how many high? <a href="https://the.exa.website/">exa</a> <em>is</em> nifty though. You should try it out.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I don’t want to leave my shell session to do it either. Sure that’s just stubbornness on my part. I <em>could</em> get the necessary information from my desktop’s file browser, but I type quicker than I click.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>file</code> is everywhere</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>file</code> is a standard utility, which means it’s available on pretty much any Unix or Unix-like system you use. It works by matching a file’s internal details to entries in a <a href="https://linux.die.net/man/5/magic"><code>magic</code></a> database and reporting its findings. <code>magic</code> can be extended, though the details are beyond me for now.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ file basement-original.jpg
+basement-original.jpg: JPEG image data, JFIF standard 1.01, resolution (DPI), density 72x72, segment length 16, progressive, precision 8, 800x487, frames 3
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>basement-original.jpg</code> is a jpeg image. Yep, that checks out. Let’s see — 800x487. That looks like a geometry value. 800 pixels wide and 487 pixels high, if I remember the order right.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I want more detail, but this is all I can get from <code>file</code>. That’s what ExifTool is for.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>ExifTool knows everything</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>ExifTool lets me read and edit metadata for images, music, PDF, Word files, videos — a dizzying assortment of files are <a href="https://exiftool.org/#supported">supported</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You can install ExifTool with the downloads listed on <a href="https://exiftool.org/">its site</a> or using your favorite package manager.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ brew install exiftool
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Default usage returns every bit of information ExifTool thinks is relevant for the file type.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ exiftool basement-original.jpg
+ExifTool Version Number         : 11.85
+File Name                       : basement-original.jpg
+Directory                       : .
+File Size                       : 129 kB
+File Modification Date/Time     : 2020:04:20 09:04:28-07:00
+File Access Date/Time           : 2020:04:21 10:08:57-07:00
+File Inode Change Date/Time     : 2020:04:20 09:04:28-07:00
+File Permissions                : rw-rw-r--
+File Type                       : JPEG
+File Type Extension             : jpg
+MIME Type                       : image/jpeg
+JFIF Version                    : 1.01
+Resolution Unit                 : inches
+X Resolution                    : 72
+Y Resolution                    : 72
+Image Width                     : 800
+Image Height                    : 487
+Encoding Process                : Progressive DCT, Huffman coding
+Bits Per Sample                 : 8
+Color Components                : 3
+Y Cb Cr Sub Sampling            : YCbCr4:4:4 (1 1)
+Image Size                      : 800x487
+Megapixels                      : 0.390
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>800 pixels wide, 487 pixels high. I remembered correctly! While I’m here, let’s look at ways to fine-tune the output.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We could cut down on the noise by specifying the fields or tags we want to see.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ exiftool -ImageWidth -ImageHeight basement-original.jpg
+Image Width                     : 800
+Image Height                    : 487
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We could use <code>-S</code> for more compact output focused less on tabular layout.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ exiftool -S -ImageWidth -ImageHeight basement-original.jpg
+ImageWidth: 800
+ImageHeight: 487
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We could tell ExifTool to format its report for processing by <a href="/csv" class="page-link">CSV</a> or <a href="/json" class="page-link">JSON</a> tools.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ exiftool -j basement-original.jpg
+[{
+  &quot;SourceFile&quot;: &quot;basement-original.jpg&quot;,
+  &quot;ExifToolVersion&quot;: 11.85,
+  &quot;FileName&quot;: &quot;basement-original.jpg&quot;,
+  &quot;Directory&quot;: &quot;.&quot;,
+  &quot;FileSize&quot;: &quot;129 kB&quot;,
+  &quot;FileModifyDate&quot;: &quot;2020:04:20 09:04:28-07:00&quot;,
+  &quot;FileAccessDate&quot;: &quot;2020:04:21 10:08:57-07:00&quot;,
+  &quot;FileInodeChangeDate&quot;: &quot;2020:04:20 09:04:28-07:00&quot;,
+  &quot;FilePermissions&quot;: &quot;rw-rw-r--&quot;,
+  &quot;FileType&quot;: &quot;JPEG&quot;,
+  &quot;FileTypeExtension&quot;: &quot;jpg&quot;,
+  &quot;MIMEType&quot;: &quot;image/jpeg&quot;,
+  &quot;JFIFVersion&quot;: 1.01,
+  &quot;ResolutionUnit&quot;: &quot;inches&quot;,
+  &quot;XResolution&quot;: 72,
+  &quot;YResolution&quot;: 72,
+  &quot;ImageWidth&quot;: 800,
+  &quot;ImageHeight&quot;: 487,
+  &quot;EncodingProcess&quot;: &quot;Progressive DCT, Huffman coding&quot;,
+  &quot;BitsPerSample&quot;: 8,
+  &quot;ColorComponents&quot;: 3,
+  &quot;YCbCrSubSampling&quot;: &quot;YCbCr4:4:4 (1 1)&quot;,
+  &quot;ImageSize&quot;: &quot;800x487&quot;,
+  &quot;Megapixels&quot;: 0.390
+}]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Hang on. I feel compelled to be a bit fancy.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><em>Piping to <a href="https://github.com/BurntSushi/xsv">xsv</a> for aggregate information about site images.</em></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ exiftool -csv -r content \
+  | xsv search -s MIMEType 'image/.+' \
+  | xsv select ImageWidth,ImageHeight \
+  | xsv stats \
+  | xsv select field,min,max,mean \
+  | xsv table
+  682 directories scanned
+  419 image files read
+field        min  max   mean
+ImageWidth   27   5120  1337.1172248803825
+ImageHeight  27   4032  1009.7368421052624
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Hm. I must have some icon files in there somewhere.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>For more fun, point it at some music files. Heck, it will try to give useful information for text!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ exiftool index.adoc
+ExifTool Version Number         : 11.85
+File Name                       : index.adoc
+Directory                       : .
+File Size                       : 4.8 kB
+File Modification Date/Time     : 2020:04:21 12:58:13-07:00
+File Access Date/Time           : 2020:04:21 12:58:14-07:00
+File Inode Change Date/Time     : 2020:04:21 12:58:13-07:00
+File Permissions                : rw-rw-r--
+File Type                       : TXT
+File Type Extension             : txt
+MIME Type                       : text/plain
+MIME Encoding                   : us-ascii
+Newlines                        : Unix LF
+Line Count                      : 189
+Word Count                      : 619
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Here’s the <code>file</code> output in comparison.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ file index.adoc
+index.adoc: ASCII text
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I could probably write some <code>magic</code> configuration to get more information. But installing ExifTool was easier.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Good enough?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>file</code> is universally available and gave me the details I needed today. ExifTool gives me everything I needed and then some. I’ll most likely keep it available on my systems.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>And no, I’m not going to worry about resizing that image for now.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2015/iTunes to Rhythmbox
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2015-07-27</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I nearly wrote a script that transfers my iTunes logic from <a href="/post/2015/ruby-itunes-ratings-fun" class="page-link">post/2015/Ruby iTunes Ratings Fun</a> to <a href="https://wiki.gnome.org/Apps/Rhythmbox">Rhythmbox</a>. Instead I used Edgar Salgado’s version of <a href="https://github.com/esalgado/iTunesToRhythm">iTunesToRhythm</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>See, I have been spending most of my time lately in <a href="https://www.gnome.org/gnome-3/">GNOME 3</a> on <a href="https://www.opensuse.org">openSUSE</a> Linux. All of my music is copied over and loaded into <a href="https://wiki.gnome.org/Apps/Rhythmbox">Rhythmbox</a>, but I wanted to continue my quest to rate all of my music. I spent roughly an hour starting my own solution before realizing that this was probably a solved problem.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Salgado’s code is a fork of <a href="https://github.com/esanbock/ITunesToRhythm">another project</a>, but he won my heart because he wrote how to use his version.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ git clone git@github.com:esalgado/iTunesToRhythm.git
+$ cd iTunesToRhythm
+$ python iTunesToRhythm.py -w ~/Sync/iTunes\ Music\ Library.xml \
+  ~/.local/share/rhythmbox/rhythmdb.xml
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Some things about the process annoyed me. For some strange reason, not every iTunes entry included a file location. I manually fixed those. More annoying: the iTunes XML showed roughly 7,000 tracks as rated even though the iTunes application showed over 10,000 as rated. I chose to live with that. It’s only 3,000 tracks that I need to rate again.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><em>sigh</em></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Hey, let’s make a pretty picture.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">require 'nokogiri'
+require 'gruff'
+
+SOURCE = &quot;/home/brian/.local/share/rhythmbox/rhythmdb.xml&quot;
+
+rhythmdb = Nokogiri::XML File.open SOURCE
+songs = rhythmdb.xpath &quot;/rhythmdb/entry[@type='song']&quot;
+ratings = {}
+
+# Group the songs by rating.
+songs.each do |song|
+  rating = song.xpath(&quot;rating&quot;).text.to_i || 0
+  total_time = song.xpath(&quot;duration&quot;).text.to_i || 0
+  ratings[rating] ||= { songs: 0, time: 0 }
+  ratings[rating][:songs] += 1
+  ratings[rating][:time] += total_time
+end
+
+# Print it.
+puts 'Rating Songs Percent Duration'
+
+ratings.keys.sort.each do |rating|
+  song_count = ratings[rating][:songs]
+  total_seconds = ratings[rating][:time] #Rhythmbox uses seconds
+  seconds = total_seconds % 60
+  minutes = (total_seconds / 60) % 60
+  hours = (total_seconds / (60 * 60)) % 24
+  days = total_seconds / (60 * 60 * 24)
+
+  percentage = song_count.to_f() / songs.count.to_f() * 100.0
+  duration = format '%02d:%02d:%02d:%02d', days, hours, minutes, seconds
+  description = format '%6d %5d %6.1f%% %s', rating, song_count, percentage, duration
+  puts description
+
+# Graph it.
+data = ratings.map { |rating, info| [ rating, [ info[:songs]]] }
+
+graph = Gruff::Pie.new
+graph.title = &quot;Songs Grouped By Rating&quot;
+
+ratings.keys.sort.each { |rating| graph.data rating, ratings[rating][:songs] }
+
+graph.write &quot;song-pie.png&quot;
+</code></pre>
+<p>caption:: <code>graph-ratings.rb</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This calls for Nokogiri instead of <a href="https://github.com/bleything/plist">plist</a>, which gives me the opportunity to flex my amazing <a href="http://www.nokogiri.org/tutorials/searching_a_xml_html_document.html">XPath</a> skills. Nothing too complex. Thank goodness.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ ruby graph-ratings.rb
+Rating Songs Percent Duration
+	 0  8926   55.2% 24:13:00:24
+	 1   254    1.6% 00:19:49:30
+	 2   984    6.1% 02:21:42:54
+	 3  3932   24.3% 10:08:49:09
+	 4  1716   10.6% 04:10:50:01
+	 5   370    2.3% 00:23:16:01
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>How about that pretty picture?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/july-rhythmbox-song-pie_1721532628639_0.png" alt="july-rhythmbox-song-pie.png"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’ve made progress since March. It looks less like Pac Man now.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

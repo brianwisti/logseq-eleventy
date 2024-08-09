@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        2022-05-30
+      
+      </h2>
+      
+  
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><h2>&lt;2022-05-30 Mon 13:45&gt;</h2>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Having a fun day fiddling with the <a href="https://silentvoid13.github.io/Templater/">Templater</a> plugin for <a href="/obsidian" class="page-link">Obsidian</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/2022-05-30-obsidian_1712525864484_0.png" alt="2022-05-30-obsidian.png"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Here’s the template code I have at the moment, if that’s the sort of thing that interests you. Borrowed heavily from <a href="https://www.thoughtasylum.com/2022/03/29/auto-link-and-generate-page-in-obsidian/">ThoughtAsylum</a> and <a href="https://www.redgregory.com/obsidian-content/2021/11/17/15-templater-commands-for-obsidian">Red Gregory</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><h3><code>jot-insert.md</code></h3>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-js">&lt;%*
+// Jot title is a Zettel timestamp and optional topic
+const timestamp = tp.date.now(&quot;YYYYMMDDhhmm&quot;);
+let title = timestamp;
+
+const jotSubject = await tp.system.prompt(&quot;What's this jot about?&quot;);
+
+if (jotSubject) {
+ title = `${title} ${jotSubject}`;
+}
+
+// Where I keep my quick jots
+const targetPath = &quot;jots&quot;;
+
+// The template used to generate the new jot
+const templateName = &quot;_templates/jot-new&quot;;
+
+// Create the folder object
+let folder = app.vault.getAbstractFileByPath(targetPath);
+// Get the template file content
+let templateFile = await tp.file.find_tfile(templateName);
+let rawContent = await app.vault.read(templateFile);
+
+// Create the new file in the folder from the template (do not open it by default)
+await tp.file.create_new(rawContent, title, false, folder);
+
+// Insert a link at the current cursor position to the new file
+const link = `[[${title}]]`;
+tR += link;
+%&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Next I need a template to set content in the new file.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><h3><code>jot-new.md</code></h3>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">---
+&lt;%*
+const fileTitle = tp.file.title;
+let pageTitle = fileTitle;
+
+if (fileTitle.length &gt; 12) {
+ pageTitle = fileTitle.slice(13);
+}
+-%&gt;
+title: &lt;% pageTitle %&gt;
+created_at: &lt;% tp.file.creation_date() %&gt;
+tags:
+- jot
+---
+
+up:: &lt;% `[[${tp.file.creation_date('gggg-MM-DD')}]]` %&gt;
+
+# &lt;% pageTitle %&gt;
+
+&lt;% tp.file.cursor() %&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Got the <code>up::</code> link there for the <a href="https://skepticmystic.github.io/breadcrumbs/">Breadcrumbs</a>. That way the jot links back to whatever day I made the jot, even if it’s a jot for some unrelated topic. “When?” is as important of a question as “what?” when I’m trying to track my thoughts.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Looks a bit like <a href="https://zettelkasten.de">Zettelkasten</a>, but the only thing intentionally Zettel about it is the timestamp.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Been focusing on the less outliner-oriented note systems to simplify copy and paste to / from the outside world. But that means a single page can get unwieldy if I’m not careful. Now I can link out for stuff like meeting notes and whatever to keep my daily notes from become 10,000 word walls of text.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Oh and I know I can export from Org Mode to whatever I need for pasting. I may get there. This is an incremental process. Right now I’m dealing with the fact that most of my notes are in one flavor of Markdown or another.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

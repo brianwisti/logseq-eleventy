@@ -1,0 +1,2308 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2021/Creating a reStructuredText kbd Role
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><p>but first a couple others as I figure this out</p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2021-09-23</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+        
+          <tr>
+            <th>slug</th>
+            <td><p>restructuredtext-kbd-role</p>
+</td>
+          </tr>
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Today’s the day I learn how to create custom roles in <a href="/restructuredtext" class="page-link">reStructuredText</a>. There’s already <a href="https://docutils.sourceforge.io/docs/howto/rst-roles.html">documentation</a> on how to do this. I’m just applying it for my specific case.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Prologue: setup</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Install some stuff if you want to play along.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-bash">pip install -U docutils invoke
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Some of the requirements are specific to my writing flow.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-bash">pip install python-frontmatter
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>For experimentation, I copied the build code from <a href="/post/2021/trying-a-thing-with-neovim" class="page-link">post/2021/trying a thing with neovim</a> into the site’s <a href="/pyinvoke" class="page-link">Pyinvoke</a> task file. Easier than updating remote plugins and restarting the editor with every change.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">&quot;&quot;&quot;Site generation tasks for randomgeekery.org&quot;&quot;&quot;
+
+import locale
+
+import frontmatter
+import rich
+from docutils.core import publish_parts
+from invoke import task
+
+locale.setlocale(locale.LC_ALL, &quot;&quot;)
+
+
+def convert_rst_file_for_hugo(source_filename: str) -&gt; None:
+    &quot;&quot;&quot;Transform a single reStructuredText file so Hugo can handle it.&quot;&quot;&quot;
+
+    target_filename = determine_target(source_filename)
+    post = frontmatter.load(source_filename)
+    parts = publish_parts(source=post.content, writer_name=&quot;html&quot;)
+    post.content = parts[&quot;body&quot;]
+    post.metadata[&quot;format&quot;] = &quot;rst&quot;
+
+    with open(target_filename, &quot;w&quot;) as out:
+        out.write(frontmatter.dumps(post))
+        rich.print(f&quot;:crayon: {target_filename}&quot;)
+
+
+def determine_target(source: str) -&gt; str:
+    &quot;&quot;&quot;Return the filename that rst transformations should write to.&quot;&quot;&quot;
+
+    # Using an odd suffix so Hugo doesn't try to build the rst itself
+    if not source.endswith(&quot;.rst.txt&quot;):
+        raise ValueError(f&quot;Look at {source} more closely before transforming it.&quot;)
+
+    return source.replace(&quot;.rst.txt&quot;, &quot;.html&quot;)
+
+
+@task
+def rst(c, filename):
+    &quot;&quot;&quot;Transform a single reStructuredText file.&quot;&quot;&quot;
+
+    convert_rst_file_for_hugo(filename)
+</code></pre>
+<p>caption:: <code>tasks.py</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Then I use Invoke to do the transform:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ inv content/draft/creating-a-restructuredtext-kbd-role/index.rst.txt
+🖍 content/draft/creating-a-restructuredtext-kbd-role/index.html
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Some variation of this is bound to work for you.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let’s get started!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>What even is a role</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>First, we need the background. There’s this thing called <em>interpreted text</em>. It’s a reserved bit of functionality for specially marked text. Folks coming to reStructuredText from Markdown mostly know it as the weird reason they have to use double backticks for <code>code</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-rst">`interpreted text`
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Interpreted text has all sorts of fancy potential. I mainly know it for the fact that rst links use it. Unless told otherwise, <a href="https://docutils.sourceforge.io/">Docutils</a> treats interpreted text as a citation.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-html">&lt;cite&gt;interpreted text&lt;/cite&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It assumes any interpreted text is <code>:title-reference:</code> — that is, it references the title of a book, movie, song, or other publication.  The <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/cite"><code>cite</code></a> element is a perfectly reasonable choice for that.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>But what if you aren’t specifically talking about a title? <em>Roles</em> provide an explicit label for your interpreted text.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-rst">:term:`Roles`
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What’s a <code>:term:</code> in rst? Nothing. I made it up. Seems like a good role for when I introduce a new name and I want it to stand out.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I need to define the role to use it. Otherwise?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/docutils-unknown-role_1721569223981_0.png" alt="docutils-unknown-role.png"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>So up at the top of my document use the <a href="https://docutils.sourceforge.io/docs/ref/rst/directives.html#custom-interpreted-text-roles">role directive</a> to create <code>:term:</code> and register it with the parser.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-rst">.. role:: term
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now that Docutils knows about the role, it can turn it into HTML.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-html">&lt;span class=&quot;term&quot;&gt;Roles&lt;/span&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It still doesn’t have any inherent <em>meaning</em>, but I can put some style rules on it so that anything I label with the <code>:term:</code> role shows up a little differently.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Inline roles in your document</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>If I want the term to stand out a little more, I can adjust my role definition.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-rst">.. role:: term(strong)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now it inherits from the <code>:strong:</code> role, keeping the <code>&quot;term&quot;</code> CSS class.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-html">&lt;strong class=&quot;term&quot;&gt;Roles&lt;/strong&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You can inherit from any role. That makes it a nice way to create aliases or slight variations to existing roles.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>But I want to get fancy. Let’s look at defining reStructuredText roles in Python.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Defining roles in your code</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Defining a role has two main steps. Okay, three. Because first we need to import some libraries.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">from docutils import nodes
+from docutils.parsers.rst import roles
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><em>Now</em> we create a function that knows what to do when given a role and some preprocessed parameters.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">def role_term(name, rawtext, text, lineno, inliner, options={}, content=[]):
+    &quot;&quot;&quot;Return text marked as domain terminology.&quot;&quot;&quot;
+    ...
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That’s quite a function signature to take in without context, so here’s a breakdown of what got sent when Docutils saw my first <code>:term:`Roles</code>:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <table>
+<thead>
+<tr>
+<th>parameter</th>
+<th>value</th>
+<th>explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td><code>term</code></td>
+<td>the role name</td>
+</tr>
+<tr>
+<td><code>rawtext</code></td>
+<td><code>:term:`Roles</code></td>
+<td>all text input including role and markup</td>
+</tr>
+<tr>
+<td><code>text</code></td>
+<td><code>Roles</code></td>
+<td>the interpreted text content</td>
+</tr>
+<tr>
+<td><code>lineno</code></td>
+<td><code>103</code></td>
+<td>the interpreted text starts on this line</td>
+</tr>
+<tr>
+<td><code>inliner</code></td>
+<td><code>&lt;docutils…Inliner object at …&gt;</code></td>
+<td>the object that called this function</td>
+</tr>
+<tr>
+<td><code>options</code></td>
+<td><code>{}</code></td>
+<td>a dictionary of customization options</td>
+</tr>
+<tr>
+<td><code>content</code></td>
+<td><code>[]</code></td>
+<td>a list of strings containing text content</td>
+</tr>
+</tbody>
+</table>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I won’t pretend I know how to use all these yet. That’s okay. <code>role_term</code> only cares about three:</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>rawtext</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>text</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>options</code> — just in case</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I chose to mirror the inline directive I made earlier, creating a <code>strong</code> node with a class of <code>&quot;term&quot;</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">term_node = nodes.strong(rawtext, text, **options)
+term_node.set_class(&quot;term&quot;)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Anyone calling <code>role_term</code> expects a tuple with two node lists: one for content, and another holding any error nodes I may need to create. In this case the content list has my term node and the error list is empty.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">return [term_node], []
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>With our role implementation defined, we register it and the name associated with it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">def role_term(name, rawtext, text, lineno, inliner, options={}, content=[]):
+    &quot;&quot;&quot;Return text marked as domain terminology.&quot;&quot;&quot;
+
+    term_node = nodes.strong(rawtext, text, **options)
+    term_node.set_class(&quot;term&quot;)
+
+    return [term_node], []
+
+roles.register_canonical_role('term', role_term)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I don’t need my inline <code>role</code> directive anymore, so I remove it. Registering <code>role_term</code> makes it available to every document processed by this particular Python script.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Okay, now I basically know how to implement a reStructuredText role. Let’s keep going.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>:tag:</code> references</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I link to tags on this site frequently. Since I’m the main audience for this site, it’s mostly to give me a shortcut to related content. But hey it may help <em>you</em> find related content to if you happen to click through.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Couple of problems with those tag links, though. First off, they look exactly like every other link in my published HTML. It would be nice for them to stand out a bit when I’m reading. Second, they look like every other link in my post source. It would be nice for them to stand out a bit when I’m <em>writing</em>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>So let’s make a <code>:tag:</code> reference role.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">def role_reference_tag(
+    name, rawtext, text, lineno, inliner, options={}, content=[]
+):
+    &quot;&quot;&quot;Return a reference to a site tag.&quot;&quot;&quot;
+
+    tag_ref = f&quot;/tags/{text}&quot;
+    tag_node = nodes.reference(rawtext, text, refuri=tag_ref, **options)
+    tag_node.set_class(&quot;p-category&quot;)
+
+    return [tag_node], []
+
+roles.register_canonical_role('tag', role_reference_tag)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I thought about putting the <code>#</code> in CSS, but not every <code>p-category</code> is a tag. I can always change my mind later, maybe make a distinct <code>tag</code> CSS class.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It looks similar to <code>:term:</code>, except because I’m referencing something I use a <code>reference</code> node and give it a link to that tag’s page as <code>refuri</code>.  The <code>p-category</code> class is a <em class="link-missing">microformats2</em> thing for <a href="/indieweb" class="page-link">IndieWeb</a>. I also decided to prefix my tag text with the traditional octothorpe used to mark tags out in the wild.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-rst">:tag:`microformats`
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Oh yes that is <em>much</em> nicer to read than a standard reStructuredText link.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-html">&lt;a class=&quot;p-category reference external&quot; href=&quot;/tags/microformats&quot;&gt;#microformats&lt;/a&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There’s my <code>p-category</code> class, along with an unsurprising <code>reference</code> — since it’s a clear way to indicate the reference node I used — and a slightly confusing <code>external</code> class. Pretty sure that means “external to the document.”</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>A <code>:kbd:</code> role</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Something I need rather often is a way to indicate keyboard input. <kbd>Control</kbd> <kbd>c</kbd>, stuff like that.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">def role_kbd(name, rawtext, text, lineno, inliner, options={}, content=[]):
+    &quot;&quot;&quot;Return literal text marked as keyboard input.&quot;&quot;&quot;
+
+    kbd_node = nodes.literal(rawtext, text, **options)
+    kbd_node.set_class(&quot;keyboard&quot;)
+
+    return [kbd_node], []
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-rst">:kbd:`Control c`
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-html">&lt;tt class=&quot;keyboard docutils literal&quot;&gt;Control c&lt;/tt&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Well that was easy. A bit verbose, but okay. That’s not the real problem though.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>There’s a perfectly good <code>&lt;kbd&gt;</code> element</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This blog is HTML, right? Can’t I just use the <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/kbd"><code>kbd</code></a> element in my role?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Yes, but kind of no. It’s considered poor form to put raw HTML in your output nodes. Docutils writes all sorts of content, and a <code>&lt;kbd&gt;</code> would be pretty ungainly sitting in a PDF. Ideally you’d take care of writing HTML in an HTML Writer. Unfortunately, I have no idea how to work an HTML Writer yet.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>But we <em>can</em> output raw HTML in a role implementation. It would be frowned on slightly less if we flagged it as a raw role.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">import html
+
+def role_raw_kbd(name, rawtext, text, lineno, inliner, options={}, content=[]):
+    &quot;&quot;&quot;Return literal text marked as keyboard input.&quot;&quot;&quot;
+
+    escaped_text = html.escape(text)
+    kbd_html = f&quot;&lt;kbd&gt;{escaped_text}&lt;/kbd&gt;&quot;
+    options[&quot;format&quot;] = &quot;html&quot;
+    kbd_node = nodes.raw(rawtext, kbd_html, **options)
+
+    return [kbd_node], []
+
+
+roles.register_canonical_role('raw-kbd', role_raw_kbd)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Better pull in the <a href="https://docs.python.org/3/library/html.html">html</a> standard library and escape that text. Otherwise I’d feel awful silly when talking about indenting with <code>&gt;&gt;</code> in <a href="/vim" class="page-link">Vim</a> or something and it breaks the whole page.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-rst">:raw-kbd:`&gt;&gt;`
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Yeah, that works. It’s not too bad to look at while writing.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-html">&lt;kbd&gt;&amp;lt;&amp;lt;&lt;/kbd&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>And there we go. An honest to goodness <code>&lt;kbd&gt;</code> element. And <code>:raw-kbd:</code> will be easier to search for if and when I get around to custom HTML Writers.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Figuring out a role for keyboard input was the reason I started writing this post — though my favorite new role is <code>:tag:</code>. Anyways, I think this is a good spot to stop writing and start editing.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Wrap it up</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>…pardon me while I copy those role functions back into my Neovim plugin…</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Well that was fun. I wanted a role for keyboard input, and I got it. Plus, my tags are a little easier to find in the page. <em>And</em> I have a <code>:term:</code> role for when I’m feeling pedagogical.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Cool.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Roles are just a first step in customizing Docutils output. No idea when I’ll get to the rest. You can learn more for yourself with Docutils and heavily customized publishing environments like <a href="https://www.sphinx-doc.org/en/master/">Sphinx</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Me, I’m just having a grand time embedding this whole authoring flow in the middle of my <a href="/hugo" class="page-link">Hugo</a> site. May want to think about a new theme though if I’m going to continue with Hugo. Perhaps borrow from Alexander Carlton’s <a href="https://www.fisodd.com/code/b-side/">Hugo B-side</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

@@ -1,0 +1,2203 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2007/Python Loves Blogger (Part 1)
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2007-12-28</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’ve revisited the code for Blogger posting with Python. <a href="/post/2009/python-blogger-refresh-part-1" class="page-link">post/2009/Python Blogger Refresh, Part 1</a> is the new starting point.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>The Original Tale</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I want the ability to post to my blogs from the command line. That’s because I prefer to do <em>everything</em> from the command line, but that’s not really the point. The point is that I want an excuse to write a new quick script and satisfy that constant urge to gain some new superpower. Okay, so blogging’s not a superpower. Hush.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’m writing this into a text file via <a href="/vim" class="page-link">Vim</a>. It is written in a format known as <a href="/markdown" class="page-link">Markdown</a>, because I hate writing HTML by hand these days. It will eventually manifest as an HTML formatted post on my Blogger account.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>All of the hard work is going to be done with <a href="/python" class="page-link">Python</a>. Why Python? Mainly because the <em>Google Blogger API</em> is supported rather well by Python. They love their snake-based languages at Google, and it shows in the <em>GData Python Client</em> library.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I could just as easily have used Perl or Ruby for this project. Heck, I could have used REBOL for this project if I was willing to craft some of the library by hand. All of these things are possibilities for the future. One thing I love to do is reimplement applications in various languages. It’s a sickness.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>The Application Skeleton</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Basic usage will be <code>python post-to-blog.py post.txt</code>. <code>post.txt</code> is a text file containing details like title or tags and the post body.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Here’s the basic pseudo-code that will work fine for simple posts.</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>load global settings such as login and account URL</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>create a local blog post based on the configuration and body from contents of <code>post.txt</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>request that Blogger publish this post</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>report the results of the request</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It’s fairly straightforward, but already shows me one class I’ll be using to mask the details:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python"># post-to-blog.py
+
+class BlogPost(object):
+    &quot;&quot;&quot;A single posting for a blog owned by a Blogger account&quot;&quot;&quot;
+
+if __name__ == '__main__':
+   import doctest
+   doctest.testmod()
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I plan to use the <a href="https://docs.python.org/2/library/doctest.html">doctest</a> module to incorporate tests as I write this. It’ll get invoked if the script is run directly. I’ll put in some command line parsing later so that the tests can stillbe run but it doesn’t have to be the default behavior.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I already know what libraries I’m going to use, so let’s install those.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Installing Dependencies</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I need a few things to make this work:</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="http://activestate.com/Products/activepython/">ActiveState Python 2.5.1</a>, because I am not in the mood to compile anything today</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>the <a href="https://pypi.python.org/pypi/Markdown">Python Markdown</a> library, to handle the formatting</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>the GData Python Client, because that’s the whole reason I’m starting with Python instead of another language</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>a Blogger account; seemed obvious, but I thought I’d mention it</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I already have Python installed, so let’s move on to Markdown. It’s simple enough to install and verify.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>~/src/pymods brian$ unzip ~/python_markdown-1.7.rc1.zip
+~/src/pymods brian$ cd python_markdown-1.7/
+~/src/pymods/python_markdown-1.7 brian$ sudo python setup.py install
+~/src/pymods/python_markdown-1.7 brian$ python
+ActivePython 2.5.1.1 (ActiveState Software Inc.) based on
+Python 2.5.1 (r251:54863, May  1 2007, 17:40:00)
+[GCC 4.0.1 (Apple Computer, Inc. build 5250)] on darwin
+Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
+&gt;&gt;&gt; import markdown
+&gt;&gt;&gt; markdown.markdown(&quot;# Hello&quot;)
+u'&lt;h1&gt;Hello&lt;/h1&gt;'
+&gt;&gt;&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Next I’ll install GData.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>~/src/pymods brian$ tar xfvz ~/gdata.py-1.0.10.latest.tar.gz
+~/src/pymods/gdata.py-1.0.10.1 brian$ cd gdata.py-1.0.10.1/
+~/src/pymods/gdata.py-1.0.10.1 brian$ sudo python setup.py install
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What can I do to verify this one? Let’s just run the provided sample Blogger code.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ cd samples/blogger
+$ python BloggerExample.py --email [email] --password [password]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There’s a bunch of spew, and posts are made and deleted along with comments. Looks like it works.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Posting Formats</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>My blog post files will have a fairly straightforward layout, with a head section and a body section. It’ll look … well, it’ll look a lot like the <code>lj-compose</code> buffer in Emacs for composing Livejournal posts, now that I think about it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-markdown">title: Python Loves Blogger
+tags: python,gdata,project,blogger
+--
+I want the ability to post to my blogs from the command line. That's because
+I prefer to do *everything* from the command line, but that's not really the
+point. The point is that I want an excuse to write a new quick script and
+satisfy that constant urge to gain some new superpower. Okay, so blogging's
+not a superpower. Hush.
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The two sections are separated by a line containing only the characters <code>--</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The head section uses a common format where each line contains a key and its value, with a colon and space combo <code>:</code> separating them. The keys and values in a blog posting contain details that are important to Blogger and unique to this particular file. Right now that means I’m only using <em>title</em> and <em>tags</em>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’ll just use commas for now when listing multiple values for a single key, such as with tags.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>key1: value1
+key2: value2,value3,value4,value5
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The body section is just Markdown-formatted text, including extensions that are available in the Python Markdown library.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Parsing the Config Header</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There is a very handy <a href="https://docs.python.org/2/library/configparser.html">ConfigParser</a> class available in the Python standard libs, but it’s actually a little more than I need in a single post file. I just want to examine each line for key/value pairings without worrying about providing sections or a filehandle-like object
+to make ConfigParser happy.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">class BlogPost(object):
+   &quot;&quot;&quot;A single posting for a blog owned by a Blogger account
+   &quot;&quot;&quot;
+
+   def __init__(self):
+       self.__config = {}
+
+   def parseConfig(self, configText):
+       &quot;&quot;&quot;Reads and stores the directives from the post's config header.
+
+       &gt;&gt;&gt; post = BlogPost()
+       &gt;&gt;&gt; import os
+       &gt;&gt;&gt; myConfig = os.linesep.join([&quot;key1: value1&quot;, &quot;key2: value2&quot;])
+       &gt;&gt;&gt; post.parseConfig(myConfig)
+       &gt;&gt;&gt; post.getConfig('key1')
+       'value1'
+       &gt;&gt;&gt; post.getConfig('key2')
+       'value2'
+       &quot;&quot;&quot;
+       textLines = configText.splitlines()
+       for line in textLines:
+           key, value = line.split(': ')
+           self.__config[key] = value
+
+   def getConfig(self, key):
+   &quot;&quot;&quot;Fetch the value of a config directive&quot;&quot;&quot;
+       return self.__config[key]
+
+if __name__ == '__main__':
+   import doctest
+   doctest.testmod()
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That was pretty easy, although I did have to do a little thinking to work around the fact that newline escapes tend to be read before <code>doctest</code> can get to them. Anyways, config lines are split on the <code>: </code> pair of characters. A regular expression might be better for general use but I’m still going for quick, dirty, and exactly what <em>I</em> want.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Parsing the Post Body</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now let’s get some HTML out of a block of Markdown-formatted text.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">import markdown
+
+class BlogPost(object):
+   &quot;&quot;&quot;A single posting for a blog owned by a Blogger account
+   &quot;&quot;&quot;
+
+   def __init__(self):
+       self.__config = {}
+       self.__body = None
+
+   def parseBody(self, bodyText):
+       &quot;&quot;&quot;Generates HTML from Markdown-formatted text.
+
+       &gt;&gt;&gt; post = BlogPost()
+       &gt;&gt;&gt; post.parseBody('This is a paragraph')
+       &gt;&gt;&gt; post.getBody().find('&lt;p&gt;This is a paragraph')
+       0
+       &quot;&quot;&quot;
+       self.__body = markdown.markdown(bodyText)
+
+   def parseConfig(self, configText):
+       &quot;&quot;&quot;Reads and stores the directives from the post's config header.
+
+       &gt;&gt;&gt; post = BlogPost()
+       &gt;&gt;&gt; import os
+       &gt;&gt;&gt; myConfig = os.linesep.join([&quot;key1: value1&quot;, &quot;key2: value2&quot;])
+       &gt;&gt;&gt; post.parseConfig(myConfig)
+       &gt;&gt;&gt; post.getConfig('key1')
+       'value1'
+       &gt;&gt;&gt; post.getConfig('key2')
+       'value2'
+       &quot;&quot;&quot;
+       textLines = configText.splitlines()
+       for line in textLines:
+           key, value = line.split(': ')
+           self.__config[key] = value
+
+   def getBody(self):
+       &quot;&quot;&quot;Fetch the HTML body of this post.&quot;&quot;&quot;
+       return self.__body
+
+   def getConfig(self, key):
+       &quot;&quot;&quot;Fetch the value of a config directive&quot;&quot;&quot;
+       return self.__config[key]
+
+if __name__ == '__main__':
+   import doctest
+   doctest.testmod()
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Those <code>doctest</code> tests are starting to look a little contorted. <code>BlogPost.__config</code> is really just   dictionary, and I don’t really care whether it is private to the object. Let’s make the adjustments in <code>__init__</code> and <code>parseConfig</code>. We don’t need <code>getConfig</code> now that we have direct access to the dictionary.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>As long as we’re refactoring, I’d prefer it if the message body could be treated as a property. Setting it would store the string, while getting it would invoke markup and return the result.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">import markdown
+
+class BlogPost(object):
+   &quot;&quot;&quot;A single posting for a blog owned by a Blogger account
+
+   &gt;&gt;&gt; post = BlogPost()
+   &gt;&gt;&gt; post.body = 'This is a paragraph'
+   &gt;&gt;&gt; print post.body
+   &lt;p&gt;This is a paragraph
+   &lt;/p&gt;
+   &quot;&quot;&quot;
+
+   def __init__(self):
+       self.config = {}
+       self.__body = None
+
+   def set_body(self, bodyText):
+       &quot;&quot;&quot;Stores plain text which will be used as the post body
+
+       &gt;&gt;&gt; post = BlogPost()
+       &gt;&gt;&gt; post.set_body('This is a paragraph')
+       &gt;&gt;&gt;
+       &quot;&quot;&quot;
+       self.__body = bodyText
+
+   def get_body(self):
+       &quot;&quot;&quot;Access a HTML-formatted version of the post body
+
+       &gt;&gt;&gt; post = BlogPost()
+       &gt;&gt;&gt; post.set_body('This is a paragraph')
+       &gt;&gt;&gt; print post.get_body()
+       &lt;p&gt;This is a paragraph
+       &lt;/p&gt;
+       &quot;&quot;&quot;
+       return markdown.markdown(self.__body)
+
+   body = property(get_body, set_body)
+
+   def parseConfig(self, configText):
+       &quot;&quot;&quot;Reads and stores the directives from the post's config header.
+
+       &gt;&gt;&gt; post = BlogPost()
+       &gt;&gt;&gt; import os
+       &gt;&gt;&gt; myConfig = os.linesep.join([&quot;key1: value1&quot;, &quot;key2: value2&quot;])
+       &gt;&gt;&gt; post.parseConfig(myConfig)
+       &gt;&gt;&gt; post.config['key1']
+       'value1'
+       &gt;&gt;&gt; post.config['key2']
+       'value2'
+       &quot;&quot;&quot;
+       textLines = configText.splitlines()
+       for line in textLines:
+           key, value = line.split(': ')
+           self.config[key] = value
+
+if __name__ == '__main__':
+   import doctest
+   doctest.testmod()
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Command Line Options</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Before I get too carried away, I want to make sure that there are no ugly surprises in the formatting of my posts. Let’s do the heavy lifting with <a href="https://docs.python.org/2/library/optparse.html">optparse</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">import markdown
+
+class BlogPost(object):
+   &quot;&quot;&quot;A single posting for a blog owned by a Blogger account
+
+   &gt;&gt;&gt; post = BlogPost()
+   &gt;&gt;&gt; post.body = 'This is a paragraph'
+   &gt;&gt;&gt; print post.body
+   &lt;p&gt;This is a paragraph
+   &lt;/p&gt;
+   &quot;&quot;&quot;
+
+   def __init__(self):
+       self.config = {}
+       self.__body = None
+
+   def set_body(self, bodyText):
+       &quot;&quot;&quot;Stores plain text which will be used as the post body
+
+       &gt;&gt;&gt; post = BlogPost()
+       &gt;&gt;&gt; post.set_body('This is a paragraph')
+       &gt;&gt;&gt;
+       &quot;&quot;&quot;
+       self.__body = bodyText
+
+   def get_body(self):
+       &quot;&quot;&quot;Access a HTML-formatted version of the post body
+
+       &gt;&gt;&gt; post = BlogPost()
+       &gt;&gt;&gt; post.set_body('This is a paragraph')
+       &gt;&gt;&gt; print post.get_body()
+       &lt;p&gt;This is a paragraph
+       &lt;/p&gt;
+       &quot;&quot;&quot;
+       return markdown.markdown(self.__body)
+
+   body = property(get_body, set_body)
+
+   def parseConfig(self, configText):
+       &quot;&quot;&quot;Reads and stores the directives from the post's config header.
+
+       &gt;&gt;&gt; post = BlogPost()
+       &gt;&gt;&gt; import os
+       &gt;&gt;&gt; myConfig = os.linesep.join([&quot;key1: value1&quot;, &quot;key2: value2&quot;])
+       &gt;&gt;&gt; post.parseConfig(myConfig)
+       &gt;&gt;&gt; post.config['key1']
+       'value1'
+       &gt;&gt;&gt; post.config['key2']
+       'value2'
+       &quot;&quot;&quot;
+       textLines = configText.splitlines()
+       for line in textLines:
+           key, value = line.split(': ')
+           self.config[key] = value
+
+   def parsePost(self, postText):
+       &quot;&quot;&quot;Parses the contents of a full post, including header and body.
+
+       &gt;&gt;&gt; import os
+       &gt;&gt;&gt; myText = os.linesep.join([&quot;title: Test&quot;, &quot;--&quot;, &quot;This is a test&quot;])
+       &gt;&gt;&gt; post = BlogPost()
+       &gt;&gt;&gt; post.parsePost(myText)
+       &gt;&gt;&gt; print post.config['title']
+       Test
+       &gt;&gt;&gt; print post.body
+       &lt;p&gt;This is a test
+       &lt;/p&gt;
+       &quot;&quot;&quot;
+
+       header, body = postText.split('--', 1)
+       self.parseConfig(header)
+       self.body = body
+
+def runTests():
+   import doctest
+   doctest.testmod()
+
+def main():
+   from optparse import OptionParser
+   parser = OptionParser()
+   parser.add_option(&quot;-D&quot;, &quot;--do-tests&quot;, action=&quot;store_true&quot;, dest=&quot;doTests&quot;,
+                     help=&quot;Run built-in doctests&quot;)
+   parser.add_option(&quot;-f&quot;, &quot;--file&quot;, dest=&quot;filename&quot;,
+                     help=&quot;Specify source file for post&quot;)
+   (options, args) = parser.parse_args()
+
+   if options.doTests:
+       runTests()
+
+   post = BlogPost()
+
+   if options.filename:
+       postFile = open(options.filename).read()
+       post.parsePost(postFile)
+       print post.body
+
+if __name__ == '__main__':
+   main()
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You’ll have to just take my word for it that I wrote tests for each stage. Well, except for verifying that the final output looked roughly like what I hoped for. I’m not 100% sure how Markdown is going to place its newlines, so I am looking at the output via STDOUT:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ ./post-to-blog.py -f post.txt | more
+&lt;p&gt;I want the ability to post to my blogs from the command line. That's because
+  I prefer to do &lt;em&gt;everything&lt;/em&gt; from the command line, but that's not really the
+  point. The point is that I want an excuse to write a new quick script and
+  satisfy that constant urge to gain some new superpower. Okay, so blogging's
+  not a superpower. Hush.
+&lt;/p&gt;
+...
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’ll save you the details of the full output. It looked about right, though.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Enough stalling. It’s time to login and post this article.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Interacting with Blogger</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’ll be using <a href="https://developers.google.com/blogger/docs/3.0/getting_started">the official guide</a> for Python and Blogger to choose my steps. You aren’t likely to find anything here that isn’t already there.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p><em class="link-missing">2015-03-28</em>: The “official guide” link is newer than this post, and you should favor its lessons over these.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">import markdown
+from xml.etree import ElementTree
+from gdata import service
+import gdata
+import atom
+import sys
+
+class BlogPost(object):
+   &quot;&quot;&quot;A single posting for a blog owned by a Blogger account
+
+   &gt;&gt;&gt; post = BlogPost()
+   &gt;&gt;&gt; post.body = 'This is a paragraph'
+   &gt;&gt;&gt; print post.body
+   &lt;p&gt;This is a paragraph
+   &lt;/p&gt;
+   &quot;&quot;&quot;
+
+   def __init__(self):
+       self.config = {}
+       self.__body = None
+
+   def set_body(self, bodyText):
+       &quot;&quot;&quot;Stores plain text which will be used as the post body
+
+       &gt;&gt;&gt; post = BlogPost()
+       &gt;&gt;&gt; post.set_body('This is a paragraph')
+       &gt;&gt;&gt;
+       &quot;&quot;&quot;
+       self.__body = bodyText
+
+   def get_body(self):
+       &quot;&quot;&quot;Access a HTML-formatted version of the post body
+
+       &gt;&gt;&gt; post = BlogPost()
+       &gt;&gt;&gt; post.set_body('This is a paragraph')
+       &gt;&gt;&gt; print post.get_body()
+       &lt;p&gt;This is a paragraph
+       &lt;/p&gt;
+       &quot;&quot;&quot;
+       return markdown.markdown(self.__body)
+
+   body = property(get_body, set_body)
+
+   def parseConfig(self, configText):
+       &quot;&quot;&quot;Reads and stores the directives from the post's config header.
+
+       &gt;&gt;&gt; post = BlogPost()
+       &gt;&gt;&gt; import os
+       &gt;&gt;&gt; myConfig = os.linesep.join([&quot;key1: value1&quot;, &quot;key2: value2&quot;])
+       &gt;&gt;&gt; post.parseConfig(myConfig)
+       &gt;&gt;&gt; post.config['key1']
+       'value1'
+       &gt;&gt;&gt; post.config['key2']
+       'value2'
+       &quot;&quot;&quot;
+       textLines = configText.splitlines()
+       for line in textLines:
+           key, value = line.split(': ')
+           self.config[key] = value
+
+   def parsePost(self, postText):
+       &quot;&quot;&quot;Parses the contents of a full post, including header and body.
+
+       &gt;&gt;&gt; import os
+       &gt;&gt;&gt; myText = os.linesep.join([&quot;title: Test&quot;, &quot;--&quot;, &quot;This is a test&quot;])
+       &gt;&gt;&gt; post = BlogPost()
+       &gt;&gt;&gt; post.parsePost(myText)
+       &gt;&gt;&gt; print post.config['title']
+       Test
+       &gt;&gt;&gt; print post.body
+       &lt;p&gt;This is a test
+       &lt;/p&gt;
+       &quot;&quot;&quot;
+
+       header, body = postText.split('--', 1)
+       self.parseConfig(header)
+       self.body = body
+
+   def sendPost(self, username, password):
+       &quot;&quot;&quot;Log into Blogger and submit my already parsed post&quot;&quot;&quot;
+       blogger = service.GDataService(username, password)
+       blogger.source = 'post-to-blog.py_v01.0'
+       blogger.service = 'blogger'
+       blogger.server = 'www.blogger.com'
+       blogger.ProgrammaticLogin()
+
+       query = service.Query()
+       query.feed = '/feeds/default/blogs'
+       feed = blogger.Get(query.ToUri())
+       blog_id = feed.entry[0].GetSelfLink().href.split(&quot;/&quot;)[-1]
+
+       entry = gdata.GDataEntry()
+       entry.author.append(atom.Author(atom.Name(text=username)))
+       entry.title = self.config['title']
+       entry.content = atom.Content('html', '', self.body)
+       blogger.Post(entry, '/feeds/' + blog_id + '/posts/default')
+
+def runTests():
+   import doctest
+   doctest.testmod()
+
+def main():
+   from optparse import OptionParser
+   parser = OptionParser()
+   parser.add_option(&quot;-D&quot;, &quot;--do-tests&quot;, action=&quot;store_true&quot;, dest=&quot;doTests&quot;,
+                     help=&quot;Run built-in doctests&quot;)
+   parser.add_option(&quot;-f&quot;, &quot;--file&quot;, dest=&quot;filename&quot;,
+                     help=&quot;Specify source file for post&quot;)
+   parser.add_option(&quot;-u&quot;, &quot;--user&quot;, dest=&quot;username&quot;,
+                     help=&quot;Blogger account name&quot;)
+   parser.add_option(&quot;-p&quot;, &quot;--password&quot;, dest=&quot;password&quot;,
+                     help=&quot;Blogger account password&quot;)
+   (options, args) = parser.parse_args()
+
+   if options.doTests:
+       runTests()
+
+   post = BlogPost()
+
+   if options.filename and options.username and options.password:
+       postFile = open(options.filename).read()
+       post.parsePost(postFile)
+       post.sendPost(options.username, options.password)
+
+if __name__ == '__main__':
+   main()
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I haven’t figured out tags/labels yet, but let’s see how well this works. If you see this post, then I’ll know that Part 1 of my little quest is complete!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Um … okay, no. That didn’t work. I got a couple syntax and library errors, but after fixing those I still got an error code <code>bX-y33b4h</code>. <a href="http://groups.google.com/group/bloggerDev/browse_thread/thread/5788317a11c21268">This thread</a> showed me that I wasn’t alone, but didn’t do much to solve my problem. I’ll have to look at the sample code that is in the python gdata distribution.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>… later …</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That posted, but I lost all the line breaks in my <code>pre</code> blocks. I decided to pick a new  template, and that seemed to do the trick. I will <em>definitely</em> be fine tuning that template as I move along.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>At some point I’ll figure out how to add labels.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>The Code So Far</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This is the code I used to publish this post. Definitely a work in progress - this version will submit your post as a draft, for example.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python"># post-to-blog.py
+
+import markdown
+from xml.etree import ElementTree
+from gdata import service
+import gdata
+import atom
+import sys
+
+class BlogPost(object):
+    &quot;&quot;&quot;A single posting for a blog owned by a Blogger account
+
+    &gt;&gt;&gt; post = BlogPost()
+    &gt;&gt;&gt; post.body = 'This is a paragraph'
+    &gt;&gt;&gt; print post.body
+    This is a paragraph
+    
+    &quot;&quot;&quot;
+
+    def __init__(self, author, account, password):
+        self.config = {}
+        self.__body = None
+        self.__author = author
+        self.__account = account
+        self.__password = password
+
+    def set_body(self, bodyText):
+        &quot;&quot;&quot;Stores plain text which will be used as the post body
+
+        &gt;&gt;&gt; post = BlogPost()
+        &gt;&gt;&gt; post.set_body('This is a paragraph')
+        &gt;&gt;&gt;
+        &quot;&quot;&quot;
+        self.__body = bodyText
+
+    def get_body(self):
+        &quot;&quot;&quot;Access a HTML-formatted version of the post body
+
+        &gt;&gt;&gt; post = BlogPost()
+        &gt;&gt;&gt; post.set_body('This is a paragraph')
+        &gt;&gt;&gt; print post.get_body()
+        This is a paragraph
+        
+        &quot;&quot;&quot;
+        return markdown.markdown(self.__body)
+
+    body = property(get_body, set_body)
+    
+    def parseConfig(self, configText):
+        &quot;&quot;&quot;Reads and stores the directives from the post's config header.
+
+        &gt;&gt;&gt; post = BlogPost()
+        &gt;&gt;&gt; import os
+        &gt;&gt;&gt; myConfig = os.linesep.join([&quot;key1: value1&quot;, &quot;key2: value2&quot;])
+        &gt;&gt;&gt; post.parseConfig(myConfig)
+        &gt;&gt;&gt; post.config['key1']
+        'value1'
+        &gt;&gt;&gt; post.config['key2']
+        'value2'
+        &quot;&quot;&quot;
+        textLines = configText.splitlines()
+        for line in textLines:
+            key, value = line.split(': ')
+            self.config[key] = value
+
+    def parsePost(self, postText):
+        &quot;&quot;&quot;Parses the contents of a full post, including header and body.
+
+        &gt;&gt;&gt; import os
+        &gt;&gt;&gt; myText = os.linesep.join([&quot;title: Test&quot;, &quot;--&quot;, &quot;This is a test&quot;])
+        &gt;&gt;&gt; post = BlogPost()
+        &gt;&gt;&gt; post.parsePost(myText)
+        &gt;&gt;&gt; print post.config['title']
+        Test
+        &gt;&gt;&gt; print post.body
+        This is a test
+        
+        &quot;&quot;&quot;
+        
+        header, body = postText.split('--', 1)
+        self.parseConfig(header)
+        self.body = body
+
+    def sendPost(self):
+        &quot;&quot;&quot;Log into Blogger and submit my already parsed post&quot;&quot;&quot;
+
+        # Authenticate using ClientLogin
+        blogger = service.GDataService(self.__account, self.__password)
+        blogger.source = 'post-to-blog.py_v01.0'
+        blogger.service = 'blogger'
+        blogger.server = 'www.blogger.com'
+        blogger.ProgrammaticLogin()
+
+        # Get the blog ID
+        query = service.Query()
+        query.feed = '/feeds/default/blogs'
+        feed = blogger.Get(query.ToUri())
+        blog_id = feed.entry[0].GetSelfLink().href.split(&quot;/&quot;)[-1]
+
+        # Create the entry to insert.
+        entry = gdata.GDataEntry()
+        entry.author.append(atom.Author(atom.Name(text=self.__author)))
+        entry.title = atom.Title('xhtml', self.config['title'])
+        entry.content = atom.Content(content_type='html', text=self.body)
+        control = atom.Control()
+        control.draft = atom.Draft(text='yes')
+        entry.control = control
+        blogger.Post(entry, '/feeds/' + blog_id + '/posts/default')
+
+def runTests():
+    import doctest
+    doctest.testmod()
+
+def main():
+    from optparse import OptionParser
+    parser = OptionParser()
+    parser.add_option(&quot;-D&quot;, &quot;--do-tests&quot;, action=&quot;store_true&quot;, dest=&quot;doTests&quot;,
+                      help=&quot;Run built-in doctests&quot;)
+    parser.add_option(&quot;-f&quot;, &quot;--file&quot;, dest=&quot;filename&quot;,
+                      help=&quot;Specify source file for post&quot;)
+    (options, args) = parser.parse_args()
+
+    if options.doTests:
+        runTests()
+
+    if options.filename:
+        post = BlogPost('Brian Wisti', 'brian.wisti@gmail.com', 'mypassword')
+        postFile = open(options.filename).read()
+        post.parsePost(postFile)
+        post.sendPost()
+        
+if __name__ == '__main__':
+    main()
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

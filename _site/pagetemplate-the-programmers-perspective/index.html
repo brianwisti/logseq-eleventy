@@ -1,0 +1,1070 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        PageTemplate - The Programmer&#39;s Perspective
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><p><em class="link-missing">pagetemplate,coolnamehere</em></p>
+</td>
+          </tr>
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Using <a href="/pagetemplate" class="page-link">PageTemplate</a> within <a href="/ruby" class="page-link">Ruby</a> applications.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Getting Started</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Before you dig into the code, you might want to take a look at <a href="/pagetemplate-the-designers-perspective" class="page-link">PageTemplate - The Designer’s Perspective</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Using PageTemplate in your Ruby code</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This is a <em>very</em> quick overview, because I just spent hours going over the designer documents and I’m a little tired.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>First, of course, you’ll want to install the PageTemplate package: <a href="/pagetemplate-getting-it" class="page-link">PageTemplate - Getting It</a></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Once that’s done, <code>require</code> the package.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">require 'PageTemplate'
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You’ll need a PageTemplate object to hold values and parse template files.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">template = PageTemplate.new()
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>At some point, you will want the PageTemplate object to load a template text file, bristling with directives. The template file should be readable by the script, and the path must be either absolute or relative to the script’s working directory.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">template.load('/var/www/templates/template.txt')
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>To assign a value for use by PageTemplate, use hash-style assignment, with the name to be used by the template as the key, and the value assigned as — well — the value. The only rule is that the value must evaluate to a String. Either it <em>is</em> a String or it has a <code>to_s</code> method). Page designers would probably be grateful if the key was a string, too. Much easier to type it into a text template that way.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">template['title'] = 'My PageTemplate Script'
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The easiest way to handle flags used in <code>if</code> directives is to take advantage of Ruby’s boolean values.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">template['flag'] = true
+template['shovel'] = false
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You can use the truth of a regular variable or loop variable in an <code>if</code> directive, but remember that Ruby is more specific about <code>false</code> than other languages you might be used to. For example, the number zero is not false. It’s just zero. Same with empty strings. If you want a variable to be interpreted as <code>false</code>, you should explicitly set it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>PageTemplate uses arrays of objects for lists. Each object provides a local namespace which lasts only for the current iteration through the chunk of content. Otherwise, you’d have to manually set loop variables, and I don’t like that idea!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The classic approach is to borrow from <a href="http://html-template.sourceforge.net/">HTML::Template</a> and use a list of hashes for your namespaces.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">listing = [
+  { 'name'   =&gt; 'Swordfishtrombones',
+    'artist' =&gt; 'Tom Waits' },
+  { 'name'   =&gt; 'Dirt Track Date',
+    'artist' =&gt; 'Southern Culture On The Skids' },
+  { 'name'   =&gt; 'The Craft',
+    'artist' =&gt; 'Blackalicious' }
+]
+template['albums'] = listing
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What about nested lists? They are handled the same way. One of the keys in your item hash points to another array of hashes, which will be used for the inner loop.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">favorites = [
+  { &quot;topic&quot;  =&gt; &quot;Interesting Comic Books&quot;,
+    &quot;items&quot;    =&gt; [
+    { &quot;title&quot;   =&gt; &quot;Dropsie Avenue&quot;,
+      &quot;creator&quot; =&gt; &quot;Will Eisner&quot;},
+    { &quot;title&quot;   =&gt; &quot;Cerebus&quot;,
+      &quot;creator&quot; =&gt; &quot;Dave Sim&quot;},
+    { &quot;title&quot;   =&gt; &quot;Jar Of Fools&quot;,
+      &quot;creator&quot; =&gt; &quot;Jason Lutes&quot;}
+  ]},
+  { &quot;topic&quot;  =&gt; &quot;Old Favorites&quot;,
+    &quot;items&quot;    =&gt; [
+    { &quot;title&quot;   =&gt; &quot;Amnesiac&quot;,
+      &quot;creator&quot; =&gt; &quot;Radiohead&quot;},
+    { &quot;title&quot;   =&gt; &quot;The Moon and Antarctica&quot;,
+      &quot;creator&quot; =&gt; &quot;Modest Mouse&quot;},
+    { &quot;title&quot;   =&gt; &quot;Dirt Track Date&quot;,
+      &quot;creator&quot; =&gt; &quot;Southern Culture On The Skids&quot;},
+    { &quot;title&quot;   =&gt; &quot;My Motor&quot;,
+      &quot;creator&quot; =&gt; &quot;Dorkweed&quot;},
+    { &quot;title&quot;   =&gt; &quot;Swordfishtrombones&quot;,
+      &quot;creator&quot; =&gt; &quot;Tom Waits&quot;}
+  ]}
+]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Using objects in a list requires a little more research, but it’s still a practical solution. Say you’re trying to figure out how to use PageTemplate in an image gallery. You might have an Image class with accessors that look something like this:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">class Image
+  attr_reader :url, :height, :width, :caption
+end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You can build your template armed with this knowledge.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-html">[%loop images %]
+&lt;td&gt;
+  &lt;img src=&quot;[%var url%]&quot;
+    height=&quot;[%var height%]&quot; width=&quot;[%var width%]&quot;
+    alt=&quot;[%var caption %]&quot; /&gt;&lt;br /&gt;
+  &lt;strong&gt;[%var caption %]&lt;/strong&gt;
+&lt;/td&gt;
+[%end loop %]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Then, rather than waste precious minutes altering class <code>Image</code> to respond to hash-based access, you can assign a list of <code>Image</code> objects to the template list.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">galleryPage['images'] = gallery.current.images
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This approach definitely encourages maintaining a consistent interface. I wouldn’t want to go altering my template files (or telling the designer to alter her files) every time I get a bright idea for how <code>Image</code> should work.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You can also refer to public methods of the object in your template, but that’s still a bit shaky. The methods have to accept calls with no arguments or blocks (Ex: <code>image.thumbnail()</code> would be referenced as <code>[%var thumbnail%]</code>).</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Once you’ve told your PageTemplate object which file to load and what values to remember, you’ll probably want to display the neat custom page.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">output = template.output
+print output
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Of course, if you do things this way you’ll have to remember all of the HTTP header information. Life will be much easier for you if you just use the functionality provided by the standard CGI module for ruby.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’m not a <a href="http://rubyonrails.com/">Rails</a> person, so I really don’t know how well PageTemplate works with Rails these days. Definitely send reports if you have any troubles, though. See <a href="/pagetemplate" class="page-link">PageTemplate</a> for links to bug filing and the forum.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Caching Templates</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>PageTemplate has some support for saving template information to disk. This means that your application needs less time to prepare its templates. You still need to provide a Namespace when you need output, though.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Two steps are required to take advantage of PageTemplate’s cache capabilities. First, make sure that your script has write permissions to the directory or directories that contain your template source. Next, call the PageTemplate constructor with the <code>use_cache</code> flag set to <code>true</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">template = PageTemplate.new(
+  'use_cache' =&gt; true
+)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Creating Your Own Syntax</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>For now, use the source as your guides.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

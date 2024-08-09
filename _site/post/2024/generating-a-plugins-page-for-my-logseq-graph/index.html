@@ -1,0 +1,1834 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2024/Generating a Plugins Page For My Logseq Graph
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>series</th>
+            <td><p><em class="link-missing">Untangling Logseq Graphs</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><p><em class="link-missing">second-brain,logseq,nushell</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2024-04-28</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><p><a href="https://hackers.town/@randomgeek/112351149757759978">Mastodon</a></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><p>I didn’t just break down a one-liner this time, but I also did that</p>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>What?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I wrote a <a href="/nushell" class="page-link">Nushell</a> script that updates <a href="/my-logseq-workflow" class="page-link">My Logseq Workflow</a> with a current list of installed plugins.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Why?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="/logseq" class="page-link">Logseq</a> plugins are installed at the user level, and do not currently sync across machines with a Git-based workflow. If I want a consistent workflow — and I do — I need to maintain this list myself, ideally somewhere that I can reference later. Also, I could work this on-demand script into other workflows, processing elements of my Logseq setup without needing to interact with the application itself.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>How?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Everything we need to know can be determined by looking at the plugin files and reading some <a href="/json" class="page-link">JSON</a>. I’m going to use Nushell for this task, but just about anything should do the job. The same basic logic will work in any language with support for loading and processing JSON.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>The <code>~/.logseq</code> folder</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>User-level Logseq config, including installed plugins, is at <code>~/.logseq</code>. This is also true on Windows, where the equivalent for me would be <code>C:\Users\brian\.logseq</code>. <a href="https://www.nushell.sh/commands/docs/path_expand.html"><code>path expand</code></a> turns that tilde into my <code>$HOME</code> directory regardless of platform, so I won’t need to specify a different <code>$logseq_folder</code> on every machine.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">let logseq_folder = &quot;~/.logseq&quot; | path expand
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Load Installed Plugins and Themes</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Logseq installs its plugins to <code>~/.logseq/plugins/</code>. Each plugin’s <code>package.json</code> holds important project information such as title, repo, description, and theme hooks if any. Installation-specific settings, such as whether the plugin is disabled, are under <code>~/.logseq/settings</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I need to use all those details to generate summary strings for every plugin. Something like this:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-markdown">- [Awesome Content](https://github.com/yoyurec/logseq-awesome-content)
+  heading:: true
+	- Enhanced content blocks (tasks, quotes, flashcards, headers, queries, diagrams, etc...)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p>I use the <code>heading</code> property rather than Markdown header markers. That way a section header looks like a level one header when I zoom into that section.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Because I only have a couple dozen plugins installed and I’m only working with local data, I won’t worry about optimizing performance. I can set up everything I need with a few loops.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That’s the secret of success: make every problem small enough that you don’t have to care.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-nu">let everything = (
+	ls -s $&quot;($logseq_folder)/plugins&quot;
+    | select name
+	| each { |it|
+		insert settings (
+			open $&quot;($logseq_folder)/settings/($it.name).json&quot;
+		)
+		| insert package (
+			open $&quot;($logseq_folder)/plugins/($it.name)/package.json&quot;
+		)
+	}
+	| each { |it|
+		insert title ($it | get package.title)
+		| insert url  $&quot;https://github.com/($it.package.repo)&quot;
+		| insert description ($it | get package.description)
+        | insert is-disabled (
+	        $it | get -i settings.disabled | default false
+	    )
+		| insert is-theme (
+			$it | get -i package.logseq.themes | is-not-empty
+		)
+	}
+	| select title url description is-disabled is-theme
+	| each { |it|
+		insert block ([
+			$&quot;\t- [($it.title)]\(($it.repository)\)&quot;
+			$&quot;\t  heading:: true&quot;
+			$&quot;\t\t- ($it.description)&quot;
+		]
+		| str join &quot;\n&quot;
+		)
+	}
+)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Breaking down that series of pipes</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>A piped sequence felt like the clearest way to assemble this, but let’s look at it piecemeal so we understand what’s going on at each step of the process.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-nu">let everything = ls -s $&quot;($logseq_folder)/plugins&quot;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Ordinarily, <a href="https://www.nushell.sh/commands/docs/ls.html"><code>ls</code></a> includes path information in the <em>name</em>. The <code>-s</code> flag requests filenames without that path information, which simplifies later processing.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>size</th>
+<th>modified</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>logseq-agenda</td>
+<td>dir</td>
+<td>4.1 KB</td>
+<td>Thu, 29 Feb 2024 10:19:27 -0800 (2 months ago)</td>
+</tr>
+<tr>
+<td>logseq-awesome-content</td>
+<td>dir</td>
+<td>4.1 KB</td>
+<td>Mon, 1 Jan 2024 15:54:13 -0800 (3 months ago)</td>
+</tr>
+<tr>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+</tr>
+<tr>
+<td>logseq-tags</td>
+<td>dir</td>
+<td>4.1 KB</td>
+<td>Tue, 2 Jan 2024 06:07:29 -0800 (3 months ago)</td>
+</tr>
+<tr>
+<td>logseq-webpage-title</td>
+<td>dir</td>
+<td>4.1 KB</td>
+<td>Mon, 1 Jan 2024 15:54:57 -0800 (3 months ago)</td>
+</tr>
+</tbody>
+</table>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Just the names, please.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-nu">let everything = $everything | select name
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <table>
+<thead>
+<tr>
+<th>name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>logseq-agenda</td>
+</tr>
+<tr>
+<td>logseq-awesome-content</td>
+</tr>
+<tr>
+<td>…</td>
+</tr>
+<tr>
+<td>logseq-tags</td>
+</tr>
+<tr>
+<td>logseq-webpage-title</td>
+</tr>
+</tbody>
+</table>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We <a href="https://www.nushell.sh/commands/docs/insert.html"><code>insert</code></a> new <code>settings</code> and <code>package</code> columns to our table. These columns hold the full records generated by Nushell’s automatic JSON handler after we  <a href="https://www.nushell.sh/commands/docs/open.html"><code>open</code></a> project package and local settings files for each entry in our list.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-nu">let everything = $everything | each { |it|
+	insert settings (
+    	open $&quot;($logseq_folder)/settings/($it.name).json&quot;
+    )
+    | insert package (
+    	open $&quot;($logseq_folder)/plugins/($it.name)/package.json&quot;
+    )
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>With the nested structures, it’s easier to show that in a screenshot.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/image_1714267336136_0.png" alt="image.png"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I want our summary string generation and filtering logic clear and easy to read, without deeply nested accessors.  <a href="https://www.nushell.sh/commands/docs/get.html"><code>get</code></a> each of the details I care about and add a column for it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-nu">let everything = $everything | each { |it|
+    insert title ($it | get package.title)
+    | insert url $&quot;https://github.com($it.package.repo)&quot;
+    | insert description ($it | get package.description)
+    | insert is-disabled ($it | get -i settings.disabled | default false)
+    | insert is-theme ($it | get -i package.logseq.themes | is-not-empty)
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Nushell ordinarily throws an error when you try to <code>get</code> an undefined field. Work around that by providing a <a href="https://www.nushell.sh/commands/docs/default.html"><code>default</code></a> and using <code>-i</code> to ignore errors in fields that we <em>know</em> could be absent.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We’re relying the presence or absence of a <code>themes</code> field in package info to determine whether we’re looking at a theme. <a href="https://www.nushell.sh/commands/docs/is-not-empty.html"><code>is-not-empty</code></a> manages that, returning true if there’s a <code>logseq.themes</code> field with content in it, and false any other time.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What’s that look like? Wait — in order to make sense of this view, we should grab the <a href="https://www.nushell.sh/commands/docs/last.html"><code>last</code></a> row and <a href="https://www.nushell.sh/commands/docs/transpose.html"><code>transpose</code></a> it so that each column becomes a record field.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-nu">$everything | last 1 | transpose
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/image_1714273132856_0.png" alt="image.png"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This is still messy. Nushell doesn’t care — I went through a few iterations pretty much ignoring the extra bulk — but I’m trying to write coherent code for you. Let’s select only those new columns for extracted details.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-nu">let everything = (
+	$everything | select title url description is-disabled is-theme
+)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now we can go back to a regular table view.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <table>
+<thead>
+<tr>
+<th>title</th>
+<th>url</th>
+<th>description</th>
+<th>is-disabled</th>
+<th>is-theme</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Agenda</td>
+<td><a href="https://github.comhaydenull/logseq-plugin-agenda">https://github.comhaydenull/logseq-plugin-agenda</a></td>
+<td>An agenda manager plugin for logseq</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Awesome Content</td>
+<td><a href="https://github.comyoyurec/logseq-awesome-content">https://github.comyoyurec/logseq-awesome-content</a></td>
+<td>Enhanced content blocks (tasks, quotes, flashcards, headers, queries, diagrams, etc…)</td>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Awesome Links</td>
+<td><a href="https://github.comyoyurec/logseq-awesome-links">https://github.comyoyurec/logseq-awesome-links</a></td>
+<td>Favicons for external links, page icons for internal</td>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+</tr>
+<tr>
+<td>Split block</td>
+<td><a href="https://github.comhyrijk/logseq-plugin-split-block">https://github.comhyrijk/logseq-plugin-split-block</a></td>
+<td>Splitting multi-line text into blocks</td>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Tags</td>
+<td><a href="https://github.comgidongkwon/logseq-plugin-tags">https://github.comgidongkwon/logseq-plugin-tags</a></td>
+<td>A plugin that lets you find and search all of your #tags.</td>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Get webpage title</td>
+<td><a href="https://github.compaulkinlan/logseq-webpage-title">https://github.compaulkinlan/logseq-webpage-title</a></td>
+<td>A neat little tool to fetch the title of a link and wrap it in markdown syntax.</td>
+<td>false</td>
+<td>false</td>
+</tr>
+</tbody>
+</table>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>How about the summary string <code>block</code> column? I’ll need to throw a few tabs and newlines in there for the Logseq page structure I already have in mind. In order to keep the whole thing readable, I’ll <a href="https://www.nushell.sh/book/working_with_strings.html#string-interpolation">interpolate</a> row cells into a list of strings, then <a href="https://www.nushell.sh/commands/docs/str_join.html"><code>join</code></a> with newlines.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-nu">let everything = $everything | each { |it|
+	insert block ([
+			$&quot;\t- [($it.title)]\(($it.repository)\)&quot;
+			$&quot;\t  heading:: true&quot;
+			$&quot;\t\t- ($it.description)&quot;
+		]
+		| str join &quot;\n&quot;    
+    ])
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That’ll look a little clunky as a table. Let’s transpose the last row again.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-nu">$everything | last 1 | transpose
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/Pasted_image_20240428133729_1714496227715_0.png" alt="Pasted image 20240428133729.png"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now we know what <code>$everything</code> looks like, or at least the structure we end up with for each row. Let’s move on.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Transform to Active Plugin and Theme Lists</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I only want to summarize the themes and plugins I currently have enabled. <a href="https://www.nu"><code>where</code></a> helps us filter out those that have the <code>disabled</code> flag turned on in their settings file.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-nu">let active = $everything | where disabled == false
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I want to show themes and plugins in different sections, so let’s make different tables for each.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-nu">let themes = $active | where is-theme == true
+let plugins = $active | where is-theme == false
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Save to a New Page</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’ll want to know when this page was generated. Determine the current time with <a href="https://www.nushell.sh/commands/docs/date_now.html"><code>date now</code></a> and use <a href="https://www.nushell.sh/commands/docs/format_date.html"><code>format date</code></a> to match my graph’s journal day format.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-nu">let now = date now | format date &quot;%Y-%m-%d&quot;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now, generate a page string for the collection. I need to keep it consistent with my other note pages in Logseq, with indentation for page sections and a specific section to describe the page.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-nu">let page_text = [
+	&quot;- Summary&quot;
+	&quot;  heading:: true&quot;
+	$&quot;\t- My currently installed [[Logseq]] plugins as of [[($now)]]&quot;
+	&quot;- Plugins&quot;
+	&quot;  heading:: true&quot;
+	($plugins | get block | to text)
+	&quot;- Themes&quot;
+	&quot;  heading:: true&quot;
+	($themes | get block | to text)
+] | str join &quot;\n&quot;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Next I write it to disk for the Logseq graph. Establish what file corresponds to <a href="/my-currently-installed-plugins" class="page-link">My Currently Installed Plugins</a>, and save it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-nu">let graph_folder = &quot;~/Documents/logseq/my-logseq-brain&quot; | path expand
+let page_file = $&quot;($graph_folder)/pages/My Currently Installed Logseq Plugins.md&quot;
+$page_text | save --force $page_file
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We set the <code>--force</code> flag on <a href="https://www.nushell.sh/commands/docs/save.html"><code>save</code></a>, otherwise it won’t update an existing file.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/Pasted_image_20240428144141_1714496962399_0.png" alt="Pasted image 20240428144141.png"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Done!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Is It Fast Enough?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-nu">nu ❯ timeit { nu plugin_page.nu }
+29ms 478µs 301ns
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Yes.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Anything up to a second would have been good enough in a script I run only for myself. I still might’ve tried tweaking it, just for practice. But 29.5 milliseconds from start to finish? There’s no point optimizing that.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

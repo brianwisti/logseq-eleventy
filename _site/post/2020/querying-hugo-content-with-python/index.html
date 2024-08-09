@@ -1,0 +1,2720 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2020/Querying Hugo Content with Python
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>banner</th>
+            <td><p>…/assets/cover-2020-05-06_1712547738536_0.png</p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>banner-caption</th>
+            <td><p>blogging output by year — my blog goes back to 1 CE?</p>
+</td>
+          </tr>
+        
+      
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><p><a href="https://hackers.town/@randomgeek/104125796417600382">Mastodon</a></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><p>I had entirely too much fun replacing my site metadata script with sqlite-utils</p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2020-05-06</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><p><em class="link-missing">hugo,python,site,data,workflow,tools</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>banner-alt</th>
+            <td><p>line graph of posts by year with year 0001 appearing with entries</p>
+</td>
+          </tr>
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>The plan</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Use Simon Williamson’s <a href="https://datasette.readthedocs.io/en/stable/ecosystem.html#ecosystem">Datasette tools</a> — and maybe the rest of and maybe the rest of <a href="https://datasette.readthedocs.io/en/stable/">Datasette</a> too — to replace an existing data script and perhaps gain new insight into site contents.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Also: puttering is fun.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Background</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I incorporated in my site workflow a while back because of <a href="https://blog.afoolishmanifesto.com/">fRew Schmidt</a>.  See, he wrote an interesting post about his Hugo / Unix / Vim <a href="https://blog.afoolishmanifesto.com/posts/hugo-unix-vim-integration/">blogging workflow</a>. I immediately copied <a href="https://blog.afoolishmanifesto.com/posts/hugo-unix-vim-integration/#advanced-unix-tools"><code>q</code></a>, a <a href="/perl" class="page-link">Perl</a> script he wrote for querying site metadata via an in-memory <a href="/sqlite" class="page-link">SQLite</a> database.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>q</code> is ridiculously fast and convenient if you know the query you want to ask.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ q --sql 'select count(1) from articles where title like &quot;%perl%&quot;'
+22
+$ q --sql 'select count(1) from articles where title like &quot;%python%&quot;'
+25
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Is your query too awkward to comfortably type on a command line? Put it in a shell script, like fREW’s <code>tag-count</code> example.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>tag-count</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-bash">#!/bin/bash
+
+exec scripts/q \
+  --sql 'SELECT COUNT(*) AS c, tag FROM _ GROUP BY tag ORDER BY COUNT(*), tag' \
+  --formatter 'sprintf &quot;%3d %s&quot;, $r{c}, $r{tag}'
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That gets you a list of all the tags in your entries, ordered by number of appearances.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ tag-count
+⋮
+ 29 ruby
+ 33 perl
+ 38 python
+ 43 learn
+ 45 drawing
+ 77 site
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I converted it to Perl eventually, of course. <a href="https://github.com/kennethreitz-archive/records">Records</a> produced nice-looking output while letting me stick to SQL syntax. Noticeably slower than <code>q</code>, but acceptable. A bit later, I added a table for aliases. Then, another table for announcements — my tweets and toots about new content.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Aside from answering idle questions like “how many drawings have I posted?” my little database streamlines the process of publishing site updates and automatically announcing new posts.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>What’s the problem?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’m thinking about adding more tables to improve <a href="/indieweb" class="page-link">IndieWeb</a> integration. But to be honest, my creation has grown unwieldy. And <em>slow</em>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ time query 'select date, title from articles order by date'
+⋮
+Skinny Lines and Flat Colors                             |2020-05-02T21:11:00-07:00
+Pondering My Indieweb Guinea Pig                         |2020-05-03T20:30:00-07:00
+Got a Working glitch-soc Rails Dev Environment           |2020-05-04T23:26:21-07:00
+445 rows
+query 'select title, published_at from contents order by published_at'  \
+2.64s user 0.13s system 101% cpu 2.730 total
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Compared to the original Perl script?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ time q --sql 'select date, title from articles where date is not null is not null order by date'
+⋮
+2020-05-02T21:11:00-07:00    Skinny Lines and Flat Colors
+2020-05-03T15:46:00-07:00    Sending Webmentions
+2020-05-03T20:30:00-07:00    Pondering My Indieweb Guinea Pig
+2020-05-04 23:26:21-07:00    Got a Working glitch-soc Rails Dev Environment
+q --sql   0.17s user 0.02s system 99% cpu 0.197 total
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’m tempted to gut my Python workflow. Start fresh from <code>q</code> and Perl again. But no. That would be a lot of work — duplicated work, at that.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’ll stick to Python for now. But surely we can do better than the duct tape script I’ve been using.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>What’s <code>sqlite-utils</code>?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="https://sqlite-utils.readthedocs.io/"><code>sqlite-utils</code></a> provides both a Python library and a command line too for building and querying SQLite databases. It can guess a schema from structures as you insert them — though you can be explicit if you prefer. It’s particularly useful for bulk inserting or exporting data dumps in <a href="/json" class="page-link">JSON</a> or <a href="/csv" class="page-link">CSV</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Makes sense. It’s part of the <a href="https://datasette.readthedocs.io/en/stable/ecosystem.html#ecosystem">Datasette ecosystem</a>.  Willison’s Datasette project simplifies exploring and publishing data for folks who understand data but not necessarily databases.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>And although it’s slower than <code>q</code> for SQL queries, it’s much closer than what I came up with!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ time sqlite-utils site.db 'select publishDate, title from entries order by publishDate' --table
+⋮
+2020-05-03T04:11:00+00:00  Skinny Lines and Flat Colors
+2020-05-03T22:46:00+00:00  Sending Webmentions
+2020-05-04T03:30:00+00:00  Pondering My Indieweb Guinea Pig
+2020-05-05T06:26:21+00:00  Got a Working glitch-soc Rails Dev Environment
+sqlite-utils site.db  --table  0.54s user 0.16s system 158% cpu 0.442 total
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Creating <code>site.db</code> with <code>sqlite-utils</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Okay! Let’s do this. I want to load and prepare details from my content entries before I let <code>sqlite-utils</code> turn it into a database.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Getting metadata from Hugo and front matter</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We could recursively walk through the <code>content/</code> folder, collecting front matter details about everything we find. Most of the time, this is more than I want. <a href="https://gohugo.io/content-management/organization/">Hugo site organization</a> includes supplemental material like page bundles and <code>_index</code> pages. That’s distracting when I only want to focus on my posts and notes. If you just want core content — posts, pages, stuff like that — ask Hugo.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><em class="link-missing">post/2020/Listing Hugo Content Extensions with Raku</em> mentioned the <code>hugo list</code> commands. <a href="https://gohugo.io/commands/hugo_list_all/"><code>hugo list all</code></a> prints summaries of all your main content entries, as comma-separated text. Python’s standard <a href="https://docs.python.org/3/library/subprocess.html">subprocess</a> and <a href="https://docs.python.org/3/library/csv.html">csv</a> are all I need to turn that into something useful.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">import csv
+import subprocess
+
+
+def list_hugo_content():
+    &quot;&quot;&quot;Return a listing of hugo content entries&quot;&quot;&quot;
+    result = subprocess.run(
+        [&quot;hugo&quot;, &quot;list&quot;, &quot;all&quot;], capture_output=True, text=True, check=True
+    ).stdout
+    return csv.DictReader(result.split(&quot;\n&quot;))
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="https://docs.python.org/3/library/csv.html#csv.DictReader">csv.DictReader</a> gives me a collection of manageable dictionaries.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">{
+    'date': '2020-04-28T01:36:54-07:00',
+    'draft': 'false',
+    'expiryDate': '0001-01-01T00:00:00Z',
+    'path': 'content/post/2020/04/from-dotfiles-to-org-file/index.adoc',
+    'permalink': 'https://randomgeekery.org/post/2020/04/from-dotfiles-to-org-file/',
+    'publishDate': '2020-04-28T01:36:54-07:00',
+    'slug': '',
+    'title': 'From Dotfiles to Org File',
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That’s useful for a high level overview of <em class="link-missing">pub.post.2020.04.from-dotfiles-to-org-file</em>, but I want more. I want tags, categories, aliases, etc. I keep those details as <a href="https://yaml.org/">YAML</a> text in content <a href="https://gohugo.io/content-management/front-matter/">front matter</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-yaml">title: From Dotfiles to Org File
+uuid: f03e5f2f-70a8-4988-92cd-595c8e3fdc97
+description: at 1:30am they're all good ideas
+year: '2020'
+date: '2020-04-28 01:36:54-07:00'
+tags:
+- emacs
+- shell
+- org
+draft: false
+categories:
+- Tools
+aliases:
+- /2020/04/28/from-dotfiles-to-org-file/
+announcements:
+  mastodon: https://hackers.town/@randomgeek/104075340897518607
+  twitter: https://twitter.com/brianwisti/status/1255056188087111681
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="https://pyyaml.org">PyYAML</a> moves quick when powered by <a href="https://pyyaml.org/wiki/LibYAML">libYAML</a>.  So I make sure I have both installed on my Manjaro machine.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-bash">pamac install libyaml
+pip install pyyaml
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I can’t think of a pretty way to get at an entry’s front matter, so let’s just get it out of the way.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p>It’s not worth rewriting a whole blog post just yet, but in the years since writing this I use <a href="https://github.com/eyeseast/python-frontmatter">python-frontmatter</a> to handle frontmatter.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">import yaml
+
+DELIMITER = &quot;---\n&quot;
+
+
+def get_frontmatter(filename):
+    &quot;&quot;&quot;Get dictionary from a file's YAML frontmatter&quot;&quot;&quot;
+    _, yaml_text, _ = open(filename).read().split(DELIMITER, maxsplit=2)
+    return yaml.safe_load(yaml_text)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This function reads the file, grabs its front matter YAML, and hands back a dictionary based on that front matter text</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Why a function? It’s only a couple lines of code.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Sure, but it’s an ugly couple of lines. Plus it hides the YAML-specific details away in case I switch my front matter to TOML, JSON, or some other format.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Okay, now to mash entry and relevant front matter bits together. I prefer <a href="https://arrow.readthedocs.io/">Arrow</a> 's interface to <a href="https://docs.python.org/3.8/library/datetime.html">datetime</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-bash">pip install arrow
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Import entry dependencies</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">from collections import namedtuple
+import os
+
+import arrow
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Prepare entry</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">SiteEntry = namedtuple(&quot;SiteEntry&quot;, [&quot;entry&quot;, &quot;tags&quot;, &quot;announcements&quot;, &quot;aliases&quot;])
+
+def prepare_entry(entry):
+    &quot;&quot;&quot;Return a SiteEntry with details about a single content entry&quot;&quot;&quot;
+    path = entry[&quot;path&quot;]
+    frontmatter = get_frontmatter(path)
+
+    entry[&quot;draft&quot;] = True if entry.get(&quot;draft&quot;) == &quot;true&quot; else False
+
+    # Convert date strings to native datetime objects.
+    for f in (&quot;date&quot;, &quot;expiryDate&quot;, &quot;publishDate&quot;):
+        entry[f] = arrow.get(entry[f]).to(&quot;utc&quot;).datetime
+
+    sections = (&quot;note&quot;, &quot;post&quot;, &quot;draft&quot;)
+    section_fragment = path.split(os.sep)[1]
+    entry[&quot;section&quot;] = section_fragment if section_fragment in sections else None
+
+    # Extract important fields from frontmatter
+    simple_fields = (&quot;caption&quot;, &quot;category&quot;, &quot;description&quot;, &quot;series&quot;)
+    for field in simple_fields:
+        entry[field] = frontmatter.get(field)
+
+    tags = [{&quot;entry_path&quot;: path, &quot;tag&quot;: tag} for tag in frontmatter.get(&quot;tags&quot;, [])]
+    announcements = [
+        {&quot;entry_path&quot;: path, &quot;service&quot;: service, &quot;url&quot;: url}
+        for service, url in frontmatter.get(&quot;announcements&quot;, {}).items()
+    ]
+    aliases = [
+        {&quot;entry_path&quot;: path, &quot;url&quot;: alias} for alias in frontmatter.get(&quot;aliases&quot;, [])
+    ]
+    return SiteEntry(entry, tags, announcements, aliases)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Thoughts:</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>A <a href="https://docs.python.org/3/library/collections.html#collections.namedtuple">namedtuple</a> helps when you want some structure but not a full class.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Always make sure times are in <a href="https://en.wikipedia.org/wiki/Coordinated_Universal_Time">UTC</a> when saving to the database!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Hugo determines <a href="https://gohugo.io/content-management/sections/">sections</a> from a file’s location under <code>content/</code>, so let’s do the same.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>entry_path</code> will help connect tags to entries when creating the database</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I got everything tidy and pretty. We’re ready for the database.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Loading the data</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-bash">pip install sqlite-utils
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The <code>sqlite-utils</code> <a href="https://sqlite-utils.readthedocs.io/en/stable/python-api.html">Python API</a> ends up taking hardly any code at all, thanks partly to the work spent massaging the entries. You treat the database as a dictionary, with each table name as a field. Tables get created when you insert something.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I think we called that “autovivification” in Perl. It’s nice.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>build the database</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">from sqlite_utils import Database
+
+# ...
+
+DB_NAME =  &quot;site.db&quot;
+
+def build_db():
+    &quot;&quot;&quot;Build the database&quot;&quot;&quot;
+    entries = []
+    tags = []
+    announcements = []
+    aliases = []
+
+    for entry in list_hugo_content():
+        site_entry = prepare_entry(entry)
+        entries.append(site_entry.entry)
+        tags += site_entry.tags
+        announcements += site_entry.announcements
+        aliases += site_entry.aliases
+
+    site = Database(DB_NAME, recreate=True)
+    site[&quot;entries&quot;].insert_all(entries, pk=&quot;path&quot;)
+    site[&quot;tags&quot;].insert_all(
+        tags, pk=(&quot;entry_path&quot;, &quot;tag&quot;), foreign_keys=[(&quot;entry_path&quot;, &quot;entries&quot;)]
+    )
+    site[&quot;announcements&quot;].insert_all(
+        announcements,
+        pk=(&quot;entry_path&quot;, &quot;url&quot;),
+        foreign_keys=[(&quot;entry_path&quot;, &quot;entries&quot;)],
+    )
+    site[&quot;aliases&quot;].insert_all(
+        aliases, pk=&quot;url&quot;, foreign_keys=[(&quot;entry_path&quot;, &quot;entries&quot;)]
+    )
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Notes</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Rebuild the database from scratch every time this runs. Alternately, leave this out and <code>upsert_all</code> to do an insert or update.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Setting <code>path</code> as the primary key, since every filename should be unique.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>A tuple <code>pk</code> specifies a compound primary key — each pair must be unique.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>sqlite-utils</code> hides the details of foreign keys in SQLite. Just use a list of <code>FIELD_NAME</code> / <code>TABLE_NAME</code> pairs.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>All that works makes <code>build_db</code> a convenient starting point for <code>build-db.py</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">if __name__ == &quot;__main__&quot;:
+    build_db()
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I <em>could</em> specify an in-memory database, but no. For the moment I’ll settle on creating a database file. That way I can more easily play with the <code>sqlite-utils</code> command line interface.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ sqlite-utils tables site.db --counts --json-cols | python -m json.tool
+[
+    {
+        &quot;table&quot;: &quot;entries&quot;,
+        &quot;count&quot;: 467
+    },
+    {
+        &quot;table&quot;: &quot;tags&quot;,
+        &quot;count&quot;: 1043
+    },
+    {
+        &quot;table&quot;: &quot;announcements&quot;,
+        &quot;count&quot;: 299
+    },
+    {
+        &quot;table&quot;: &quot;aliases&quot;,
+        &quot;count&quot;: 900
+    }
+]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’m content. But I’m also curious. What does my site metadata look like in Datasette?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Exploring <code>site.db</code> with Datasette</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I don’t have any great insights here. I just wanted to look at the pretty tables. Played with <a href="https://datasette.readthedocs.io/en/stable/metadata.html">metadata</a> and checked out the results.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ pip install datasette
+⋮
+$ datasette serve --metadata datasette.json site.db
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The basic interface is pleasant enough, especially when you apply some <a href="https://developer.mozilla.org/en-US/docs/Web/CSS">CSS</a> Of course, <a href="https://www.niche-museums.com/">Niche Museums</a> shows you can go a <em>long</em> ways past “some CSS” with Datasette.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Oh and more on the pleasant interface. It allows you to edit the SQL for your current view.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/datasette-sql_1712549910625_0.png" alt="datasette-sql.png"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There are detail pages for each row. Again, the Niche Museums site shows that <a href="https://www.niche-museums.com/browse/museums/21">detail view</a> can be heavily tweaked.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/datasette-entry_1712549946104_0.png" alt="datasette-entry.png"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="https://datasette.readthedocs.io/en/stable/ecosystem.html#datasette-plugins">Plugins</a> add all sorts of functionality. <a href="https://github.com/simonw/datasette-vega">datasette-vega</a> draws graphs of query results.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/datasette-graph_1712549989579_0.png" alt="datasette-graph.png"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Year 0001? Hang on, let me check that in my shiny new Datasette server.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-sql">select
+  path,
+  title,
+  publishDate,
+  draft,
+  section,
+  category
+from
+  entries
+where
+  &quot;publishDate&quot; like '0001%'
+order by
+  publishDate desc
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Year 0001 content</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <table>
+<thead>
+<tr>
+<th>path</th>
+<th>title</th>
+<th>publishDate</th>
+<th>draft</th>
+<th>section</th>
+<th>category</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>content/about/index.adoc</code></td>
+<td>About</td>
+<td>0001-01-01T00:00:00+00:00</td>
+<td>0</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>content/contact.adoc</code></td>
+<td>Contact</td>
+<td>0001-01-01T00:00:00+00:00</td>
+<td>0</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>content/follow.adoc</code></td>
+<td>Follow</td>
+<td>0001-01-01T00:00:00+00:00</td>
+<td>0</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>content/error.adoc</code></td>
+<td>uh oh</td>
+<td>0001-01-01T00:00:00+00:00</td>
+<td>0</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>content/now/index.adoc</code></td>
+<td>Now</td>
+<td>0001-01-01T00:00:00+00:00</td>
+<td>0</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>…and a bunch of drafts</td>
+<td><em>[redacted]</em></td>
+<td>0001-01-01T00:00:00+00:00</td>
+<td>1</td>
+<td>draft</td>
+<td><em>[redacted]</em></td>
+</tr>
+</tbody>
+</table>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Oh that’s right. Non-dated pages and drafts.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>No I’m too embarrassed to share the full list. I get lots of ideas, okay? Then I’m afraid to throw any of them away. Sometimes they mutate. A couple months ago, this post was going to be about playing with <code>hugo list</code> in Python.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Yep. Datasette is pretty nifty. I’m not missing <code>q</code> at all. And I’m <em>really</em> not missing my Python <code>query</code> script.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>What’s next?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That was fun! Still got a lot ahead of me.</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Figuring out the quickest way to refresh the database</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Adding those IndieWeb tables, so I can review <em class="link-missing">Webmention</em> updates</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>New <a href="/pyinvoke" class="page-link">Pyinvoke</a> tasks to build, query, and explore the database</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Fixing those tasks that still call out to my old and busted <code>query</code> Python</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Make my Datasette site dashboard pretty</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Explore</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Check out some other <a href="https://github.com/simonw/datasette/wiki/Datasettes">datasettes</a> available online!</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="https://nyc-cultural-institutions.now.sh/">New York City Cultural Institutions</a></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="https://fivethirtyeight.datasettes.com/fivethirtyeight/hip-hop-candidate-lyrics%2Fgenius_hip_hop_lyrics">Every mention of 2016 primary candidates in hip-hop songs</a></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="https://san-francisco.datasettes.com/sf-trees-ebc2ad9/Street_Tree_List">the location of every tree in San Francisco</a> — you need to page through to see all 189,144 locations</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

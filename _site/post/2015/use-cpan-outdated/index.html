@@ -1,0 +1,584 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2015/Use cpan-outdated
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2015-07-09</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Thought I’d share <a href="https://metacpan.org/author/TOKUHIROM">TOKUHIROM</a>’s <a href="https://metacpan.org/pod/distribution/cpan-outdated/script/cpan-outdated">cpan-outdated</a> tool, which simplifies the task of keeping your installed Perl 5 modules up to date. It simply lists available updates to <a href="/perl" class="page-link">Perl</a> modules you have installed. That functionality is available in the CPAN shell with the <code>r</code> command, but it is hard to beat the convenience of the <code>cpan-outdated</code> command line tool.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Installing cpan-outdated</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>cpan-outdated</code> is available on CPAN as <code>App::cpanoutdated</code>. Installed it with your preferred tool — in my case, <a href="https://metacpan.org/pod/App::cpanminus">cpanminus</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-sh">cpanm App::cpanoutdated
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Installation will put  <code>cpan-outdated</code> on your path.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Using cpan-outdated</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Like any good executable, <code>cpan-outdated</code> has a <code>--help</code> option.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ cpan-outdated --help
+Usage:
+        # print the list of distribution that contains outdated modules
+        % cpan-outdated
+
+        # print the list of outdated modules in packages
+        % cpan-outdated -p
+
+        # verbose
+        % cpan-outdated --verbose
+
+        # alternate mirrors
+        % cpan-outdated --mirror file:///home/user/minicpan/
+
+        # additional module path(same as cpanminus)
+        % cpan-outdated -l extlib/
+        % cpan-outdated -L extlib/
+
+        # install with cpan
+        % cpan-outdated | xargs cpan -i
+
+        # install with cpanm
+        % cpan-outdated    | cpanm
+        % cpan-outdated -p | cpanm
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let’s see what that looks like on my machine.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ cpan-outdated
+B/BI/BINGOS/Archive-Extract-0.76.tar.gz
+P/PJ/PJF/autodie-2.29.tar.gz
+X/XS/XSAWYERX/Dancer2-0.161000.tar.gz
+B/BO/BOOK/DateTime-Format-Mail-0.402.tar.gz
+E/ET/ETHER/HTTP-Message-6.07.tar.gz
+N/NE/NEILB/Lingua-EN-FindNumber-1.31.tar.gz
+S/SR/SRI/Mojolicious-6.13.tar.gz
+B/BD/BDFOY/Test-File-1.44.tar.gz
+E/ET/ETHER/Test-Pod-1.51.tar.gz
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Use <code>-p</code> to just list packages without path information.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ cpan-outdated -p
+Archive::Extract
+autodie
+Dancer2
+DateTime::Format::Mail
+HTTP::Headers
+Lingua::EN::FindNumber
+Mojolicious
+Test::File
+Test::Pod
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I find the <code>-p</code> output easier to read at a glance.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Pipe the output of <code>cpan-outdated</code> to <code>cpanminus</code> to immediately update the outdated modules.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ cpan-outdated -p | cpanm
+--&gt; Working on Archive::Extract
+Fetching http://www.cpan.org/authors/id/B/BI/BINGOS/Archive-Extract-0.76.tar.gz ... OK
+Configuring Archive-Extract-0.76 ... OK
+Building and testing Archive-Extract-0.76 ... OK
+Successfully installed Archive-Extract-0.76 (upgraded from 0.74)
+--&gt; Working on autodie
+Fetching http://www.cpan.org/authors/id/P/PJ/PJF/autodie-2.29.tar.gz ... OK
+Configuring autodie-2.29 ... OK
+Building and testing autodie-2.29 ... OK
+Successfully installed autodie-2.29 (upgraded from 2.28)
+--&gt; Working on Dancer2
+Fetching http://www.cpan.org/authors/id/X/XS/XSAWYERX/Dancer2-0.161000.tar.gz ... OK
+Configuring Dancer2-0.161000 ... OK
+Building and testing Dancer2-0.161000 ... OK
+Successfully installed Dancer2-0.161000 (upgraded from 0.160003)
+--&gt; Working on DateTime::Format::Mail
+Fetching http://www.cpan.org/authors/id/B/BO/BOOK/DateTime-Format-Mail-0.402.tar.gz ... OK
+Configuring DateTime-Format-Mail-0.402 ... OK
+Building and testing DateTime-Format-Mail-0.402 ... OK
+Successfully installed DateTime-Format-Mail-0.402 (upgraded from 0.401)
+--&gt; Working on HTTP::Headers
+Fetching http://www.cpan.org/authors/id/E/ET/ETHER/HTTP-Message-6.07.tar.gz ... OK
+Configuring HTTP-Message-6.07 ... OK
+Building and testing HTTP-Message-6.07 ... OK
+Successfully installed HTTP-Message-6.07 (upgraded from 6.05)
+--&gt; Working on Lingua::EN::FindNumber
+Fetching http://www.cpan.org/authors/id/N/NE/NEILB/Lingua-EN-FindNumber-1.31.tar.gz ... OK
+Configuring Lingua-EN-FindNumber-1.31 ... OK
+Building and testing Lingua-EN-FindNumber-1.31 ... OK
+Successfully installed Lingua-EN-FindNumber-1.31 (upgraded from 1.30)
+--&gt; Working on Mojolicious
+Fetching http://www.cpan.org/authors/id/S/SR/SRI/Mojolicious-6.13.tar.gz ... OK
+Configuring Mojolicious-6.13 ... OK
+Building and testing Mojolicious-6.13 ... OK
+Successfully installed Mojolicious-6.13 (upgraded from 6.12)
+--&gt; Working on Test::File
+Fetching http://www.cpan.org/authors/id/B/BD/BDFOY/Test-File-1.44.tar.gz ... OK
+Configuring Test-File-1.44 ... OK
+Building and testing Test-File-1.44 ... OK
+Successfully installed Test-File-1.44 (upgraded from 1.43)
+--&gt; Working on Test::Pod
+Fetching http://www.cpan.org/authors/id/E/ET/ETHER/Test-Pod-1.51.tar.gz ... OK
+Configuring Test-Pod-1.51 ... OK
+Building and testing Test-Pod-1.51 ... OK
+Successfully installed Test-Pod-1.51 (upgraded from 1.50)
+9 distributions installed
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That’s pretty much all there is to it! <code>cpan-outdated</code> is a simple tool, but it fills its role perfectly.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

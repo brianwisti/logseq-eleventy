@@ -1,0 +1,2867 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2020/Tangling code from Hugo content with Raku
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><p>I could just use Org mode, but noo that’s too easy</p>
+</td>
+          </tr>
+        
+      
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><p><em class="link-missing">raku,literate-programming,files,hugo,programming</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2020-07-08</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>banner</th>
+            <td><p>…/assets/cover-2020-07-08_1711858116662_0.jpg</p>
+</td>
+          </tr>
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I spend a while using <a href="/raku" class="page-link">Raku</a> to extract code from a <a href="/hugo" class="page-link">Hugo</a> post.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p><em class="link-missing">2020-09-03</em> :  <a href="https://fosstodon.org/@codesections">@codesections@fosstodon.org</a> found a typo! I forgot to <em>show</em> the target file name once command line arguments are in place. It should go <code>raku tangle-fragments.raku index.md</code>.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>The problem</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let’s say I have a file.  The one you’re reading, perhaps.  Well, its original Markdown content.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It has a Hugo shortcode in it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">{{&lt;/* code file=&quot;hello.py&quot; */&gt;}}
+print(&quot;Hello&quot;)
+{{&lt;/* /code */&gt;}}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I based <code>{{&lt;/* code */&gt;}}</code> here on a shortcode from the <a href="https://github.com/gohugoio/hugoDocs/blob/master/layouts/shortcodes/code.html">Hugo docs</a>. It presents highlighted code with additional context.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>hello.py</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">print(&quot;Hello&quot;)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Really handy when you’re writing about code.  Thing is, now I have two copies. There’s one here in the shortcode, and another in a <code>hello.py</code> file that I’m writing about.  I’d prefer there was only a single copy.  That way they don’t get out of sync.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I <em>could</em> use Hugo’s <a href="https://gohugo.io/functions/readfile/">readFile</a> function in a new shortcode, including the contents of <code>hello.py</code> in this Markdown file.  Something like this:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">{{&lt;/* include file=&quot;hello.py&quot; */&gt;}}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p>Actual shortcode logic left as an exercise for the reader.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>But that still breaks up the writing flow a little bit.  I’m writing the code over here, and writing <em>about</em> it over there.  It’s a tiny complaint, but working with <a href="/org-mode" class="page-link">Org Mode</a> has spoiled me.  I get to write the code in the same document that I’m writing about it in.  Everything stays in sync, more or less.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What I want is to write about <code>hello.py</code> here, and with a command have <code>hello.py</code> appear on my filesystem, containing the Python code I’ve been describing.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>And I want to do it without disturbing Hugo. Let it turn Markdown into HTML.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Tangling</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This process is called “tangling,” and it’s popular in the admittedly small world of <a href="http://literateprogramming.com/">Literate Programming</a>.  The code is interleaved throughout some kind of document.  A tool like <a href="https://www.cs.tufts.edu/~nr/noweb/">noweb</a> or <a href="https://orgmode.org/worg/org-contrib/babel/intro.html">Babel</a> parses the document to create code files.  Could be any kind of file, really. The process can get fancy.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>But the start is not fancy: given a text file containing a <code>{{&lt;/* code file=&quot;(something)&quot; */&gt;}}</code>, write the contents of that shortcode to the named file.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku">sub MAIN() {
+  my $filename = &quot;index.md&quot;;
+  my $opener = '{{&lt;/* ';
+  my $closer = ' */&gt;}}';
+  my regex shortcode {
+    $opener
+      code \s
+      'file=&quot;' $&lt;filename&gt; = .+? '&quot;'  # Remember the filename
+      .*?
+    $closer
+    \n                # Ignore leading newline
+    $&lt;content&gt; = .+?  # Remember everything else in the block
+    \n                # Ignore leading newline
+    $opener '/code' $closer
+  }
+
+  my $markdown = slurp $filename;
+
+  if $markdown.match(/ &lt;shortcode&gt; /) {
+    my $tangle-file = $/&lt;shortcode&gt;&lt;filename&gt;;
+    my $tangle-content = $/&lt;shortcode&gt;&lt;content&gt;;
+    spurt $tangle-file, $tangle-content;
+    say &quot;Tangled to $tangle-file&quot;;
+  }
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I love Raku’s approach to <a href="https://docs.raku.org/language/regexes">regular expressions</a>.  For starters, the syntax looks a bit more like describing a grammar.  I can break the funny regex characters up with spaces, and clarify them with comments.  In fact, I could someday build this up to a real <a href="https://docs.raku.org/language/grammars">grammar</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Secondly, it addresses the fact that most text we look at these days contains multiple lines.  I didn’t have to worry about any special multiline flags to get this working.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Finally, getting at the named captures was — I wouldn’t say “obvious,” but at least “coherent.” I can treat the match variable <code>$/</code> as a nested <a href="https://docs.raku.org/language/hashmap">Hash</a>. The important bits look something like this:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">shortcode =&gt;
+  filename =&gt; ｢hello.py｣
+  content =&gt; ｢print(&quot;Hello&quot;)｣
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I can grab the named capture <code>filename</code> of my matched <code>shortcode</code> regex with <code>$/&lt;shortcode&gt;&lt;filename&gt;</code> — or <code>~$&lt;shortcode&gt;&lt;filename&gt;</code>, depending on your preferred syntax.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This is all possible in languages like Perl with assorted flags, but I haven’t seen parsing treated so well by default since maybe <a href="/rebol" class="page-link">REBOL</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Anyways, let’s run this thing.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ raku tangle.raku
+Tangled to hello.py
+$ bat hello.py
+───────┬──────────────────────────────────────────────────────────────────────
+       │ File: hello.py
+───────┼──────────────────────────────────────────────────────────────────────
+   1   │ print(&quot;Hello&quot;)
+───────┴──────────────────────────────────────────────────────────────────────
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Sweet.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Except — this Markdown file I’m writing.  It has <em>two</em> file code blocks now.  I want to tangle both of them.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Multiple output files</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This requires a couple changes, since I’m writing code about Hugo shortcodes in a Hugo post.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>To show shortcode directives without Hugo evaluating them, they need to look like shortcode comments.  Their contents will get passed straight through as part of your post.  To show <code>{{&lt;/* shortcode */&gt;}}</code> in a post, your Hugo content needs <code>{{&lt;/*/* shortcode */*/&gt;}}</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>So that’s lovely and all, but can be a headache of its own for this specific situation of extracting code from a blog post.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I need to remember this commented shortcode syntax.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku{title=&quot;define-commented-shortcodes&quot;}"> my $commented-opener = '{{' ~ '&lt;/* ';
+ my $commented-closer = ' */&gt;' ~ '}}';
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>#+BEGIN_NOTE
+Goodness, that looks silly.  Well, I’m writing this blog post as a test case for the code.  I couldn’t figure out how to cleanly present the  commented shortcode delimiters without Hugo and my code getting into a fierce argument.</p>
+<p>If I wasn’t writing the code <em>in</em> this post, I could use something simpler, like this:</p>
+<pre><code class="language-raku">my $commented-opener = '{{​&lt;/* ';
+my $commented-closer = ' */&gt;}}';
+</code></pre>
+<p>But that’s not the path I chose.  It’s not easy to write programs that write themselves.  Sometimes you must help them along.
+#+END_NOTE</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That way I can replace those commented shortcode delimiters with their normal counterparts when I tangle later.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku{title=&quot;define-commented-shortcodes&quot;}">my $tangle-content = $block&lt;shortcode&gt;&lt;content&gt;
+  .subst(:global, / $commented-opener /, $opener)
+  .subst(:global, / $commented-closer /, $closer);
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now that I have that particular detail out of the way, tangle every block? Sure!  Make a regular expression match <code>:global</code> and it returns a list containing every match.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku{title=&quot;tangle-every-block&quot;}">my $markdown  = slurp $filename;
+my @fragments = $markdown.match(/&lt;shortcode&gt;/, :global);
+
+for @fragments -&gt; $block {
+  my $tangle-file = $block&lt;shortcode&gt;&lt;filename&gt;;
+  «replace-commented-shortcodes»
+  spurt $tangle-file, $tangle-content;
+  say &quot;Tangled to $tangle-file&quot;;
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I think that about covers it.  The shortcode recognition logic can stay the same.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku{title=&quot;tangle-multi.raku&quot;}">sub MAIN() {
+  my $filename = &quot;index.md&quot;;
+  my $opener = '{{&lt;/* ';
+  my $closer = ' */&gt;}}';
+
+  my regex shortcode {
+    $opener
+      code \h
+      'file=&quot;' $&lt;filename&gt; = .+? '&quot;'  # Remember the filename
+      .*?
+    $closer
+    \n                # Ignore leading newline
+    $&lt;content&gt; = .+?  # Remember everything else in the block
+    \n                # Ignore trailing newline
+    $opener '/code' $closer
+  }
+
+  «define-commented-shortcodes»
+
+  «tangle-every-block»
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>And it works!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ raku tangle-multi.raku
+Tangled to hello.py
+Tangled to tangle.raku
+$ bat tangle.raku
+───────┬──────────────────────────────────────────────────────────────────────
+       │ File: tangle.raku
+───────┼──────────────────────────────────────────────────────────────────────
+   1   │ sub MAIN() {
+   2   │   my $filename = &quot;index.md&quot;;
+   3   │   my $opener = '{{&lt;/* ';
+   4   │   my $closer = ' */&gt;}}';
+   5   │   my regex shortcode {
+   6   │     $opener
+   7   │       code \s
+   8   │       'file=&quot;' $&lt;filename&gt; = .+? '&quot;'  # Remember the filename
+   9   │       .*?
+  10   │     $closer
+  11   │     \n                # Ignore leading newline
+  12   │     $&lt;content&gt; = .+?  # Remember everything else in the block
+  13   │     \n                # Ignore leading newline
+  14   │     $opener '/code' $closer
+  15   │   }
+  16   │
+  17   │   my $markdown = slurp $filename;
+  18   │
+  19   │   if $markdown.match(/ &lt;shortcode&gt; /) {
+  20   │     my $tangle-file = $/&lt;shortcode&gt;&lt;filename&gt;;
+  21   │     my $tangle-content = $/&lt;shortcode&gt;&lt;content&gt;;
+  22   │     spurt $tangle-file, $tangle-content;
+  23   │     say &quot;Tangled to $tangle-file&quot;;
+  24   │   }
+  25   │ }
+  ───────┴──────────────────────────────────────────────────────────────────────
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Unfortunately, I’m not quite done yet.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Multiple fragments</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’m not done yet because I don’t like to describe my code a full file at a time.  I’d rather talk about this bit here, explain that bit over there, then mash it all up in the end.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Consistency counts, so I need to pick a syntax.  Well — you’ve been reading along.  You can see that I already made my choice.  I got used to <code>&lt;&lt;fragment-name&gt;&gt;</code> in Babel, where the attribute is called <code>name</code>. Might as well keep doing that over here.  Oh but hang on. I want it to stand out a bit.  I’ll use angle quotes <code>«‥»</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>#+BEGIN_NOTE
+On a US keyboard using <a href="/vim" class="page-link">Vim</a> or <a href="/neovim" class="page-link">Neovim</a>, <code>«</code> is a <a href="https://vimhelp.org/digraph.txt.html#digraph.txt">digraph</a> which can be entered via <kbd>Control-k</kbd> followed by <kbd>&lt;&lt;</kbd>.  Or if you’ve set up a <a href="https://en.wikipedia.org/wiki/Compose_key">Compose</a> key, it’s <kbd>Compose</kbd> followed by <kbd>&lt;&lt;</kbd> in any editor.</p>
+<p><code>»</code> is the same, but <kbd>&gt;&gt;</kbd> instead.</p>
+<p><em>Or</em> you can use <code>&lt;&lt;…&gt;&gt;</code> in your code and ignore my recent obsession with fancy characters.</p>
+<p>Yes, I know I could practically write it <em>all</em> with fancy characters in Raku. One step at a time.
+#+END_NOTE</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let’s go back to the Python code because it’s still so small.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Say I want to demonstrate the delightful <a href="/rich" class="page-link">Rich</a> terminal library for Python.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python{title=&quot;import-libraries&quot;}"> from rich import print
+ from rich.panel import Panel
+ from rich.markdown import Markdown
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>But before I really use it in my code, I spend 1,500 words singing its praises.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It’s nice.  I like it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Okay, done singing.  Time to write the rest of the program.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python{title=&quot;rich-hello.py&quot;}">«import-libraries»
+
+md = Markdown(&quot;**Hello**, *World*.&quot;)
+print(Panel(md))
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I identify the fragment with a <code>name</code> attribute:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-html">{{&lt;/* code name=&quot;import-libraries&quot; lang=&quot;python&quot; */&gt;}}
+from rich import print
+from rich.panel import Panel
+from rich.markdown import Markdown
+{{&lt;/* /code */&gt;}}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>My <code>code</code> block references the <code>import-libraries</code> fragment by name when I’m ready for it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-html">{{&lt;/* code file=&quot;rich-hello.py&quot; */&gt;}}
+«import-libraries»
+
+md = Markdown(&quot;**Hello**, *World*.&quot;)
+print(Panel(md))
+{{&lt;/* /code */&gt;}}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I <em>might</em> spend some time talking about the <code>code</code> shortcode in another post, but I dislike Go’s templating enough that this does not sound like fun.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Rounding up fragments to tangle</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Recognizing an additional parameter doesn’t make my regular expression <em>that</em> much more complicated, but I can see things getting  ore complex.  I could even find a better pattern later.  Let’s give the params their own named regex for some encapsulation.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku{title=&quot;shortcode-params-regex&quot;}">my regex params {
+   'file=&quot;' $&lt;filename&gt; = .+? '&quot;'
+   ||
+   'name=&quot;' $&lt;fragment&gt; = .+? '&quot;'
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That way I can drop it in <code>shortcode</code> to say “oh and look for <code>params</code> while you’re at it please.”</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku{title=&quot;nested-shortcode-regex&quot;}">«shortcode-params-regex»
+my $opener = '{{&lt;/* ';
+my $closer = ' */&gt;}}';
+
+my regex shortcode {
+  $opener code \s &lt;params&gt; .*? $closer
+  \n                # Ignore leading newline
+  $&lt;content&gt; = .+?  # Remember everything else in the block
+  \n                # Ignore trailing newline
+  $opener '/code' $closer
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Okay, we recognize <code>file</code> and <code>name</code> parameters.  What do we do with them? We gather them!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku{title=&quot;gather-fragments-and-files&quot;}">my %fragment-for;
+my @filenames;
+my $markdown = slurp $filename;
+
+for $markdown.match(/&lt;shortcode&gt;/, :global) -&gt; $block {
+  my $tangle-content = $block&lt;shortcode&gt;&lt;content&gt;;
+  my $params = $block&lt;shortcode&gt;&lt;params&gt;;
+  my $fragment = $params&lt;fragment&gt; || $params&lt;filename&gt;;
+
+  if $fragment {
+    say &quot;fragment: $fragment&quot;;
+    %fragment-for{ $fragment.Str } = $tangle-content;
+  }
+
+  if my $filename = $params&lt;filename&gt; {
+    @filenames.push($filename.Str);
+  }
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Tangling my fragments</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let’s see here.  I know before I can write any files, I need to make sure everything’s tangled Trying to keep fragments easy to identify.  They sit on a line by themselves, possibly with some leading whitespace.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku{title=&quot;tangle-fragments&quot;}">my regex fragment { ^^ \h*? &quot;«&quot; $&lt;name&gt; = .+? &quot;»&quot; $$ }
+my %tangle-for;
+
+«tangle-function»
+
+for %fragment-for.keys -&gt; $name { tangle($name); }
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Raku functions are lexically scoped, which means it’s perfectly okay to declare a function inside another function.  Though next time I revisit  his, I may want to think about a <a href="https://docs.raku.org/language/classtut">class</a> or something to hold the  complexity.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>But what does that function need to look like?  I’m still not sure I got it quite right.  I mean I know the <em>basic</em> shape of it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku{title=&quot;tangle-function&quot;}">sub tangle(Str $name) {
+  «tangle-error-checking»
+
+  «tangle-text»
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It needs some error checking.  I know that much.  Oh, and if it’s already been tangled I should avoid going through it again.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku{title=&quot;tangle-error-checking&quot;}">   return &quot;&quot; unless $name;
+
+   if %tangle-for{ $name } {
+     return %tangle-for{ $name }.Str;
+   }
+
+   my $content = %fragment-for{ $name };
+   unless $content {
+     die &quot;«$name» is not a valid fragment&quot;;
+   }
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The idea of the thing is clear enough.  Find and recursively <code>tangle</code> each fragment found in this text, replacing the fragment references with their tangled text.  Once that’s all done, cache and return the tangled text.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku{title=&quot;tangle-text&quot;}">   for $content.match(/ &lt;fragment&gt; /, :global) -&gt; $match {
+     my $fragment-ref = $match.Str;
+     my $fragment-name = $match&lt;fragment&gt;&lt;name&gt;.Str;
+     say &quot;$name ← «$fragment-name»&quot;;
+     $content.subst-mutate(/$fragment-ref/, tangle( $fragment-name));
+   }
+
+   %tangle-for{ $name } = $content;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I flailed while tangling fragments.  Lots of complaints from Raku about the difference between a <code>Match</code> and a <code>String</code>.  There <em>must</em> be better ways. But the most important thing?  I got it to work eventually.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Writing tangled files</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>After all that, writing the tangled files felt easy.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku{title=&quot;write-tangled-fragments&quot;}">   «define-commented-shortcodes»
+
+   for @filenames -&gt; $tangle-file {
+     my $tangle-content = %tangle-for{ $tangle-file }
+       .subst(:global, / $commented-opener /, $opener)
+       .subst(:global, / $commented-closer /, $closer);
+     spurt $tangle-file, $tangle-content;
+     say &quot;Tangled to $tangle-file&quot;;
+   }
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Then — theoretically — all these fragments I wrote will make a useful code tangler!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Might as well make it so this script can look at more than just the file I’m editing right now.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku{title=&quot;tangle-fragments.raku&quot;}">sub MAIN(Str $filename) {
+  «nested-shortcode-regex»
+
+  «gather-fragments-and-files»
+
+  «tangle-fragments»
+
+  «write-tangled-files»
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Easiest <a href="https://docs.raku.org/language/create-cli">CLI</a> I ever wrote, by the way.  See?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ raku tangle-fragments.raku
+Usage:
+  tangle-fragments.raku &lt;filename&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Time for the real thing.  I’m nervous.  I shouldn’t be nervous.  I know how this story ends.  Then again I keep rewriting the middle.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ raku tangle-fragments.raku index.md
+fragment: hello.py
+fragment: tangle.raku
+fragment: define-commented-shortcodes
+fragment: replace-commented-shortcodes
+fragment: tangle-every-block
+fragment: tangle-multi.raku
+fragment: import-libraries
+fragment: rich-hello.py
+fragment: shortcode-params-regex
+fragment: nested-shortcode-regex
+fragment: gather-fragments-and-files
+fragment: tangle-fragments
+fragment: tangle-function
+fragment: tangle-error-checking
+fragment: tangle-text
+fragment: write-tangled-files
+fragment: tangle-fragments.raku
+tangle-function &lt;-- (tangle-error-checking)
+tangle-function &lt;-- (tangle-text)
+nested-shortcode-regex &lt;-- (shortcode-params-regex)
+tangle-every-block &lt;-- (replace-commented-shortcodes)
+tangle-fragments &lt;-- (tangle-function)
+write-tangled-files &lt;-- (define-commented-shortcodes)
+tangle-fragments.raku &lt;-- (nested-shortcode-regex)
+tangle-fragments.raku &lt;-- (gather-fragments-and-files)
+tangle-fragments.raku &lt;-- (tangle-fragments)
+tangle-fragments.raku &lt;-- (write-tangled-files)
+rich-hello.py &lt;-- (import-libraries)
+tangle-multi.raku &lt;-- (define-commented-shortcodes)
+tangle-multi.raku &lt;-- (tangle-every-block)
+Tangled to hello.py
+Tangled to tangle.raku
+Tangled to tangle-multi.raku
+Tangled to rich-hello.py
+Tangled to tangle-fragments.raku
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That overwrote my test version of <code>tangle-fragments.raku</code>.  Scary.  Ran the new version to keep myself honest.  It produced the same output, and appears to have correctly tangled my fragments!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Generated <code>rich-hello.py</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">from rich import print
+from rich.panel import Panel
+from rich.markdown import Markdown
+
+md = Markdown(&quot;**Hello**, *World*.&quot;)
+print(Panel(md))
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Running <code>rich-hello.py</code> looks more interesting with a screenshot than a text block:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/rich-panel_1711859293013_0.png" alt="Formatted output using Rich"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Okay.  Now I’m done.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I <em>could</em> have done this in Python.  There are decent parsing libraries out there.  But Raku did this on its own, without pulling in any extra — without pulling in <em>any</em> libraries.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Done? You barely started!</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>My tangle script is no competition for Org mode’s Babel.</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>it needs more error checking</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>circular fragment references</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>unreachable files (path, permissions)</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>smart handling of whitespace and indentation to keep Python from becoming a chore</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>rendering fragment names in such a way that syntax highlighters can do something pretty with them</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>especially when writing code in a language that <a href="https://github.com/alecthomas/chroma">Chroma</a> has heard of</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>hidden blocks</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>code evaluation and display of results</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>But it’ll do for now.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

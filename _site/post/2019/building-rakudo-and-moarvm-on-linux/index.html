@@ -1,0 +1,790 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2019/Building Rakudo and Moarvm on Linux
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><p>In which I rediscover <code>make &amp;&amp; make test &amp;&amp; make install</code></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2019-11-03</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="tip"><header>tip</header><p><em class="link-missing">2021-08-21</em>: Skip all this and use Rakubrew to manage <a href="/raku" class="page-link">Raku</a> installations. See <a href="/post/2020/setting-up-raku-with-rakubrew" class="page-link">post/2020/Setting up Raku with Rakubrew</a></p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Not instructions, but a brain dump of compiling and checking a <a href="https://rakudo.org">Rakudo</a> installation.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Windows? No problem.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>&gt; choco install rakudo
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>macOS? No problem.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ brew install rakudo
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="/linux" class="page-link">Linux</a>?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ brew install rakudo
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Well…</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>==&gt; Installing dependencies for rakudo: moarvm and nqp
+==&gt; Installing rakudo dependency: moarvm
+==&gt; Downloading https://github.com/MoarVM/MoarVM/releases/download/2019.07.1/MoarVM-2019.07.1.tar.gz
+Already downloaded: /home/randomgeek/.cache/Homebrew/downloads/2c331d2b583c39890ed5fd765cea551c9e171136038a6a400217c7725ae60a9d--MoarVM-2019.07.1.tar.gz
+==&gt; perl Configure.pl --has-libatomic_ops --has-libffi --has-libtommath --has-libuv --optimize --prefix=/home/linuxbrew/.linuxbrew/Cellar/moarvm/2019.07.1
+==&gt; make realclean
+==&gt; make
+Last 15 lines from /home/randomgeek/.cache/Homebrew/Logs/moarvm/03.make:
+compiling src/jit/x64/emit.o
+linking libmoar.so
+/usr/bin/ld: /home/linuxbrew/.linuxbrew/lib/libtommath.a(bn_mp_exptmod_fast.o): relocation R_X86_64_32S against symbol `mp_reduce_2k' can not be used when making a shared object; recompile with -fPIC
+/usr/bin/ld: /home/linuxbrew/.linuxbrew/lib/libtommath.a(bn_mp_prime_is_prime.o): relocation R_X86_64_32 against symbol `ltm_prime_tab' can not be used when making a shared object; recompile with -fPIC
+/usr/bin/ld: /home/linuxbrew/.linuxbrew/lib/libtommath.a(bn_mp_rand.o): relocation R_X86_64_32 against `.rodata.str1.1' can not be used when making a shared object; recompile with -fPIC
+/usr/bin/ld: /home/linuxbrew/.linuxbrew/lib/libtommath.a(bn_mp_read_radix.o): relocation R_X86_64_32S against symbol `mp_s_rmap_reverse' can not be used when making a shared object; recompile with -fPIC
+/usr/bin/ld: /home/linuxbrew/.linuxbrew/lib/libtommath.a(bn_s_mp_exptmod.o): relocation R_X86_64_32 against symbol `mp_reduce' can not be used when making a shared object; recompile with -fPIC
+/usr/bin/ld: /home/linuxbrew/.linuxbrew/lib/libtommath.a(bn_mp_cnt_lsb.o): relocation R_X86_64_32S against `.rodata' can not be used when making a shared object; recompile with -fPIC
+/usr/bin/ld: /home/linuxbrew/.linuxbrew/lib/libtommath.a(bn_mp_is_square.o): relocation R_X86_64_32S against `.rodata' can not be used when making a shared object; recompile with -fPIC
+/usr/bin/ld: /home/linuxbrew/.linuxbrew/lib/libtommath.a(bn_mp_kronecker.o): relocation R_X86_64_32S against `.rodata' can not be used when making a shared object; recompile with -fPIC
+/usr/bin/ld: /home/linuxbrew/.linuxbrew/lib/libtommath.a(bn_mp_prime_is_divisible.o): relocation R_X86_64_32 against symbol `ltm_prime_tab' can not be used when making a shared object; recompile with -fPIC
+/usr/bin/ld: /home/linuxbrew/.linuxbrew/lib/libtommath.a(bn_mp_abs.o): relocation R_X86_64_PC32 against symbol `mp_copy' can not be used when making a shared object; recompile with -fPIC
+/usr/bin/ld: final link failed: bad value
+collect2: error: ld returned 1 exit status
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Awkward.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I don’t want the <code>apt</code> version, because it’s from last year. Maybe I want <a href="https://github.com/tadzik/rakudobrew">rakudobrew</a>?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Well — maybe later. At the moment I just want to see if Rakudo builds at all.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let’s break down the big shell alias from Zoffix’s <a href="https://github.com/zoffixznet/r">Instructions to build rakudo from source</a> into discrete steps.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ git clone https://github.com/rakudo/rakudo/ ~/rakudo
+$ echo 'export PATH=&quot;$HOME/rakudo/install/bin:$HOME/rakudo/install/share/perl6/site/bin:$PATH&quot;' &gt;&gt; ~/.bashrc
+$ cd ~/rakudo
+$ git checkout master
+$ git pull
+$ git checkout $(git describe --abbrev=0 --tags)
+$ perl Configure.pl --gen-moar --gen-nqp --backends=moar
+$ make
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>And just to be on the safe side:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ make test
+Test Summary Report
+-------------------
+t/09-moar/Line_Break__LineBreak.t                             (Wstat: 0 Tests: 2 Failed: 0)
+  TODO passed:   1
+t/09-moar/General_Category__extracted-DerivedGeneralCategory.t (Wstat: 0 Tests: 1 Failed: 0)
+  TODO passed:   1
+Files=98, Tests=1760, 36 wallclock secs ( 0.34 usr  0.08 sys + 130.23 cusr  9.24 csys = 139.89 CPU)
+Result: PASS
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Great!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ make install
+$ source ~/.bashrc
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now, a little Raku one-liner test.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ perl6 -e 'say &quot;Yo, World! This is $*PERL - specifically: { ($*PERL, $*VM, $*DISTRO).map({ $_.gist })}&quot;'
+Yo, World! This is Perl 6 - specifically: Perl 6 (6.d) moar (2019.07.1) ubuntu (19.10)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Using <code>gist</code> instead of normal stringification because I wanted all the details. You can see with <code>$*PERL</code> inside the string that <code>Str</code> is not for the gory details.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It’s a bit like <code>str</code> versus <code>repr</code> in the <a href="/python" class="page-link">Python</a> world.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Anyways yay, it worked! If I ever get enough free time, I might investigate the <code>brew</code> bug. But it took me three days to finish <em>this</em> post.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="https://raku.online/">Andrew Shitov</a> already prepared for the “Perl 6” → “Raku” name transition with a shell alias:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-bash">alias raku='perl6'
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Not the worst way to keep the new name in mind.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

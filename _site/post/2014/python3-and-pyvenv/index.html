@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2014/Python3 and pyvenv
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2014-07-04</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I have been spending much of my coding time in <a href="/python" class="page-link">Python</a> recently. This site is built in <a href="/pelican" class="page-link">Pelican</a>. Many lines of Python have been written for work. I have even been poking at <a href="https://developers.google.com/appengine/docs/python/">Google App Engine</a> in what spare time is available. The only disappointment is that all of these have been in Python 2. I would prefer to be using <a href="https://wiki.python.org/moin/Python2orPython3">Python 3</a>. There is a little free time today, so I will set up a nice Python 3 workspace.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>One of the interesting things about Python is how it handles personal workspaces. Popular tools in other languages, such as <a href="http://rbenv.org/">rbenv</a> for <a href="/ruby" class="page-link">Ruby</a> and <a href="http://perlbrew.pl/">perlbrew</a> for <a href="/perl" class="page-link">Perl</a>, focus on a complete localized installation for any version you care to use. Python tools assume a system standard version, and focus on making a snapshot for your projects. That works <em>sort of</em> like <a href="http://bundler.io/">Bundler</a>. Once you have your snapshot loaded, you use <a href="http://pip.readthedocs.org/">pip</a> to install the exact libraries needed by your projects. That works very much like Bundler.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The tool of choice for making virtual environments in Python 3 is <a href="https://docs.python.org/dev/library/venv.html">pyvenv</a>. pyvenv actually comes with the standard installation of Python 3.3 or greater. That is good news. Python 2’s <a href="http://virtualenv.readthedocs.org/">virtualenv</a> was not hard to install, but it was not available by default. You still had to <em>install</em> it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There is already an excellent <a href="https://packaging.python.org/en/latest/tutorial.html#creating-and-using-virtual-environments">introduction</a> to using pyvenv. That tells most of what you need to know.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ pyvenv my-project
+$ source my-project/bin/activate
+(my-project) $
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now <code>my-project</code> holds the default Python interpreter until you exit that particular shell or activate a different virtual environment.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That is good enough to get started, but I often have several projects going. Each project gets its own virtual environment. Having my environment files just sitting there in my project folder bothers me, though.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I like things tidy, so I use <a href="http://virtualenvwrapper.readthedocs.org/en/latest/index.html">virtualenvwrapper</a>. virtualenvwrapper creates a single folder to hold your virtual environments and provides you with a couple of shell commands to manage those environments. It’s easy if you’re only using a single system Python. Just follow their installation <a href="http://virtualenvwrapper.readthedocs.org/en/latest/install.html">instructions</a>. After that, <code>mkvirtualenv</code> and <code>workon</code> are your friends.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ mkvirtualenv mypy3
+(mypy3) $
+# later, in another shell
+$ workon mypy3
+(mypy3) $
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What if I wanted to use both Python 2 and Python 3 virtual environments? Well, the virtual environments I already had set up for work function without any problem. Thank goodness. If I wanted to do new Python 2 work - well, that may be a good time to pull up a <em>real</em> virtual environment with a tool like <a href="http://www.vagrantup.com/">Vagrant</a>. I may come back to that later.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

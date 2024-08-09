@@ -1,0 +1,2090 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2021/Pretty File Summaries with Rich and ExifTool
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2021-02-06</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><p><a href="https://hackers.town/@randomgeek/105687357346007063">Mastodon</a></p>
+</td>
+          </tr>
+        
+      
+        
+      
+        
+          <tr>
+            <th>banner</th>
+            <td><p>…/assets/cover-2021-02-06_1719420935137_0.jpg</p>
+</td>
+          </tr>
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>banner-caption: Hoku hopes for scraps</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>In <a href="/post/2020/getting-file-info-from-the-shell" class="page-link">post/2020/Getting File Info From The Shell</a>, I shared how I use <a href="https://exiftool.org">ExifTool</a> to get extensive metadata for any file.  I want to make that info dump pretty with <a href="/rich" class="page-link">Rich</a>, a text formatting library for <a href="/python" class="page-link">Python</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>“But Brian,”&quot; I hear you cry.  “ExifTool is <a href="/perl" class="page-link">Perl</a>. Why would I want to use both Perl and Python?”</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Because it’s fun, obviously.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You want a “real” reason?  Okay fine.  I haven’t found anything that can get the depth of file information I get from ExifTool.  I haven’t found a formatting library that’s as pleasant to use as Rich — maybe <a href="https://ttytoolkit.org">TTY Toolkit</a>?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Besides — ExifTool is a standalone command line tool.  We don’t need to write any Perl to <em>use</em> it.  Heck, we don’t even need to figure out the system calls. <a href="https://github.com/smarnach">Sven Marnach</a> is way ahead of us with the extremely helpful <a href="https://smarnach.github.io/pyexiftool/">pyexiftool</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Rich and pyexiftool make Python an easy choice for this task.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Setting Up</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>If you want to play along at home, make sure you have the dependencies.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ brew install exiftool
+$ pip install pyexiftool rich typer
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="https://typer.tiangolo.com">Typer</a> simplifies turning this random idea into a useful command line tool.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>#+BEGIN_NOTE
+If you’re already a fan of Perl, consider <a href="https://metacpan.org/pod/App::cpanminus"><code>cpanm</code></a> instead of <a href="https://brew.sh">Homebrew</a>.</p>
+<pre><code class="language-console">$ cpanm Image::ExifTool
+</code></pre>
+<p>Now you can use <a href="https://metacpan.org/pod/distribution/Image-ExifTool/lib/Image/ExifTool.pod">Image::ExifTool</a> in your own Perl projects.
+#+END_NOTE</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Some scaffolding</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Even though I’m the only user, I still need to figure out how I plan to use it. At minimum?  I hand my script a filename.  It hands me metadata.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">richexif FILENAME [OPTIONS]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I can hook some <a href="https://typer.tiangolo.com/tutorial/first-steps/#add-a-cli-argument">minimal</a> Typer argument handling around that flow.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">#!/usr/bin/env python
+
+import logging
+
+from rich.logging import RichHandler
+import typer
+
+logging.basicConfig(
+    level=logging.DEBUG,
+    format=&quot;%(message)s&quot;,
+    datefmt=&quot;[%X]&quot;,
+    handlers=[RichHandler()]
+)
+
+
+def main(filename: str):
+    &quot;&quot;&quot;Display nicely-formatted file metadata.&quot;&quot;&quot;
+    logging.debug(&quot;filename: %s&quot;, filename)
+</code></pre>
+<p>caption:: <code>richexif.py</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Can I run it?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">chmod 755 richexif.py
+./richexif.py hoku-hopes-for-snacksjpg.jpg
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I can!  What happens if I use it wrong?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">$ ./richexif.py
+Usage: richexif.py [OPTIONS] FILENAME
+Try 'richexif.py --help' for help.
+
+Error: Missing argument 'FILENAME'.
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I get an error message telling me what <code>richexif.py</code> needs to do its thing. Nice.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I confirmed that Typer handles the CLI bits, and Rich handles the formatting. Now for pyexiftool.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Oh and I’ll skip logging output from here on.  Rich’s <a href="https://rich.readthedocs.io/en/latest/logging.html">logging handler</a> output is a joy to look at, but really that stuff is for me.  For you it’ll just add noise.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Some metadata</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I need exiftool, of course.  Plus a Rich <a href="https://rich.readthedocs.io/en/latest/console.html">Console</a> object, masterminding the display details for my terminal.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">import exiftool
+from rich.console import Console
+
+console = Console()
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>exiftool’s <a href="https://smarnach.github.io/pyexiftool/#exiftool.ExifTool.get_metadata"><code>get_metadata</code></a> grabs everything ExifTool sees about a file.  It also provides methods for ExifTool <a href="https://exiftool.org/TagNames/index.html">tags</a>, but I won’t mess with them today. Tags — the official name for our metadata keys — are most useful when you already know what you’re looking for.  We’re just checking stuff out.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>For now, a little abstraction layer over pyexiftool’s <code>ExifTool</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">def get_metadata(filename):
+    &quot;&quot;&quot;Return a dictionary of file metadata.&quot;&quot;&quot;
+    with exiftool.ExifTool() as et:
+        return et.get_metadata(filename)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>main</code> gets the metadata and asks <code>console</code> to print it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">def main(filename: str):
+    &quot;&quot;&quot;Display nicely-formatted file metadata.&quot;&quot;&quot;
+    metadata = get_metadata(filename)
+    console.print(metadata)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>And here’s what that looks like.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre class="rich"><span style="font-weight: bold">{</span>
+    <span style="color: #008000">'SourceFile'</span>: <span style="color: #008000">'hoku-hopes-for-snacks.jpg'</span>,
+    <span style="color: #008000">'ExifTool:ExifToolVersion'</span>: <span style="color: #000080; font-weight: bold">12.15</span>,
+    <span style="color: #008000">'File:FileName'</span>: <span style="color: #008000">'hoku-hopes-for-snacks.jpg'</span>,
+    <span style="color: #008000">'File:Directory'</span>: <span style="color: #008000">'.'</span>,
+    <span style="color: #008000">'File:FileSize'</span>: <span style="color: #000080; font-weight: bold">918330</span>,
+    <span style="color: #008000">'File:FileModifyDate'</span>: <span style="color: #008000">'2021:02:06 00:54:29-08:00'</span>,
+    <span style="color: #008000">'File:FileAccessDate'</span>: <span style="color: #008000">'2021:02:06 11:30:33-08:00'</span>,
+    <span style="color: #008000">'File:FileInodeChangeDate'</span>: <span style="color: #008000">'2021:02:06 11:30:33-08:00'</span>,
+    <span style="color: #008000">'File:FilePermissions'</span>: <span style="color: #000080; font-weight: bold">775</span>,
+    <span style="color: #008000">'File:FileType'</span>: <span style="color: #008000">'JPEG'</span>,
+    <em>…skipping 62 lines…</em>
+    <span style="color: #008000">'Composite:ScaleFactor35efl'</span>: <span style="color: #000080; font-weight: bold">6.04651162790698</span>,
+    <span style="color: #008000">'Composite:ShutterSpeed'</span>: <span style="color: #000080; font-weight: bold">0.05</span>,
+    <span style="color: #008000">'Composite:GPSLatitude'</span>: <span style="color: #000080; font-weight: bold">47.5750857997222</span>,
+    <span style="color: #008000">'Composite:GPSLongitude'</span>: <span style="color: #000080; font-weight: bold">-122.386441</span>,
+    <span style="color: #008000">'Composite:CircleOfConfusion'</span>: <span style="color: #008000">'0.00496918925785101'</span>,
+    <span style="color: #008000">'Composite:FOV'</span>: <span style="color: #000080; font-weight: bold">69.3903656740024</span>,
+    <span style="color: #008000">'Composite:FocalLength35efl'</span>: <span style="color: #000080; font-weight: bold">26</span>,
+    <span style="color: #008000">'Composite:GPSPosition'</span>: <span style="color: #008000">'47.5750857997222 -122.386441'</span>,
+    <span style="color: #008000">'Composite:HyperfocalDistance'</span>: <span style="color: #000080; font-weight: bold">2.48061927751922</span>,
+    <span style="color: #008000">'Composite:LightValue'</span>: <span style="color: #000080; font-weight: bold">3.81378119121704</span>
+<span style="font-weight: bold">}</span>
+</pre>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Holy crap that’s a lot.  Some of it could be considered sensitive information — unless you read my <em class="link-missing">now</em> page.  But it’s all there!  Even in the snipped version you can learn a lot.  Hello from my Windows partition in West Seattle during February of 2021!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="tip"><header>tip</header><p>Uncomfortable sharing that much with every photo you upload?  You can scrub those tags right out.  <a href="https://www.linux-magazine.com/Online/Blogs/Productivity-Sauce/Remove-EXIF-Metadata-from-Photos-with-exiftool">With ExifTool</a>, of course.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>But back to the other gripe about all this metadata.  It’s way too much for me to take in all at once.  I need some kind of filter!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Filtering the firehose</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">def filter_metadata(metadata, filter):
+    &quot;&quot;&quot;Return a copy of the metadata where fields contain the substring `filter`.&quot;&quot;&quot;
+    return {k: v for k, v in metadata.items() if filter in k}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There’s no kind of transformation here.  If a field constrains the exact substring described in <code>filter</code>, use it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Adding a Typer <a href="https://typer.tiangolo.com/tutorial/options/">Option</a> lets us ask for a filter from the command line.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">def main(
+    filename: str,
+    filter: Optional[str] = typer.Option(
+        None, help=&quot;Substring to restrict displayed fields&quot;
+    ),
+):
+    &quot;&quot;&quot;Display nicely-formatted file metadata.&quot;&quot;&quot;
+    metadata = get_metadata(filename)
+
+    if filter:
+        metadata = filter_metadata(metadata, filter)
+
+    console.print(metadata)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>If we use <code>--filter</code>, we should only get matching tags.  Leaving out the filter gets us everything.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Try it out!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-bash">./richexif.py hoku-hopes-for-snacks.jpg --filter=Image
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now that I’m not overwhelmed by the quantity of output, I’m a little underwhelmed by the quality.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre class="rich"><span style="font-weight: bold">{</span>
+    <span style="color: #008000">'File:ImageWidth'</span>: <span style="color: #000080; font-weight: bold">3672</span>,
+    <span style="color: #008000">'File:ImageHeight'</span>: <span style="color: #000080; font-weight: bold">2066</span>,
+    <span style="color: #008000">'EXIF:ImageWidth'</span>: <span style="color: #000080; font-weight: bold">4032</span>,
+    <span style="color: #008000">'EXIF:ImageHeight'</span>: <span style="color: #000080; font-weight: bold">2268</span>,
+    <span style="color: #008000">'EXIF:ExifImageWidth'</span>: <span style="color: #000080; font-weight: bold">4032</span>,
+    <span style="color: #008000">'EXIF:ExifImageHeight'</span>: <span style="color: #000080; font-weight: bold">2268</span>,
+    <span style="color: #008000">'EXIF:ImageUniqueID'</span>: <span style="color: #008000">'J12LLKL00SM'</span>,
+    <span style="color: #008000">'EXIF:ThumbnailImage'</span>: <span style="color: #008000">'(Binary data 6788 bytes, use -b option to extract)'</span>,
+    <span style="color: #008000">'Composite:ImageSize'</span>: <span style="color: #008000">'3672 2066'</span>
+<span style="font-weight: bold">}</span></pre>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It’s nice.  Don’t get me wrong.  But all we’ve added to default <code>exiftool</code> behavior is some color.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’ve played with Rich a bit.  I know we can do better.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>A metadata table!</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Rich lets us create and display <a href="https://rich.readthedocs.io/en/stable/tables.html">tables</a> in the terminal.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">from rich.table import Table
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We need to <em>build</em> the table, defining columns and adding values row by row.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">def file_table(filename, metadata):
+    &quot;&quot;&quot;Return a Rich Table showing the metadata for a file.&quot;&quot;&quot;
+    table = Table(&quot;Field&quot;, &quot;Value&quot;, title=filename)
+
+    for key, value in metadata.items():
+        table.add_row(key, str(value))
+
+    return table
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="warning"><header>warning</header><p>Hey, don’t miss that <code>str(value)</code>!  Rich tables need strings, and take nothing for granted with the values you give it.  Numeric values won’t necessarily convert straight to strings without a little help.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">def main(...):
+    &quot;&quot;&quot;Display nicely-formatted file metadata.&quot;&quot;&quot;
+    ...
+
+    if filter:
+        metadata = filter_metadata(metadata, filter)
+
+    table = file_table(filename, metadata)
+    console.print(table)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What does our filtered view look like as a table?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-bash">./richexif.py hoku-hopes-for-snacksjpg.jpg --filter=Image
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre class="rich"><span style="font-style: italic">                        hoku-hopes-for-snacksjpg.jpg                         </span>
+┏━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃<span style="font-weight: bold"> Field                </span>┃<span style="font-weight: bold"> Value                                              </span>┃
+┡━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ File:ImageWidth      │ 3672                                               │
+│ File:ImageHeight     │ 2066                                               │
+│ EXIF:ImageWidth      │ 4032                                               │
+│ EXIF:ImageHeight     │ 2268                                               │
+│ EXIF:ExifImageWidth  │ 4032                                               │
+│ EXIF:ExifImageHeight │ 2268                                               │
+│ EXIF:ImageUniqueID   │ J12LLKL00SM                                        │
+│ EXIF:ThumbnailImage  │ (Binary data 6788 bytes, use -b option to extract) │
+│ Composite:ImageSize  │ 3672 2066                                          │
+└──────────────────────┴────────────────────────────────────────────────────┘
+</pre>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Pretty nifty.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>A metadata tree!</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We can do more than tables though.  with that <code>type:tag</code> split, there’s kind of a heirarchy.  We <em>could</em> add a column for the tag type, but why not use a <a href="https://rich.readthedocs.io/en/stable/tree.html">Tree</a>?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">from rich.tree import Tree
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Hang on a second while we build our little tree with its branches.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">def file_tree(filename, metadata):
+    tree = Tree(f&quot;[bold]{filename}&quot;)
+    branches = {}
+    tagged_values = [(k.split(&quot;:&quot;), v) for k, v in metadata.items()]
+
+    for tags, value in tagged_values:
+        root_tag = tags[0]
+
+        if root_tag not in branches:
+            branches[root_tag] = tree.add(f&quot;[bold]{root_tag}&quot;)
+
+        if len(tags) == 2:
+            branches[root_tag].add(f&quot;[italic]{tags[1]}:[/italic] {value}&quot;)
+        else:
+            branches[tags[0]].add(str(value))
+
+    return tree
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Except now we have two ways to display metadata.  Three, if you count the dictionary we started with.  How are we going to show this tree without discarding our table code?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>For now, a callback table that says what to call for each of the options.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">from rich.tree import Tree
+
+DISPLAYS = {
+    &quot;table&quot;: lambda f, m: file_table(f, m),
+    &quot;tree&quot;: lambda f, m: file_tree(f, m),
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We don’t <em>need</em> to use lambdas here.  Functions can be passed around same as any other value.  But if I wrap them in a lambda I can build my constant table before Python knows the functions exist.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Typer uses <a href="https://typer.tiangolo.com/tutorial/options/callback-and-context/">callback</a> functions to validate options.  They do any processing or checks they need to, then return the supplied value if everything goes well.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">def validate_display(value):
+    &quot;&quot;&quot;Return value if valid, or panic if it isn't.&quot;&quot;&quot;
+    if value not in DISPLAYS:
+        raise typer.BadParameter(f&quot;Format must be one of: {DISPLAYS.keys()}&quot;)
+    return value
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Add the <code>--display</code> Option, making sure to point Typer at the callback. <code>main</code> itself knows the value is safe, or the script never would have reached it.  So I can grab the displayer and call it without fear of consequence.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">def main(
+    ...
+    display: str = typer.Option(
+        &quot;table&quot;,
+        help=&quot;How to display the metadata&quot;,
+        callback=validate_display,
+    ),
+):
+    &quot;&quot;&quot;Display nicely-formatted file metadata.&quot;&quot;&quot;
+    ...
+
+    displayer = FORMATS[display]
+    output = displayer(filename, metadata)
+    console.print(output)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Okay!  What do we have now?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ ./richexif.py hoku-hopes-for-snacks.jpg --filter=Image --display=tree
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre class="rich"><span style="font-weight: bold">hoku-hopes-for-snacks.jpg</span>
+├── <span style="font-weight: bold">File</span>
+│   ├── <span style="font-style: italic">ImageWidth:</span> 3672
+│   └── <span style="font-style: italic">ImageHeight:</span> 2066
+├── <span style="font-weight: bold">EXIF</span>
+│   ├── <span style="font-style: italic">ImageWidth:</span> 4032
+│   ├── <span style="font-style: italic">ImageHeight:</span> 2268
+│   ├── <span style="font-style: italic">ExifImageWidth:</span> 4032
+│   ├── <span style="font-style: italic">ExifImageHeight:</span> 2268
+│   ├── <span style="font-style: italic">ImageUniqueID:</span> J12LLKL00SM
+│   └── <span style="font-style: italic">ThumbnailImage:</span> (Binary data 6788 bytes, use -b option to extract)
+└── <span style="font-weight: bold">Composite</span>
+    └── <span style="font-style: italic">ImageSize:</span> 3672 2066
+</pre>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Oooooh.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Anyways, that’s what I wanted to show you.  Got plenty more ideas for mashing ExifTool and Rich together, as I’m sure you can imagine.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

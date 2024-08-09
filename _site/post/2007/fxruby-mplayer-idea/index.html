@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2007/FXRuby MPlayer Idea
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2007-01-30</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><p><em class="link-missing">blogpost,note/2007</em></p>
+</td>
+          </tr>
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/cover-2007-01-30_1711945596021_0.png" alt="cover-2007-01-30.png"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>A few weeks back I wrote up a GUI front-end for <a href="https://www.mplayerhq.hu">mplayer</a>. It works nice enough, but it suffers from a few aesthetic issues.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It’s written in <a href="/perl" class="page-link">Perl</a>, with <a href="https://metacpan.org/pod/POE">POE</a> and <a href="https://metacpan.org/pod/distribution/Tk/Tk.pod">Perl/Tk</a>. I managed to write the code in such a way that it’s readable, but … well, Perl/Tk looks like ass. It’s okay for smaller projects, but it becomes more and more obvious as your project grows that it’s just not pretty enough. Tcl/Tk has <a href="https://tktable.sourceforge.net/tile">Tile</a>, which would make things all pretty, but I’m not comfortable writing apps with Tcl. POE is also okay, but I have no POE-fu to speak of. So the application code is also starting to look like ass.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>MPlayer slave mode is not working completely as advertised, or it’s not interacting well with my POE-ass code. Whatever. Pause does not actually pause. It just hiccups for a second and goes back to playing. I will work around that, but I’ll also be keeping my eyes open for something else.
+I have chosen to rewrite the front end with <a href="/ruby" class="page-link">Ruby</a> - specifically <a href="https://github.com/larskanis/fxruby">FXRuby</a>. I might have used <a href="https://ruby-gnome.github.io">Ruby/Gtk2</a>, but for some reason I can’t convince this stupid computer that I have the Gtk2 development libs. Score one more point of hate for Redhat-based distros.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Yes, the basic interface is familiar. No, it’s not a clone. All this baby is planned to do is import, organize, and play your music files. Even then, you are probably better off with the original if it’s available for your platform.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

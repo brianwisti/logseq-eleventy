@@ -1,0 +1,801 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        Config/Shell/Nushell
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="/nushell" class="page-link">Nushell</a> may still be beta, but it’s getting pretty darn useful.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>config.nu</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Been taking a closer look at the <a href="https://github.com/nushell/nushell/blob/main/crates/nu-utils/src/sample_config/default_config.nu">default config</a>, mainly so I can understand what I want to change.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-nushell">// ==&gt; Define completions module.
+
+use completions *
+
+// ==&gt; Define my themes.
+// ==&gt; Declare my config.
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Completions</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The completions come directly from the default.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-nu">//- Define completions module
+module completions {
+  # Custom completions for external commands (those outside of Nushell)
+  # Each completions has two parts: the form of the external command, including its flags and parameters
+  # and a helper command that knows how to complete values for those flags and parameters
+  #
+  # This is a simplified version of completions for git branches and git remotes
+  def &quot;nu-complete git branches&quot; [] {
+    ^git branch | lines | each { |line| $line | str replace '[\*\+] ' '' | str trim }
+  }
+
+  def &quot;nu-complete git remotes&quot; [] {
+    ^git remote | lines | each { |line| $line | str trim }
+  }
+
+  export extern &quot;git checkout&quot; [
+    branch?: string@&quot;nu-complete git branches&quot; # name of the branch to checkout
+    -b: string                                 # create and checkout a new branch
+    -B: string                                 # create/reset and checkout a branch
+    -l                                         # create reflog for new branch
+    --guess                                    # second guess 'git checkout &lt;no-such-branch&gt;' (default)
+    --overlay                                  # use overlay mode (default)
+    --quiet(-q)                                # suppress progress reporting
+    --recurse-submodules: string               # control recursive updating of submodules
+    --progress                                 # force progress reporting
+    --merge(-m)                                # perform a 3-way merge with the new branch
+    --conflict: string                         # conflict style (merge or diff3)
+    --detach(-d)                               # detach HEAD at named commit
+    --track(-t)                                # set upstream info for new branch
+    --force(-f)                                # force checkout (throw away local modifications)
+    --orphan: string                           # new unparented branch
+    --overwrite-ignore                         # update ignored files (default)
+    --ignore-other-worktrees                   # do not check if another worktree is holding the given ref
+    --ours(-2)                                 # checkout our version for unmerged files
+    --theirs(-3)                               # checkout their version for unmerged files
+    --patch(-p)                                # select hunks interactively
+    --ignore-skip-worktree-bits                # do not limit pathspecs to sparse entries only
+    --pathspec-from-file: string               # read pathspec from file
+  ]
+
+  export extern &quot;git push&quot; [
+    remote?: string@&quot;nu-complete git remotes&quot;, # the name of the remote
+    refspec?: string@&quot;nu-complete git branches&quot;# the branch / refspec
+    --verbose(-v)                              # be more verbose
+    --quiet(-q)                                # be more quiet
+    --repo: string                             # repository
+    --all                                      # push all refs
+    --mirror                                   # mirror all refs
+    --delete(-d)                               # delete refs
+    --tags                                     # push tags (can't be used with --all or --mirror)
+    --dry-run(-n)                              # dry run
+    --porcelain                                # machine-readable output
+    --force(-f)                                # force updates
+    --force-with-lease: string                 # require old value of ref to be at this value
+    --recurse-submodules: string               # control recursive pushing of submodules
+    --thin                                     # use thin pack
+    --receive-pack: string                     # receive pack program
+    --exec: string                             # receive pack program
+    --set-upstream(-u)                         # set upstream for git pull/status
+    --progress                                 # force progress reporting
+    --prune                                    # prune locally removed refs
+    --no-verify                                # bypass pre-push hook
+    --follow-tags                              # push missing but relevant tags
+    --signed: string                           # GPG sign the push
+    --atomic                                   # request atomic transaction on remote side
+    --push-option(-o): string                  # option to transmit
+    --ipv4(-4)                                 # use IPv4 addresses only
+    --ipv6(-6)                                 # use IPv6 addresses only
+  ]
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Theme</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Again, straight from the defaults. For more on themes see the Nushell book section on <a href="https://www.nushell.sh/book/coloring_and_theming.html">coloring and theming</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-nu">//- Define my themes
+let default_theme = {
+    # color for nushell primitives
+    separator: white
+    leading_trailing_space_bg: { attr: n } # no fg, no bg, attr none effectively turns this off
+    header: green_bold
+    empty: blue
+    bool: white
+    int: white
+    filesize: white
+    duration: white
+    date: white
+    range: white
+    float: white
+    string: white
+    nothing: white
+    binary: white
+    cellpath: white
+    row_index: green_bold
+    record: white
+    list: white
+    block: white
+    hints: dark_gray
+
+    # shapes are used to change the cli syntax highlighting
+    shape_garbage: { fg: &quot;#FFFFFF&quot; bg: &quot;#FF0000&quot; attr: b}
+    shape_binary: purple_bold
+    shape_bool: light_cyan
+    shape_int: purple_bold
+    shape_float: purple_bold
+    shape_range: yellow_bold
+    shape_internalcall: cyan_bold
+    shape_external: cyan
+    shape_externalarg: green_bold
+    shape_literal: blue
+    shape_operator: yellow
+    shape_signature: green_bold
+    shape_string: green
+    shape_string_interpolation: cyan_bold
+    shape_datetime: cyan_bold
+    shape_list: cyan_bold
+    shape_table: blue_bold
+    shape_record: cyan_bold
+    shape_block: blue_bold
+    shape_filepath: cyan
+    shape_globpattern: cyan_bold
+    shape_variable: purple
+    shape_flag: blue_bold
+    shape_custom: green
+    shape_nothing: light_cyan
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>The config record</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Here’s the important part. Got a few little variations from the default but there’s a heck of a lot unchanged.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-nu">//- Declare my config
+
+let-env config = {
+  color_config: $default_theme
+  edit_mode: emacs # emacs, vi
+  float_precision: 2
+  footer_mode: &quot;25&quot; # always, never, number_of_rows, auto
+  use_ansi_coloring: true
+  use_grid_icons: true
+
+  filesize: {
+    # true: KB, GB, etc
+    # false: KiB, GiB, etc
+    # On WSL, I get KiB if I don't explicitly set true
+    metric: true
+  }
+
+  menus: [
+      # Configuration for default nushell menus
+      # Note the lack of souce parameter
+      {
+        name: completion_menu
+        only_buffer_difference: false
+        marker: &quot;| &quot;
+        type: {
+            layout: columnar
+            columns: 4
+            col_width: 20   # Optional value. If missing all the screen width is used to calculate column width
+            col_padding: 2
+        }
+        style: {
+            text: green
+            selected_text: green_reverse
+            description_text: yellow
+        }
+      }
+      {
+        name: history_menu
+        only_buffer_difference: true
+        marker: &quot;? &quot;
+        type: {
+            layout: list
+            page_size: 10
+        }
+        style: {
+            text: green
+            selected_text: green_reverse
+            description_text: yellow
+        }
+      }
+      {
+        name: help_menu
+        only_buffer_difference: true
+        marker: &quot;? &quot;
+        type: {
+            layout: description
+            columns: 4
+            col_width: 20   # Optional value. If missing all the screen width is used to calculate column width
+            col_padding: 2
+            selection_rows: 4
+            description_rows: 10
+        }
+        style: {
+            text: green
+            selected_text: green_reverse
+            description_text: yellow
+        }
+      }
+      # Example of extra menus created using a nushell source
+      # Use the source field to create a list of records that populates
+      # the menu
+      {
+        name: commands_menu
+        only_buffer_difference: false
+        marker: &quot;# &quot;
+        type: {
+            layout: columnar
+            columns: 4
+            col_width: 20
+            col_padding: 2
+        }
+        style: {
+            text: green
+            selected_text: green_reverse
+            description_text: yellow
+        }
+        source: { |buffer, position|
+            $nu.scope.commands
+            | where command =~ $buffer
+            | each { |it| {value: $it.command description: $it.usage} }
+        }
+      }
+      {
+        name: vars_menu
+        only_buffer_difference: true
+        marker: &quot;# &quot;
+        type: {
+            layout: list
+            page_size: 10
+        }
+        style: {
+            text: green
+            selected_text: green_reverse
+            description_text: yellow
+        }
+        source: { |buffer, position|
+            $nu.scope.vars
+            | where name =~ $buffer
+            | sort-by name
+            | each { |it| {value: $it.name description: $it.type} }
+        }
+      }
+      {
+        name: commands_with_description
+        only_buffer_difference: true
+        marker: &quot;# &quot;
+        type: {
+            layout: description
+            columns: 4
+            col_width: 20
+            col_padding: 2
+            selection_rows: 4
+            description_rows: 10
+        }
+        style: {
+            text: green
+            selected_text: green_reverse
+            description_text: yellow
+        }
+        source: { |buffer, position|
+            $nu.scope.commands
+            | where command =~ $buffer
+            | each { |it| {value: $it.command description: $it.usage} }
+        }
+      }
+  ]
+  keybindings: [
+    {
+      name: completion_menu
+      modifier: none
+      keycode: tab
+      mode: emacs # Options: emacs vi_normal vi_insert
+      event: {
+        until: [
+          { send: menu name: completion_menu }
+          { send: menunext }
+        ]
+      }
+    }
+    {
+      name: completion_previous
+      modifier: shift
+      keycode: backtab
+      mode: [emacs, vi_normal, vi_insert] # Note: You can add the same keybinding to all modes by using a list
+      event: { send: menuprevious }
+    }
+    {
+      name: history_menu
+      modifier: control
+      keycode: char_x
+      mode: emacs
+      event: {
+        until: [
+          { send: menu name: history_menu }
+          { send: menupagenext }
+        ]
+      }
+    }
+    {
+      name: history_previous
+      modifier: control
+      keycode: char_z
+      mode: emacs
+      event: {
+        until: [
+          { send: menupageprevious }
+          { edit: undo }
+        ]
+      }
+    }
+    # Keybindings used to trigger the user defined menus
+    {
+      name: commands_menu
+      modifier: control
+      keycode: char_t
+      mode: [emacs, vi_normal, vi_insert]
+      event: { send: menu name: commands_menu }
+    }
+    {
+      name: vars_menu
+      modifier: control
+      keycode: char_y
+      mode: [emacs, vi_normal, vi_insert]
+      event: { send: menu name: vars_menu }
+    }
+    {
+      name: commands_with_description
+      modifier: control
+      keycode: char_u
+      mode: [emacs, vi_normal, vi_insert]
+      event: { send: menu name: commands_with_description }
+    }
+  ]
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>env.nu</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>login.nu</code></p>
+</heading>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Libraries</p>
+</heading>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

@@ -1,0 +1,1104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2014/Elisp Functions Described in the Emacs Tutorial
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2014-05-27</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>In <a href="/post/2014/the-emacs-tutorial-as-elisp-tour" class="page-link">post/2014/The Emacs Tutorial as ELisp Tour</a>  I talked some sort of nonsense about organizing my notes into some sort of coherent blog post. Heck with that. Life is too short. Instead I will just dump them here and hope somebody finds them useful. Maybe later I can do something with it. For now it’s just supplemental material for the official <a href="/emacs" class="page-link">Emacs</a> tutorial.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Functions in the Emacs Tutorial</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Keybinding</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>save-buffers-kill-terminal</code></td>
+<td><code>C-x C-c</code></td>
+<td>Save and quit Emacs</td>
+</tr>
+<tr>
+<td><code>keyboard-quit</code></td>
+<td><code>C-g</code></td>
+<td>Cancels entry of a command</td>
+</tr>
+<tr>
+<td><code>scroll-up-command</code></td>
+<td><code>C-v</code></td>
+<td>Scroll content up</td>
+</tr>
+<tr>
+<td><code>scroll-down-command</code></td>
+<td><code>M-v</code></td>
+<td>Scroll cowntent down</td>
+</tr>
+<tr>
+<td><code>recenter-top-bottom</code></td>
+<td><code>C-l</code></td>
+<td>Redraw window cycling point through center/top/bottom of window</td>
+</tr>
+<tr>
+<td><code>previous-line</code></td>
+<td><code>C-p</code></td>
+<td>Put point on previous line</td>
+</tr>
+<tr>
+<td><code>next-line</code></td>
+<td><code>C-n</code></td>
+<td>Put point on next line</td>
+</tr>
+<tr>
+<td><code>backward-char</code></td>
+<td><code>C-b</code></td>
+<td>Put point on previous character</td>
+</tr>
+<tr>
+<td><code>forward-char</code></td>
+<td><code>C-f</code></td>
+<td>Put point on next character</td>
+</tr>
+<tr>
+<td><code>forward-word</code></td>
+<td><code>M-f</code></td>
+<td>Put point on next word</td>
+</tr>
+<tr>
+<td><code>backward-word</code></td>
+<td><code>M-b</code></td>
+<td>Put point on previous word</td>
+</tr>
+<tr>
+<td><code>move-beginning-of-line</code></td>
+<td><code>C-a</code></td>
+<td>Put point on line start</td>
+</tr>
+<tr>
+<td><code>move-end-of-line</code></td>
+<td><code>C-e</code></td>
+<td>Put point on line end</td>
+</tr>
+<tr>
+<td><code>backward-sentence</code></td>
+<td><code>M-a</code></td>
+<td>Put point on previous sentence start</td>
+</tr>
+<tr>
+<td><code>forward-sentence</code></td>
+<td><code>M-e</code></td>
+<td>Put point on next sentence start</td>
+</tr>
+<tr>
+<td><code>beginning-of-buffer</code></td>
+<td><code>M-&lt;</code></td>
+<td>Put point on buffer start</td>
+</tr>
+<tr>
+<td><code>end-of-buffer</code></td>
+<td><code>M-&gt;</code></td>
+<td>Put point on buffer end</td>
+</tr>
+<tr>
+<td><code>universal-argument</code></td>
+<td><code>C-u</code></td>
+<td>Begin a numeric argument for the following command</td>
+</tr>
+<tr>
+<td><code>delete-other-windows</code></td>
+<td><code>C-x 1</code></td>
+<td>Make window fill its frame</td>
+</tr>
+<tr>
+<td><code>self-insert-command</code></td>
+<td><code>&lt;character&gt;</code></td>
+<td>Inserts the character you type</td>
+</tr>
+<tr>
+<td><code>newline</code></td>
+<td><code>RETURN</code></td>
+<td>Insert a newline &amp; move point to next line</td>
+</tr>
+<tr>
+<td><code>delete-backward-char</code></td>
+<td><code>DEL</code></td>
+<td>Delete characters before point</td>
+</tr>
+<tr>
+<td><code>delete-char</code></td>
+<td><code>C-d</code></td>
+<td>Delete characters after point</td>
+</tr>
+<tr>
+<td><code>backward-kill-word</code></td>
+<td><code>M-DEL</code></td>
+<td>Delete word before point</td>
+</tr>
+<tr>
+<td><code>kill-word</code></td>
+<td><code>M-d</code></td>
+<td>Delete word after point</td>
+</tr>
+<tr>
+<td><code>kill-line</code></td>
+<td><code>C-k</code></td>
+<td>Kill from point to end of line</td>
+</tr>
+<tr>
+<td><code>kill-sentence</code></td>
+<td><code>M-k</code></td>
+<td>Kill from point to end of sentence</td>
+</tr>
+<tr>
+<td><code>set-mark-command</code></td>
+<td><code>C-SPACE</code></td>
+<td>Start marking a region for later action</td>
+</tr>
+<tr>
+<td><code>kill-region</code></td>
+<td><code>C-w</code></td>
+<td>Cut text in marked region</td>
+</tr>
+<tr>
+<td><code>yank</code></td>
+<td><code>C-y</code></td>
+<td>Yank (paste) text at point</td>
+</tr>
+<tr>
+<td><code>yank-pop</code></td>
+<td><code>M-y</code></td>
+<td>cycle through kill ring w/last yank</td>
+</tr>
+<tr>
+<td><code>undo</code></td>
+<td><code>C-/</code></td>
+<td>Undo last command</td>
+</tr>
+<tr>
+<td><code>find-file</code></td>
+<td><code>C-x C-f</code></td>
+<td>Prompt in minibuffer to open a file in buffer</td>
+</tr>
+<tr>
+<td><code>save-buffer</code></td>
+<td><code>C-x C-s</code></td>
+<td>Save buffer contents to file</td>
+</tr>
+<tr>
+<td><code>list-buffers</code></td>
+<td><code>C-x C-b</code></td>
+<td>Display a list of existing buffers</td>
+</tr>
+<tr>
+<td><code>switch-to-buffer</code></td>
+<td><code>C-x b</code></td>
+<td>Minibuffer prompt switch window view to different buffer</td>
+</tr>
+<tr>
+<td><code>save-some-buffers</code></td>
+<td><code>C-x s</code></td>
+<td>Prompt to save each changed buffer</td>
+</tr>
+<tr>
+<td><code>suspend-frame</code></td>
+<td><code>C-z</code> or <code>C-x C-z</code></td>
+<td>exit Emacs temporarily</td>
+</tr>
+<tr>
+<td><code>replace-string</code></td>
+<td><code>M-x replace-string</code></td>
+<td>minibuffer - replace instances of a string in buffer after point</td>
+</tr>
+<tr>
+<td><code>recover-file</code></td>
+<td><code>M-x recover-file</code></td>
+<td>Revisit buffer using last auto-saved contents</td>
+</tr>
+<tr>
+<td><code>text-mode</code></td>
+<td><code>M-x text-mode</code></td>
+<td>Major mode for editing text for humans to read</td>
+</tr>
+<tr>
+<td><code>describe-mode</code></td>
+<td><code>C-h m</code></td>
+<td>Show documentation for current major and minor modes</td>
+</tr>
+<tr>
+<td><code>auto-fill-mode</code></td>
+<td><code>M-x auto-fill-mode</code></td>
+<td>Toggle automatic line breaking</td>
+</tr>
+<tr>
+<td><code>fill-paragraph</code></td>
+<td><code>M-q</code></td>
+<td>Fill paragraph at / after point.</td>
+</tr>
+<tr>
+<td><code>isearch-forward</code></td>
+<td><code>C-s</code></td>
+<td>minibuffer - Do incremental search forward</td>
+</tr>
+<tr>
+<td><code>isearch-backward</code></td>
+<td><code>C-r</code></td>
+<td>minibuffer - Do incremental search backward</td>
+</tr>
+<tr>
+<td><code>split-window-below</code></td>
+<td><code>C-x 2</code></td>
+<td>Split selected window horizontally. Selected window becomes top</td>
+</tr>
+<tr>
+<td><code>scroll-other-window</code></td>
+<td><code>C-M-v</code></td>
+<td>Scroll next window</td>
+</tr>
+<tr>
+<td><code>other-window</code></td>
+<td><code>C-x o</code></td>
+<td>Select next window in cyclic window order</td>
+</tr>
+<tr>
+<td><code>delete-other-windows</code></td>
+<td><code>C-x 1</code></td>
+<td>Make selected window fill its frame</td>
+</tr>
+<tr>
+<td><code>find-file-other-window</code></td>
+<td><code>C-x 4 C-f</code></td>
+<td>Edit file in other window</td>
+</tr>
+<tr>
+<td><code>make-frame</code></td>
+<td><code>C-x 5 2</code></td>
+<td>Return newly created frame displaying current buffer</td>
+</tr>
+<tr>
+<td><code>delete-frame</code></td>
+<td><code>C-x 5 0</code></td>
+<td>Delete selected frame</td>
+</tr>
+<tr>
+<td><code>help-for-help</code></td>
+<td><code>C-h ?</code></td>
+<td>Launches interactive help mode</td>
+</tr>
+<tr>
+<td><code>describe-key-briefly</code></td>
+<td><code>C-h c &lt;key&gt;</code></td>
+<td>Prints name of function invoked by <code>&lt;key&gt;</code></td>
+</tr>
+<tr>
+<td><code>describe-key</code></td>
+<td><code>C-h k &lt;key&gt;</code></td>
+<td>Display documentation of function invoked by <code>&lt;key&gt;</code></td>
+</tr>
+<tr>
+<td><code>describe-function</code></td>
+<td><code>C-h f &lt;function&gt;</code></td>
+<td>Display documentation of <code>&lt;function&gt;</code></td>
+</tr>
+<tr>
+<td><code>describe-variable</code></td>
+<td><code>C-h v &lt;variable&gt;</code></td>
+<td>Display documentation of <code>&lt;variable&gt;</code></td>
+</tr>
+<tr>
+<td><code>apropos-command</code></td>
+<td><code>C-h a &lt;pattern&gt;</code></td>
+<td>Show all commands with names containing <code>&lt;pattern&gt;</code></td>
+</tr>
+<tr>
+<td><code>info</code></td>
+<td><code>C-h i</code></td>
+<td>Enter the Info documentation browser</td>
+</tr>
+<tr>
+<td><code>info-emacs-manual</code></td>
+<td><code>C-h r</code></td>
+<td>Display the Emacs manual in Info mode</td>
+</tr>
+</tbody>
+</table>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Notes</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I found some things noteworthy while building this list.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Numeric Arguments</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Digits or minus sign after <code>C-u</code> form the numeric argument.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Default is <code>4</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Usually treated as numeric argument</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Sometimes it’s just a flag. The following command changes behavior based on the presence of <code>universal-argument</code> rather than the details of its value</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <table>
+<thead>
+<tr>
+<th>Example</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>C-u 8 C-f</code></td>
+<td>Move forward 8 characters</td>
+</tr>
+<tr>
+<td><code>C-u C-f</code></td>
+<td>Move forward 4 characters</td>
+</tr>
+<tr>
+<td><code>C-u 2 C-v</code></td>
+<td>Scroll screen 2 lines</td>
+</tr>
+</tbody>
+</table>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Disabled Commands</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Some commands such as <code>downcase-region</code> <code>C-x C-l</code> are disabled by default in Emacs. They confuse beginners. You get an interactive prompt to try it, enable it, and whatever.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There’s no big list of disabled commands. Instead each command has a hook telling whether it’s disabled or not. The EmacsWiki <a href="http://www.emacswiki.org/emacs/DisabledCommands">DisabledCommands</a> page presents functions to list and enable disabled functions.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Inserting and Deleting</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><em>Everything</em> you type invokes a function. Most of the alphanumeric keys simply insert the character and move point. Some, like <code>newline</code> and <code>delete-backward-character</code>, trigger functions that relate to behavior users expect when entering those keys.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>They take numeric arguments too. <code>C-u 4 *</code> will insert <code>****</code> into the buffer.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Undo</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Undo ignores movement commands, and <code>self-insert-command</code> are lumped into groups of up to 20.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Extending the Command Set</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There are only so many keys on the average keyboard. Less common commands get invoked either through an extended keybinding like <code>C-x &lt;character&gt;</code> or direct invocation via <code>M-x &lt;name&gt;</code>.</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>C-x &lt;character&gt;</code> Character eXtend</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>M-x &lt;name&gt;</code> Named command eXtend ()Offers tab completion)</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Searching</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Incremental search is like a minibuffer mode. There are special bindings for the keys and everything.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Multiple Frames</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><em>Frames</em> are what what most windowing systems refer to as <em>windows</em>, but Emacs was already using that term.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Frames only work in GUI, because the terminal can only display a single frame at a time. See <a href="/post/2017/elscreen" class="page-link">post/2017/elscreen</a> for an alternative that works in both terminal and GUI.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

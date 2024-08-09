@@ -1,0 +1,2153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2005/Perl 5 Babysteps 01 - Getting Started
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2005-01-04</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><p><a href="/coolnamehere" class="page-link">coolnamehere</a></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Installing Perl</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Okay. Everybody not on <em class="link-missing">Microsoft Windows</em>, go install <a href="/post/2011/perlbrew" class="page-link">post/2011/perlbrew</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Done? Excellent. Here is how you install Perl 5.14.1 and make it your default <a href="/perl" class="page-link">Perl</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-bash">perlbrew install perl-5.14.1
+perlbrew switch perl-5.14.1
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Installing Perl on Windows</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>On Windows, the preferred option is usually to download an installation package.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>ActivePerl</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="http://activestate.com/Products/activeperl/">ActivePerl</a> is a commercially supported version of Perl for Windows. ActivePerl can be downloaded for free. It comes with a wealth of widely used third-party libraries such as an DBI, LWP, and the XML bundle. It is released by <a href="http://activestate.com">ActiveState</a>, a company based out of Canada. It is also the only readily available release of Perl 5.14 for Windows at this exact moment.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Verify Your Perl</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We want to make sure that <code>perl</code> installed where we expected it to and that our system finds the right one.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ perl --version
+This is perl 5, version 14, subversion 1 (v5.14.1) built for darwin-2level
+
+Copyright 1987-2011, Larry Wall
+
+Perl may be copied only under the terms of either the Artistic License or the
+GNU General Public License, which may be found in the Perl 5 source kit.
+
+Complete documentation for Perl, including FAQ lists, should be found on
+this system using &quot;man perl&quot; or &quot;perldoc perl&quot;.  If you have access to the
+Internet, point your browser at http://www.perl.org/, the Perl Home Page.
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Using Perl from the Command Line</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It would be unfair of me to ignore simple command-line Perl.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>perl -E</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Although most of my Perl time is spent on large projects, occasionally I just want a quick answer. Because I usually have a terminal open, Perl presents itself as a convenient calculator:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ perl -E 'say 3.1415926 * 5 ** 2'
+78.539815
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It is almost the same on Windows, except that you need to use double quotes:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">C:&gt;perl -E &quot;say 3.1415926 * 5 ** 2&quot;
+78.539815
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The <code>-E</code> flag tells <code>perl</code> that the next bit is code to be executed directly. There are many flags to adjust the behavior of <code>perl</code> when you run it. <a href="http://perldoc.perl.org/perlrun.html">perlrun</a> shows all the gory details.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-bash">perldoc perlrun
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I don’t plan on talking any more about Perl one-liners. I just thought you should know that they are available. They can be useful, but I am not the person to teach them. <a href="https://minimalperl.com">Minimal Perl</a> is a great starting point for exploring that aspect of Perl’s power.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>So. What exactly are we doing with that one line? There’s something that looks like math, and <code>say</code>. I guess it is fairly obvious what <code>say</code> is doing here: it is printing stuff out to our terminal.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p><em class="link-missing">2020/02/04</em>: Reading back, and it looks like I was starting to write something about <code>perldoc</code>?</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>perldoc -f</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We can ask about specific built-in functions using the <code>-f</code> parameter.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ perldoc -f say
+say FILEHANDLE LIST
+say FILEHANDLE
+say LIST
+say     Just like &quot;print&quot;, but implicitly appends a newline. &quot;say LIST&quot;
+        is simply an abbreviation for &quot;{ local $\ = &quot;\n&quot;; print LIST }&quot;.
+        To use FILEHANDLE without a LIST to print the contents of $_ to
+        it, you must use a real filehandle like &quot;FH&quot;, not an indirect
+        one like $fh.
+
+        This keyword is available only when the &quot;say&quot; feature is
+        enabled; see feature. Alternately, include a &quot;use v5.10&quot; or
+        later to the current scope.
+
+        This keyword is available only when the &quot;say&quot; feature is
+        enabled; see feature. Alternately, include a &quot;use v5.10&quot; or
+        later to the current scope.
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p>Yeah I had a bad habit of posting unfinished content in the pre-blog days.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Creating Perl Programs</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The tradition in programming literature is to start by creating a program that prints a simple phrase, such as “Hello, World!” The idea is to give you some clue how much work is involved in creating a minimal program. I am not going to argue with tradition. Not this one, at least. Type the following into your text editor:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-perl">=head1 hello.pl
+
+Displays a warm greeting.
+
+=cut
+
+# Depends on features not in older Perls.
+use 5.14.0;
+
+say &quot;Hello, World!&quot;;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Save the file as <code>hello.pl</code>. We will run it in a few moments – but first, let’s take a quick look at what we’ve got so far.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>POD</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-perl">=head1 hello.pl
+
+Displays a warm greeting.
+
+=cut
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>POD, or “Plain Old Documentation”, is the standard system for documenting Perl programs. POD directives exist within your application, but are ignored during execution. They are instead processed by the <code>perldoc</code> application. <code>perldoc</code> can convert your POD to different formats such as HTML, or simply format and display the documentation to your screen. Use POD to write about what you want <em>users</em> to know about your Perl application. A proper introduction to <code>perldoc</code> is far beyond the scope of this little tutorial, but you can see the potential usefulness of this tool from the console with a simple command:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-bash">perldoc hello.pl
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You get a simple display showing a formatted version of the POD you wrote. There is a lot more information you can get about POD and perldoc within Perl’s own POD:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-bash">perldoc perlpod
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Comments</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-perl"># Depends on features not in older Perls.
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>On each line, everything from <code>#</code> to the end of the line is a <em>comment</em>. Perl ignores comments, so they allow you to communicate with other people who read your code. Comments are <em>good</em>. When you come back to look at a complex script after a few months, you might forget what some block of code does, or why you chose one solution over another. Having the comments there help to remind you what you were intending, and generally serve to make it much easier sorting everything out.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>use</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-perl">use 5.14.0;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The <code>use</code> statement is incredibly powerful. It effectively changes the way Perl will behave for the duration of your program. You can get extra functionality with <code>use</code> by loading a module, or you can significantly change the rules Perl runs under by loading a <em>pragma</em>. I will be taking full advantage of the <code>use</code> statement in this tutorial, because it takes Perl from a strong shell scripting language to an incredibly powerful programming language.
+Oh, about that semi-colon (<code>;</code>): <code>perl</code> uses the semi-colon to separate statements. Each statement contains a particular instruction for the Perl language. You will usually - but not always - see Perl code with one statement per line, with a semi-colon at the end of each line.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p><em class="link-missing">2024-03-31</em>: Maybe explain <code>5.14.0</code>, eh?</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let’s get back to looking at <code>hello.pl</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>say</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-perl">say &quot;Hello, World!&quot;;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We use <code>say</code> to print things out on a line in Perl 5.14. This time we’re asking Perl to say the phrase “Hello World!”&quot;.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Hm. I really thought it would take more effort to explain that. Oh well, guess there’s nothing left to do but see it in action.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Running it</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now you would probably like to know how to actually run your program. Save the file you have been editing and switch to a command line. Make sure you are in the same directory as your script - this should be as simple as <code>cd project-directory</code>. Once you are in the right place, type the following into the command line:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">perl hello.pl
+Hello, World!
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>All this is kind of cool, but it would be nice to customize it a little bit. Maybe we could change the program so that it says “Hello” to us personally.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-perl">=head1 hello.pl
+
+Displays a warm greeting.
+
+=cut
+
+# Depends on features not in older Perls.
+use 5.14.0;
+
+my $name = &quot;Brian&quot;;
+say &quot;Hello, $name!&quot;;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We use the word <code>my</code> to declare variables. Declaration is when we tell Perl that we have a variable we plan on using. Perl 5.14 mode enforces the declaration of variables.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What’s a variable? We’ll get to that in a second. I’m impatient to see a running program! Save the file, and run it again.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ perl hello.pl
+Hello, Brian!
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There, I feel better. Let’s move on to talking about variables.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Variables</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We stored the string “Brian” in the variable <code>$name</code>. You can think of a <em>variable</em> as a tag - a name we use for some value that we want the program to remember. Later, we can get that value back by referring to the tag.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The <code>$</code> symbol at the beginning tells Perl what type of value this variable will be used for. The <em>type</em> of a variables gives clues for how it can be treated. Most variables in Perl break down into two broad categories.</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Individual things like strings and numbers</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Collections of things like lists and dictionaries</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Variables that refer to individual things are called <em>scalars</em> in Perl. They are easy to recognize, because they are prefixed by a <code>$</code> symbol.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-perl">my $name = &quot;Brian&quot;; # I'm going to use a scalar variable called 'name'.
+                    # It has the value &quot;Brian&quot;.
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><em>Strings</em> – scalar values intended to be handled like simple text – are always quoted in some way to show where the text of the string begins and where it ends. There are many ways to quote a string, but for now I will use double-quote characters. That is what quoted text looks like in American English, so it is easy for me to remember. It also provides some other conveniences when displaying variables, such as when we say <code>&quot;Hello, $name&quot;</code> later in the program.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Anyways, this single line both declares the variable <code>$name</code>, letting Perl know you plan on  sing it, and assigns a value to <code>$name</code>, so that Perl will have something to remember. What happens if you skip one or both of these steps? It depends, so the best thing to do is try it and see.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-perl">=head1 hello.pl
+
+Displays a warm greeting.
+
+=cut
+
+use 5.14.0;
+
+say &quot;Hello, $name!&quot;;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We’ve removed the declaration and assignment. Let’s see what happens now.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ perl hello.pl
+Global symbol &quot;$name&quot; requires explicit package name at hello.pl line 12.
+Execution of hello.pl aborted due to compilation errors.
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Because we insisted on 5.14, Perl politely informed us that it found some mention of a variable called <code>$name</code> that we never declared. This is considered rude by recent Perls, so the interpreter quit without running the program.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Okay, what if we declare <code>$name</code> but never assign a value to it?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-perl">use 5.014;
+
+my $name;
+say &quot;Hello, $name!&quot;;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This time Perl runs, but the results are confusing.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ perl hello.pl
+Hello, !
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Since <code>$name</code> has no value, Perl has nothing to put in that string. That’s exactly what it puts there: nothing.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>use warnings;</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Perl generally assumes that you know what you are doing. It will not argue with you if you want to use a variable that has no value. However, that behavior is not always helpful. Using a variable without a value is usually a mistake, and it can often be a very difficult mistake to track down.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This is why Perl provides the <a href="http://perldoc.perl.org/warnings.html">warnings pragma</a>. If you enable warnings, you will be told about common mistakes like these.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-perl">use 5.014;
+use warnings;
+
+my $name;
+say &quot;Hello, $name!&quot;;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That addition makes Perl much friendlier for learners or people with large, unpredictable applications.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ perl name.pl
+Use of uninitialized value $name in concatenation (.) or string at name.pl line 5.
+Hello, !
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The combined behavior of <code>use 5.14.0;</code> and <code>use warnings;</code> may not seem like much right now, but they are vital when working with large applications that have thousands of lines of code.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>With these behaviors enabled we have told Perl to behave more like a powerful application programming language with Perl’s latest features instead of as a quick and handy tool for system administrators. Decide for yourself whether that transformation is important to you, but all of my code in this tutorial will use both of these pragmas.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

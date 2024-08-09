@@ -1,0 +1,1095 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2010/Rakudo Babysteps 01 - Starting with Rakudo
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><p><em class="link-missing">raku-lang,coolnamehere</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2010-09-09</em></p>
+</td>
+          </tr>
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Installation</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You will obviously need to install <a href="https://rakudo.org">Rakudo</a> if you want to use it. There are a couple of options, but I will focus on Rakudo Star. Rakudo Star is a <a href="/raku" class="page-link">Raku</a> distribution which includes some important libraries and an excellent book.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p>Rakudo is released every month, so some of my details about version numbers may be a little off. I will do my best to stay caught up. Fortunately, my Babysteps are so basic that new releases have little effect on their value.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The easiest way to install Rakudo Star depends on your operating system. Specifically, it depends on whether you’re using Microsoft Windows.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Windows Installer</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There is a lovely Rakudo Star installer available for Windows users. It includes all the pieces needed to get started with Rakudo. Look on the Rakudo Star <a href="https://github.com/rakudo/star/downloads">download page</a> for a filename ending in <code>.msi</code>. Right now, that file is <code>rakudo-star.2010.07.msi</code>. It will probably be a different file when you look.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Download that MSI file and run it. Go ahead and accept the defaults, unless you have a good reason not to.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Once you have installed Rakudo, you need to add it to your environment path so that you can run it from the command prompt. Open your Start menu, right click “My Computer”, and select “Properties”. Open the “Advanced” tab, and click the “Environment Variables” button. Scroll through “System Variables” until you see the entry for “Path”. Double click “Path” to open the “Edit System Variable” dialog. Enter the location of your Rakudo installation - probably <code>C:\Rakudo\bin</code> - at the beginning of the “Variable Value” field, followed by the <code>;</code> path separator character. Click “OK” to close this dialog, “OK” again to close the Environment Variables dialog, then “OK” one more time to close the “System Properties” dialog.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>To test, run “Command Prompt” and try <code>perl6 --version</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">C:\&gt; perl6 --version
+This is Rakudo Perl 6, version 2010.07-47-g9fd5eaa built on parrot 2.6.0
+
+Copyright 2008-2010, The Perl Foundation
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Double check your Path environment variable if you don’t see something like this.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It looks like you’ve installed Rakudo!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>From Source</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-bash">mkdir ~/rakudo
+cd rakudo
+wget http://github.com/downloads/rakudo/star/rakudo-star-2010.09.tar.gz
+tar xfvz rakudo-star-2010.09.tar.gz
+cd rakudo-star-2010.09
+perl Configure.pl --gen-parrot --prefix=~/rakudo/
+make
+make rakudo-test
+make install
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Of course, there’s no point installing Rakudo to a custom directory if your shell can’t find it. Add a couple lines to your <code>.bashrc</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-bash">export RAKUDO_HOME=$HOME/rakudo
+export PATH=$RAKUDO_HOME/bin:$PATH
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This will make the <code>perl6</code> executable available the next time you log in, or you can rush the process by running <code>~/.bashrc</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ . ~/.bashrc
+$ perl6 --version
+
+This is Rakudo Perl 6, version 2010.08 built on parrot 2.7.0
+
+Copyright 2008-2010, The Perl Foundation
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now that we know Rakudo is installed, let’s take a look at what it gets us.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What Do You Get?</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Obviously, you get [Rakudo]. But Rakudo is built on top of the Parrot virtual machine, so you also get a fresh copy of <a href="/parrot" class="page-link">Parrot</a> . You can learn more about coding directly to the virtual machine through my <a href="/post/2009/parrot-babysteps" class="page-link">post/2009/Parrot Babysteps</a> . And you also get NQP, which is sort of a stripped-down version of Rakudo that makes writing new languages in Parrot a lot easier.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>The <code>perl6</code> Shell</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>One thing I missed in Perl 5 was a simple interactive shell. There is a debug shell, but it’s not quite the same thing. Fortunately, Rakudo has an interactive shell, and you start it by calling <code>perl6</code> from the command line.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">$ perl6
+&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What can we do in this shell? Well, we can print things out.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">&gt; say &quot;Hello, world!&quot;
+Hello, world!
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We can use it as a calculator.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">&gt; 2 + 2
+4
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We can calculate the area of a circle that has a radius of ten units.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">&gt; my $pi = 3.1415926
+3.1415926
+&gt; my $radius = 10
+10
+&gt; 2 * $pi * ( $radius ** 2 )
+628.31852
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Okay, you get the idea. There is a lot we can do with the perl6 shell. Let’s start looking a little bit at the Perl 6 language.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>First up is variables.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">&gt; my $pi = 3.1415926
+3.1415926
+&gt; my $name = &quot;Brian&quot;
+Brian
+&gt; say &quot;Hello, $name - good to see you!&quot;
+Hello, Brian - good to see you!&quot;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Exciting as that was, it’s time to leave the Perl 6 shell and start writing a simple script. It’s easy enough to quit the shell.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">&gt; exit
+$
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Writing a Perl 6 Program</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>ll we need now to write a Perl 6 program is a text editor. I prefer <a href="/vim" class="page-link">Vim</a>, which provides syntax highlighting.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku"># Do not run on older Perl versions!
+use v6;
+
+print &quot;Please enter your name: &quot;;
+my $name = $*IN.get;
+say &quot;Hello $name - good to see you!&quot;;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ perl6 hello.p6
+Please enter your name: Brian
+Hello, Brian - good to see you!
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>What Now?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p><em class="link-missing">2021-08-21</em>: I guess we’ll never know; plenty of fun to be had with <a href="/raku" class="page-link">Raku</a> though!</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

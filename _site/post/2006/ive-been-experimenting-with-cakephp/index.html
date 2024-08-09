@@ -1,0 +1,566 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2006/I&#39;ve Been Experimenting with CakePHP
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2006-09-22</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><p><em class="link-missing">php,blogspot</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>redirects</th>
+            <td><p>/post/2006/09/ive-been-experimenting-with-cakephp</p>
+</td>
+          </tr>
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’ve been experimenting with <a href="http://cakephp.org/">CakePHP</a> over the last couple of weeks for a project. It’s definitely not <a href="http://rubyonrails.com/">Ruby on Rails</a>, but it has a lot of charm. This library provides a MVC system for <a href="/php" class="page-link">PHP</a> applications, but the really interesting thing is that you can just drop it onto your Web server space with no fuss or bother. You don’t even have to worry about clever mod_rewrite rules if you don’t want to.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Since CakePHP is so accessible, I thought it would be fun to explore the framework a little bit more, and document what’s going on here. Now, I’m not the greatest at remembering to update this blog, but I’ll do my best.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>My goal is straightforward: create a forum application, similar in purpose to <a href="http://www.phpbb.com/">phpBB</a>. I’m sure it has already been done, but I’m in this strictly for the educational exercise.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The first task - assuming you already have Web space with support for PHP and MySQL - is to get CakePHP. That’s easy enough. Just grab the latest archive from the download section of the CakePHP site, and unpack it to your server space. I’m fond of using my personal machine as a development site, so I won’t be worrying about issues like uploading or editing remote files.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ cd /var/www
+$ sudo tar xfvz ~/cake_1.1.7.3363.tar.gz
+...
+$ mv cake_1.1.7.3363.tar.gz cakebb
+$ sudo chown --recursive brianwisti cakebb
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Okay, there are much safer approaches to setting things up, but I am only doing quick and dirty development on my home machine.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Next I need to manage the database connections. CakePHP uses PHP code for configuration, following along with the Rails idea of “convention over configuration.” The theory is that a handful of PHP files are easier to sort through than a handful of XML configuration files.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Configuration files are kept in <code>cakebb/app/config</code>. The first one I’ll be looking at is database.php, except that there is no <code>database.php</code> when Cake is first extracted. We have a file <code>database.php.default</code> instead. I’ll move it over to <code>database.php</code> so that Cake has something to look at on startup.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-bash">mv database.php.default database.php
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Of course now I need to edit the file to establish the database connection details. I’ll also need to set up the appropriate databases on my local MySQL server.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>So here’s the important part of <code>database.php</code>:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-php">class DATABASE_CONFIG
+{
+    var $default = array('driver' =&gt; 'mysql',
+                                'connect' =&gt; 'mysql_connect',
+                                'host' =&gt; 'localhost',
+                                'login' =&gt; 'cakebb',
+                                'password' =&gt; 'cakebb_user',
+                                'database' =&gt; 'my secret password',
+                                'prefix' =&gt; '');
+
+    var $test = array('driver' =&gt; 'mysql',
+                            'connect' =&gt; 'mysql_connect',
+                            'host' =&gt; 'localhost',
+                            'login' =&gt; 'cakebb_user',
+                            'password' =&gt; 'my secret password',
+                            'database' =&gt; 'cakebb_test',
+                            'prefix' =&gt; '');
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Then I go into the MySQL shell to create the databases and accounts needed by CakeBB.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ mysql -uroot -p
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 6 to server version: 5.0.22-Debian_0ubuntu6.06.2-log
+Type 'help;' or '\h' for help. Type '\c' to clear the buffer.
+
+mysql&gt; create database cakebb;
+Query OK, 1 row affected (0.01 sec)
+
+mysql&gt; create database cakebb_test;
+Query OK, 1 row affected (0.00 sec)
+
+mysql&gt; grant all on cakebb.* to 'cakebb_user'@'%' identified by 'my secret password';
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; grant all on cakebb_test.* to 'cakebb_user'@'%' identified by 'my secret password';
+Query OK, 0 rows affected (0.00 sec)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I feel like skipping mod_rewrite for now, so I’ll uncomment the following line (around line 40 of <code>app/config/core.php</code>):</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-php">//  define ('BASE_URL', env('SCRIPT_NAME'));
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>All I’ve got at this point is the basic setup, but I should test it just to make sure everything is connecting. I send my browser to <code>http://localhost/cakebb/</code> and get a lovely status page telling me that CakePHP is installed and able to connect to the database.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Great. I’m set up and functional. The next step will be to build the application models. But that will have to wait until tomorrow, because I need to get to work now.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

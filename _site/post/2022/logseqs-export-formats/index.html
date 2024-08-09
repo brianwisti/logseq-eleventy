@@ -1,0 +1,1268 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2022/Logseq&#39;s Export Formats
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2022-03-13</em></p>
+</td>
+          </tr>
+        
+      
+        
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><p>Getting my second brain ready for post-processing</p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>banner</th>
+            <td><p>…/assets/cover-2022-03-13_1709523677953_0.png</p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>caption</th>
+            <td><p>Not the biggest graph but still cumbersome to export one by one</p>
+</td>
+          </tr>
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p>Trying an experiment where I write a post about <a href="/logseq" class="page-link">Logseq</a> <em>in</em> Logseq. Not a big deal on its own, but it should make publishing the post more interesting. Won’t make myself go into Document Mode for this one, though. Keep the outline nodes handy so I can have my tangents and side thoughts, then munge it into a readable post.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The Logseq knowledge management tool has been getting a lot of my attention lately. Not for the first time, but I have been more ambitious this time around. So I was thinking yesterday about parsing Logseq’s Markdown pages. And while that’s certainly in the realm of possibility, it’s not strictly necessary.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>See, my short term goal is publishing some of my <em class="link-missing">PKM</em> <em><em>graph</em></em> — what Logseq calls the combined pages, blocks, and metadata — to Random Geekery. Not all of it, because there’s work and personal stuff mixed in there with the broad notes. But that’s not the important bit. The important bit is Logseq directly supports exporting its graph.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>What we’re working with</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Logseq can store pages in Markdown or <a href="/org-mode" class="page-link">Org Mode</a> format. I have been using the Markdown format for this graph.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/Screenshot_from_2022-03-13_07-06-34_1647180542104_0_1709524209829_0.png" alt="Screenshot_from_2022-03-13_07-06-34_1647180542104_0.png"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>As the screenshot shows, it’s not quite the Markdown we’re used to.</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The outline structure translates to an unordered list, which can be deeply nested for large pages.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There’s no frontmatter, YAML or otherwise. Instead, pages and individual nodes (list items) get properties assigned with a <code>property:: value</code> syntax. Properties can describe tags, heading status, or any arbitrary thing you care to track.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It uses an org-inspired <code>#+BEGIN</code> / <code>#+END</code> syntax for admonitions.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Tags can be assigned to a node as properties or as I’ve done here with the conventional hashtag approach. Probably worth noticing that tags can be nested!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Images are stored with the vault in the <code>assets/</code> folder. Need to keep that in mind when shifting all the way over to my site sources.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p>Logseq understands ATX <code># HEADER</code> syntax, but I’ve found the heading property is a little more flexible when rearranging nodes, increasing or decreasing size appropriate to its new context.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>So that’s what a Logseq page looks like. We <em><em>could</em></em> tweak a Markdown processor to handle each little variation, but it might be easier by working with an exported copy of the graph in some more widely consistent format.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Exports available</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>So what are our options?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Export public pages</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Exports all of your public pages to HTML, with a styled, interactive interface for viewing them. Only problem with that is — well— I don’t have any public pages.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/image_1647178655890_0_1709524341240_0.png" alt="fancy HTML page listing with no pages"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I have 594 pages in this graph. I wouldn’t be surprised if I had over 600 by the end of the end of the day. — <em><em>note: 610 by 3pm, when I’m getting ready to publish</em></em> — I’m not going to go through each of those, split private from public content, and then mark which of those 600 pages are public. That’s a kind of tediousness I don’t enjoy.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Export as standard Markdown (no block properties)</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Takes a bit, but eventually drops a zip file containing mostly mundane Markdown.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/Screenshot_from_2022-03-13_07-03-45_1647180250247_0_1709524414712_0.png" alt="plain exported markdown for this page"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Course, there’s still a fair chunk for me to parse.</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>tags</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>those double bracket <code>&lt;em class=&quot;link-missing&quot;&gt;links&lt;/em&gt;</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>plus I lose all my properties, such as <code>heading:: true</code>. Headings just become list items, and images have no <code>caption::</code>. So yeah, “standard Markdown” is not an option for me.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Export as OPML</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="https://indieweb.org/OPML">OPML</a> sounds like a pretty good fit for exporting from an outliner. It is an <em><em>Outline Processor Markup Language</em></em> after all.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/Screenshot_from_2022-03-13_07-57-59_1647183496460_0_1709524588804_0.png" alt="OPML export for this page"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Is it my imagination, or is there <em><em>less</em></em> useful information here than in the standard Markdown export?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Moving on.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Export as EDN</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Logseq queries make heavy use of <a href="https://github.com/edn-format/edn">EDN</a>. Maybe someday I’ll learn it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/Screenshot_from_2022-03-13_08-15-24_1647184542358_0_1709524664681_0.png" alt="EDN view of the graph focusing on highlights of this page"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Wow. No zip file here. Nearly 34,000 lines of unfamiliar but <em><em>very</em></em> structured text. Every node has a UUID, which could simplify organizing them when importing to my site, or processing them with another tool like <a href="https://sqlite-utils.datasette.io/en/stable/">sqlite-utils</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’m a little disappointed that the note syntax doesn’t automatically transform to some kind of property, and that inline markdown is still left for me to parse. Oh well. I suppose it was a bit much to expect <em><em>another</em></em> lightweight text formatting language hidden behind the Markdown and org options.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There’s even <a href="https://github.com/swaroopch/edn_format">edn_format</a>, a Python library to load EDN objects into data structures much like with YAML, TOML, and JSON. Good to know!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Export as JSON</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This has pretty much the same structure as the EDN export, with the same benefits and limitations I saw with that. OTOH you don’t need to install an extra library to parse it, so there’s that.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/Screenshot_from_2022-03-13_08-47-22_1647186468168_0_1709524759700_0.png" alt="JSON view of the graph focusing on this page"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Export as Roam JSON</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Well of course <a href="https://roamresearch.com/">Roam</a> has its own JSON format.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/Screenshot_from_2022-03-13_08-47-22_1647186731737_0_1709524832143_0.png" alt="Roam JSON view of the graph focusing on this page"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Too bad it holds so much less useful information than Logseq’s main JSON export.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Which export do I like</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>All things considered, the regular JSON export is probably my best bet. It and EDN both contain the most information about any given block. JSON has the advantage of being widely supported by libraries and CLI tools.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>What next?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The very next step was turning the page I wrote into the post you’re reading. I may eventually turn my notes for that experience into its own post. Other than that, I’ll probably take a look at the structure of my Logseq graph to see what bits I might want to make public and how.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Or I might just make this export knowledge part of the toolkit in my entropy-fighting battle with myself, bouncing between tools and PKMs like a ferret on a ping pong table.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

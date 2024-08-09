@@ -1,0 +1,973 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2014/Finding and Removing Duplicate Files
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><p>Perl CPAN modules to simplify file cleanup</p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2014-12-13</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I had a clever idea a couple months ago: to write a blog post detailing how to find recursively find duplicate files in a folder. My technique was good enough: track file sizes, find files that had the same file size and <a href="http://en.wikipedia.org/wiki/MD5#MD5_hashes">MD5 hash</a>, and display the resulting list. It wasn’t foolproof, but it showed some thought. After spending a little too much time on the post, I realized I had never checked <a href="http://www.cpan.org/">CPAN</a>. Of course there is already a <a href="/perl" class="page-link">Perl</a> module to handle that exact task.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>The Problem</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>So here is my problem. I have — let’s see —</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ find ~/Sync -type f | wc -l
+	44388
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I have 44,388 files in my Sync folder.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I organized my home machines recently. When I say “organized” I mean that everything got swept into my <code>~/Sync</code> folder to deal with later. The refuse of several years squirreling files into random locations is now sitting in that single folder.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Well, now it is time to clean that single folder up. I want to find and delete duplicate files. I planned to focus on image files, but File::Find::Duplicates makes it easier to find <em>all</em> duplicates.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>The Solution</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="https://metacpan.org/pod/File::Find::Duplicates">File::Find::Duplicates</a> exports a <code>find_duplicate_files</code> subroutine, which finds the duplicate files in a list of folders.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>First tell me how many sets of duplicates I have.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-perl">use 5.20.0;
+use warnings;
+
+use File::Find::Duplicates;
+
+my $root       = &quot;$ENV{HOME}/Sync&quot;;
+my @dupes      = find_duplicate_files( $root );
+my $dupe_count = @dupes;
+
+say &quot;Found $dupe_count sets of duplicates in $root&quot;;
+</code></pre>
+<p>caption:: <code>count-dupes.pl</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This will tell me how much work is ahead of me.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ perl count-dupes.pl
+Found 3465 sets of duplicates in /Users/brian/Sync
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Removing the files was easy, but it rattled my nerves.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-perl">use 5.20.0;
+use warnings;
+
+use Carp qw(croak);
+use File::Basename;
+use File::Find::Duplicates;
+
+my $root  = &quot;$ENV{HOME}/Sync&quot;;
+my @dupes = find_duplicate_files( $root );
+
+my $deleted;
+
+for my $dupeset ( @dupes ) {
+  # Pick a file to serve as primary.
+  # Using string-based sorting as arbitrary rule to establish what's first.
+  my ( $prime, @secondary ) = sort @{ $dupeset-&gt;files };
+
+  # Delete the duplicates
+  for my $file ( @secondary ) {
+    unlink $file
+      or croak &quot;Unable to unlink $file: $!&quot;;
+    $deleted++;
+  }
+
+}
+
+say &quot;Deleted $deleted files.&quot;;
+</code></pre>
+<p>caption:: <code>remove-dupes.pl</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I fought the temptation to add progress bars or anything like that. Focus on getting the job done. I can add work if I end up revisiting this task later.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ perl remove-dupes.pl
+Deleted 3509 files.
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I removed a lot of files. Are there still any duplicates?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ perl count-dupes.pl
+Found 0 sets of duplicates in /Users/brian/Sync
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Thing is, I suspect that my <code>Sync</code> directory contains many empty subdirectories.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>About those directories</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="https://metacpan.org/pod/File::Find::Rule::DirectoryEmpty">File::Find::Rule::DirectoryEmpty</a> helps with exactly that problem. It extends the useful <a href="https://metacpan.org/pod/File::Find::Rule">File::Find::Rule</a> module to simplify finding files with characteristics you define.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-perl">use 5.20.0;
+use warnings;
+
+use File::Find::Rule::DirectoryEmpty;
+
+my $root = &quot;$ENV{HOME}/Sync&quot;;
+my @empties = File::Find::Rule
+  -&gt;directoryempty()
+  -&gt;in( $root );
+my $empty_count = @empties;
+say &quot;$empty_count empty directories&quot;;
+</code></pre>
+<p>caption:: <code>find-leaves.pl</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ perl find-leaves.pl
+2904 empty directories
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Yow. I can delete those directories, but then there could be parent directories that are now empty, and then grandparent directories, and then —</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You know what? Just keep looking and deleting until there no more empty directories.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-perl">use 5.20.0;
+use warnings;
+
+use Carp qw(croak);
+use File::Find::Rule::DirectoryEmpty;
+
+my $deleted = 0;
+my $root    = &quot;$ENV{HOME}/Sync&quot;;
+my $found   = File::Find::Rule-&gt;new()-&gt;directoryempty();
+
+while ( my @empties = $found-&gt;in( $root ) ) {
+  my $empty_count = @empties;
+  say &quot;Found $empty_count empty directories&quot;;
+
+  for my $empty ( @empties ) {
+    rmdir $empty
+      or croak &quot;Unable to rmdir $empty: $!&quot;;
+    $deleted++;
+  }
+}
+
+say &quot;$deleted empty folders deleted&quot;;
+</code></pre>
+<p>caption:: <code>remove-leaves.pl</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I like a little logging on each pass so that I know what my program is seeing.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ perl remove-leaves.pl
+Found 2904 empty directories
+Found 529 empty directories
+Found 29 empty directories
+Found 5 empty directories
+3467 empty folders deleted
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I might dig in later to <em>actually</em> organize the remaining files. I may even automate it with some Perl. This is good enough for today, though.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Done</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ find ~/Sync/ -type f | wc -l
+   40880
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now I have 40,880 files in my <code>~/Sync</code> folder. Maybe I should have counted directories too.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

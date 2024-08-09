@@ -1,0 +1,688 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2022/Nanoc builds sites faster with 3.2.0
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>banner</th>
+            <td><p>…/assets/cover-2022-12-25_1711577133566_0.png</p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>banner-caption</th>
+            <td><p>just the numbers</p>
+</td>
+          </tr>
+        
+      
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><p><a href="https://hackers.town/@randomgeek/109576038838397555">Mastodon</a></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><p>Ain’t no benchmark like an unscientific ad hoc benchmark</p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2022-12-25</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>banner-alt</th>
+            <td><p>tabular display of build time values described in post</p>
+</td>
+          </tr>
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Today is Christmas, which means version <a href="https://www.ruby-lang.org/en/news/2022/12/25/ruby-3-2-0-released/">3.2.0</a> of <a href="/ruby" class="page-link">Ruby</a> has been released. I read Peter Solnica’s post about <a href="https://www.solnic.dev/p/benchmarking-ruby-32-with-yjit">Benchmarking Ruby 3.2 with YJIT</a>. One bit of feedback he got was that YJIT — the now official Just In Time compiler — kicks in for frequently called methods:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="quote"><header>quote</header><p>By default, YJIT optimizes a method on the 30th time you call it.</p>
+</aside>
+from:: Noah Gibbs
+cite:: [Ruby.social](https://ruby.social/@codefolio/109573860732354569)
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Well hey. The <a href="https://nanoc.app">Nanoc</a> iteration of my site has a few hundred pages. Nanoc probably calls some of its methods 30 or more times for that. Let’s find out if 3.2.0 makes a difference.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>I should probably install 3.2.0</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This is in my Windows 11 + WSL2 workspace. I wouldn’t be surprised if Linux and macOS tests went faster.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Installed 3.2.0 on my system using <code>rbenv</code>. Worth mentioning that I had to <code>export CC=/home/linuxbrew/.linuxbrew/bin/gcc-12</code> for <code>rbenv install</code> to work at all. For some reason I had a <code>brew</code>-installed Ruby floating around, too. Removed that with <code>brew uninstall ruby</code> so <code>rbenv install 3.2.0</code> would work.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I have a very fiddly system.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>The “test”</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The steps that I followed:</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Switch to the right version</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Install dependencies for that version</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Build the site</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Build it again, to see how long things take when nothing’s changed</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Remove the build folder and move on to the next case</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>First in 3.1.3 to set a baseline of sorts.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ rbenv local 3.1.3
+$ bundle
+$ bundle exec nanoc
+...
+Site compiled in 50.39s.
+$ bundle exec nanoc
+Site compiled in 43.87s.
+$ rm -r output/
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Don’t judge those numbers too harshly. Nanoc site configuration is Ruby code, and mine was very sloppy Ruby code. Regardless, it’s way slower than <a href="/hugo" class="page-link">Hugo</a> .</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now in 3.2.0 without enabling YJIT, to see if just the plain old upgrade is quicker.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ rbenv local 3.2.0
+$ bundle
+$ bundle exec nanoc
+...
+Site compiled in 43.58s.
+$ bundle exec nanoc
+...
+Site compiled in 37.30s.
+$ rm -r output/
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There’s variation from one invocation to the next in 3.1.3, but 3.2.0’s first build is consistently a sliver faster than 3.1.3’s second build.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Finally with YJIT.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ RUBY_YJIT_ENABLE=1 bundle exec nanoc
+...
+Site compiled in 29.51s.
+$ RUBY_YJIT_ENABLE=1 bundle exec nanoc
+...
+Site compiled in 23.28s.
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That is an impressive difference. We’re still not talking Hugo numbers, of course. But under 30 seconds means I might be able to pay attention long enough to fix my terrible site configuration code.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

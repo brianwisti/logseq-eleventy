@@ -1,0 +1,2052 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2021/My Raku script for Journaling in Joplin
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><p>Why mess with getopt when I can just use multi-dispatch?</p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2021-05-22</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+        
+          <tr>
+            <th>banner</th>
+            <td><p>…/assets/cover-2021-05-22_1721565852798_0.png</p>
+</td>
+          </tr>
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Setting the scene</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>So yesterday I wrote a couple of online-liners for <a href="/post/2021/cli-journaling-in-joplin-with-raku" class="page-link">post/2021/CLI Journaling in Joplin with Raku</a>, managing journal entries in the <em class="link-missing">Joplin</em> note-taking application with help from <a href="/raku" class="page-link">Raku</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I made one for writing:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-bash">joplin use Journal &amp;&amp; joplin edit $(date --iso=minute)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I made one for reading:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-bash">joplin use Journal \
+  &amp;&amp; raku -e '
+    for qx{ joplin ls }.lines.sort {
+      qqx{ joplin cat $_ }.subst(
+        /^(&lt;[\dT:\-]&gt;+)/, { &quot;# $0&quot; }
+      ).say
+    }' \
+  | python -m rich.markdown -
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>They work.  That’s great.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>They don’t work great, though.  Mainly the one-liner for reading.  It dumps every journal entry, which is both overwhelming and slow.  Overwhelming because I only want to see today’s journal entries most of the time.  Slow because every one of those entries requires a separate call to <code>joplin</code>.  Joplin is lovely, but it expects to be used as a persistent application.  The command line functionality is optimized for convenience.  It is <em>not</em> optimized for being hammered repeatedly by an overenthusiastic command line script.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I can fix the overwhelming.  I can’t properly fix the slow until I learn more about the <a href="https://joplinapp.org/api/overview/">Joplin API</a>.  At least I can make the experience less awful.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Make it less awful</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Less hard-coding please</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>First things first.  I might change the name of my journal notebook.  You might want a daily diary rather than a giant stack of entries.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku">constant $notebook     = &quot;Journal&quot;;
+constant $entry-window = &quot;minute&quot;;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Focusing on daily journals? Set <code>$entry-window</code> to <code>&quot;day&quot;</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Adding an entry</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku">sub add-entry() {
+  my $timestamp = DateTime.now.truncated-to($entry-window);
+  my $command = &quot;joplin use $notebook &amp;&amp; joplin edit $timestamp&quot;;
+  shell( $command );
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Raku’s <a href="https://docs.raku.org/type/DateTime">DateTime</a> classes provide the gist of what we got with GNU Date. <a href="https://docs.raku.org/type/DateTime#method_truncated-to"><code>truncated-to</code></a> rounds our current timestamp — <a href="https://docs.raku.org/type/DateTime#method_now"><code>now</code></a> — down to the minute.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ raku -e 'DateTime.now.say'
+2021-05-22T11:52:28.380996-07:00
+
+$ raku -e 'DateTime.now.truncated-to(&quot;minute&quot;).say'
+2021-05-22T11:52:00-07:00
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It doesn’t print exactly the same as <code>date</code>:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ date --iso=minute
+2021-05-22T11:52-07:00
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It wouldn’t take excessive effort to make them match, but I’m just not concerned about it at the moment.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Use a <code>MAIN</code> sub</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Well, we went and put the logic for adding an entry into a function.  We want to call that function at some point, right?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku">sub MAIN() {
+  add-entry;
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We don’t need <a href="https://docs.raku.org/routine/MAIN"><code>MAIN</code></a> yet.  If present, it’s your Raku script’s official entry point.  If not, you have a plain old script.  You’re good either way.  Having that entry point will make things easier to manage in a minute, though.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>If we run this as-is, it adds a new entry.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ raku journal
+Note does not exist: &quot;2021-05-22T12:18:00-07:00&quot;. Create it? (Y/n) y
+...
+Note has been saved.
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Okay, fine.  It works.  So far it’s neither tidier nor more readable than the initial one-liner.  But writing an entry was never the problem.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The problem was reading the entries.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Read all the entries?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Back in our one-liner, collecting entries and reading them got smushed together.  They’re two distinct actions, though.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku">sub all-entries() {
+  qqx{joplin use $notebook &amp;&amp; joplin ls}.lines.sort;
+}
+
+sub read-entries(@entries) {
+  @entries.map({
+    qqx{ joplin cat $_}.subst(/^(&lt;[\dT:\-]&gt;+)/, { &quot;# $0&quot; })
+  }).join;
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Right.  Now we have subs for writing, and subs for reading.  How do we want to get at them?  Maybe a callback table with action keywords? Maybe a fancy <a href="https://modules.raku.org">module</a>?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Nope!  Well — we <em>could</em>.  But we don’t need to.  Raku has <a href="https://docs.raku.org/language/functions#Multi-dispatch">multi-dispatch</a>!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Use multiple <code>MAIN</code> subs</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We replace the initial <code>MAIN</code> definition with these:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku">multi sub MAIN(&quot;add&quot;) {   #= Add an entry
+  add-entry;
+}
+
+multi sub MAIN(&quot;read&quot;) {  #= Read all entries
+  say read-entries(all-entries);
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>multi</code> tells Raku to expect multiple definitions for this sub.  Without it, the compiler gets annoyed.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="https://en.wikipedia.org/wiki/Multiple_dispatch">Multiple dispatch</a> means a few things depending on which language you’re using — or which computer scientist you’re asking.  Basically it lets you avoid having one giant glob of a function with all sorts of special logic.  You do that by having a different version of the function for different situations.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Where I got surprised?  Most of the tiny amount I’ve read out there for multiple dispatch talks about basing on types or pattern matching against variables.  You could absolutely do that with Raku.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku">multi sub MAIN(Str $action where { $action == &quot;add&quot; }) { ... }
+
+multi sub MAIN(Str $action where { $action == &quot;read&quot; }) { ... }
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Thing is, we’re not doing anything with <code>$action</code>.  We <em>read</em> if the first command line argument is <code>read</code>.  We <em>add</em> if it’s <code>add</code>.  Raku is happy enough matching that first argument against literal strings.  I assume other multi-dispatch languages can to the same, but nobody’s been uncouth enough to bring it up in polite company.  It’s always “this type” and “that pattern” or “this enum.”</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What happens if we try to run the script with no arguments?  Well, if we didn’t remove that initial version of <code>MAIN</code> we get a compiler error about redefining the sub.  But once that’s out of the way, we no longer have a default path into the application!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>No worries.  Raku’s special handling of the entry point sub shows us the accepted usage.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ raku journal.raku
+Usage:
+  journal.raku add -- Add an entry
+  journal.raku read -- Read all entries
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>And that’s where those <code>#=</code> comments come in.  They provide extra detail for the usage message displayed.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let’s try them out.  We’ll <code>add</code> an entry and then make sure it shows up when we <code>read</code> them.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ raku journal.raku add
+Note does not exist: &quot;2021-05-22T12:55:00-07:00&quot;. Create it? (Y/n)
+...
+Note has been saved.
+$ raku journal.raku read
+...
+# 2021-05-22T12:55:00-07:00
+
+[multi-dispatch]: https://docs.raku.org/language/functions#Multi-dispatch
+
+Raku Joplin journaling script, now with [multi-dispatch][]!
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Nice.  Of course, at this point I’m being handed 142 lines of text, and it’s taking about 12 seconds to do it.  All that work and we finally reached the full “overwhelming and slow” point we were at this morning.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Things are about to improve!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>I just want today</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’ve been carefully using <a href="/iso-8601" class="page-link">ISO 8601</a> format for my entries.  That means I can filter to a specific date — or year, month, hour, etc — by constructing a date fragment and grabbing each entry that starts with the fragment.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku">sub filtered-entries(Str $date-funnel) {
+  all-entries.grep({ .starts-with($date-funnel) });
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Getting today’s entries then becomes a matter of extracting a <code>yyyy-mm-dd</code> string from the ever-so-helpful DateTime.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku">sub entries-for-today() {
+  filtered-entries DateTime.now.yyyy-mm-dd
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>#+BEGIN_NOTE
+<em class="link-missing">2021-05-24</em>: <a href="https://twitter.com/b2gills">@b2gills</a> mentioned that I could also use <a href="https://docs.raku.org/type/Date#method_today%5BDate.today%5D"><code>Date.today</code></a> here!</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Why didn&#39;t you use Date.​today?<br><br>If you had a coercive parameter, you wouldn&#39;t even need to do anything more than Date.​today.<br><br> sub filtered-entries(Str(Date) $​date-funnel) {…}<br><br> sub entries-for-today() {<br> filtered-entries Date.​today<br> }</p>&mdash; Brad Gilbert (@b2gills) <a href="https://twitter.com/b2gills/status/1397038905405452296?ref_src=twsrc%5Etfw">May 25, 2021</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p>I haven’t messed with <a href="https://docs.raku.org/syntax/Coercion%20type">parameter coercion</a> yet, but that looks like it will come in handy.
+#+END_NOTE</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Need to touch up my reading <code>MAIN</code> definition, though.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku">multi sub MAIN(&quot;read&quot;) {  #= Read today's entries
+  say read-entries( entries-for-today );
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Does it work?  Is it fast?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ time raku journal.raku read
+# 2021-05-22T08:12:00-07:00
+
+Millie let me sleep in until 7:54. How gracious.
+
+[@liztormato]: https://twitter.com/liztormato
+[Reddit]: https://www.reddit.com/r/rakulang/comments/nif2sf/cli_journaling_in_joplin_with_raku_brian_wisti/
+
+Oh and last night's Joplin / Raku post got some legs. [@liztormato][] even
+shared it on [Reddit][]. That's cool. I always hope they like it when I post
+something about #RakuLang.
+
+# 2021-05-22T10:43:00-07:00
+
+My note script needs an option for &quot;read yesterday's notes.&quot;
+
+# 2021-05-22T12:18:00-07:00 Making sure that my Raku Joplin journaling script lets me add an entry.
+
+# 2021-05-22T12:55:00-07:00
+
+[multi-dispatch]: https://docs.raku.org/language/functions#Multi-dispatch
+
+Raku Joplin journaling script, now with [multi-dispatch][]!
+
+real    0m3.815s
+user    0m3.966s
+sys     0m0.502s
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It works.  It’s — it’s not <em>fast</em> by any means, but 3.8 seconds is much faster than 12.  Again, there’s an API waiting for when I’m bored of abusing Joplin’s command line conveniences.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>And maybe yesterday</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Most of my deep dives into the journal will be from inside the Joplin app.  A quick glance at yesterday’s notes could still be useful.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Of course a DateTime lets me ask for an <a href="https://docs.raku.org/type/DateTime#(Dateish)_method_earlier"><code>earlier</code></a> DateTime.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku">sub entries-for-yesterday() {
+  my $yesterday = DateTime.now.earlier(days =&gt; 1);  # or :1day for the terse
+  filtered-entries $yesterday.yyyy-mm-dd;
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>For <code>MAIN</code> I <em>could</em> add and match against a subcommand.  I think instead I will adjust my top-level commands to reflect the most common cases.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku">multi sub MAIN(&quot;today&quot;) {  #= Read today's entries
+  say read-entries( entries-for-today );
+}
+
+multi sub MAIN(&quot;yesterday&quot;) { #= Read yesterday's entries
+  say read-entries( entries-for-yesterday );
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>And it works!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ raku journal.raku yesterday
+# 2021-05-21T09:00-07:00
+
+Alarm 07:00, stayed in bed as long as I could. Thanks to the dogs, that was 15
+minutes. Oh well.
+
+[Homebrew]: https://brew.sh
+[Nix]: https://nixos.org/
+[using Nix on Debian]: https://ariya.io/2020/05/nix-package-manager-on-ubuntu-or-debian
+
+Got the Raspberry Pi 4 set up with Raspbian, and the 500GB external drive
+attached. Thinking about package managers. I know [Homebrew][] but I could
+maybe try [Nix][]. There's a post about [using Nix on Debian][].
+...
+# 2021-05-21T21:29:00-07:00
+
+Just about to post my Raku Joplin Journaling One-liners, but maybe a couple
+screenshots? People love screenshots.
+
+Maybe they do. Maybe they don't. *I* love screenshots.
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>What about formatting</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Honestly?  I’m not going to worry about it right now.  Piping to <a href="/rich" class="page-link">Rich</a>
+or <em class="link-missing">Glow</em> suffices when I want it pretty.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre class="rich">╔══════════════════════════════════════════════════════════════════════════════╗
+║                          <span style="font-weight: bold">2021-05-22T08:12:00-07:00</span>                           ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+Millie let me sleep in until 7:54. How gracious.
+
+Oh and last night's Joplin / Raku post got some legs. <span style="color: #0000ff; text-decoration-color: #0000ff"><a href="https://twitter.com/liztormato">@liztormato</a></span> even shared it
+on <span style="color: #0000ff; text-decoration-color: #0000ff"><a href="https://www.reddit.com/r/rakulang/comments/nif2sf/cli_journaling_in_joplin_with_raku_brian_wisti/">Reddit</a></span>. That's cool. I always hope they like it when I post something about
+#RakuLang.
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                          <span style="font-weight: bold">2021-05-22T10:43:00-07:00</span>                           ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+My note script needs an option for "read yesterday's notes."
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                          <span style="font-weight: bold">2021-05-22T12:18:00-07:00</span>                           ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+Making sure that my Raku Joplin journaling script lets me add an entry.
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                          <span style="font-weight: bold">2021-05-22T12:55:00-07:00</span>                           ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+Raku Joplin journaling script, now with <span style="color: #0000ff; text-decoration-color: #0000ff"><a href="https://docs.raku.org/language/functions#Multi-dispatch">multi-dispatch</a></span>!
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                          <span style="font-weight: bold">2021-05-22T14:05:00-07:00</span>                           ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+Guess I'm about ready to post the second Raku Joplin journaling post. Ah, the
+joys of hyperfocus.
+
+Better stretch my legs and get back to the official task list after.
+</pre>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>The complete script</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku">#!/usr/bin/env raku
+
+constant $notebook     = &quot;Journal&quot;;
+constant $entry-window = &quot;minute&quot;;
+
+sub add-entry() {
+  my $timestamp = DateTime.now.truncated-to($entry-window);
+  my $command = &quot;joplin use $notebook &amp;&amp; joplin edit $timestamp&quot;;
+  shell( $command );
+}
+
+sub all-entries() {
+  qqx{joplin use $notebook &amp;&amp; joplin ls}.lines.sort;
+}
+
+sub filtered-entries(Str $date-funnel) {
+  all-entries.grep({ .starts-with($date-funnel) });
+}
+
+sub entries-for-today() {
+  filtered-entries DateTime.now.yyyy-mm-dd;
+}
+
+sub entries-for-yesterday() {
+  my $yesterday = DateTime.now.earlier(days =&gt; 1);  # or :1day for the terse
+  filtered-entries $yesterday.yyyy-mm-dd;
+}
+
+sub read-entries(@entries) {
+  @entries.map({
+    qqx{ joplin cat $_}.subst(/^(&lt;[\dT:\-]&gt;+)/, { &quot;# $0&quot; })
+  }).join;
+}
+
+multi sub MAIN(&quot;add&quot;) {   #= Add an entry
+  add-entry;
+}
+
+multi sub MAIN(&quot;today&quot;) {  #= Read today's entries
+  say read-entries( entries-for-today );
+}
+
+multi sub MAIN(&quot;yesterday&quot;) { #= Read yesterday's entries
+  say read-entries( entries-for-yesterday );
+}
+
+multi sub MAIN(&quot;all&quot;) { #= Read all entries (SLOW!)
+  say read-entries( all-entries );
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

@@ -1,0 +1,1925 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2007/Python Interactive Fiction - 03 Handling Multiple Turns
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><p><em class="link-missing">python,interactive-fiction,coolnamehere</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2007-06-14</em></p>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This is Part 3 of <a href="/post/2007/interactive-fiction-with-python" class="page-link">post/2007/Interactive Fiction with Python</a>, about writing interactive fiction games in <a href="/python" class="page-link">Python</a> . By the end of <a href="/post/2007/python-interactive-fiction-02-tying-the-scenes-together" class="page-link">post/2007/Python Interactive Fiction - 02 Tying the Scenes Together</a> we had created a text-based user interface and explored one way of storing multiple scenes. This part will finally bring the needed glue for the player to move between all of the scenes in the story. In other words, we’ll have a game!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You’re going to be amazed at how simple this is to do. We’ll start with a simple, clumsy approach.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python"># ifiction.py
+#  - An interactive fiction game
+
+import textwrap # For nice formatting of the description
+import sys      # For exiting the game
+
+scenes = {
+    &quot;field&quot;: {
+        &quot;description&quot;: &quot;You are standing in a field. To the north of you are some mountains, &quot; \
+                       &quot;to the east of you is a forest, to the west of you is a cave, and to &quot; \
+                       &quot;the south of you is a valley.&quot;,
+        &quot;paths&quot;: [
+            { &quot;go_to&quot;: &quot;mountains&quot;, &quot;phrase&quot;: &quot;Go to the mountains&quot; },
+            { &quot;go_to&quot;: &quot;forest&quot;,    &quot;phrase&quot;: &quot;Go to the forest&quot; },
+            { &quot;go_to&quot;: &quot;cave&quot;,      &quot;phrase&quot;: &quot;Go into the cave&quot; },
+            { &quot;go_to&quot;: &quot;valley&quot;,    &quot;phrase&quot;: &quot;Go to the valley&quot; }
+        ]
+    },
+    &quot;mountains&quot;: {
+        &quot;description&quot;: &quot;You are standing at the foot of a mountain range. Huge impassable peaks &quot; \
+                       &quot;loom over you. There is a cave to the east, and a field south of you &quot;    \
+                       &quot;leading into a valley.&quot;,
+        &quot;paths&quot;: [
+            { &quot;go_to&quot;: &quot;cave&quot;, &quot;phrase&quot;: &quot;Go into the cave&quot; },
+            { &quot;go_to&quot;: &quot;field&quot;, &quot;phrase&quot;: &quot;Go south into the field&quot; }
+        ]
+    },
+    &quot;forest&quot;: {
+        &quot;description&quot;: &quot;A giant confused bear mistakes your for one of her cubs and takes you &quot;   \
+                       &quot;away with her. Although you eventually learn to love your new bear &quot; \
+                       &quot;family, your adventuring days are over.&quot;,
+        &quot;paths&quot;: [ ]
+    },
+    &quot;cave&quot;: {
+        &quot;description&quot;: &quot;You are in a long dark cave. You see points of daylight at either end of &quot; \
+                       &quot;the cave, one to the northeast and one to the southwest.&quot;,
+        &quot;paths&quot;: [
+            { &quot;go_to&quot;: &quot;mountains&quot;, &quot;phrase&quot;: &quot;Go northwest&quot; },
+            { &quot;go_to&quot;: &quot;field&quot;,     &quot;phrase&quot;: &quot;Go southwest&quot; }
+        ]
+    },
+    &quot;valley&quot;: {
+        &quot;description&quot;: &quot;You are standing in the middle of a huge, beautiful valley. Standing right &quot; \
+                       &quot;before you is ... whatever it was you were looking for. Success!&quot;,
+        &quot;paths&quot;: [ ]
+    }
+}
+
+scene = scenes[&quot;field&quot;]
+
+while 1 == 1:  # Watch out, could be an infinite loop!
+    next_step = None
+    description = scene[&quot;description&quot;]
+    paths = scene[&quot;paths&quot;]
+
+    print textwrap.fill(description)
+
+    # Show the menu for this scene.
+    for i in range(0, len(paths)):
+        path = paths[i]
+        menu_item = i + 1
+        print &quot;\t&quot;, menu_item, path[&quot;phrase&quot;]
+
+    print &quot;\t(0 Quit)&quot;
+
+    # Get the user selection from the menu.
+    prompt = &quot;Make a selection (0 - %i): &quot; % len(paths)
+
+    while next_step == None:
+        try:
+            choice = raw_input(prompt)
+            menu_selection = int(choice)
+
+            if menu_selection == 0:
+                next_step = &quot;quit&quot;
+            else:
+                index = menu_selection - 1
+                next_step = paths[ index ]
+        except (IndexError, ValueError):
+            print choice, &quot;is not a valid selection!&quot;
+
+    if next_step == &quot;quit&quot;:
+        print &quot;Good bye!&quot;
+        sys.exit()
+    else:
+        scene = scenes[ next_step[&quot;go_to&quot;] ]
+        print &quot;You decided to:&quot;, next_step[&quot;phrase&quot;]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The changes really are simple. I decided to put the whole process of describing the scene and getting user input into a <code>while</code> loop. The loop is basically going to go forever, as our loop test shows. One always equals one according to my admittedly limited math skills, so this test is always going to return <code>true</code>. That means we have an infinite loop. Infinite loops aren’t really a good idea, but they are often the easiest way to describe what you want the computer to do. However, we do need <em>some</em> way to quit the loop and the game. That is where the <code>exit</code> function from the <a href="https://docs.python.org/2/library/sys.html"><code>sys</code></a> module comes in handy. <code>sys</code> contains many variables and functions that allow your program to interact directly with Python itself and your computer environment. <code>sys.exit</code> serves the rather obvious purpose of exiting the Python system. That’s all we need to break out of our loop.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let’s take a look at running the game.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-plaintext">You are standing in a field. To the north of you are some mountains,
+to the east of you is a forest, to the west of you is a cave, and to
+the south of you is a valley.
+        1 Go to the mountains
+        2 Go to the forest
+        3 Go into the cave
+        4 Go to the valley
+        (0 Quit)
+Make a selection (0 - 4): 1
+You decided to: Go to the mountains
+You are standing at the foot of a mountain range. Huge impassable
+peaks loom over you. There is a cave to the east, and a field south of
+you leading into a valley.
+        1 Go into the cave
+        2 Go south into the field
+        (0 Quit)
+Make a selection (0 - 2): 2
+You decided to: Go south into the field
+You are standing in a field. To the north of you are some mountains,
+to the east of you is a forest, to the west of you is a cave, and to
+the south of you is a valley.
+        1 Go to the mountains
+        2 Go to the forest
+        3 Go into the cave
+        4 Go to the valley
+        (0 Quit)
+Make a selection (0 - 4): 4
+You decided to: Go to the valley
+You are standing in the middle of a huge, beautiful valley. Standing
+right before you is ... whatever it was you were looking for. Success!
+        (0 Quit)
+Make a selection (0 - 0): 0
+Good bye!
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Congratulations, it’s a game!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You can stop at this point. The game is complete, and there is nothing more that <em>needs</em> to be done. There are some more things I would like to do with the game before I move on. I invite you to follow me in the process of making our code more pleasant to read. I will spend time wandering from thought to thought. You will probably learn less about programming, but quite a bit about how I look at programs.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Cleaning Up</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The game works, but it could stand to be cleaned up. <em>Refactoring</em> is the practice of examining your application code and deciding what changes would make the code easier to read, faster, or just plain better in some way, but <em>without changing what the program does</em>. That’s the hard part. It is so tempting to add new features as soon as you think of them. That leads to a pile of unreadable code, sooner or later. That pile usually shows up sooner if you don’t refactor often enough. Trust me. I am speaking from years of experience creating huge piles of unreadable code.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Some developers may argue that this program is too small for refactoring to be much use. After all, my copy is only 87 lines including <code>scenes</code>. They can argue all they want, but this is my code, and I think that some functions would push the more elaborate code into a corner so that the code which runs the game is easier to read.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It isn’t difficult, either. We can start by searching for clumsy-looking blocks of code which make it harder to figure out what’s going on.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This looks like a good candidate right here.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python"># Get the user selection from the menu.
+prompt = &quot;Make a selection (0 - %i): &quot; % len(paths)
+
+while next_step == None:
+    try:
+        choice = raw_input(prompt)
+        menu_selection = int(choice)
+
+        if menu_selection == 0:
+            next_step = &quot;quit&quot;
+        else:
+            index = menu_selection - 1
+            next_step = paths[ index ]
+    except (IndexError, ValueError):
+        print choice, &quot;is not a valid selection!&quot;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What do we want? We want the user to tell us what she wants to do next. The user picks a number which could lead to another scene or quitting. Let us define it in a function.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python"># Scene definitions
+# ...
+
+# Function definitions
+def select_path(paths):
+    next_step = None
+
+    # Show the menu for this scene.
+    for i in range(0, len(paths)):
+        path = paths[i]
+        menu_item = i + 1
+        print &quot;\t&quot;, menu_item, path[&quot;phrase&quot;]
+
+    print &quot;\t(0 Quit)&quot;
+
+    # Get the user selection from the menu.
+    prompt = &quot;Make a selection (0 - %i): &quot; % len(paths)
+    while next_step == None:
+        try:
+            choice = raw_input(prompt)
+            menu_selection = int(choice)
+
+            if menu_selection == 0:
+                next_step = &quot;quit&quot;
+            else:
+                index = menu_selection - 1
+                next_step = paths[ index ]
+        except (IndexError, ValueError):
+            print choice, &quot;is not a valid selection!&quot;
+    return next_step
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We just moved the code into a function <code>def</code> block which we called <code>select_path</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>select_path</code> needs to know all about the paths for the scene in order to build the prompt, so we indicate that in the function definition. <code>next_step</code> is set to <code>None</code> inside the function, since Python doesn’t know about it yet.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The rest of the function block looks like the original chunk of code, until it reaches the end. Instead of doing something with the selected <code>next_step</code>, <code>select_path</code> returns it to whoever called it. You want to limit what your function does to one important thing, and you want to name your function for the one thing it does. This is one more little thing that makes code easier to handle when you come back to it later.
+As I was saying - if <code>select_path</code> holds the code for getting user input and sends the results to the caller, what does our main game code look like now?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python"># Game starts here.
+scene = scenes[&quot;field&quot;]
+
+while 1 == 1:  # Watch out, could be an infinite loop!
+    description = scene[&quot;description&quot;]
+    paths = scene[&quot;paths&quot;]
+
+    print textwrap.fill(description)
+    next_step = select_path(paths)
+
+    if next_step == &quot;quit&quot;:
+        print &quot;Good bye!&quot;
+        sys.exit()
+    else:
+        scene = scenes[ next_step[&quot;go_to&quot;] ]
+        print &quot;You decided to:&quot;, next_step[&quot;phrase&quot;]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The original chunk has been replaced by a single line of code. This has made things a little more readable, but I still see a lot of changes we could make. Yes, I really do program like this. It is a faster process than you think, especially if you’re not narrating as you write code.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What would I like to do next? Well, I don’t like the way <code>select_path</code> uses a loop to get the path selection. There’s nothing wrong with that approach, but I don’t think it reads clearly:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <blockquote>
+<p>While there is not a valid <code>next_step</code>, try to get the user selection and use it to pick <code>next_step</code></p>
+</blockquote>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That is more or less how this reads to me in English. The second part is okay, but the first part is nonsensical. Let’s roll up our sleeves and make some sense out of this.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>First off: we know we are going to be working with the user input portion of this function, and maybe in a big way. Let’s protect <code>select_path</code> by refactoring user input into its own function. What to name it? Well, we are showing a prompt and getting user input, so the behavior is similar to <code>raw_input</code>.  This input is relevant to the menu we just displayed, so let’s call our new function <code>menu_input</code>. We still need that <code>paths</code> data, so it’ll be an argument for our new function as well.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Here is a first version of <code>menu_input</code>, followed by the modified version of <code>select_path</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python"># Function definitions
+def menu_input(paths):
+    next_step = None
+    prompt = &quot;Make a selection (0 - %i): &quot; % len(paths)
+    while next_step == None:
+        try:
+            choice = raw_input(prompt)
+            menu_selection = int(choice)
+
+            if menu_selection == 0:
+                next_step = &quot;quit&quot;
+            else:
+                index = menu_selection - 1
+                next_step = paths[ index ]
+        except (IndexError, ValueError):
+            print choice, &quot;is not a valid selection!&quot;
+    return next_step
+
+def select_path(paths):
+    # Show the menu for this scene.
+    for i in range(0, len(paths)):
+        path = paths[i]
+        menu_item = i + 1
+        print &quot;\t&quot;, menu_item, path[&quot;phrase&quot;]
+
+    print &quot;\t(0 Quit)&quot;
+    # Get the user selection from the menu.
+    next_step = menu_input(paths)
+    return next_step
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The current phrasing of <code>menu_input</code> bothers me, but what would be an improvement? Python doesn’t have a convenient way of saying “do this until I have a useful value”, but there is another way to phrase the task:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <blockquote>
+<p>Try to get the user selection and use it to pick <code>next_step</code>. If something goes wrong, warn the user and try again. If nothing goes wrong, return <code>next_step</code>.</p>
+</blockquote>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>How do you say that in Python? You say it with <em>recursion</em>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">def menu_input(paths):
+    prompt = &quot;Make a selection (0 - %i): &quot; % len(paths)
+
+    try:
+        choice = raw_input(prompt)
+        menu_selection = int(choice)
+
+        if menu_selection == 0:
+            next_step = &quot;quit&quot;
+        else:
+            index = menu_selection - 1
+            next_step = paths[ index ]
+    except (IndexError, ValueError):
+        print choice, &quot;is not a valid selection!&quot;
+        # Try again!
+        next_step = menu_input(paths)
+
+    return next_step
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I have managed to clean up the code merely by changing the way I phrased the task. What does <code>menu_input</code> do? It tries to get a value for <code>next_step</code> from user input. What happens if the user input is bad? <em>It tries again!</em> Brilliant in its simplicity! You will find that recursion - the act of calling the current function again — can be an easier way to describe your solution to a problem than using a loop. You can even change the arguments each time you recurse. Actually, that is encouraged. It just wasn’t needed for <code>menu_input</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There is one more change I would like to make to <code>menu_input</code>. The variable name <code>next_step</code> made sense when it was being defined in the context of a whole game, but now it is being defined in a much narrower context. The variable should have a new name which reflects that we are getting and returning the path that was selected by the user. <code>selected_path</code> ought to do it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">def menu_input(paths):
+    prompt = &quot;Make a selection (0 - %i): &quot; % len(paths)
+
+    try:
+        choice = raw_input(prompt)
+        menu_selection = int(choice)
+
+        if menu_selection == 0:
+            selected_path = &quot;quit&quot;
+        else:
+            index = menu_selection - 1
+            selected_path = paths[ index ]
+    except (IndexError, ValueError):
+        print choice, &quot;is not a valid selection!&quot;
+        # Try again!
+        selected_path = menu_input(paths)
+
+    return selected_path
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Choosing a variable name can be a tricky business. It doesn’t have much effect on how the program runs, but it can have a huge impact on how easy it is for you to read the code. I discuss code reading a lot, and there is a good reason for that. You will ultimately be spending more time reading code than writing it. Even if you only work on your own projects, you will have to review the code multiple times. And program code is not written for the computer. It’s written for the programmer. All the computer needs are the specific machine instructions to perform a task. The reason we don’t write much in machine language these days is simple: we don’t have to. Computers are powerful enough to provide layers between us and the machine language. So, if you are writing code, write for people. You can think of it as a story if you want to. Try to make it like a story by Ernest Hemingway, a man who was famous for writing simply and clearly.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <blockquote>
+<p>My aim is to put down on paper what I see and what I feel in the best and simplest way. – <em>Ernest Hemingway</em></p>
+</blockquote>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>My writing is a long way from his, but I keep this goal in my head while I write code.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I am nearly done with refactoring this code. The <code>while 1 == 1</code> block still bothers me, though. There has to be a more graceful way to describe the game loop. Let’s look at what we have right now.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">while 1 == 1:  # Watch out, could be an infinite loop!
+    description = scene[&quot;description&quot;]
+    paths = scene[&quot;paths&quot;]
+
+    print textwrap.fill(description)
+    next_step = select_path(paths)
+
+    if next_step == &quot;quit&quot;:
+        print &quot;Good bye!&quot;
+        sys.exit()
+    else:
+        scene = scenes[ next_step[&quot;go_to&quot;] ]
+        print &quot;You decided to:&quot;, next_step[&quot;phrase&quot;]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It is tempting to rewrite this as a recursive function, since it worked so well for menu input.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Unfortunately, that may not work for a game loop. Python has built-in recursion limits, which you can find from the library function <code>sys.getrecursionlimit</code>. This function returns <code>1000</code> on my machine, and it probably will on yours too. This means that you can recursively call a function no more than one thousand times. That sounds like a lot, but you will hit that ceiling a lot sooner than you think if you rely heavily on recursion.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Oh well, I guess I could put this block into its own function.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">def play_game(start_scene):
+    scene = start_scene
+    while 1 == 1:  # Watch out, could be an infinite loop!
+        description = scene[&quot;description&quot;]
+        paths = scene[&quot;paths&quot;]
+
+        print textwrap.fill(description)
+        next_step = select_path(paths)
+
+        if next_step == &quot;quit&quot;:
+            print &quot;Good bye!&quot;
+            sys.exit()
+        else:
+            scene = scenes[ next_step[&quot;go_to&quot;] ]
+            print &quot;You decided to:&quot;, next_step[&quot;phrase&quot;]
+
+# Game starts here.
+play_game(scenes[&quot;field&quot;])
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This does make the application code simple. It’s just a function call to play the game, starting with the “field” scene. And really, this is as far as I feel like refactoring the game code. Here is the final form of our simple interactive fiction game.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python"># ifiction.py
+#  - An interactive fiction game
+
+import textwrap # For nice formatting of the description
+import sys      # For exiting the game
+
+scenes = {
+    &quot;field&quot;: {
+        &quot;description&quot;: &quot;You are standing in a field. To the north of you are some mountains, &quot; \
+                       &quot;to the east of you is a forest, to the west of you is a cave, and to &quot; \
+                       &quot;the south of you is a valley.&quot;,
+        &quot;paths&quot;: [
+            { &quot;go_to&quot;: &quot;mountains&quot;, &quot;phrase&quot;: &quot;Go to the mountains&quot; },
+            { &quot;go_to&quot;: &quot;forest&quot;,    &quot;phrase&quot;: &quot;Go to the forest&quot; },
+            { &quot;go_to&quot;: &quot;cave&quot;,      &quot;phrase&quot;: &quot;Go into the cave&quot; },
+            { &quot;go_to&quot;: &quot;valley&quot;,    &quot;phrase&quot;: &quot;Go to the valley&quot; }
+        ]
+    },
+    &quot;mountains&quot;: {
+        &quot;description&quot;: &quot;You are standing at the foot of a mountain range. Huge impassable peaks &quot; \
+                       &quot;loom over you. There is a cave to the east, and a field south of you &quot;    \
+                       &quot;leading into a valley.&quot;,
+        &quot;paths&quot;: [
+            { &quot;go_to&quot;: &quot;cave&quot;, &quot;phrase&quot;: &quot;Go into the cave&quot; },
+            { &quot;go_to&quot;: &quot;field&quot;, &quot;phrase&quot;: &quot;Go south into the field&quot; }
+        ]
+    },
+    &quot;forest&quot;: {
+        &quot;description&quot;: &quot;A giant confused bear mistakes your for one of her cubs and takes you &quot;   \
+                       &quot;away with her. Although you eventually learn to love your new bear &quot; \
+                       &quot;family, your adventuring days are over.&quot;,
+        &quot;paths&quot;: [ ]
+    },
+    &quot;cave&quot;: {
+        &quot;description&quot;: &quot;You are in a long dark cave. You see points of daylight at either end of &quot; \
+                       &quot;the cave, one to the northeast and one to the southwest.&quot;,
+        &quot;paths&quot;: [
+            { &quot;go_to&quot;: &quot;mountains&quot;, &quot;phrase&quot;: &quot;Go northwest&quot; },
+            { &quot;go_to&quot;: &quot;field&quot;,     &quot;phrase&quot;: &quot;Go southwest&quot; }
+        ]
+    },
+    &quot;valley&quot;: {
+        &quot;description&quot;: &quot;You are standing in the middle of a huge, beautiful valley. Standing right &quot; \
+                       &quot;before you is ... whatever it was you were looking for. Success!&quot;,
+        &quot;paths&quot;: [ ]
+    }
+}
+
+# Function definitions
+def menu_input(paths):
+    prompt = &quot;Make a selection (0 - %i): &quot; % len(paths)
+
+    try:
+        choice = raw_input(prompt)
+        menu_selection = int(choice)
+
+        if menu_selection == 0:
+            selected_path = &quot;quit&quot;
+        else:
+            index = menu_selection - 1
+            selected_path = paths[ index ]
+    except (IndexError, ValueError):
+        print choice, &quot;is not a valid selection!&quot;
+        # Try again!
+        selected_path = menu_input(paths)
+
+    return selected_path
+
+def select_path(paths):
+    # Show the menu for this scene.
+    for i in range(0, len(paths)):
+        path = paths[i]
+        menu_item = i + 1
+        print &quot;\t&quot;, menu_item, path[&quot;phrase&quot;]
+
+    print &quot;\t(0 Quit)&quot;
+    # Get the user selection from the menu.
+    next_step = menu_input(paths)
+    return next_step
+
+def play_game(start_scene):
+    scene = start_scene
+    while 1 == 1:  # Watch out, could be an infinite loop!
+        description = scene[&quot;description&quot;]
+        paths = scene[&quot;paths&quot;]
+
+        print textwrap.fill(description)
+        next_step = select_path(paths)
+
+        if next_step == &quot;quit&quot;:
+            print &quot;Good bye!&quot;
+            sys.exit()
+        else:
+            scene = scenes[ next_step[&quot;go_to&quot;] ]
+            print &quot;You decided to:&quot;, next_step[&quot;phrase&quot;]
+
+# Game starts here.
+play_game(scenes[&quot;field&quot;])
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We are more or less done with this train of thought. I have introduced you to many topics, but I have taken my own strange path through them. Your next step should be to reexamine the <a href="https://docs.python.org/2/tutorial/index.html">official Python tutorial</a> and see if it makes any more sense than the first time you read it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>More ideas</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now that you have a complete game, what else can you do? There are many ideas. I may even tackle a few of them in future installments. You don’t have to wait for me, though.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Different story maps</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What happens when you want a different story? Right now, you have to rewrite the <code>scenes</code> dictionary within the program. Wouldn’t it be better if you could load a story from another file? It’s Python code, so you could try experimenting with <code>import</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Saving a game</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What do you do if you have a very large story map and the player can’t handle the whole thing in one session? Right now, nothing. The user has to restart the game every time. It would be very generous if you came up with some way to save the key of the current scene to a configuration file, and resume from that scene when the game restarted. You would have to add a command for saving and quitting instead of simply quitting.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Inventory</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Would the story go differently if the user had a flashlight in the cave? Adding inventory and letting it affect the available paths in your story is one way to make your game richer, at the cost of making the code much more complicated. Still, go ahead and give it a shot if you are interested!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>A Bonus Diversion: Scope</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p>This was originally part of the main text, but it didn’t really belong anywhere once I had finished writing. I decided to leave it in as one more bout of insane rambling instead of deleting it and probably forever forgetting it. At least this way I have something to start from when I <em>do</em> feel like talking about scope.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Hey, you may be wondering how I could get away with using the variable <code>next_step</code> in so many places. First, let me make a confession. Reusing the same name like that over and over again is poor form. I should be changing the name to reflect how it is being used in its code block, instead of just cutting and pasting from one block to another. I was in a hurry, though, and being in a hurry can lead to laziness. In my defense, <code>next_step</code> is being properly defined with the same line each step of the way: <code>next_step = paths[ index ]</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It doesn’t feel like I’m doing any harm, since I <em>am</em> effectively referring to the same thing. Still, I am making excuses for my laziness.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Another thing I would like to point out is that they are each completely different variables from Python’s perspective. We use the term <em>scope</em> to describe where a particular variable can be seen. First, if a variable is first defined inside of a function, it is only visible within that function. As soon as the function returns, its “local” variables usually cease to exist. <em>(There are special situations where this is not true, but I am not going to look at them yet. Look up “closure” on the Internet for more information)</em>. Variables that are defined outside of a function are visible from the point where they are defined until the end of the file. If you define a value for a local variable with the same name as a global variable, though, the local variable “masks” the global variable until the end of the function.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It’s all fairly confusing, and easiest to demonstrate with another trip to the Python console.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-plaintext">&gt;&gt;&gt; x = &quot;waffle&quot;
+&gt;&gt;&gt; def foo():
+...     print x
+...
+&gt;&gt;&gt; foo()
+waffle
+&gt;&gt;&gt; def bar():
+...     x = &quot;angry bears!&quot;
+...     print x
+...
+&gt;&gt;&gt; bar()
+angry bears!
+&gt;&gt;&gt; print x
+waffle
+&gt;&gt;&gt;  
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Are you feeling a little lost? It’s okay, variable scope confuses many developers. The scope rule to remember is that a local definition trumps a global definition. The style rule to remember? Don’t use global variables and you only need to remember about local variables and variables handed to a function as part of its arguments.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

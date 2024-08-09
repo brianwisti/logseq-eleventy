@@ -1,0 +1,1119 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2016/Yearly Post Archives In Hugo
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2016-04-17</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I spent a little time this weekend creating yearly post archives for my <a href="/hugo" class="page-link">Hugo</a> site.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Hugo already has <a href="https://gohugo.io/extras/pagination/">pagination</a> functionality, but I dislike this approach in blogs. For one thing, it messes up web search. I find an interesting link which Google claims is on page 12 of some blog, but now I must dig to page 14 or 15 or 23.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Years give me a fixed point to anchor my archive listings to. I could narrow it down to years <em>and</em> months, but I am not that prolific. Years will do fine.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p>Skeptical side-eye from 2024</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Everything on one page for each section</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Hugo bases <a href="https://gohugo.io/templates/list/">template selection</a> on specificity: use the most specific template if available, otherwise use more general-purpose templates. Right now I lean on my <code>_default</code> layouts for all content. The <code>_default/list.ace</code> template provides the layout for all content collections.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-handlebars">= content main
+  h1 {{ .Title }}
+  ul.post-list
+    {{ range .Data.Pages }}
+      li {{ .Render &quot;li&quot; }}
+    {{ end }}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p><em class="link-missing">2022-03-27</em>: I used Hugo’s support for Ace templates on my site back when writing this post. That support’s been removed since then, but the logic holds well enough. The important stuff is in the <code>{{ … }}</code> blocks, so try not to get too distracted by Ace.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Hugo gives the template a title and a collection of pages — along with numerous other <a href="https://gohugo.io/templates/variables/">variables</a>, and at the other end something like this is produced.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/site-default-listing_1721583862346_0.png" alt="site-default-listing.png"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Group everything by date</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>For a first step in the process, let’s see what happens when we tell the Pages to <a href="https://gohugo.io/templates/list/#grouping-by-page-date">group by date</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-handlebars">= content main
+  h1 {{ .Title }}
+  {{ range (.Data.Pages.GroupByDate &quot;2006&quot;) }}
+    h2 {{ .Key }}
+    ul.post-list
+      {{ range .Pages }}
+        li {{ .Render &quot;li&quot; }}
+      {{ end }}
+  {{ end }}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/site-single-page-year-headers_1721583940451_0.png" alt="site-single-page-year-headers.png"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Not too bad. Let’s move on.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>This year’s content</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Hold on a second. I can use the <a href="https://gohugo.io/templates/functions/#first"><code>first</code></a> function to create a list of things published this year. I’ll put that in my <code>index.ace</code> layout.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-handlebars">= content main
+  p This page lists the projects and posts I published on the site this year.
+  p This is a blog, so of course you can
+    a href=&quot;/index.xml&quot;  subscribe via RSS.
+  {{ range first 1 (.Data.Pages.GroupByDate &quot;2006&quot;) }}
+    h2 Posted So Far in {{ .Key }}
+    ul.post-list
+      {{ range .Pages }}
+        li {{ .Render &quot;li&quot; }}
+      {{ end }}
+  {{ end }}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/site-this-years-posts_1721585035303_0.png" alt="site-this-years-posts.png"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Life hack: use taxonomies</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Hugo does not directly support yearly archive pages. However, this <a href="https://discuss.gohugo.io/t/pagination-and-group-by-date/1441/3">Hugo community comment</a> shows that somebody solved a very similar problem using <a href="http://gohugo.io/taxonomies/overview/">taxonomies</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Taxonomies are special terms you create to organize your content. Categories and tags are a common example across blogs. Hugo simplifies creation of your own taxonomies and their presentation with templates.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Strictly speaking, this is kind of a hack. You would ordinarily put an entry with singular and plural names for your taxonomies in <code>config.yml</code>, but I do not care about pluralization in this case. I just want a way to create “year” templates.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-yaml">taxonomies:
+    year: &quot;year&quot;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>In order for this to work, I need every content item to have a <code>year</code> entry in its front matter set to the year that item was published.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-yaml">year: 2016
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This is going to be tedious. Let’s not do this manually, okay?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Here comes the <a href="/perl" class="page-link">Perl</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Automate the frontmatter</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-perl">#!/usr/bin/env perl
+
+use v5.22.0;
+use autodie qw(:all);
+
+use File::Find::Rule;
+use File::Slurper qw(read_text write_text);
+use YAML::Tiny;
+
+sub add_metadata_to {
+  my $filename = shift;
+  say &quot;Looking at $filename&quot;;
+
+  my $original = read_text $filename;
+  my ( $empty, $front_matter, $content ) = split /^---$/m, $original;
+  my $yaml = YAML::Tiny-&gt;read_string( $front_matter );
+  my $date = $yaml-&gt;[0]{date};
+
+  if ( $date =~ m{^ (?&lt;year&gt; \d\d\d\d) - (?&lt;month&gt; \d\d) - }x ) {
+    $yaml-&gt;[0]{year} = $+{year};
+  }
+  else {
+    # Avoid converting simple pages.
+    return;
+  }
+
+  my $new_front_matter = $yaml-&gt;write_string;
+  my $new_content = $new_front_matter . &quot;---&quot; . $content;
+  write_text $filename, $new_content;
+  say &quot;Updated $filename metadata&quot;;
+}
+
+my @files = File::Find::Rule-&gt;file()
+  -&gt;name( qw( *.md *.html ) )
+  -&gt;in( &quot;content&quot; );
+
+add_metadata_to $_ for @files;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Summarize every year on one page</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>My <code>_default/terms.ace</code> layout was already set up for categories and tags. The reverse alphabetical order was some whimsical experiment that I forgot to change, but it works perfect for years. Reverse alphabetical looks quite a bit like reverse chronological when things are sorted in <a href="https://en.wiktionary.org/wiki/ASCIIbetical">ASCIIbetical</a> order.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-handlebars">= content main
+  h1 {{ .Title }}
+  dl
+    {{ $data := .Data }}
+    {{ range $key, $value := .Data.Terms.Alphabetical.Reverse }}
+      dt
+        a href=&quot;/{{ $data.Plural }}/{{ $value.Name | urlize }}&quot; {{ $value.Name }}
+      dd {{ $value.Count }} posts
+    {{ end }}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>So by adding one little entry to <code>config.yml</code> and making one little edit — okay, write a Perl script to make one little edit to every page in my site — I get a usable yearly archive!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/site-list-all-years_1721585142058_0.png" alt="site-list-all-years.png"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I put <code>_default/list.ace</code> back in its original state, and each year has a simple listing.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/site-single-year_1721585168171_0.png" alt="site-single-year.png"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>What else</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It would sure be nice to have “next year” / “previous year” links. I can use <code>GroupBy</code> functionality to create distinct craft and blog sections for each year’s listing. For that matter, I could see breaking Crafts and Posts listings down into yearly archives.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You know what? This is good enough for now. I set out to have yearly archive pages. I have yearly archive pages. Time to go out and enjoy an unexpectedly pleasant Seattle Sunday.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

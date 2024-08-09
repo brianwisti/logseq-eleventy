@@ -1,0 +1,3015 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2017/Taskwarrior Babysteps
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2017-12-16</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+        
+          <tr>
+            <th>banner</th>
+            <td><p>…/assets/cover-2017-12-16_1721663671796_0.png</p>
+</td>
+          </tr>
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I ended up with a mess after half a year trying to use <em>every feature</em> of <a href="/taskwarrior" class="page-link">Taskwarrior</a>. It’s time to focus on building solid knowledge one step at a time.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I sat on this draft for a couple weeks. Rather than change task dates to make it look like I wrote this yesterday, I’ll leave <code>task</code> output as-is. Otherwise I’ll have to change those details every time I revisit Taskwarrior on the blog.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>What is Taskwarrior</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Taskwarrior helps you manage tasks and ideas from the command line. It provides a convenient interface, assuming your idea of convenient is a rich collection of commands you can enter, customize, and pipe to other utilities.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>What’s wrong with Org mode? #.note</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Nothing at all! <em class="link-missing">Org</em> provides similar functionality and more for GNU Emacs users. Taskwarrior focuses narrowly on task management and reporting, while Org is also a time tracker, note-taking tool, markup language for publishing, and more.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Taskwarrior works better than Org mode for people that don’t live in Emacs. Wait. <a href="https://github.com/jceb/vim-orgmode">Vim-OrgMode</a> exists. I should be more general: Taskwarrior works better for people that don’t live in their editor.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Ultimately it comes down to personal taste. I enjoy using Taskwarrior today.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Starting from scratch</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I archived my confused earlier attempts at usage. Here I am with a fresh slate.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task –-version
+2.5.1
+$ task
+[task next] No matches.
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>When you don’t tell <code>task</code> what you want, it assumes by default that you want to see your <code>next</code> report. You can customize many aspects of Taskwarrior, but for my own understanding I will not look at customization today.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>The tutorial, summarized</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let’s review the <a href="https://taskwarrior.org/docs/30second.html">30-Second Tutorial</a>.</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="https://taskwarrior.org/docs/commands/add.html"><code>add</code></a></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>creates a new task</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="https://taskwarrior.org/docs/commands/done.html"><code>done</code></a></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>marks a task as complete</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>delete</code></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>marks a task as deleted</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>next</code></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>show a <a href="https://taskwarrior.org/docs/report.html">report</a> listing tasks in decreasing order of Urgency</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Taskwarrior calculates <a href="https://taskwarrior.org/docs/urgency.html">Urgency</a> based on multiple factors, including your own <code>priority:</code> ranking. I plan to ignore Urgency and <code>priority</code> until life no longer seems sorted into “it’s on fire” and “it’s just an idea.”</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’ll add a few tasks.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task add knit fingerless gloves
+Created task 1.
+$ task add write about Taskwarrior
+Created task 2.
+$ task add get a size G crochet hook
+Created task 3.
+$ task next
+
+ID Age Description               Urg
+ 1 29s knit fingerless gloves       0
+ 2 14s write about Taskwarrior      0
+ 3 1s  get a size G crochet hook    0
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I added that last one about the crochet hook to convince myself to get off my tush and go get that hook from my friendly Local Yarn Store. Give me a minute.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Okay, done.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task 3 done
+Completed task 3 'get a size G crochet hook'.
+Completed 1 task.
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What about <code>delete</code>? Say I want to see a movie this weekend.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task add go see that movie
+Created task 3.
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Turns out it’s not in theaters anymore. I need to pay closer attention to these things.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>delete</code> lets you abandon a task.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task 3 delete
+Delete task 3 'go see that movie'? (yes/no) yes
+Deleting task 3 'go see that movie'.
+Deleted 1 task.
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Those are the core Taskwarrior commands. It’s enough to make and manage a useful task list.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>A few more “core” commands</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I consider a few more features core to my own Taskwarrior experience.</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>editing a task</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>recording a completed task that I never added</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>reporting my completed tasks</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>modify</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I see a typo in my task descriptions. <code>modify</code> helps there.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task 1 modify crochet fingerless gloves
+Modifying task 1 'crochet fingerless gloves'.
+Modified 1 task.
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>log</code> and <code>completed</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I don’t just track things I want to do. I track things I did. I feel better on days when I barely dent my <code>next</code> list but can point to other accomplishments.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task log mailed presents
+Logged task 0ef63b0b-ba36-495c-8684-d2c45258ea3d.
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The <code>completed</code> report shows my completed tasks, including those I logged and those marked <code>done</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task completed
+
+ID UUID     Created    Completed  Age Description
+ - 20334a63 2017-12-01 2017-12-01 20h get a size G crochet hook
+ - 0ef63b0b 2017-12-02 2017-12-02 19s mailed presents
+
+2 tasks
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Taskwarrior tells you all sorts of interesting things about your tasks with a wealth of reports] Explore them!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Projects</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It can be demoralizing to have one huge task that just sits there forever, even
+though you work on it and make progress. A good way to keep yourself motivated is to split it into smaller subtasks. Taskwarrior does that with projects.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let’s go with a knit vest that I have <em>almost</em> finished.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task add knit vest project:ruana
+Created task 3.
+The project 'ruana' has changed.  Project 'ruana' is 0% complete (1 task remaining).
+$ task next
+
+ID Age Project Description                Urg
+ 3 3s  ruana   knit vest                    1
+ 1 20h         crochet fingerless gloves    0
+ 2 20h         write about Taskwarrior      0
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Hey look a column for <code>Urgency</code>. Ignoring that.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task add finish vest project:ruana
+$ task add knit belt project:ruana
+$ task add block vest project:ruana
+$ task add blog about vest project:ruana
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Knitting the vest itself is still the largest task, but at least I have some additional information about the other tasks involved in the project.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What does my task list look like now?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task next
+
+ID Age  Project Description                Urg
+ 3 4min ruana   knit vest                    1
+ 4 3min ruana   finish vest                  1
+ 5 3min ruana   knit belt                    1
+ 6 3min ruana   block vest                   1
+ 7 2s   ruana   blog about vest              1
+ 1 20h          crochet fingerless gloves    0
+ 2 20h          write about Taskwarrior      0
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p>For the curious: “finishing” a knit project is a distinct step that involves sewing in the loose ends.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Tags</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Taskwarrior lets us add text tags to describe aspects of the task that may be useful beyond its description or project.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Indicate a tag by prefixing it with <code>+</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task modify 1 +crochet
+Modifying task 1 'crochet fingerless gloves'.
+Modified 1 task.
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The <code>next</code> report includes a new column for tags now.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task next
+
+ID Age  Project Tag     Description                Urg
+ 3 7min ruana           knit vest                    1
+ 4 7min ruana           finish vest                  1
+ 5 6min ruana           knit belt                    1
+ 6 6min ruana           block vest                   1
+ 7 3min ruana           blog about vest              1
+ 1 20h          crochet crochet fingerless gloves  0.8
+ 2 20h                  write about Taskwarrior      0
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Oh look. Assigning a tag gave an <code>Urgency</code> to task the <code>+crochet</code> task. Still ignoring it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I added little information putting <code>+crochet</code> on a task that I already described with “crochet,” but tags make convenient filters for Taskwarrrior commands and reports.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Filters</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Filters let you work with a defined set of tasks.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task 3-7 modify +knitting
+  - Tags will be set to 'knitting'.
+Modify task 3 'knit vest'? (yes/no/all/quit) all
+Modifying task 3 'knit vest'.
+Modifying task 4 'finish vest'.
+Modifying task 5 'knit belt'.
+Modifying task 6 'block vest'.
+Modifying task 7 'blog about vest'.
+Modified 5 tasks.
+Project 'ruana' is 0% complete (5 of 5 tasks remaining).
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What if the tasks aren’t right next to each other? No problem.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task 2,7 modify +blog
+Modifying task 2 'write about Taskwarrior'.
+Modifying task 7 'blog about vest'.
+Modified 2 tasks.
+Project 'ruana' is 0% complete (5 of 5 tasks remaining).
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>How have these modifications changed my <code>next</code> report?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task next
+
+ID Age   Project Tag           Description                Urg
+ 7 8min  ruana   blog knitting blog about vest            1.9
+ 3 12min ruana   knitting      knit vest                  1.8
+ 4 12min ruana   knitting      finish vest                1.8
+ 5 12min ruana   knitting      knit belt                  1.8
+ 6 11min ruana   knitting      block vest                 1.8
+ 1 20h           crochet       crochet fingerless gloves  0.8
+ 2 20h           blog          write about Taskwarrior    0.8
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Filters work on reports, too.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task 3-7 next
+
+ID Age   Project Tag           Description      Urg
+ 7 11min ruana   blog knitting blog about vest  1.9
+ 3 15min ruana   knitting      knit vest        1.8
+ 4 15min ruana   knitting      finish vest      1.8
+ 5 15min ruana   knitting      knit belt        1.8
+ 6 14min ruana   knitting      block vest       1.8
+
+5 tasks
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What if I filter to a single ID without a command?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task 1
+No command specified - assuming 'information'.
+
+Name          Value
+ID            1
+Description   crochet fingerless gloves
+Status        Pending
+Entered       2017-12-01 14:49:32 (20h)
+Last modified 2017-12-02 11:08:25 (18min)
+Tags          crochet
+Virtual tags  PENDING READY TAGGED UNBLOCKED
+UUID          fadd9280-6796-4fe9-9f97-0a3ff0f5fd4b
+Urgency        0.8
+
+	tags    0.8 *    1 =    0.8
+						 ------
+							0.8
+
+Date                Modification
+2017-12-02 10:51:12 Description changed from 'knit fingerless gloves' to 'crochet fingerless gloves'.
+2017-12-02 11:08:25 Tags set to 'crochet'.
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I get a lot of stuff I’m not ready for yet. I’ll come back to this some other day.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Filters don’t have to be task IDs. Use plain text to filter based on task description.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>    $ task gloves
+    [task next ( gloves )]
+
+    ID Age Tag     Description                Urg
+     1 20h crochet crochet fingerless gloves  0.8
+
+    1 task
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Prefix with <code>+</code> for a tag filter.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task +blog
+[task next ( +blog )]
+
+ID Age   Project Tag           Description             Urg
+ 7 12min ruana   blog knitting blog about vest          1.9
+ 2 20h           blog          write about Taskwarrior  0.8
+
+2 tasks
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Prefix with <code>-</code> to show tasks that <em>do not</em> have a particular tag.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task -knitting
+[task next ( -knitting )]
+
+ID Age Tag     Description               Urg
+ 1 20h crochet crochet fingerless gloves  0.8
+ 2 20h blog    write about Taskwarrior    0.8
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Prefix with <code>project:</code> to list tasks associated with a particular project.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task project:ruana
+[task next ( project:ruana )]
+
+ID Age   Project Tag           Description     Urg
+ 7 12min ruana   blog knitting blog about vest  1.9
+ 3 16min ruana   knitting      knit vest        1.8
+ 4 15min ruana   knitting      finish vest      1.8
+ 5 15min ruana   knitting      knit belt        1.8
+ 6 15min ruana   knitting      block vest       1.8
+
+5 tasks
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Org mode lets you write quick notes about a task. Can Taskwarrior do that?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Of course it can!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Annotations</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Annotations let you add a one line note to a task.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task knit vest annotate pattern at http://www.redheart.com/free-patterns/ruana-style-vest
+Annotating task 3 'knit vest'.
+Annotated 1 task.
+Project 'ruana' is 0% complete (5 of 5 tasks remaining).
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Taskwarrior presents these annotations with their tasks in reports.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task project:ruana
+[task next ( project:ruana )]
+
+ID Age   Project Tag           Description                                                                    Urg
+ 3 24min ruana   knitting      knit vest                                                                       2.6
+								 2017-12-02 pattern at http://www.redheart.com/free-patterns/ruana-style-vest
+ 7 20min ruana   blog knitting blog about vest                                                                 1.9
+ 4 24min ruana   knitting      finish vest                                                                     1.8
+ 5 24min ruana   knitting      knit belt                                                                       1.8
+ 6 24min ruana   knitting      block vest                                                                      1.8
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Notice how a task’s Urgency automatically increases as we add more information to it? I know — I’m still ignoring it, but it does make it convenient that the tasks I spend more time on in Taskwarrior get pushed to the top.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Anyways I’m done knitting the vest.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task 3 done
+Completed task 3 'knit vest'.
+Completed 1 task.
+The project 'ruana' has changed.  Project 'ruana' is 20% complete (4 of 5 tasks remaining).
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>denotate</code> #.note</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>A couple days after posting this article I made an annotation on the wrong task</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>task annotate 5 edges done
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That’s when I learned about the <code>denotate</code> command, which removes a matching annotation from a task.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task denotate 5 edges done
+$ task annotate 3 edges done
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Good to know!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Oops</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let’s go shopping!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task add groceries +misc project:home
+Created task 7.
+The project 'home' has changed.  Project 'home' is 0% complete (1 task remaining).
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Sometimes I need to remove a tag, or remove a task from a project.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Prefixing the tag with <code>-</code> in a <code>modify</code> command removes that tag.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task groceries modify -misc +food
+Modifying task 7 'groceries'.
+Modified 1 task.
+Project 'home' is 0% complete (1 task remaining).
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>home</code> isn’t a project — at least not in this context. Assigning an empty project removes a task’s project connection.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task groceries modify project:
+Modifying task 7 'groceries'.
+Modified 1 task.
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Summary</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Here’s what I have so far for my task list, without <code>work</code> stuff because you don’t need to know about that.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task -work
+[task next ( -work )]
+
+ID Age   Project Tag              Description                                      Urg
+ 6 1h    ruana   blog knitting    blog about vest                                   1.9
+ 3 1h    ruana   knitting         finish vest                                       1.8
+ 4 1h    ruana   knitting         knit belt                                         1.8
+ 5 1h    ruana   knitting         block vest                                        1.8
+ 2 21h           blog taskwarrior Taskwarrior tags, projects, annotations, filters  1.7
+									2017-12-02 basic flow done
+ 7 22min         food shopping    groceries                                         1.7
+									2017-12-02 shopping list done
+ 8 14min         blog taskwarrior Taskwarrior due dates, priorities, recurrences    0.9
+15 5min          clothes shopping get winter coat                                   0.9
+ 1 21h           crochet          crochet fingerless gloves                         0.8
+16 9s                             visit library                                       0
+
+10 tasks
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That’s enough for now. I feel comfortable using Taskwarrior to manage and describe my tasks. Next time I write about Taskwarrior I might choose to focus on tiny pieces so I can post more often.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ task 2 done
+Completed task 2 'Taskwarrior tags, projects, annotations, filters'.
+Completed 1 task.
+You have more urgent tasks.
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Oh hush, you. I’ll get to <code>Urgency</code> when I feel like it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

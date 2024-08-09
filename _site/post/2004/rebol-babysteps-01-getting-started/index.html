@@ -1,0 +1,2563 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2004/REBOL Babysteps - 01 Getting Started
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><p><em class="link-missing">rebol,learn,coolnamehere</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2004-12-26</em></p>
+</td>
+          </tr>
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="/rebol" class="page-link">REBOL</a> is the “Relative Expression-Based Object Language”, developed by Carl Sassenrath. Who is Carl Sassenrath? Why, he’s one of the people responsible for the amazing operating system which powered the Amiga computer. What’s the Amiga? Why, the Amiga was only the incredibly robust and cool computer — released by the same company that brought the world’s first personal computer, Commodore. What’s Commodore? Stop bothering me, kid. Take it from a relative old-timer: Amiga put a <em>heck</em> of a lot of power into a consumer-affordable personal computer. It wasn’t really matched by other computers for a good five or ten years. Nowadays, I look at <a href="http://www.rebol.com/">REBOL</a> and it feels like the first language I’ve come across to take lessons from past languages and apply them in a new context, rather than just reimplement them with different syntax.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>So why would you want to learn REBOL? Because REBOL makes it frighteningly easy to create programs that accomplish complex tasks. For example, here’s one way you can download the HTML source of a Web page – for example <a href="https://randomgeekery.org/">https://randomgeekery.org/</a> – and view it in a text editing area with REBOL/View:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">&gt;&gt; view layout [ area 800x600 read https://randomgeekery.org ]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This impresses me to no end. Maybe you’re not so impressed by it, but that’s okay. I’m happy, and that’s what I care about most.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>These pages are intended to provide the non-programmer with a gentle introduction to the REBOL language and environment. When you are done with it, you should feel ready to learn more, and curious to dig into the possibilities. You won’t be an expert, but maybe you’ll feel bold enough to become one and share what you’ve found with the rest of the world. Beginners and experts alike should feel free to send suggestions about how I can improve this tutorial.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Installing REBOL</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Installing REBOL is a straightforward task, as long as you are using one of the 40+ supported platforms.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Platform Notes</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Installation on Windows:</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Download the archived installer for your platform from <a href="http://www.rebol.com/download.html">http://www.rebol.com/download.html</a></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Unpack the installer, if necessary</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Run the installer</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Follow the installation wizard until you have installed the version you downloaded.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Installation on Linux:</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Install a compatibility version of the GNU Standard C++ library</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>sudo apt-get install libstdc++5</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Download, extract, and copy the <code>rebcore</code> executable into my path</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>wget http://rebol.com/downloads/v276/rebcore-linx86.tar.gz</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>tar xfvz rebcore-linx86.tar.gz</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>sudo cp rebol-276/rebol /usr/local/bin</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Download, extract, and copy the <code>rebview</code> executable into my path</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>wget http://rebol.com/downloads/v276/rebview-linx86.tar.gz</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>tar xfvz rebview-linx86.tar.gz</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>sudo cp rebol-276/rebview /usr/local/bin</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Why did I install both Core and View on Linux? There’s no real need to. I just prefer to include a version of REBOL that doesn’t depend on X libraries for scripting tasks that will never need a Viewtop. It’s particularly handy for Web programming tasks.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There’s an intermittent problem with ugly fonts when using View under Linux. I’ll post instructions for handling that on this site as soon as I find my notes.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Which Version?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You have a few different choices for what version of REBOL to download, depending on what you need and what is available for your platform.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>REBOL/Core</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="http://www.rebol.com/prod-core.html">http://www.rebol.com/prod-core.html</a></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>REBOL/Core covers the vital language features, including all the <a href="/post/2004/rebol-datatypes" class="page-link">post/2004/REBOL Datatypes</a> which make the language so attractive to somebody like me. With Core, you can create system shell scripts, CGI applications, or simple command-line applications. Core also provides an interactive shell for testing out code on the fly, which is a valuable asset for getting the hang of a language, or even just trying out an obscure bit of code on a bored Thursday evening.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Find out if REBOL/Core has been released for your platform at this URL:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="http://rebol.com/platforms.html">http://rebol.com/platforms.html</a></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>REBOL/Core will probably do fine for most hobbyists, but you might want to look on if you enjoy pointy clicky GUI environments as much as I do.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>REBOL/View</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="http://www.rebol.com/prod-view.html">http://www.rebol.com/prod-view.html</a></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>View is the cool one, in my opinion. It adds an impressive GUI library to Core, making it immediately useful for a broad range of applications. The utility of View can be compared to Java, but here’s something to really think about regarding the contrast between View and Java. How big of a download is the JDK these days? 10 Megabytes, 40 Megabytes? The REBOL/View installer for Windows is 600 Kilobytes. You can fit it on a <em>floppy disk</em>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What’s a floppy disk? I thought I told you to stop bothering me, kid.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Find out if REBOL/View has been released for your platform at this URL:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="http://rebol.com/view-platforms.html">http://rebol.com/view-platforms.html</a></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>REBOL/SDK and REBOL/Command</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>These are also very easy to get, and add a number of useful features to REBOL/View. I’ll be ignoring them for now, because they have a dollar cost associated with them.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Using REBOL</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>In Windows, all you need to do is find REBOL in your Start menu. In Linux, it should be directly callable from your command line if you handled installation the same way I described.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">$ rebol
+REBOL/Core 2.7.6.4.2 (15-Mar-2008)
+Copyright 2008 REBOL Technologies
+REBOL is a Trademark of REBOL Technologies
+All rights reserved.
+
+Finger protocol loaded
+Whois protocol loaded
+Daytime protocol loaded
+SMTP protocol loaded
+ESMTP protocol loaded
+POP protocol loaded
+IMAP protocol loaded
+HTTP protocol loaded
+FTP protocol loaded
+NNTP protocol loaded
+&gt;&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>So double-click its icon or run it from the command-line. Either way, now the REBOL shell is running for you. If you’ve installed View, then you’ve got this pretty Desktop thing. We’ll have to come back to it some other time. For now, just click the icon on the left for “Console”. <em>Now</em> you’ve got the console. It is not as pretty, but it will work for our purposes.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You can also go straight to the console when executing <code>rebview</code> from the command line by using the <code>-v</code> option:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-bash">review -v
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>How to use REBOL/Core</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Getting REBOL to do something for you is as simple as typing in the commands and looking at the results.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">&gt;&gt; print &quot;Hello, World!&quot;
+Hello, World!
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>See? Not that hard at all. Of course, this is pretty standard stuff from most programming languages these days. Well, except Java. But we all just sort of snicker whenever a Java coder enters the room. We would snicker more, but that Java coder is <em>probably</em> making twice what we are. He deserves it, too, for all the carpal tunnel he’s going to get when he tries to write a “Hello World” program.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Making the computer tell us things is kind of fun, but it would be nice to customize it a little bit. Let’s have the computer ask our name. We can use the <code>ask</code> function (or <em>word</em>) to ask a question and get a response, which we will save in a variable.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">&gt;&gt; name: ask &quot;Enter your name: &quot;
+Enter your name:
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Type in your name, whether it’s “Brian”, “Craig”, “Sarah”, or “Zuul the Destroyer”. Your name is immediately printed back out onto the console. But how do we know that REBOL has remembered it? Just <code>print</code> the name:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">&gt;&gt; help name
+NAME is a string of value: &quot;Brian&quot;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You can get even more information when the word is pointing to a function or other complex datatypes. See what happens when you ask <code>help</code> about itself.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">&gt;&gt; help help
+USAGE:
+    HELP 'word
+
+DESCRIPTION:
+     Prints information about words and values.
+     HELP is a function value.
+
+ARGUMENTS:
+     word -- (Type: any-type)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Remember <code>help</code>. It may be just the thing you need when you’re confused by what a word is supposed to do. As an exercise, go ahead and starting by asking <code>help</code> about <code>ask</code> or <code>print</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let’s return to our tutorial, already in progress…</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now that we know REBOL has remembered the name, let’s print it as part of a sentence. You can tell <code>print</code> to print several things at once by putting them in a block. We do this by wrapping it in square brackets.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">&gt;&gt; print [ &quot;Hello&quot; name &quot;- good to see you!&quot; ]
+Hello Brian - good to see you!
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Hey, that made me feel pretty good! As always, it’s great how much we can be cheered up by just a few nice words, even if we have to write them ourselves. What if we wanted to share that warm feeling with our friends and neighbors, or at least the ones who have a copy of REBOL on their machine?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let’s find our how to do that.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>How to make your own REBOL script</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Using your favorite text editor, type this text in and save it as <code>hello.r</code>. I like to keep my code files in a special “projects” directory, to keep from losing them in a mass of articles, pictures, and random files. You might want to follow the same habit, but it’s entirely up to you.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">REBOL [
+   Title: &quot;Hello User&quot;
+   File: %hello.r
+]
+
+name: ask &quot;Please enter your name: &quot;
+print [ &quot;Hello&quot; name &quot;- good to see you!&quot; ]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Make sure that you are using an editor which saves its files as plain text. REBOL can’t make any sense of Word documents or HTML.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>The script header</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You recognize the code from before, but I imagine you’re curious about the block prefaced by the word <code>REBOL</code>. That is the <em>script header</em>, where you put important information about the script that you are writing. You need to put something, even if it’s just an empty block, or Rebol won’t recognize it as a script.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">REBOL [ ]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Still, the whole point of a script header is to get information about what the script is, where it came from, and any other details which you think might be useful to somebody who uses it. An empty block is hardly useful. This is considered to be more of an acceptable minimal block for a script you want to share with the world:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">REBOL [
+    Title: &quot;Hello User&quot;
+    Date: 22-Dec-2004
+    File: %hello.r
+    Author: &quot;Brian Wisti&quot;
+    Version: 1.0.0
+]
+
+name: ask &quot;Please enter your name: &quot;
+print [&quot;Hello&quot; name &quot;- good to see you!&quot;]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Of course, you could always provide more information if you want.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">REBOL [
+    Title: &quot;Hello User Example Script&quot;
+    Date: 24-Feb-2009
+    Name: 'Hello-User
+
+    Version: 1.0.2
+    File: %hello.r
+    Home: http://randomgeekery.org/tags/rebol/
+
+    Author: &quot;Brian Wisti&quot;
+    Owner: &quot;Brian Wisti&quot;
+    Rights: &quot;Copyright (C) 2017 Brian Wisti&quot;
+
+    Needs: [] ; Needs nothing beyond REBOL/Core
+    Tabs: 4
+
+    Purpose: {
+        This program is a simple script to demonstrate usage of
+        REBOL and warm you up for trying more complex tasks.
+    }
+
+    History: {
+        1.0.0 [22-Dec-2004 &quot;Wrote the code&quot;]
+        1.0.1 [23-Dec-2004 &quot;Finished writing the header for the code&quot;]
+        1.0.2 [24-Feb-2009 &quot;Re-examined for site update&quot;]
+        1.0.3 [09-Apr-2017 &quot;Adjusted for site relocation&quot;]
+    }
+
+    Language: 'English
+]
+
+name: ask &quot;Please enter your name: &quot;
+print [&quot;Hello&quot; name &quot;- good to see you!&quot;]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Just try to keep the size of the script header appropriate for the size of your script. A full script header might be overkill for a script with only two lines of code - unless you happen to think that people need a lot of information when handling your script.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Running your script</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There are two ways to actually load your script and make it do its thing.</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>From the interactive Rebol console</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>From the command line.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Actually, there are a couple more ways to go about it, but these are the main approaches if you are running a simple Rebol/Core script like the one we’ve written.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>From the interactive console, I use the <code>do</code> command to execute the script <code>C:\projects\hello.r</code>:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">&gt;&gt; do %\c\projects\hello.r
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The first time you do this, REBOL might ask you for permission to run the script. Nothing to worry about, it’s just REBOL being conscious about security. Just say “Yes”, and the script will run through merrily.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">&gt;&gt; do %hello.r
+Script: &quot;Hello User&quot; (none)
+Please enter your name: Brian
+Hello Brian - good to see you!
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>If REBOL is in your path, you can call the <code>rebol</code> executable with your script name as an argument.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">$ rebol hello.r
+REBOL/Core 2.7.6.4.2 (15-Mar-2008)
+Copyright 2008 REBOL Technologies
+REBOL is a Trademark of REBOL Technologies
+All rights reserved.
+
+Finger protocol loaded
+Whois protocol loaded
+Daytime protocol loaded
+SMTP protocol loaded
+ESMTP protocol loaded
+POP protocol loaded
+IMAP protocol loaded
+HTTP protocol loaded
+FTP protocol loaded
+NNTP protocol loaded
+Script: &quot;Hello User&quot; (none)
+Please enter your name: Brian
+Hello Brian - good to see you!
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Oof. That’s a whole lot of text before you actually see your program. Use the <code>-q</code> option to make REBOL run your script more quietly.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ rebol -q hello.r
+Please enter your name: Brian
+Hello Brian - good to see you!
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>REBOL also supports the classic “shebang” line for UNIX shell scripts.</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Insert a new line at the very beginning, pointing to the <code>rebol</code> executable</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>#!/usr/local/bin/rebol -q</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Make the script executable</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>chmod 755 hello.r</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Run it</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>./hello.r</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Cool, eh? Now you can share this script with all of your Rebol friends just by sending them the file. Of course, you might want to send them something more impressive, but think of it this way - this just gives you the motivation to learn how to do <em>more</em>!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Wrapping Up</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There you have it. You’ve learned how to write a simple script. Heck, I’ve even snuck in a couple of Rebol’s many datatypes while you weren’t looking. You’re well on the way to becoming a real Rebol programmer!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There is a lot of documentation available for REBOL, especially considering that the REBOL community is fairly small. RT keeps the official manuals available for free, and there are loads of script libraries and how-to guides written by the users themselves.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="http://www.rebol.com/docs.html">http://www.rebol.com/docs.html</a></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><em>P.S.:</em> What, you want me to tell you how to quit REBOL? Why would you ever want to do that? Oh, okay. The command to quit from the REBOL Console is easy to remember: <code>quit</code>. Happy now?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

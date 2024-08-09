@@ -1,0 +1,730 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2020/Setting up Raku with Rakubrew
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><p>Rakudobrew changed its name since last I looked</p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2020-05-19</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I was avoiding Rakudobrew for some now-forgotten technical reason.  Probably couldn’t get a particular Perl 6 release to build.  But I’m tired of one-off scripts or distribution packages that don’t quite match my expectations. What’s new in the Perl 6 language manager world?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>For starters, names have changed.  Perl 6 has been <a href="/raku" class="page-link">Raku</a> for a little bit, and Rakudobrew is now <a href="https://rakubrew.org/">Rakubrew</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I don’t recall enough about Rakudobrew to make a better or worse comparison. Let’s just install it and see how it works.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Unfortunately <code>curl</code> doesn’t like the rakubrew site.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">$ curl https://rakubrew.org/install-on-perl.sh | sh
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+curl: (60) SSL certificate problem: certificate has expired
+More details here: https://curl.haxx.se/docs/sslcerts.html
+
+curl failed to verify the legitimacy of the server and therefore could not
+establish a secure connection to it. To learn more about this situation and
+how to fix it, please visit the web page mentioned above.
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Firefox thinks the site’s fine, though.  I’ll download <code>install-on-perl.sh</code> and run it locally.  Oh nice, shell initialization instructions specific to the shell I’m running.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">$ sh ~/Downloads/install-on-perl.sh
+Downloading rakubrew...
+Installing rakubrew to /home/random/.rakubrew ...
+
+Load rakubrew automatically in `zsh` by adding
+
+  eval &quot;$(/home/random/.rakubrew/bin/rakubrew init Zsh)&quot;
+
+to ~/.zshrc.
+This can be easily done using:
+
+  echo 'eval &quot;$(/home/random/.rakubrew/bin/rakubrew init Zsh)&quot;' &gt;&gt; ~/.zshrc
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I do not yet have rakubrew on all my machines, but I <em>do</em> have nearly the same config everywhere.  The logic I want looks a little more like this.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-bash">export RAKUBREW_HOME=``$HOME/.rakubrew''
+
+if [ -d &quot;$RAKUBREW_HOME&quot; ]; then
+    eval &quot;$($RAKUBREW_HOME/bin/rakubrew init Zsh)&quot;
+fi
+</code></pre>
+<p>caption:: <code>~/.zshenv</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Time to reload my shell and see if it worked.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">$ rakubrew --help
+Usage:
+     rakubrew version          # or rakubrew current
+     rakubrew versions         # or rakubrew list
+     rakubrew global [version] # or rakubrew switch [&lt;version&gt;]
+     rakubrew shell [--unset|&lt;version&gt;]
+     rakubrew local [&lt;version&gt;]
+     rakubrew nuke [&lt;version&gt;] # or rakubrew unregister [&lt;version&gt;]
+     rakubrew rehash
+
+     rakubrew available        # or rakubrew list-available
+     rakubrew build [&lt;backend&gt;] [&lt;tag&gt;|&lt;branch&gt;|&lt;sha-1&gt;] [--configure-opts=&lt;options&gt;]
+     rakubrew triple [&lt;rakudo-version&gt; [&lt;nqp-version&gt; [&lt;moar-version&gt;]]]
+     rakubrew register &lt;name&gt; &lt;path&gt;
+     rakubrew build-zef
+     rakubrew download [&lt;backend&gt;] [&lt;rakudo-version&gt;]
+
+     rakubrew exec &lt;executable&gt; [&lt;executable-args&gt;]
+     rakubrew which &lt;executable&gt;
+     rakubrew whence [--path] &lt;executable&gt;
+     rakubrew mode [env|shim]
+     rakubrew self-upgrade
+     rakubrew init
+
+     rakubrew test [&lt;version&gt;|all]
+
+     rakubrew help [--verbose|&lt;command&gt;]
+     rakubrew home
+     rakubrew rakubrew-version
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Apparently!  Can I install a fresh version of <a href="https://rakudo.org">Rakudo</a>?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">$ rakubrew download
+Downloading https://rakudo.org/dl/rakudo/rakudo-moar-2020.05.1-01-linux-x86_64.tar.gz
+Extracting
+Done, moar-2020.05.1 installed
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Yes indeed.  Pretty quick, too.  Looks like I no longer need to do a full build every time there’s a release.  Nice.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now make <code>moar-2020.05.01</code> the default.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">$ rakubrew switch moar-2020.05.1
+Switching to moar-2020.05.1
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>And what can Raku tell me about itself?  I’ll recycle my one-liner from <a href="/post/2019/building-rakudo-and-moarvm-on-linux" class="page-link">post/2019/Building Rakudo and Moarvm on Linux</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">$ raku -e 'say &quot;Yo, World! This is $*PERL - specifically: { ($*PERL, $*VM, $*DISTRO).map({ $_.gist })}&quot;'
+Yo, World! This is Raku - specifically: Raku (6.d) moar (2020.05) manjaro (3.10.0.514.10.2.el.7.x.86._.64)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now the real test.  Can I install <a href="https://github.com/drforr/perl6-readline">perl6-readline</a> via <a href="https://github.com/ugexe/zef">zef</a> for the Raku REPL?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">$ zef install Readline
+===&gt; Searching for: Readline
+===&gt; Updating cpan mirror: https://raw.githubusercontent.com/ugexe/Perl6-ecosystems/master/cpan1.json
+===&gt; Updating p6c mirror: https://raw.githubusercontent.com/ugexe/Perl6-ecosystems/master/p6c1.json
+===&gt; Updated p6c mirror: https://raw.githubusercontent.com/ugexe/Perl6-ecosystems/master/p6c1.json
+===&gt; Updated cpan mirror: https://raw.githubusercontent.com/ugexe/Perl6-ecosystems/master/cpan1.json
+===&gt; Searching for missing dependencies: LibraryCheck
+===&gt; Testing: LibraryCheck:ver&lt;0.0.9&gt;:auth&lt;github:jonathanstowe&gt;:api&lt;1.0&gt;
+===&gt; Testing [OK] for LibraryCheck:ver&lt;0.0.9&gt;:auth&lt;github:jonathanstowe&gt;:api&lt;1.0&gt;
+===&gt; Testing: Readline:ver&lt;0.1.5&gt;:auth&lt;github:drforr&gt;
+[Readline]
+===&gt; Testing [OK] for Readline:ver&lt;0.1.5&gt;:auth&lt;github:drforr&gt;
+===&gt; Installing: LibraryCheck:ver&lt;0.0.9&gt;:auth&lt;github:jonathanstowe&gt;:api&lt;1.0&gt;
+===&gt; Installing: Readline:ver&lt;0.1.5&gt;:auth&lt;github:drforr&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Aw man. <a href="https://news.perlfoundation.org/post/remembering-jeff-goff">drforr</a> sure has cast a long shadow.  We’ll be missing him for a while.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>And with that, I think I’ll sign off on this post.  Everything I needed installed cleanly, including <a href="https://github.com/Raku/doc">p6doc</a> and a few other <a href="https://modules.raku.org">modules</a> for puttering with the site.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Rakubrew worked!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

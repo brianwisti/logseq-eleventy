@@ -1,0 +1,531 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        Read More Perl
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><p><a href="/coolnamehere" class="page-link">coolnamehere</a></p>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p>This was originally a <a href="http://perlmonks.org/?node_id=349236">meditation</a> I wrote at <a href="http://perlmonks.org">Perlmonks</a>. I pasted it into my site over worries about link rot. But it’s still there as of <em class="link-missing">2024-06-16</em>.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Make no mistake about it. <a href="/perl" class="page-link">Perl</a> code has a reputation for being ugly and hard to maintain. This reputation has been earned by years of programmers hacking out the code that gets the job done. There isn’t anything wrong with this. You don’t need to use double spacing, one inch margins, and a grammar checker if you are making a laundry list. The problem is that your Perl laundry list may continue to be used and referred to for months or years to come.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It doesn’t have to be like that. People who really know Perl understand that it is a very expressive language. Perl can be used to state your thoughts cleanly and clearly. The same language that is used to make a laundry list is also used to make “The Catcher in the Rye”. Some folks write poetry in Perl, for crying out loud! I usually aim for more of a “Green Eggs and Ham” kind of vibe, but maybe that’s just me.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This meditation is intended to provide a few straightforward hints and habits to bear in mind in the quest to make Perl readable. They aren’t solid rules, and I honestly don’t follow them all the time myself. That’s really why I’m writing this article: to remind myself that I can make my life easier by exposing myself to code that is already out there in the big wide world.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>So without further ado …</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Read About Common Guidelines.</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>perldoc perlstyle</code> is a good starting point for questions of code style and legibility. It’s as close as we get to an official declaration of what good Perl might look like, although Larry Wall would probably never be so bold as to state that this is what good Perl <em>should</em> look like. As benevolent dictators go, he ranks as much more casual than the average. Still, keep the <code>perlstyle</code> guidelines in mind, and most people will be able to read what you write and have a good idea what your intent is.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>“Regular” languages are good for more than a source of analogy and comparison. The single most useful programming book I have read in the last three years is Strunk and White’s “Elements of Style”. It has a lot of good common sense guidelines related to communicating with the written word. Perl (along with the other very high level languages) is still the written word, despite all the numbers and funny symbols.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Read Other People’s Code.</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Do you want to learn how to write code with good style? You want to look at as many samples of code as possible. Not just the good stuff, either. Look at good code, look at bad code, look at deliberately obfuscated code. Look at code written by deranged mutant gerbils from Dimension X. You need to understand <em>why</em> bad code is considered bad code. You also need to get past the urge to perceive <em>all</em> Perl code as bad code. I honestly believe that the only reason people consider Perl unreadable is the fact that they haven’t sat down and read enough of it. Written English was confusing and bizarre to me when I was a child. <em>(“I before E, except after C. What about ‘weird’?”)</em> Okay, it’s still a little bizarre to me, despite the fact that it is my native tongue. Now, though, I understand more of the subtleties that can be expressed with the right combination of vocabulary, expression, and context.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Perl is the same way. Learn the language. Read it like you would read a book or a magazine. You will get a better idea why most of us are told to use strict. At the same time you’ll see why some people complain about how strict just gets in their way, and the steps they take to make assurances that their code is clean and solid.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Except, you know, when they don’t want it to be clean at all. We call that “art”.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Read Your Own Code.</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It isn’t as silly as it sounds. You want to revisit your code for a few reasons. First, you will be able to see what you’ve learned since the last time you saved that file. Second, it will encourage you to write cleaner code, because you know that you will be looking at it again. Third, it gets you ready for the next good habit.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Let Others Read Your Code.</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This is scary, and the hardest advice for me to follow. I get attached to my code, and feel a sense of ownership. “This is mine, and I don’t want somebody else telling me what’s wrong with it.” You know what, though? I need to get over it, and so do any of you that share my delicate geek ego. The fastest way to learn what you’re doing wrong is to get a fresh set of eyes on your code. For that matter, it’s also the best way to get an honest appraisal of what you’re doing right.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’m not telling you to go out and start pair programming. It might not be a bad idea, but it’s not the same as what I’m suggesting. Most of these habits don’t relate to methodologies for building software. They are about looking at code as language or literature. Again: the best argument against “Perl is unreadable” is to spend more time reading it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Wrapping it up.</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>People complain constantly about the readability of Perl code. I think that this can be fixed by reading more Perl code to get a better understanding of Perl as a language (as opposed to Perl as a notation for expressing algorithms). There is definitely more to cover (<code>perldoc</code>, CPAN, etcetera), but I think that the simple act of reading can do a lot to enhance both the readability of what you produce and your appreciation for what can be written in this language.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

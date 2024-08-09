@@ -1,0 +1,583 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2021/Got different benchmarks from Programming Crystal
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2021-02-21</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><p><a href="https://hackers.town/@randomgeek/105773150089231524">Mastodon</a></p>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Finally reading <a href="https://pragprog.com/titles/crystal/programming-crystal/">Programming Crystal</a>, by Ivo Balbaert and <a href="http://simonstl.com/">Simon St.  Laurent</a>.  Good stuff.  The <a href="/crystal" class="page-link">Crystal</a> language has advanced some since the book came out, but nearly all the code runs as-is.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Something that jumped out at me was the difference between their results and mine with the <a href="https://github.com/Ivo-Balbaert/programming_crystal/blob/master/code/managing_projects/benchmarking.cr">benchmarking</a> example.  Not the raw numbers.  I’d be a little confused if those were exactly the same.  The ratios caught my attention.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Given this source:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-crystal">require &quot;benchmark&quot;
+
+IOM = IO::Memory.new
+
+Benchmark.ips do |x|
+  x.report(&quot;Appending&quot;) do
+    append
+    IOM.clear
+  end
+
+  x.report(&quot;Using to_s&quot;) do
+    to_s
+    IOM.clear
+  end
+
+  x.report(&quot;Interpolation&quot;) do
+    interpolation
+    IOM.clear
+  end
+end
+
+def append
+  IOM &lt;&lt; 42
+end
+
+def to_s
+  IOM &lt;&lt; 42.to_s
+end
+
+def interpolation
+  IOM &lt;&lt; &quot;#{42}&quot;
+end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Here’s what we’re told to expect.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>#+BEGIN_QUOTE
+Build the code for production using <code>$ crystal build benchmarking.cr —release</code> and execute that with: <code>$ ./benchmarking</code></p>
+<p>You’ll get results like this:</p>
+<pre><code>Appending    34.06M ( 29.36ns) (± 3.97%) fastest
+Using to_s   12.67M ( 78.92ns) (± 7.55%) 2.69× slower
+Interpolation  2.8M (356.75ns) (± 3.84%) 12.15× slower
+</code></pre>
+<p>#+END_QUOTE</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>But in Crystal 0.36.1 on Ubuntu 20.04, running on Windows WSL2:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">$ ./benchmarking
+    Appending 110.36M (  9.06ns) (± 3.70%)   0.0B/op        fastest
+   Using to_s  18.52M ( 54.00ns) (± 5.36%)  16.0B/op   5.96× slower
+Interpolation  19.19M ( 52.12ns) (± 2.99%)  16.0B/op   5.75× slower
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Sure, my numbers are bigger than the book’s.  That’s cool.  But <code>interpolation</code> and <code>to_s</code> are so close to each other on my machine!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Maybe that’s WSL?  After I get the day’s tasks done, I revisit on my computer’s Manjaro partition.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">$ ./benchmarking
+    Appending 123.54M (  8.09ns) (± 2.57%)   0.0B/op        fastest
+   Using to_s  56.57M ( 17.68ns) (± 3.49%)  16.0B/op   2.18× slower
+Interpolation  56.55M ( 17.68ns) (± 4.32%)  16.0B/op   2.18× slower
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Well heck.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It’s faster on native Linux than WSL.  That’s hardly surprising.  But the differences between <code>to_s</code> and <code>interpolation</code> are now negligible.  For that matter, both of them are closer to the speed of <code>append</code> than <code>to_s</code> was in the book’s example!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Is the difference because of changes in Crystal?  Some dependency, like LLVM? My computer’s 40GB of RAM compared to whatever the authors used?  My hard drive?  GPU?  Is Mercury in retrograde?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><em>I don’t know!</em> I just saw different numbers and thought it was curious.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>My point isn’t that the book’s wrong.  Heck no.  The example’s supposed to remind you that testing your assumptions is important.  All I’ve done is emphasized the validity of the lesson.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Anyways.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Good book.  Fun language.  Don’t forget to try out the example code.  And if you need to care about performance?  Don’t assume — benchmark.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

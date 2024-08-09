@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2022/[2022-07-29 Fri 22:50]
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2022-07-29</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><p><a href="/note/2022" class="page-link">note/2022</a></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Used <a href="https://cogdb.io">CogDB</a> to describe a folder hierarchy. Easier than figuring out how to annotate recursive structures for <a href="http://mypy-lang.org">Mypy</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I got some weird ideas of hard vs easy.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/2022-07-29-graph_1720184431670_0.png" alt="2022-07-29-graph.png"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Okay <em>fine</em>. Here’s a cleaned-up version of the code looking at the <a href="/random-geekery" class="page-link">Random Geekery</a> Markdown sources.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">from dataclasses import dataclass, field
+from pathlib import Path
+from typing import Dict, Set
+
+from cog.torque import Graph
+
+
+@dataclass
+class Folder:
+    root: Path
+    pattern: str
+    graph: Graph = field(init=False)
+    files: Dict[str, str] = field(init=False)
+    graph_paths: Set[str] = field(init=False, default_factory=set)
+
+    def __post_init__(self):
+        self.graph = Graph(&quot;files&quot;)
+        self.__load_files()
+
+    def __load_files(self):
+        self.files = {}
+
+        for path in self.root.glob(self.pattern):
+            self.load_path(path)
+
+    def graph_path_for(self, path: Path) -&gt; str:
+        # some funkiness because this started on windows
+        return &quot;/&quot;.join(path.relative_to(self.root).parts)
+
+    def load_path(self, path: Path):
+        graph_path = self.graph_path_for(path)
+        self.files[graph_path] = &quot;FILLER&quot;
+        self.graph_paths.add(graph_path)
+        self.place_graph_path(path)
+
+    def place_graph_path(self, path: Path):
+        if path == self.root:
+            return
+
+        parent = path.parent
+        graph_child = self.graph_path_for(path)
+        graph_parent = self.graph_path_for(parent)
+        self.graph_paths.add(graph_parent)
+        self.graph.put(graph_parent, &quot;parent&quot;, graph_child)
+        self.place_graph_path(parent)
+
+
+if __name__ == &quot;__main__&quot;:
+    root = Path(&quot;~/Sites/rgb-hugo&quot;).expanduser()
+    folder = Folder(root, &quot;**/*.md&quot;)
+    url = folder.graph.v().tag(&quot;from&quot;).out(&quot;parent&quot;).tag(&quot;to&quot;).view(&quot;parent&quot;).url
+    print(url)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/2022-07-29-rgb-hugo_1720184485424_0.png" alt="2022-07-29-rgb-hugo.png"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Aside from the pretty picture, the nested structure that is now a graph helps me pull some files into <a href="/logseq" class="page-link">Logseq</a> for better notes.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>ooh i could pull my site into logseq</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Go to bed, Brian.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

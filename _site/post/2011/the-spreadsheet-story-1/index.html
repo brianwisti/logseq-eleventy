@@ -1,0 +1,1228 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2011/The Spreadsheet Story 1
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2011-04-19</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><p><em class="link-missing">blogspot</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p>We never used the Google Spreadsheet idea, but working on it helped flesh out the thoughts that went into the Web-based <a href="https://github.com/brianwisti/marysplace-rails">marysplace-rails</a> project.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There is this spreadsheet project I have been working on. My wife works at a day shelter for homeless and formerly homeless women, as well as their children. At this shelter, they make use of an incentive point system. The ladies do some chore or favor, and they get points. There are preset ways to get points, with default values. Helping with the recycling gets this number of points, while putting chairs up gets that number of points. The points are just defaults, though. A client can get more or fewer than the default points depending on the situation. The staff can also create new chores or reasons for awarding points pretty much at their whim. A couple of times a week clients get the opportunity to spend those points in exchange for items.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It’s a very popular program. Clients are constantly looking for ways to get more points, and asking what their point total is. Over the years, some clients have accumulated tens of thousands of points.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Tracking incentive points was a very tedious process involving punch cards, calculators, and the occasional mild profanity. I volunteered my geekiness to help come up with a better tracking system. I am mostly a Web programmer, so naturally my first impulse was a full-scale <a href="http://rubyonrails.org">Rails</a>, <a href="http://www.djangoproject.com">Django</a>, or maybe even <a href="http://www.catalystframework.org">Catalyst</a> Web application. Why not, right? It does sound like the perfect job for a <a href="http://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a> framework:</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Add and edit clients</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Add and edit ways to get points</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Log point changes for clients</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Get the point total for any given client</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There was just one tiny flaw in my proposal, which my wife was kind enough to point out: nobody would use it. The staff would prefer to keep things in a familiar framework, such as a spreadsheet. Spreadsheets are nice. They may not be the perfect choice for a database, but they do have a lot of built-in functionality that would take me forever to implement on my own.
+Okay, I’m flexible. I made an <a href="http://office.microsoft.com/en-us/excel/">Excel</a> spreadsheet. I learned enough Excel to add some formulas and data validation rules. I even learned enough <a href="http://en.wikipedia.org/wiki/Visual_Basic_for_Applications">VBA</a> to add some interactivity, reducing the tediousness a bit more. Well - reducing the tediousness for them. Not so much for me. Visual Basic is an interesting language, but I don’t care for it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What if I could use JavaScript? <a href="http://code.google.com/googleapps/appsscript/">Google Apps Script</a> uses JavaScript to add programming logic to spreadsheets and other documents. I don’t know if it would be any easier than using VBA in Excel, but I know it would be more pleasant for me personally.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I have decided to go ahead and try it, now that the dust has settled on the Excel version. Hey — if it works well enough, they might actually use it. Regardless of whether it actually gets used, it’ll provide a reasonable example of adding niftiness to a Google Spreadsheet. Somebody’s bound to find that useful. Right?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The important thing is that I’ll have some fun.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>The Spreadsheet Itself</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I can almost pretend this is an <a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">MVC</a> application. The spreadsheet itself is the model layer, with each sheet representing a specific model. My knowledge of spreadsheets is incomplete at best, but the available formulas don’t seem to provide the validation constraints that I’m looking for. It looks this will be what those in the know call a “fat controller” approach, with a disproportionate amount of the logic going into the scripting layer. That scripting layer, driven by Google Apps Script, will handle lookup and validation details. At least, it will until I figure out more about how Google Spreadsheets works. The scripting layer will also provide a view, insulating users from the worksheets by presenting dialogs for the most common tasks.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Yeah, I know. It’s not really MVC. I have made a terrible analogy. But at least my terrible analogy has helped me divide the thing into logical components, rather than just looking at it as a spreadsheet with some scripts.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>So. Let’s look at the worksheets. I also made mock ups of the common task views, just for the fun of it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>People</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Presents information about the clients that take part in the incentive program.</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><strong>Name Used</strong></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The most common name used by this person. Must be unique. That’s generally handled by including the initial of the last name or a nickname.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><strong>Full Name</strong></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The full name of the client, if available.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><strong>Other Names</strong></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Nicknames and aliases are common. Use this field to list any other known names for the client.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><strong>Starting Points</strong></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>How many points the client had when the spreadsheet started being used. Nobody wants to lose their accumulated points, and this provides one way to differentiate it from points gained after. Could also be handy for importing, such as setting up different workbooks for different time periods.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><strong>Total Points</strong></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>How many points this person has, after gaining and spending is taken into account.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/NewPersonDialog_1720298741697_0.png" alt="NewPersonDialog.png"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Points Log</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This sheet contains records of the actual transactions which affect a client’s point total. It depends on the other worksheets for some of its information.</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><strong>Person</strong></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Who gets the points? <em>‘People’!‘Name Used’</em></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><strong>Points Category</strong></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What are they getting the points for? <em>‘Categories’:‘Name’</em></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><strong>Points</strong></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>How many points are they getting? Based on <em>‘Categories’:‘Default Points’</em></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><strong>Date</strong></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>When did they do whatever it was that got (or cost) them points?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/PointsLoggerDialog_1720298833881_0.png" alt="PointsLoggerDialog.png">
+caption: the Points Logger dialog</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>What’s Missing</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There is no sheet to track inventory for items available in the incentive store. The items and their value vary too much for this to be a practical feature right now.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>What Do I Have Now?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I have an incredibly dull spreadsheet.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/spreadsheet-01_1720298887735_0.png" alt="spreadsheet-01.png"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>What’s Next?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I plan to spend the next few days — or weeks, depending on how much bloggy spreadsheet time I have — exploring Google Apps Script, particularly the <a href="http://code.google.com/googleapps/appsscript/service_spreadsheet.html">Spreadsheet</a> and <a href="http://code.google.com/googleapps/appsscript/service_ui.html">UI</a> Services, in order to implement the dialog boxes I have so lovingly created mock-ups of. I will be taking it in small steps, depending on what I can manage in my copious free time. My next post will cover the simplest dialog: creating new Categories.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p>I did spent a few days exploring Google Apps Script, but decided that the Excel spreadsheet was working well enough that I should focus my effort on the <a href="https://github.com/brianwisti/marysplace-rails">marysplace-rails</a> project.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

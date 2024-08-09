@@ -1,0 +1,1368 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2009/Parrot Babysteps 07 - Writing Subroutines
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2009-10-06</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Introduction</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We accomplished quite a bit in <a href="/post/2009/parrot-babysteps-06-files-and-hashes" class="page-link">post/2009/Parrot Babysteps 06 - Files and Hashes</a>. We figured out how to parse a 20 MB star catalog and search for information that we thought could be important. The only problem is that it was turning to spaghetti. Even though it had barely 100 lines of code, it was becoming a bigger challenge to figure out what was going on or how to add new features.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Today we’re going to streamline the code somewhat by wrapping that complexity
+in subroutines.  The <a href="/parrot" class="page-link">Parrot</a> Book has a <a href="http://docs.parrot.org/parrot/latest/html/docs/book/pir/ch06_subroutines.pod.html">sizable chapter discussing subroutines</a>. I won’t be spending much time exploring the depths of subroutines, because that would take me far beyond what is appropriate for a babystep. However, a quick glance at the chapter should suggest that Parrot subroutines are quite powerful and worth deeper exploration on your own.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Subroutines</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We’ve been working with subroutines since <a href="/post/2009/parrot-babysteps-01-getting-started" class="page-link">post/2009/Parrot Babysteps 01 - Getting Started</a> Every Parrot application has a subroutine tagged as <code>:main</code> to show that it contains the main logic for the program. Let’s start adding our own supplementary subroutines.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Our first function will encapsulate the display of star highlights.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-07-01
+
+.loadlib 'io_ops'
+
+.sub 'main' :main
+
+	load_bytecode 'String/Utils.pbc'
+
+	.const string DELIMITER  = ','
+	.local pmc    chomp
+	.local string filename
+	.local pmc    data_file
+	.local string current_line
+	.local pmc    field_names
+	.local int    field_count
+	.local int    current_field_index
+	.local string current_field_name
+	.local string current_field_value
+	.local pmc    star_data
+	.local pmc    star
+	.local string star_name
+	.local string star_spectrum
+	.local pmc    sol
+	.local string sol_spectrum
+	.local int    matching_count
+	.local int    unnamed_match_count
+
+	chomp         = get_global ['String';'Utils'], 'chomp'
+	filename      = 'hygxyz.csv'
+	data_file     = open filename, 'r'
+	current_line  = readline data_file
+	current_line  = chomp(current_line)
+	field_names   = split DELIMITER, current_line
+	field_count   = field_names
+
+	current_line = readline data_file
+	current_line = chomp(current_line)
+	star_data = split DELIMITER, current_line
+	current_field_index = 0
+	sol = new 'Hash'
+
+  ASSIGN_NEXT_SOL_FIELD:
+	if current_field_index &gt;= field_count goto FIND_MATCHING_STARS
+	current_field_name = field_names[current_field_index]
+	current_field_value = star_data[current_field_index]
+	sol[current_field_name] = current_field_value
+	current_field_index += 1
+	goto ASSIGN_NEXT_SOL_FIELD
+
+  FIND_MATCHING_STARS:
+	sol_spectrum = sol['Spectrum']
+	matching_count = 0
+	unnamed_match_count = 0
+	# We want to show Sol's details as well as other matches.
+	say_star_details(sol)
+
+  LOAD_NEXT_STAR:
+	unless data_file goto END
+	current_line = readline data_file
+	current_line = chomp(current_line)
+	star_data = split DELIMITER, current_line
+	current_field_index = 0
+	star = new 'Hash'
+
+  ASSIGN_NEXT_STAR_FIELD:
+	if current_field_index &gt;= field_count goto EXAMINE_STAR
+	current_field_name = field_names[current_field_index]
+	current_field_value = star_data[current_field_index]
+	star[current_field_name] = current_field_value
+	current_field_index += 1
+	goto ASSIGN_NEXT_STAR_FIELD
+
+  EXAMINE_STAR:
+	star_spectrum = star['Spectrum']
+	if star_spectrum == sol_spectrum goto REMEMBER_MATCH
+	goto LOAD_NEXT_STAR
+
+  REMEMBER_MATCH:
+	matching_count += 1
+	star_name = star['ProperName']
+	if star_name goto DISPLAY_STAR_DETAILS
+	unnamed_match_count += 1
+	goto LOAD_NEXT_STAR
+
+  DISPLAY_STAR_DETAILS:
+	say_star_details(star)
+	goto LOAD_NEXT_STAR
+
+  END:
+	close data_file
+	print matching_count
+	print &quot; stars exactly matched Sol's spectrum &quot;
+	say sol_spectrum
+	print unnamed_match_count
+	say ' have no proper name'
+
+.end
+
+.sub say_star_details
+	.param pmc star
+
+	.local string star_name
+	.local string star_spectrum
+	.local string star_distance
+
+	star_name = star['ProperName']
+	star_spectrum = star['Spectrum']
+	star_distance = star['Distance']
+
+	print &quot;&lt;Name: &quot;
+	print star_name
+	print &quot;, Spectrum: &quot;
+	print star_spectrum
+	print &quot;, Distance: &quot;
+	print star_distance
+	say &quot;&gt;&quot;
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>To create a subroutine that will get used by your <code>:main</code> sub, all you need to do is declare a <code>.sub</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>.sub say_star_details
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I like my subroutine names to clearly describe the task being accomplished, to minimize the guesswork when I come back to code later.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This subroutine accepts a single parameter: a Hash describing the star to be printed. We learned in <a href="/post/2009/parrot-babysteps-04-adding-command-line-arguments" class="page-link">post/2009/Parrot Babysteps 04 - Adding Command Line Arguments</a> that the <code>.param</code> directive declares a parameter for your subroutine.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>.sub say_star_details
+	.param pmc star
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The subroutine body in this case is going to be a copy and paste of the <code>DISPLAY_STAR_DETAILS</code> code chunk, along with declarations of <code>.local</code> variables needed to make it work.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>.sub say_star_details
+	.param pmc star
+
+	.local string star_name
+	.local string star_spectrum
+	.local string star_distance
+
+	star_name = star['ProperName']
+	star_spectrum = star['Spectrum']
+	star_distance = star['Distance']
+
+	print &quot;&lt;Name: &quot;
+	print star_name
+	print &quot;, Spectrum: &quot;
+	print star_spectrum
+	print &quot;, Distance: &quot;
+	print star_distance
+	say &quot;&gt;&quot;
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We no longer care about stellar distances in our main code, so we can safely remove the <code>.local string star_distance</code> directive from <code>main</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now we can rewrite our code to display Sol’s details. Remember that subroutines require that their parameters be wrapped in parentheses.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># We want to show Sol's details as well as other matches.
+say_star_details(sol)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We could have also wrapped <code>say_star_details</code> in quotes, but it’s only required when our subroutines have non-ASCII characters - that is, characters outside the range of what we consider “normal” characters in the United States. Still, I won’t complain if you’re devoted to good form and prefer to show those subroutine calls as:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>'say_star_details'(sol)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The <code>DISPLAY_STAR_DETAILS</code> chunk becomes just a few lines:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>DISPLAY_STAR_DETAILS:
+  say_star_details(star) # or 'say_star_details'(star)
+  goto LOAD_NEXT_STAR
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Does it produce the same result as the code we ran before?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ parrot example-07-01.pir 
+&lt;Name: Sol, Spectrum: G2V, Distance: 0.000004848&gt;
+&lt;Name: Rigel Kentaurus A, Spectrum: G2V, Distance: 1.34749097181049&gt;
+568 stars exactly matched Sol's spectrum G2V
+567 have no proper name
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It sure does. The code is still rather awkward, though. How about we add a subroutine for transforming a line from the text file into star data?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Returning Values</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-07-02
+
+.loadlib 'io_ops'
+
+.sub 'main' :main
+
+	load_bytecode 'String/Utils.pbc'
+
+	.const string DELIMITER  = ','
+	.local pmc    chomp
+	.local string filename
+	.local pmc    data_file
+	.local string current_line
+	.local pmc    field_names
+	.local pmc    star_data
+	.local pmc    star
+	.local string star_name
+	.local string star_spectrum
+	.local pmc    sol
+	.local string sol_spectrum
+	.local int    matching_count
+	.local int    unnamed_match_count
+
+	chomp         = get_global ['String';'Utils'], 'chomp'
+	filename      = 'hygxyz.csv'
+	data_file     = open filename, 'r'
+	current_line  = readline data_file
+	current_line  = chomp(current_line)
+	field_names   = split DELIMITER, current_line
+
+	current_line = readline data_file
+	current_line = chomp(current_line)
+	star_data = split DELIMITER, current_line
+	sol = extract_star_details(field_names, star_data)
+
+  FIND_MATCHING_STARS:
+	sol_spectrum = sol['Spectrum']
+	matching_count = 0
+	unnamed_match_count = 0
+	# We want to show Sol's details as well as other matches.
+	say_star_details(sol)
+
+  LOAD_NEXT_STAR:
+	unless data_file goto END
+	current_line = readline data_file
+	current_line = chomp(current_line)
+	star_data    = split DELIMITER, current_line
+	star         = extract_star_details(field_names, star_data)
+
+  EXAMINE_STAR:
+	star_spectrum = star['Spectrum']
+	if star_spectrum == sol_spectrum goto REMEMBER_MATCH
+	goto LOAD_NEXT_STAR
+
+  REMEMBER_MATCH:
+	matching_count += 1
+	star_name = star['ProperName']
+	unless star_name goto LOAD_NEXT_STAR
+	if star_name goto DISPLAY_STAR_DETAILS
+	unnamed_match_count += 1
+	goto LOAD_NEXT_STAR
+
+  DISPLAY_STAR_DETAILS:
+	say_star_details(star)
+	goto LOAD_NEXT_STAR
+
+  END:
+	close data_file
+	print matching_count
+	print &quot; stars exactly matched Sol's spectrum &quot;
+	say sol_spectrum
+	print unnamed_match_count
+	say ' have no proper name'
+
+.end
+
+.sub extract_star_details
+	.param pmc headers
+	.param pmc values
+
+	.local pmc star
+	.local int header_count
+	.local string current_header
+	.local string current_value
+	.local int current_index
+
+	current_index = 0
+	header_count = headers
+	star = new 'Hash'
+
+  ASSIGN_NEXT_STAR_FIELD:
+	if current_index &gt;= header_count goto RETURN_STAR
+	current_header = headers[current_index]
+	current_value = values[current_index]
+	star[current_header] = current_value
+	current_index += 1
+	goto ASSIGN_NEXT_STAR_FIELD
+
+
+  RETURN_STAR:
+	.return(star)
+.end
+
+.sub say_star_details
+	# ...
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The code is starting to get a little long, so I am adopting the habit of replacing subroutine blocks with <code># ...</code> when the code is unchanged from the previous example.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Most of the code in our new <code>extract_star_details</code> subroutine looks familiar, but we do have one noteworthy addition:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>.return(star)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This directive hands the Hash we’ve just built back to whoever called the function.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Is our application cleaner? Yes, a little bit. I’m tired of having so many unnamed stars, though. Let’s add a little logic to attempt an alternate name if no proper name is available.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Making <code>say_star_details</code> Smarter</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-07-03
+.sub 'main' :main
+
+	load_bytecode 'String/Utils.pbc'
+
+	.const string DELIMITER  = ','
+	.local pmc    chomp
+	.local string filename
+	.local pmc    data_file
+	.local string current_line
+	.local pmc    field_names
+	.local pmc    star_data
+	.local pmc    star
+	.local string star_spectrum
+	.local pmc    sol
+	.local string sol_spectrum
+	.local int    matching_count
+
+	chomp         = get_global ['String';'Utils'], 'chomp'
+	filename      = 'hygxyz.csv'
+	data_file     = open filename, 'r'
+	current_line  = readline data_file
+	current_line  = chomp(current_line)
+	field_names   = split DELIMITER, current_line
+
+	current_line = readline data_file
+	current_line = chomp(current_line)
+	star_data = split DELIMITER, current_line
+	sol = extract_star_details(field_names, star_data)
+
+  FIND_MATCHING_STARS:
+	sol_spectrum = sol['Spectrum']
+	matching_count = 0
+	# We want to show Sol's details as well as other matches.
+	say_star_details(sol)
+
+  LOAD_NEXT_STAR:
+	unless data_file goto END
+	current_line = readline data_file
+	current_line = chomp(current_line)
+	star_data    = split DELIMITER, current_line
+	star         = extract_star_details(field_names, star_data)
+
+  EXAMINE_STAR:
+	star_spectrum = star['Spectrum']
+	if star_spectrum == sol_spectrum goto REMEMBER_MATCH
+	goto LOAD_NEXT_STAR
+
+  REMEMBER_MATCH:
+	matching_count += 1
+	say_star_details(star)
+	goto LOAD_NEXT_STAR
+
+  END:
+	close data_file
+	print matching_count
+	print &quot; stars exactly matched Sol's spectrum &quot;
+	say sol_spectrum
+.end
+
+.sub extract_star_details
+	# ...
+.end
+
+.sub say_star_details
+	.param pmc star
+
+	.local string star_name
+	.local string star_spectrum
+	.local string star_distance
+
+	star_name = star['ProperName']
+	star_spectrum = star['Spectrum']
+	star_distance = star['Distance']
+
+	if star_name goto DISPLAY_DETAILS
+
+  TRY_GLIESE:
+	.local string gliese_number
+	gliese_number = star['Gliese']
+	unless gliese_number goto TRY_BAYER_FLAMSTEED
+	star_name = 'Gliese ' . gliese_number
+	goto DISPLAY_DETAILS
+
+  TRY_BAYER_FLAMSTEED:
+	.local string bayer_flamsteed
+	bayer_flamsteed = star['BayerFlamsteed']
+	unless bayer_flamsteed goto TRY_HR
+	star_name = &quot;BF &quot; . bayer_flamsteed
+	goto DISPLAY_DETAILS
+
+  TRY_HR:
+	.local string hr_id
+	hr_id = star['HR']
+	unless hr_id goto TRY_HD
+	star_name = &quot;HR &quot; . hr_id
+	goto DISPLAY_DETAILS
+
+  TRY_HD:
+	.local string hd_id
+	hd_id = star['HD']
+	unless hd_id goto USE_STAR_ID
+	star_name = &quot;HD &quot; . hd_id
+	goto DISPLAY_DETAILS
+
+  TRY_HIP:
+	.local string hip_id
+	hip_id = star['HIP']
+	unless hip_id goto USE_STAR_ID
+	star_name = &quot;HIP &quot; . hip_id
+	goto DISPLAY_DETAILS
+
+  USE_STAR_ID:
+	.local string star_id
+	star_id = star['StarID']
+	star_name = &quot;HYG &quot; . star_id
+	goto DISPLAY_DETAILS
+
+  DISPLAY_DETAILS:
+	print &quot;&lt;Name: &quot;
+	print star_name
+	print &quot;, Spectrum: &quot;
+	print star_spectrum
+	print &quot;, Distance: &quot;
+	print star_distance
+	say &quot;&gt;&quot;
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now <em>this</em> version of the app displays everything along with some kind of  designation. The order I look for names is arbitrary, and is based roughly in order of how familiar they looked to me. The tediousness of  determining which reference to use has been hidden away in the <code>say_star_details</code> subroutine, and consists of simply checking each field for a value until
+something useful is found. I knew there would be some kind of name to display, so I removed the name-counting functionality from <code>main</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ parrot example-07-03.pir | more
+# ... much text omitted
+&lt;Name: HYG 117782, Spectrum: G2V, Distance: 139.275766016713&gt;
+&lt;Name: HD 224693, Spectrum: G2V, Distance: 94.0733772342427&gt;
+568 stars exactly matched Sol's spectrum G2V
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Conclusion</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Right. Our script has grown to the point where it shows every <code>G2V</code> star in the HYG database, and some of the complexity of this task has been tucked away behind subroutines. Is there more to be done? You bet! I would love to add user search features to the code. That’s going to a fair step on its own, so I think I will close my Vim window and push this page.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

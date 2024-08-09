@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2023/Add an Obsidian CSS Snippet
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2023-01-24</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><p><em class="link-missing">second-brain</em></p>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/cover-2023-01-24_1705526329783_0.png" alt="cover-2023-01-24.png"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I added a banner to my <a href="/obsidian" class="page-link">Obsidian</a> daily journal template with the <a href="https://github.com/noatpad/obsidian-banners">Banners plugin</a>. I used a Creative Commons image from <a href="https://wordpress.org/openverse/">Openverse</a>, and I wanted to include attribution.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>---
+title: &lt;% tp.file.title %&gt;
+created_at: &lt;% tp.file.creation_date(&quot;YYYY-MM-DDTHH:mm:ssZ&quot;) %&gt;
+banner: &quot;/assets/journal-entry-joel-montes-de-oca.jpg&quot;
+---
+
+# &lt;% tp.file.title %&gt;
+
+#journal/daily
+
+## Plan
+
+## Jots
+
+----
+
+&lt;p class=&quot;attribution&quot;&gt;
+    &quot;&lt;a
+        target=&quot;_blank&quot;
+        rel=&quot;noopener noreferrer&quot;
+        href=&quot;https://www.flickr.com/photos/99887995@N00/4762384399&quot;
+        &gt;Journal Entry&lt;/a&gt;&quot;
+    by
+    &lt;a
+        target=&quot;_blank&quot;
+        rel=&quot;noopener noreferrer&quot;
+        href=&quot;https://www.flickr.com/photos/99887995@N00&quot;
+        &gt;JoelMontes&lt;/a&gt;
+    is licensed under
+    &lt;a
+        target=&quot;_blank&quot;
+        rel=&quot;noopener noreferrer&quot;
+        href=&quot;https://creativecommons.org/licenses/by-sa/2.0/?ref=openverse&quot;
+        &gt;CC BY-SA 2.0
+            &lt;img
+                src=&quot;https://mirrors.creativecommons.org/presskit/icons/cc.svg&quot;
+                style=&quot;height: 1em; margin-right: 0.125em; display: inline;&quot;
+            &gt;&lt;img
+                src=&quot;https://mirrors.creativecommons.org/presskit/icons/by.svg&quot;
+                style=&quot;height: 1em; margin-right: 0.125em; display: inline;&quot;
+            &gt;&lt;img
+                src=&quot;https://mirrors.creativecommons.org/presskit/icons/sa.svg&quot;
+                style=&quot;height: 1em; margin-right: 0.125em; display: inline;&quot;&gt;&lt;/a&gt;.
+&lt;/p&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It should have its own style. A little smaller than the note text, and maybe centered for an aesthetic touch. After spending a little too long looking for some kind of theme or plugin magic, I realized Obsidian supports <a href="https://publish.obsidian.md/hub/04+-+Guides%2C+Workflows%2C+%26+Courses/Guides/How+to+Style+Obsidian#Where+do+I+put+my+stylin'+declarations">custom CSS snippets</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>So I added <code>.obsidian/snippets/attributions.css</code> for attribution paragraphs.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-css">.attribution {
+    font-size: 0.8em;
+    text-align: center;
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Needed to explicitly enable it under <em>Settings → Appearance → CSS Snippets</em>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/obsidian-enable-css-snippet_1705526460904_0.png" alt="obsidian-enable-css-snippet.png"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Managing Obsidian CSS is a nice little feature. And it’s got <em>just</em> enough steps that adding a note here for later seemed like a good idea.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>And yes I do keep my notes in every tool like some kind of brain squirrel. Someday maybe I’ll show you the meta-system I use to keep it all organized.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Maybe after I fix it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

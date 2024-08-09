@@ -1,0 +1,2397 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2022/My Three(ish) Favorite Nushell Features
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>banner</th>
+            <td><p>…/assets/cover-2022-07-04_1712545672157_0.png</p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>banner-caption</th>
+            <td><p>histogram for post frequency by year using Nushell built-ins</p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><p>In which I once again spend all day decomposing one-liners, this time for Nushell</p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><p><a href="https://hackers.town/@randomgeek/108592201010750028">https://hackers.town/@randomgeek/108592201010750028</a></p>
+</td>
+          </tr>
+        
+      
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2022-07-04</em></p>
+</td>
+          </tr>
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Been using the <a href="/nushell" class="page-link">Nushell</a> cross-platform user shell more and more over the last couple years. Might as well start learning it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Today I use Nushell for one of my favorite learning tasks: examining my site. I made a throwaway one-liner for <a href="/post/2022/trying-nushell-on-windows" class="page-link">post/2022/Trying Nushell on Windows</a>. I want to try again, and think through the process a little more this time.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This post, and any that may follow on the topic, won’t be any kind of deep dive or contrast with other shells. Oh sure. I’ll point out things that surprise me. But I use maybe 20% of a shell’s features for 80% of my needs, and a Web search for the rest. Check the Nushell book’s <a href="https://www.nushell.sh/book/coming_from_bash.html">Coming from Bash</a> page if you want a more explicit comparison.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let’s get started.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Nushell feature zero: showing program output</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>If you can’t easily run a program and see its output, you are in a REPL, not a shell. I have not come across a command shell that fails that test yet, but I use it as an immediate reassurance that I haven’t confused myself by launching <code>ipython</code> again.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’m on <a href="https://gohugo.io">Hugo</a> again, which means I have the Hugo CLI. <code>hugo list all</code> prints out a <a href="/csv" class="page-link">CSV</a> summary of your site, ready for processing by some other program.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-sh">hugo list all
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/hugo-list-all_1718809387892_0.png" alt="output of command is a dense blast of CSV text"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Nushell feature zero point five: Piping output</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Most shells let you pipe between processes, using the output of one as the input of the next. Nushell provides that functionality. No problem.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-sh">hugo list all | from csv
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Of course, the result of that pipe is something a little different from other shells.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Nushell feature one: tables</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/from-csv_1718809479131_0.png" alt="screenshot of nushell table display of hugo articles"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There’s the table output that I find so appealing. Course, a pretty table is not so unusual these days. You can pipe from <code>hugo</code> to any number of CSV processing tools and pretty printers available to install on your machine.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>But Nushell tables aren’t just pretty printing. They are core to working with the shell. The table you see is a visual representation of a table in memory, which can be further processed however you need.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Also? Nushell doesn’t need me to install an extra CSV processing tool. It can turn that output into something useful without any extra help thanks to an abundance of built-in commands.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Nushell feature two: the built-in commands and interactive help</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Nushell includes <em>many</em> commands. You can see for yourself skimming through the <a href="https://www.nushell.sh/book/command_reference.html">Command Reference</a>. Or see what’s available to you in your current version with <code>help commands</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/nushell-tab_1718809555641_0.png" alt="initial tab-completion display of functions available in Nushell"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>How many? Let’s ask the shell by piping <code>help commands</code> to the <code>length</code> command.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-sh">help commands | length
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>421
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That’s a little overwhelming. Let’s see if we can narrow it down. That gives me a chance to show off some of the table processing I got so excited about.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Listing command categories by grouping</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-sh">help commands | group-by category
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/group-by-category_1718809661039_0.png" alt="all of the Nushell command categories"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Listing only commands in a specific category with <code>where</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I read ahead, so I know that <code>from csv</code> is under the “formats” category. We use <code>where</code> to narrow the command list down so it only contains the format commands.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-sh">help commands | where category =~ formats
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/format-commands_1718809748993_0.png" alt="a table of commands in the &quot;formats&quot; category"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p>I bet the Perl devs perked up seeing that =~. Yes it’s a regular expression! But it’s almost definitely not a Perl regular expression. I haven’t gone past literal substring matches yet, and the Nushell regex documentation page is basically a placeholder. I can only suggest you follow their suggestion to read the Rust regex crate documentation and figure out the differences yourself.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Viewing only select columns with <code>select</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That’s still a little busy. How about we <code>select</code> the name and usage? And heck — tables make for great screenshots, but let’s try see what <code>to md</code> gives us.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-sh">help commands | where category =~ formats | select name usage | to md
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <table>
+<thead>
+<tr>
+<th>title</th>
+<th>publishDate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Editors</td>
+<td>2001-07-11T00:00:00-07:00</td>
+</tr>
+<tr>
+<td>Geekery</td>
+<td>2001-07-11T00:00:00-07:00</td>
+</tr>
+<tr>
+<td>Python</td>
+<td>2001-01-17T00:00:00-08:00</td>
+</tr>
+<tr>
+<td>Python Babysteps Tutorial</td>
+<td>2001-01-17T00:00:00-08:00</td>
+</tr>
+<tr>
+<td>coolnamehere</td>
+<td>2000-12-06T00:00:00-08:00</td>
+</tr>
+</tbody>
+</table>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That’s better. Sort of. I expected the last few posts to be a bit more recent. I need to do some intentional filtering and sorting. In order to do that, I need a real date instead of Hugo’s timestamp string. You can use a block for that.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Nushell feature two: blocks</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The really basic idea is that <a href="https://www.nushell.sh/book/types_of_data.html#blocks">blocks</a> run arbitrary commands on a parameter, and let us do what we like with the result.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’m going to do sort of a <a href="https://databricks.com/glossary/what-are-dataframes">dataframe</a> type of action here. That’s not a normal state for my brain so I need to step through this slowly.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>hugo list all</code> gave me some CSV text.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-sh">hugo list all
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>from csv</code> turned that text into a table.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-sh">hugo list all | from csv
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The <code>publishDate</code> column describes a date and time, but it contains text strings — not dates. To simplify filtering posts by date range, I want to add a column for the published date described by <code>publishDate</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-sh">hugo list all | from csv | insert published-at ...
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That <code>published-at</code> column contains the result of running a block of commands. I hand my current table to the block as a parameter.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-sh">hugo list all | from csv | insert published-at { |it| ... }
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Nushell blocks look and work a bit like <a href="/ruby" class="page-link">Ruby</a> blocks. That means they also work similar to lambdas in <a href="/python" class="page-link">Python</a> and anonymous functions in other languages — cosmetic and shell-specific details aside.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The block returns a column with dates for every value in my table’s <code>publishDate</code> column.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-sh">(
+  hugo list all |
+  from csv |
+  insert published-at { |it| $it.publishDate | into datetime }
+)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Nushell uses the shell-like pattern of prefixing variable names with <code>$</code> when we reference them.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>#.aside Where did the parentheses come from?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That’s how Nushell does multi-line one-liners.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>See, my one-liner’s getting a little long. Over in other shells, I’d be pulling out a backslash ‘\’ to indicate line continuation. But Nushell is expression-oriented. Ending a line with a backslash is just an error. So we turn the whole thing into a subexpression by wrapping it in parentheses. Nushell treats the evaluated result as a single expression, however many lines it takes to get there.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Yes, fine. I <em>should</em> be thinking about scripts at this point. I may get to those eventually. Until then I use parentheses to create a multiline subexpression.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Where were we? Oh right. I have a table with more columns than I care about.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I only want the post titles and the dates they were published.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-sh">(
+  hugo list all |
+  from csv |
+  insert published-at { |it| $it.publishDate | into datetime } |
+  select title published-at
+)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>And I’m writing a blog post, so let’s keep a readable number of rows in markdown format.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-sh">(
+  hugo list all |
+  from csv |
+  insert published-at { |it| $it.publishDate | into datetime } |
+  select title published-at |
+  last 5 |
+  to md
+)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Okay I think that covers it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <table>
+<thead>
+<tr>
+<th>title</th>
+<th>published-at</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Editors</td>
+<td>Wed, 11 Jul 2001 00:00:00 -0700 (20 years ago)</td>
+</tr>
+<tr>
+<td>Geekery</td>
+<td>Wed, 11 Jul 2001 00:00:00 -0700 (20 years ago)</td>
+</tr>
+<tr>
+<td>Python</td>
+<td>Wed, 17 Jan 2001 00:00:00 -0800 (21 years ago)</td>
+</tr>
+<tr>
+<td>Python Babysteps Tutorial</td>
+<td>Wed, 17 Jan 2001 00:00:00 -0800 (21 years ago)</td>
+</tr>
+<tr>
+<td>coolnamehere</td>
+<td>Wed, 06 Dec 2000 00:00:00 -0800 (21 years ago)</td>
+</tr>
+</tbody>
+</table>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Yeesh I have been writing this stuff down for a long time.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Nushell feature three: data types</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>My experience with data types in shells is limited and mostly unpleasant: values are strings that can be interchangeably treated as strings or numbers. Sometimes you can treat them like lists. Oops you broke something.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Nushell <a href="https://www.nushell.sh/book/types_of_data.html">data type</a> support goes past that. For starters, values declared in the shell itself have the appropriate type.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-sh">1.2 | describe
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>float
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-sh">&quot;1.2&quot; | describe
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>string
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It also supports more complex structured types like records and of course tables. Nushell may not define as many types as <a href="https://github.com/red/docs/blob/master/en/datatypes.adoc">Red</a> — yet? — but it has far more than I’m accustomed to seeing from a shell.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What about conversions? In my fiddling so far, Nushell treats output from external programs like a string until you tell it otherwise, like a moment ago piping Hugo’s output <code>from csv</code> and then the <code>publishDate</code> column <code>into datetime</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Date math</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>All right. Let’s figure this out. What datetime is it right now?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-sh">date now
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>Mon, 04 Jul 2022 18:08:26 -0700 (now)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Happy Fourth of July to those who celebrate by the way. Unless you celebrate by letting off fireworks in your or especially my neighborhood after midnight.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I arbitrarily picked three months as my threshold. Nushell provides numerous shorthands for durations, but so far nothing at an appropriate scale for ancient blogs. I haven’t found a lazy way to say “three months ago,” but I can say “90 days ago.” Close enough for today.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Need to make a subexpression out of <code>date now</code> so Nushell has a date it can use for the math.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-sh">(date now) - 90day
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>Tue, 05 Apr 2022 18:09:31 -0700 (3 months ago)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Since <code>((date now) - 90day)</code> is a date and <code>published-at</code> is a date, I can do a direct comparison.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-sh">(
+  hugo list all |
+  from csv |
+  insert published-at { |it| $it.publishDate | into datetime } |
+  where published-at &gt; ((date now) - 90day) |
+  select title published-at |
+  to md
+)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <table>
+<thead>
+<tr>
+<th>title</th>
+<th>published-at</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>My Three(ish) Favorite Nushell Features</td>
+<td>Mon, 04 Jul 2022 18:00:00 -0700 (10 minutes ago)</td>
+</tr>
+<tr>
+<td>I Talked About My Site on Test &amp; Code in Python</td>
+<td>Fri, 01 Jul 2022 15:04:02 -0700 (3 days ago)</td>
+</tr>
+<tr>
+<td>Now</td>
+<td>Wed, 11 May 2022 08:33:00 -0700 (2 months ago)</td>
+</tr>
+<tr>
+<td>How About a Tumblelog</td>
+<td>Tue, 03 May 2022 19:58:29 -0700 (2 months ago)</td>
+</tr>
+<tr>
+<td>Added a Neighborhood Blogroll Thing</td>
+<td>Wed, 27 Apr 2022 19:47:55 -0700 (2 months ago)</td>
+</tr>
+<tr>
+<td>Config Tweaks for Nushell</td>
+<td>Sun, 24 Apr 2022 15:00:33 -0700 (2 months ago)</td>
+</tr>
+<tr>
+<td>Trying Nushell on Windows</td>
+<td>Fri, 22 Apr 2022 21:15:00 -0700 (2 months ago)</td>
+</tr>
+<tr>
+<td>Didn’t I do this last year too?</td>
+<td>Sun, 17 Apr 2022 22:15:00 -0700 (2 months ago)</td>
+</tr>
+</tbody>
+</table>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Yeah I fibbed on the publish date for the post I’m writing. Figured it would be quicker than adding and explaining another filter for draft posts.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Wrapping Up</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>True confession time: my three or so favorite features in Nushell are also the only features I’ve played with, and much of that was today.
+Just realized it’s been about a year since I started poking at Nushell as more than “that thing with cool <code>ls</code> output.”</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It’s not my login <code>$SHELL</code> or anything yet — still need to figure out things like <code>pyenv</code> and <code>nvm</code> — but yeah I like using Nushell.
+Especially under Windows, where I know little enough about PowerShell that I can set up Nushell on Windows Terminal and pretend it’s a login shell.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now I just need something that would make a cool cover image screenshot.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-sh">(
+    hugo list all |
+    from csv |
+    insert year { |it| $it.publishDate | into datetime | date to-record | get year } |
+    where year &gt; 1 |
+    histogram year --percentage-type relative |
+    sort-by year
+)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

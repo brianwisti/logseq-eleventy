@@ -1,0 +1,3432 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2007/Python Interactive Fiction - 01 Handling a Single Round
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><p><em class="link-missing">python,coolnamehere</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2007-04-19</em></p>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I think the next step is to write the code for a single round of the game. We’ll limit ourselves to Scene 1 to stay focused.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Presenting a Scene to the user</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>First you want to show the description. Start a new <a href="/python" class="page-link">Python</a> file in your favorite editor, or in IDLE with the menu command “File” -&gt; “New”.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python"># ifiction.py
+#  - An interactive fiction game
+
+description = &quot;You are standing in a field. To the north of you are some mountains, &quot; \
+              &quot;to the east of you is a forest, to the west of you is a cave, and to &quot; \
+              &quot;the south of you is a valley.&quot;
+
+print description
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The <code>\</code> character at the end of lines 6 and 7 tells Python the string is continuing to the next line. Python would complain at us if we left that out. Let’s run the script and see what we get.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Save your new file as <code>ifiction.py</code> and run it. Press the <code>F5</code> key to run the script if you are using IDLE.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ python ifiction.py
+
+You are standing in a field. To the north of you are some mountains, to the ea
+st of you is a forest, to the west of you is a cave, and to the south of you i
+s a valley.
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This may not be happening for you, but when I run the script the description text gets cut off at inconvenient points. What happens next is a little more advanced than I was planning to show you, but that is just going to bug me too much if I don’t fix it now.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Wrapping text with the <code>textwrap</code> module</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>One of Python’s charms is the fact that it has a <a href="http://docs.python.org/lib/" title="Python Standard Library Reference">huge standard library</a>. This means that a lot of things you would like to do have already been written and included for free. That’s why some folks say that Python comes with “batteries included.” The standard library is a collection of modules with useful features and functions. I am just concerned with the <code>fill</code> function from the <a href="https://docs.python.org/2/library/textwrap.html">textwrap</a> module right now, because I want the text of the description wrapped so that no words get cut off.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You aren’t automatically carrying all of those libraries around in your script, though. You need to use the <code>import</code> command to make the functions in a library available to your program.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python"># ifiction.py
+#  - An interactive fiction game
+
+import textwrap
+
+description = &quot;You are standing in a field. To the north of you are some mountains, &quot; \
+              &quot;to the east of you is a forest, to the west of you is a cave, and to &quot; \
+              &quot;the south of you is a valley.&quot;
+
+print textwrap.fill(description)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Notice that I had to use the module name as part of my call to <code>fill</code>. That is because Python needs to know where it can find the <code>fill</code> function, and for library functions it uses <em>modulename</em> followed by a dot (.) and then the function. You will be seeing a lot more of the dot operator as your Python knowledge expands.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There are ways to import the function in a way which removes that requirement, but for now I will stick with the more explicit version because it is easier for <em>us</em> to know where we found the function.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>See what it looks like now?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ python ifiction.py
+You are standing in a field. To the north of you are some mountains,
+to the east of you is a forest, to the west of you is a cave, and to
+the south of you is a valley.
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Of course, if the wrapping text isn’t an issue for you, feel free to leave out the <code>textwrap</code> related code completely.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Back to the game: paths</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now for the paths. We could just print the paths and make the user type in the full path to go anywhere, but that would be unkind. What we want is an easy way to show the list of paths and say “You picked path #1: Go to the mountains”.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Python’s <a href="https://docs.python.org/2/library/stdtypes.html#sequence-types-str-unicode-list-tuple-bytearray-buffer-xrange">list</a> type is the perfect way to do this. A Python list is a collection of values - they could be literals or other variables - that holds each value in order. This lets you ask for the third item in a list, or ask for each value in order. Let’s start by creating and displaying the paths.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python"># ifiction.py
+#  - An interactive fiction game
+
+import textwrap
+
+description = &quot;You are standing in a field. To the north of you are some mountains, &quot; \
+              &quot;to the east of you is a forest, to the west of you is a cave, and to &quot; \
+              &quot;the south of you is a valley.&quot;
+
+print textwrap.fill(description)
+
+# The list of choices available to the user.
+paths = [
+    &quot;Go to the mountains&quot;,
+    &quot;Go into the forest&quot;,
+    &quot;Go into the cave&quot;,
+    &quot;Go to the valley&quot;
+]
+
+for path in paths:
+    print path
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What does it look like now?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ python ifiction.py
+You are standing in a field. To the north of you are some mountains,
+to the east of you is a forest, to the west of you is a cave, and to
+the south of you is a valley.
+Go to the mountains
+Go into the forest
+Go into the cave
+Go to the valley
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I want to do a bit of formatting to break things up, but you get the idea of what is going on. We have created a variable called <code>paths</code> to hold our list of paths. What can I say? I like my variable names to be obvious. You can recognize a list by the square brackets <code>[]</code>. Items in the list are separated by commas. I like to put each list item on a line by itself, using indentation to show that we are looking inside the list. Little things like this make your code easier to read, which gets very important as your program grows.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>The <code>for</code> loop</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Okay, I need to take the next few ideas slowly, because I have put a lot of important new concepts in two lines of code.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>for</code> is one of Python’s looping control structures. <code>for path in paths:</code> is going step to through each item in the list <code>paths</code>. That part is straightforward.  Another nice thing about Python code is that you can usually tell what’s going on just by looking at it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It also creates a variable called <code>path</code> which will hold the value of the current item in the list. The first time through the list, <code>path</code> is set to <em>“Go to the mountains”</em>, the second time  through <code>path</code> is set to <em>“Go into the forest”</em>, and so on.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What is Python going to do with <code>path</code>? That is decided in the indented line after the colon <code>:</code> character.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">for path in paths:
+    print path
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I kept it simple for now. All we do is print this path to the screen and move on. Do you see the extra indentation, though? Python uses indentation to know what code is supposed to be executed within the loop. If I try to describe it, I’m just going to make things more confusing than they really are. Just remember this:</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>One or more lines at the same indent level are often called a “block”</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Everything right under the <code>for</code> statement which is indented belongs to the <code>for</code> loop.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>If you indent another level, it better be because you’re starting a new block <em>inside</em> the <code>for</code> loop.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>If you unindent, it better be because you are done with the loop block.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>An indent without a control statement is an error in Python, except for special cases like the way I defined <code>description</code> and <code>paths</code>. It doesn’t <em>really</em> matter how much you indent for a block, but it must be consistent throughout your program. The common standard suggested by Python creator Guido van Rossum is four spaces per block, with no tab characters used.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>for &lt;item&gt; in &lt;list&gt;</code> is useful, and it will probably be the most common tool in your kit for examining every item in a list. It doesn’t quite work for our exact needs today, though. We want to build a menu with an easy value for the user to enter. This will use the <code>range()</code> function combined with the <code>[]</code> operator for accessing list members.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>range</code> is a simple function which returns a list of whole numbers in a certain range. It normally takes a single argument: the upper edge of the range. All the numbers in the list will be <em>less than</em> the upper edge. Here is a simple example:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-pycon">&gt;&gt;&gt; range(3)
+[0, 1, 2]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>range</code> can take additional arguments to set the starting number and the step size, but this is all we want for now. Oh, notice that the numbering starts at zero. This is going to be very useful, for reasons which will become clear in a few moments.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I have shown you how to look at a complete list, as well as how to look at each item in a list one at a time. How do you look at a single item in the list? You use <code>[]</code>. What do they call that, anyways? I can’t really tell from the Python docs. Let’s call it the <em>indexing operation</em>. Why “operation?” Because we’re doing something, but not with a function. Why “indexing?” Because we will be using a specific value to get at the item, sort of like using the index or table of contents in a book.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>So let’s try it out. It is easy to use the indexing operation. Add the left bracket, the index number of the item you want, and then the right bracket. Go back to the Python shell and try it out for yourself, getting the value at index 1 of a list:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-pycon">&gt;&gt;&gt; items = [ 'apples', 'chocolate bugs', 'bananas']
+&gt;&gt;&gt; items[1]
+'chocolate bugs'
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That was a little confusing, wasn’t it? We were expecting apples but got chocolate bugs instead You would <em>think</em> that the index would be easy: the first item would be at index 1, the second at index 2, and so on. Unfortunately, that’s not the wayindexes work in Python. Numbering starts with the first item being zero.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-pycon">&gt;&gt;&gt; items[0]
+'apples'
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Zero-based indexing is one of those language features that’s there for historical reasons. It made perfect sense a long time ago in another language, but now it just serves to confuse newcomers and create a lot of “off-by-one” errors. You may want to use a mental trick for reducing confusion: think of the index as the distance from the first item. The first item <em>is</em> the first item, so the distance is zero: <code>items[0]</code>. The next item is one away from the first item, so the distance is one: <code>items[1]</code>. And so on.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Or you could just subtract one from the number you’re thinking of and get on with it. Things that are shortcuts for me could just be useless clutter for you. I’m happy as long as you remember that list index numbers start at zero.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>So where do the index numbers stop? You could count the items in the list code by hand and work with that number, but that is far too much work. Use Python’s built-in <code>len</code> function. <code>len</code> is blissfully simple. You hand it a list, and it tells you how many items are in the list. Try it yourself if you still have that shell open:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-pycon">&gt;&gt;&gt; len(items)
+3
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There are three items in the list, so the index starts at zero and ends at two. <code>len</code> works perfectly with <code>range</code>, which hands you a list of numbers starting at zero and ending at one less than the upper edge. Back to the shell, where we’ll step through our list using ‘len’, ‘range’, and list indexing.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-pycon">&gt;&gt;&gt; for index in range(len(items)):
+...     print index, items[index]
+...
+0 apples
+1 chocolate bugs
+2 bananas
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Oh, I didn’t mention blocks in the shell, did I? When Python thinks you are in a block, it prints <code>...</code> instead of <code>&gt;&gt;&gt;</code>. Indent by hitting spaces (or I just use the tab key when I’m in the shell). Hitting Enter on a line with no code tells the Python shell that you are done with the block and it’s time to execute.
+Just so you know - <em>indexing operation</em> is just something I came up with after looking around on the Web a little bit. That is not the official name for <code>[]</code>, and I’ll be updating this section as soon as I find out what that name is.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This has been a quick crash course through list handling in Python. Let’s apply what we’ve learned about lists to our interactive story.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python"># ifiction.py
+#  - An interactive fiction game
+
+import textwrap
+
+description = &quot;You are standing in a field. To the north of you are some mountains, &quot; \
+              &quot;to the east of you is a forest, to the west of you is a cave, and to &quot; \
+              &quot;the south of you is a valley.&quot;
+
+print textwrap.fill(description)
+
+# The list of choices available to the user.
+paths = [
+    &quot;Go to the mountains&quot;,
+    &quot;Go into the forest&quot;,
+    &quot;Go into the cave&quot;,
+    &quot;Go to the valley&quot;
+]
+
+for i in range(0, len(paths)):
+    path = paths[i]
+    menu_item = i + 1
+    print &quot;\t&quot;, menu_item, path
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I used <code>i + 1</code> instead of <code>i</code> because … well, Python may count from zero but most people count from one. We’re writing this for people, not for Python.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We didn’t <em>really</em> need to set up each <code>path</code> and <code>menu_item</code> as a variable, but I thought it would make things easier to read than <code>print &quot;\t&quot;, i+1, paths[i]</code>. You want to aim for readabality when you are starting out or you will quickly become lost. Actually, it’s a good idea to aim for readability all the way through your programming life. It will make your code easier to maintain. Besides, putting these values in a variable leaves room for us to change our mind about <code>path</code> and <code>menu_item</code> are constructed in the future.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Run the script and see what you get.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">You are standing in a field. To the north of you are some mountains,
+to the east of you is a forest, to the west of you is a cave, and to
+the south of you is a valley.
+  1 Go to the mountains
+  2 Go into the forest
+  3 Go into the cave
+  4 Go to the valley
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It’s starting to look like something! Now go take a break for a minute. I threw a lot of information at you all at once, and you may still need to process it. You at least need to look at something besides a computer monitor for a few seconds and shake your fingers loose. It’s good for you.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Getting the user’s selection</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I am pleased that we have the scene description code working, but user input is still missing. All we need is <code>raw_input</code>, which we encountered in the initial <em class="link-missing">Python Babysteps</em>. Add a line to get user input and another line to show the result.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python"># ifiction.py
+#  - An interactive fiction game
+
+import textwrap
+
+description = &quot;You are standing in a field. To the north of you are some mountains, &quot; \
+              &quot;to the east of you is a forest, to the west of you is a cave, and to &quot; \
+              &quot;the south of you is a valley.&quot;
+
+print textwrap.fill(description)
+
+# The list of choices available to the user.
+paths = [
+    &quot;Go to the mountains&quot;,
+    &quot;Go into the forest&quot;,
+    &quot;Go into the cave&quot;,
+    &quot;Go to the valley&quot;
+]
+
+for i in range(0, len(paths)):
+    path = paths[i]
+    menu_item = i + 1
+    print &quot;\t&quot;, menu_item, path
+
+choice = raw_input(&quot;Make a selection: &quot;)
+print &quot;Choice&quot;, i, &quot;-&quot;, paths[i-1]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Running this code is very exciting indeed:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">You are standing in a field. To the north of you are some mountains,
+to the east of you is a forest, to the west of you is a cave, and to
+the south of you is a valley.
+  1 Go to the mountains
+  2 Go into the forest
+  3 Go into the cave
+  4 Go to the valley
+Make a selection: 3
+Choice 3 - Go into the cave
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Quitting the game</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Our specification mentioned that users may quit the game at any point, so we should add the code to make that possible.  Normal choices are numbers and they start at one, so let’s take the easy way out and say that zero quits the game. The <code>if</code> selection control structures can be used to recognize the quit command.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python"># ifiction.py
+#  - An interactive fiction game
+
+import textwrap
+
+description = &quot;You are standing in a field. To the north of you are some mountains, &quot; \
+              &quot;to the east of you is a forest, to the west of you is a cave, and to &quot; \
+              &quot;the south of you is a valley.&quot;
+
+print textwrap.fill(description)
+
+# The list of choices available to the user.
+paths = [
+    &quot;Go to the mountains&quot;,
+    &quot;Go into the forest&quot;,
+    &quot;Go into the cave&quot;,
+    &quot;Go to the valley&quot;
+]
+
+for i in range(0, len(paths)):
+    path = paths[i]
+    menu_item = i + 1
+    print &quot;\t&quot;, menu_item, path
+
+print &quot;\t(0 Quit)&quot;
+choice = int( raw_input(&quot;Make a selection: &quot;)
+
+if choice == 0:
+    print &quot;Good bye!&quot;
+else:
+    print &quot;Choice&quot;, choice, &quot;-&quot;, paths[choice-1]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>A little note about being careful. I spent five minutes debugging the above code. I kept getting <code>Choice 3 Go into the cave</code>, for every non-zero choice I entered. Turns out that I had cut and pasted some debugging code from earlier which was using the <code>i</code> variable. <code>i</code> was last set to <code>3</code>, so that’s what Python kept printing for me. It can be very easy to get distracted while writing code, and although Python can catch a lot of errors, you must keep an eye out for little mistakes like that. Once I replace <code>i</code> with <code>choice</code> in the last line, everything was happy.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now, why did I use the <code>int</code> function on the user input? Keyboard input comes to you in the form of a String, which is a different <em class="link-missing">type</em> than numbers. If we want to be able to use the input as an index for the <code>paths</code> list, we need a way to turn that String into an integer, or whole number. This is exactly what <code>int</code> does. What happens when the user entry can’t be turned into a number? That’s part of the next topic.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Ensuring valid choices</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>User input needs to be in the form of a number. Not only that, but that number needs to be a valid index for <code>paths</code>. If either of these turns out to be false, Python panics. Let’s explore this in the shell. As a special treat, I’ll show you a glimpse at making functions in Python.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-pycon">&gt;&gt;&gt; def get_index():
+...     list = [ 10, 20, 30 ]
+...     prompt = &quot;Pick a number (0 - 2): &quot;
+...     index = int( raw_input(prompt) )
+...     print list[index]
+...
+&gt;&gt;&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>If you make a mistake, hit Enter twice to end the function definition and start over. Don’t forget your indentation! Incidentally, I chose to put the prompt in its own variable because all of those parentheses on the same line were making me a little dizzy.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Test <code>get_index</code> with a valid number first.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-pycon">&gt;&gt;&gt; get_index()
+Pick a number (0 - 2): 0
+10
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What happens when you enter a number that’s too big? Try it and see.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-pycon">&gt;&gt;&gt; get_index()
+Pick a number (0 - 2): 20
+Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in ?
+  File &quot;&lt;stdin&gt;&quot;, line 5, in get_index
+IndexError: list index out of range
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Python raises an <em>exception</em> at you whenever it encounters a situation it can’t handle on its own. An exception is a special type of object that is specially used for errors, accidents, or plain old weird events in your program. You can plan for them, though, and try to handle them when they happen. That is going to require a new kind of block: The <code>try</code> block. This sort of block is easier to understand in the context of a full program, so let’s go back to <code>ifiction.py</code>. We’ll start with catching every kind of exception in one go:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python"># ifiction.py
+#  - An interactive fiction game
+
+import textwrap
+
+description = &quot;You are standing in a field. To the north of you are some mountains, &quot; \
+              &quot;to the east of you is a forest, to the west of you is a cave, and to &quot; \
+              &quot;the south of you is a valley.&quot;
+
+print textwrap.fill(description)
+
+# The list of choices available to the user.
+paths = [
+    &quot;Go to the mountains&quot;,
+    &quot;Go into the forest&quot;,
+    &quot;Go into the cave&quot;,
+    &quot;Go to the valley&quot;
+]
+
+for i in range(0, len(paths)):
+    path = paths[i]
+    menu_item = i + 1
+    print &quot;\t&quot;, menu_item, path
+
+print &quot;\t(0 Quit)&quot;
+
+try:
+    choice = int( raw_input(&quot;Make a selection: &quot;) )
+
+    if choice == 0:
+        print &quot;Good bye!&quot;
+    else:
+        print &quot;Choice&quot;, choice, &quot;-&quot;, paths[choice-1]
+except:
+    print choice, &quot;is not a valid selection!&quot;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>A <code>try</code> block usually has at least 2 parts:</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>try</code>: The code we think might cause an exception to be raise</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>One or more <code>except</code> blocks: tells Python what to do when an exception is encountered</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We can specify what exceptions we would expect to see, but that is more than I want to look at right now. We’ll just put up a single <code>except</code> block that will catch every exception raised within the <code>try</code> block.  We can test the code by entering a number that is too large.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">You are standing in a field. To the north of you are some mountains,
+to the east of you is a forest, to the west of you is a cave, and to
+the south of you is a valley.
+        1 Go to the mountains
+        2 Go into the forest
+        3 Go into the cave
+        4 Go to the valley
+        (0 Quit)
+Make a selection: 20
+Choice 20 - 20 is not a valid selection!
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This is odd-looking. Our error message prints at exactly the spot where the exceptional situation was encountered: trying to access <code>paths[19]</code>.  Well, at least I’ve illustrated exactly how dynamic Python is. It doesn’t look ahead to see if something bad is going to happen, so it has to trust us to know when to look for an error. I think it would be a little cleaner to put the choice description in its own variable before printing it.  That way we get an exception before we try to give normal feedback to the user.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">try:
+    choice = int( raw_input(&quot;Make a selection: &quot;) )
+
+    if choice == 0:
+        print &quot;Good bye!&quot;
+    else:
+        next_step = paths[choice-1]
+        print &quot;Choice&quot;, choice, &quot;-&quot;, next_step
+except:
+    print choice, &quot;is not a valid selection!&quot;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Our code is starting to get a little long to show the whole thing for every little change, so I have decided to focus on the chunk of code that is being modified. Anyways, you can see that I have made a new <code>next_step</code> variable. Python will raise the exception about bad indexing here, instead of in the middle of printing out feedback. We have also made the code more readable in the process, which is a nice thing.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">You are standing in a field. To the north of you are some mountains,
+to the east of you is a forest, to the west of you is a cave, and to
+the south of you is a valley.
+        1 Go to the mountains
+        2 Go into the forest
+        3 Go into the cave
+        4 Go to the valley
+        (0 Quit)
+Make a selection: 20
+20 is not a valid selection!
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Our input code handles bad indexes. Test the code again by entering a non-number for <code>choice</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">You are standing in a field. To the north of you are some mountains,
+to the east of you is a forest, to the west of you is a cave, and to
+the south of you is a valley.
+        1 Go to the mountains
+        2 Go into the forest
+        3 Go into the cave
+        4 Go to the valley
+        (0 Quit)
+Make a selection: steak and eggs
+Traceback (most recent call last):
+  File &quot;ifiction.py&quot;, line 35, in ?
+    print choice, &quot;is not a valid selection!&quot;
+NameError: name 'choice' is not defined
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Oops. I raised a whole new exception because <code>choice</code> isn’t defined until <em>after</em> it’s converted to a number, but I referred to it in the <code>except</code> block. Another intermediate variable will save us from that error.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">try:
+    choice = raw_input(&quot;Make a selection: &quot;)
+    menu_selection = int(choice)
+
+    if menu_selection == 0:
+        print &quot;Good bye!&quot;
+    else:
+        index = menu_selection - 1
+        next_step = paths[ index ]
+        print &quot;Choice&quot;, menu_selection, &quot;-&quot;, next_step
+except:
+    print choice, &quot;is not a valid selection!&quot;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There are several very small changes here. <code>choice</code> now refers only to the raw user input, and we have created a new variable <code>menu_selection</code> to hold the choice converted to an integer. This means we had to adjust the variable names where we were really talking about the number the user provided and not the keystrokes. You might have noticed that I created an <code>index</code> variable in the <code>else</code> block. This is a personal taste thing. I often start out using a raw expression and later replace it with a variable when I think it would make my meaning clearer.  The “start sloppy and refine as you go” approach happens to work for me, but use whatever tactic you are most comfortable with.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">Make a selection: an iced coffee would good right now
+an iced coffee would good right now is not a valid selection!
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Right. We can recognize bad input from the user. What do we want to do about it? The best approach may be to continue asking the user for input until we get something acceptable for the next step that she wants to take. We can use a simple <code>while</code> loop to handle this.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python"># Keep asking for input until we have a valid choice for the next step
+next_step = None
+while next_step == None:
+    try:
+        choice = raw_input(&quot;Make a selection: &quot;)
+        menu_selection = int(choice)
+
+        if menu_selection == 0:
+            next_step = &quot;quit&quot;
+        else:
+            index = menu_selection - 1
+            next_step = paths[ index ]
+            print &quot;Choice&quot;, choice, &quot;-&quot;, next_step
+    except:
+        print choice, &quot;is not a valid selection!&quot;
+
+print &quot;You decided to:&quot;, next_step
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now we’ve given our user endless opportunities to enter a valid choice.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">Make a selection: Rad
+Rad is not a valid selection!
+Make a selection: 42
+42 is not a valid selection!
+Make a selection: 0
+You decided to: quit
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What is going on here? We have created a variable <code>next_step</code> and assigned it the value of … <code>None</code>? We are going to be using <code>next_step</code> in the test condition of our loop, and Python will complain to us if the variable isn’t defined before we start testing its value.  Using the <code>None</code> value is more convenient than arbitrarily declaring a particular value to be invalid and using that. <code>None</code> is a special value meaning “nothing at all” - not even the numeric value of zero. Think of the statement <code>next_step = None</code> as our way to tell Python “I plan on using a variable called <code>next_step</code> but I don’t have a value for it yet. Just remember that I told you I wanted the variable.”</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now for the <code>while</code> loop. We specify a condition here, similar to the way we did with <code>if</code> earlier. The condition is that <code>next_step</code> must not be <code>None</code>. It is an easy enough requirement. The test will fail if we successfully assign a <code>next_step</code> in the loop.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Catching specific exceptions</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There is one more minor issue to take care of before we wrap up this stage of writing the game. It is good that we are handling exceptions raised from user input, but we are catching <em>every</em> exception that is raised. This doesn’t sound like a bad thing until you remember that our error message is really written for a specific kind of error: the user entered something that can’t be used by our menu handler. There are <a href="https://docs.python.org/2/library/exceptions.html" title="Python built-in exceptions summary">many things</a>) that can go wrong in a Python code.  We don’t want to be handling exceptions that we aren’t ready for. Why not? The error messages won’t make sense, for starters. Say you decided to hit <code>Control-C</code> in the program to force quit. Here’s what we end up seeing:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">Make a selection: ^CTraceback (most recent call last):
+  File &quot;ifiction.py&quot;, line 40, in ?
+    print choice, &quot;is not a valid selection!&quot;
+NameError: name 'choice' is not defined
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="warning"><header>warning</header><p>Please don’t explore this with other types of bad input. You could end up with a Python process that won’t quit unless you force it to quit from your task / process manager.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The problem is that the original exception was a <code>KeyboardInterrupt</code>. We don’t see that here, because we referred to <code>choice</code> which isn’t defined until the user provides some input. This causes a <code>NameError</code> to be raised, which hides the original exception. Python usually tells you only about the most recent exception that happened. If something truly unexpected happens here, we will never know about it. Python normally tells you about the most recent exception only.
+We caused a <code>KeyboardInterrupt</code> by hitting <code>Control-C</code>. Python sees our catch-all <code>except</code> block and hands the <code>KeyboardInterrupt</code> exception to that block. Inside the block, we try to include the menu choice in our error message. Unfortunately, <code>choice</code> hasn’t been defined yet. We never entered a choice! This is a whole new exception, and we don’t have any code to handle it. Python’s rule is to always stop and inform you of the first unhandled exception it encounters. and because of the way we defined and wrote our <code>except</code> block, every exception is treated like bad input - from <code>Control-C</code> to a missing hard drive. As far as Python is concerned, we’ve handled the <code>KeyboardInterrupt</code>. The <code>NameError</code> caused by <code>choice</code> <em>in</em> the exception handler is the surprise that makes Python panic.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That is enough of a lecture. I am sure you understand by now that we want to be specific about what exceptions we are ready for. It is time to make it happen. The two exceptions that we care about are:</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><strong>IndexError</strong></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>we tried to use a bad number as a list index</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><strong>ValueError</strong></p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>the user input couldn’t be converted to a number</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let’s add a handler for IndexError.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">while next_step == None:
+    try:
+        choice = raw_input(&quot;Make a selection: &quot;)
+        menu_selection = int(choice)
+
+        if menu_selection == 0:
+            next_step = &quot;quit&quot;
+        else:
+            index = menu_selection - 1
+            next_step = paths[ index ]
+            print &quot;Choice&quot;, choice, &quot;-&quot;, next_step
+    except IndexError:
+        print choice, &quot;is not a valid selection!&quot;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This change now handles <code>IndexError</code> just fine. Look at what happens when we hit <code>Control-C</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">Make a selection: ^CTraceback (most recent call last):
+  File &quot;ifiction.py&quot;, line 30, in ?
+    choice = raw_input(&quot;Make a selection: &quot;)
+KeyboardInterrupt
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Of course, we’re only looking for <code>IndexError</code>, so look what happens right now if we enter something that isn’t a number.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">Make a selection: mmm coffee
+Traceback (most recent call last):
+  File &quot;ifiction.py&quot;, line 31, in ?
+    menu_selection = int(choice)
+ValueError: invalid literal for int(): mmm coffee
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now we add the code to handle <code>ValueError</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">except IndexError:
+    print choice, &quot;is not a valid selection!&quot;
+except ValueError:
+    print choice, &quot;is not a valid selection!&quot;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Yes, Python can handle multiple <code>except</code> blocks just fine. This can be very handy. A calculator program would want to handle “no input” differently from “user tried to divide by zero.” What does the program look like with these changes?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">Make a selection: 12
+12 is not a valid selection!
+Make a selection: Can I have a banana?
+Can I have a banana? is not a valid selection!
+Make a selection: ^CTraceback (most recent call last):
+  File &quot;ifiction.py&quot;, line 30, in ?
+    choice = raw_input(&quot;Make a selection: &quot;)
+KeyboardInterrupt
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Wonderful! Our exception handling code is now behaving politely instead of trying to grab every exception that occurs. Now for the style issue. Both of our <code>except</code> blocks do exactly the same thing. I suppose we could have a slightly different error message for each kind of exception, and you are free to do exactly that. It’s not something I’m concerned about, though. I am comfortable with using the same error message. I <em>would</em> prefer to cut down on the repetition.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">except (IndexError, ValueError):
+    print choice, &quot;is not a valid selection!&quot;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I would like to look again at this code in the future, but for now it is good enough.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We can handle multiple exceptions in the same <code>except</code> block by placing the exception types in a special list called a <em>tuple</em>.  I am not going to spend any time on tuples, because I worry that it would only confuse things. All you need to remember right now is that a tuple looks like an ordinary list using <code>()</code> instead of <code>[]</code> to wrap it, and that you should use normal lists unless I tell you otherwise.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It looks like we have all the code we need for handling a single round in our game. I had to cover more new concepts than I thought, because things can become complicated when we start doing things with user input. We dabbled into importing modules thanks to the way things were printing out in my shell. We looked at the common control structures for selection and repetition, and we examined <code>try</code> for trying out code that we know can misbehave. Here’s the full source of what we’ve done so far, along with a couple of additional comments intended to clarify what the program is doing.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>ifiction.py</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python"># ifiction.py
+#  - An interactive fiction game
+
+import textwrap
+
+description = &quot;You are standing in a field. To the north of you are some mountains, &quot; \
+              &quot;to the east of you is a forest, to the west of you is a cave, and to &quot; \
+              &quot;the south of you is a valley.&quot;
+
+print textwrap.fill(description)
+
+# The list of choices available to the user.
+paths = [
+    &quot;Go to the mountains&quot;,
+    &quot;Go into the forest&quot;,
+    &quot;Go into the cave&quot;,
+    &quot;Go to the valley&quot;
+]
+
+# Show the menu for this scene.
+for i in range(0, len(paths)):
+    path = paths[i]
+    menu_item = i + 1
+    print &quot;\t&quot;, menu_item, path
+
+print &quot;\t(0 Quit)&quot;
+next_step = None
+
+# Get the user selection from the menu.
+while next_step == None:
+    try:
+        choice = raw_input(&quot;Make a selection: &quot;)
+        menu_selection = int(choice)
+
+        if menu_selection == 0:
+            next_step = &quot;quit&quot;
+        else:
+            index = menu_selection - 1
+            next_step = paths[ index ]
+            print &quot;Choice&quot;, choice, &quot;-&quot;, next_step
+    except (IndexError, ValueError):
+        print choice, &quot;is not a valid selection!&quot;
+
+print &quot;You decided to:&quot;, next_step
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now go take a break. I really mean it this time. We have covered a lot, and you need time to process. Listen to some music, have a sandwich, and come back when you’re ready.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

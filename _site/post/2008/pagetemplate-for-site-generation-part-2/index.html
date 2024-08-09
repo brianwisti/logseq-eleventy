@@ -1,0 +1,1080 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2008/PageTemplate for Site Generation Part 2
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2008-01-07</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’ve got my <a href="/ruby" class="page-link">Ruby</a> code filtering Markdown in <a href="/post/2008/pagetemplate-for-site-generation" class="page-link">post/2008/PageTemplate for Site Generation</a> and now I want to stuff that filtered content into an HTML page. I could just use <code>maruku#to_html_document</code>, but I need the ability to add details like a title and site-related links.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I could use a format similar to <a href="/post/2007/python-loves-blogger-part-1" class="page-link">post/2007/Python Loves Blogger (Part 1)</a> . I won’t really need PageTemplate if I do that, though. Not for the content file, anyways. That’s okay, though. The Maruku filter was more of a proof-of-concept, anyways. PageTemplate will be useful for fitting the generated content into an actual template, though.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That means I’m starting over on my content files.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Given a content file that looks like this:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>title: A Simple Page
+--
+This page intentionally left blank.
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I want an object that makes the title available in some way (simple Hash style access is fine), and makes the HTML-formatted content available. After a few minutes of fiddling and poking around, I end up with tests and application code.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Article Test Code</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">#!/usr/local/bin/ruby
+
+require 'test/unit'
+require 'SiteTemplate'
+
+class TC_Article &lt; Test::Unit::TestCase
+    def test_article_file()
+        article_file = 'simple.txt'
+        assert(article = Article.new(article_file))
+        assert_equal(article_file, article.source_file)
+        assert_equal('A Simple Page', article.metadata['title'])
+        assert(article.content =~ %r{&lt;p&gt;This page intentionally left blank.&lt;/p&gt;})
+    end
+end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>The Application Code</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">#!/usr/local/bin/ruby
+
+require 'rubygems'
+require 'maruku'
+
+# A single HTML page generated by a content file
+#
+# Content files usually look like this:
+#
+#    title: My Title
+#    --
+#    Article contents
+class Article
+    attr_reader :source_file, :metadata, :content
+    def initialize(filename)
+        @metadata = {}
+        parse!(filename)
+    end
+
+    def parse!(filename)
+        @source_file = filename
+        content = ''
+        in_content = false
+        File.open(filename).each_line do |line|
+            if in_content then
+                content &lt;&lt; line
+            else
+                if line =~ /^--$/ then
+                    in_content = true
+                    next
+                end
+
+                if line =~ /^(\w+?):\s*(.+)$/ then
+                    key = $1
+                    value = $2
+                    @metadata[key] = value
+                end
+            end
+        end
+
+        @content = Maruku.new(content).to_html
+    end
+end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It’s a really simple, slow parser, but it works. I won’t try to optimize it before I’ve actually figured out what it’s supposed to be doing.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>The Template</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The next target is stuffing this content into a template. That’s <em>easy</em>. Here’s the template:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>simple.html</code> Template File</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-html">&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;[%var title%]&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;h1&gt;[%var title%]&lt;/h1&gt;
+        [%var content%]
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I could assemble my page manually if I felt like it. As a matter of fact, let’s do that in one of the tests.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Manual Page Generation Test</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">require 'PageTemplate'
+
+class TC_HTML_Page &lt; Test::Unit::TestCase
+    def test_manual_page_generation()
+        article_file = 'simple.txt'
+        template = PageTemplate.new()
+        template.load('simple.html')
+        article = Article.new(article_file)
+        template['title'] = article.metadata['title']
+        template['content'] = article.content
+        assert_match(%r{&lt;title&gt;A Simple Page&lt;/title&gt;}, template.output)
+    end
+end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Do I really want to manually apply even that little bit of code, though? No, I don’t.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Automatic Page Generation Test</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">class TC_HTML_Page &lt; Test::Unit::TestCase
+    def test_standard_page_generation
+        article_file = 'simple.txt'
+        template_file = 'simple.html'
+        assert(html_page = HTML_Page.new(:article =&gt; article_file, :template =&gt; template_file))
+        assert_match(%r{&lt;title&gt;A Simple Page&lt;/title&gt;}, html_page.to_html)
+        assert_match(%r{&lt;p&gt;This page}, html_page.to_html)
+    end
+end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Automatic Page Generation Code</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">require 'PageTemplate'
+
+class HTML_Page
+    def initialize(opts = {})
+        @article = Article.new(opts[:article])
+        @template = PageTemplate.new()
+        @template.load(opts[:template])
+    end
+
+    def to_html()
+        @template['title'] = @article.metadata['title']
+        @template['content'] = @article.content
+        return @template.output
+    end
+end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Saving a File</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Okay, now I have article files with content and metadata being consumed, formatted, and handed off to PageTemplate for wrapping into a pretty HTML page. The only thing remaining at this stage is to actually <em>write</em> the file.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Test Writes</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">require 'fileutils'
+
+class TC_HTML_Page &lt; Test::Unit::TestCase
+
+    def test_standard_page_generation
+        article_file = 'simple.txt'
+        template_file = 'simple.html'
+        output_file   = 'test/out.simple.html'
+        FileUtils::rm_rf(output_file)
+        assert(html_page = HTML_Page.new(
+            :article     =&gt; article_file,
+            :template    =&gt; template_file,
+            :output_file =&gt; output_file))
+        assert_match(%r{&lt;title&gt;A Simple Page&lt;/title&gt;}, html_page.to_html)
+        assert_match(%r{&lt;p&gt;This page}, html_page.to_html)
+
+        html_page.write_to_file
+        assert(saved_html = File.open(output_file).read())
+        assert_match(%r{&lt;title&gt;A Simple Page&lt;/title&gt;}, saved_html)
+        assert_match(%r{&lt;p&gt;This page}, saved_html)
+        FileUtils::rm_rf(output_file)
+    end
+end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Code to Make the Writes Happen</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Oh heck, just take the whole thing. This is what my <code>SiteTemplate.rb</code> file looks like right now.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">#!/usr/local/bin/ruby
+
+require 'rubygems'
+require 'fileutils'
+require 'maruku'
+require 'PageTemplate'
+
+# A single HTML page generated by a content file
+#
+# Content files usually look like this:
+#
+#    title: My Title
+#    --
+#    Article contents
+class Article
+    attr_reader :source_file, :metadata, :content
+    def initialize(filename)
+        @metadata = {}
+        parse!(filename)
+    end
+
+    def parse!(filename)
+        @source_file = filename
+        content = ''
+        in_content = false
+        File.open(filename).each_line do |line|
+            if in_content then
+                content &lt;&lt; line
+            else
+                if line =~ /^--$/ then
+                    in_content = true
+                    next
+                end
+
+                if line =~ /^(\w+?):\s*(.+)$/ then
+                    key = $1
+                    value = $2
+                    @metadata[key] = value
+                end
+            end
+        end
+
+        @content = Maruku.new(content).to_html
+    end
+end
+
+# Takes an Article and a PageTemplate and mushes them together
+# Note: This version still assumes that needed metadata will
+# be available. This is not a safe assumption.
+class HTML_Page
+    def initialize(opts = {})
+        @article = Article.new(opts[:article])
+        @template = PageTemplate.new()
+        @template.load(opts[:template])
+        @output_file = opts[:output_file]
+    end
+
+    def to_html()
+        @template['title'] = @article.metadata['title']
+        @template['content'] = @article.content
+        return @template.output
+    end
+
+    def write_to_file()
+        FileUtils::mkdir_p(File.dirname(@output_file))
+        File.open(@output_file, 'w') { |f| f.print to_html }
+    end
+end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Wrapup</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This stage is done. We’ve taken some article files that look a lot like my blog files and turned them into fully-fleshed HTML files. They will fit into a PageTemplate that’s been defined by the site maintainer, guaranteeing a standard look for the site.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>My next post on this topic will deal with putting an <code>HTML_Page</code> into the context of a larger site.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

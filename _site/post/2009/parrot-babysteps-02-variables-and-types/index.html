@@ -1,0 +1,3784 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2009/Parrot Babysteps 02 - Variables and Types
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2009-07-11</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’ve always felt that learning the core types of a platform is boring. Once you’ve learned a few languages, you know the difference between an integer and a floating point number, what a string is, and have a general idea for how you work with each of them. You mainly care about the details of how you work with them in your new platform. It is important to learn these details, though.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We already looked at variables when we wrote the simple “Hello, World” program in <a href="/post/2009/parrot-babysteps-01-getting-started" class="page-link">post/2009/Parrot Babysteps 01 - Getting Started</a> .  We looked at the different variable types and the registers that <a href="/parrot" class="page-link">Parrot</a> uses to hold them. Today we’re going to dive a  little deeper into variables and types so that you can get the basic idea of what  you can do with variables in Parrot. I won’t be digging <em>too</em> deep, though. In particular, I will be talking as little about PMCs as I can. It’s just too much for where we’re at today.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Variable Names</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Names become important when you’re using variables. Good names add documentation by telling people who look at your code what a given variable is going to be used for. Parrot has two naming schemes: one for register variables, and another for everything else.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Register Variable Names</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Register variable rules are easy to remember. First comes the register being used, then one or more digits.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>&lt;register&gt;&lt;identifier&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The registers are named with a dollar sign (<code>$</code>), then an upper case letter indicating what types are held in that register:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <table>
+<thead>
+<tr>
+<th>Register</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>$I</code></td>
+<td>Integers</td>
+</tr>
+<tr>
+<td><code>$N</code></td>
+<td>Numbers (decimal values)</td>
+</tr>
+<tr>
+<td><code>$S</code></td>
+<td>Strings</td>
+</tr>
+<tr>
+<td><code>$P</code></td>
+<td>Polymorphic Containers</td>
+</tr>
+</tbody>
+</table>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I thought that the number after the register identifier was something that tells Parrot something especially meaningful, like which slot it’s using or something. Turns out that’s not the case, or at least not in quite the way I thought it was.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-02-01.pir
+.sub main :main
+  $I01 = 10
+  $I1  = 20
+  say $I01
+  say $I1
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>01</code> and <code>1</code> are the same number according to the numbering systems that I’m familiar with. Look what happens when you run it, though.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ parrot example-02-01.pir
+10
+20
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>So the numbers are just a sequence of characters identifying the variable for the register. They don’t indicate order or anything else. The register takes care of storing variables and lets you use those numbers however you want. But if I see you <code>$I01</code> and <code>$I1</code> in your code without a good reason I might have to slap you. Well, no. I will be disappointed, though.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’ve already said that I prefer <code>.local</code> variables. They’re more explicit than using the register, and I’ve generally found that more explicit code is easier to read and maintain. Nevertheless, register variables have a certain charm. You don’t have to declare them, for starters. Just say “Hey, set <code>$I1</code> to <code>10</code>” and move on to the next instruction. You also don’t have to spend any time coming up with a clever name. As long as <em>you</em> remember what the numbers mean and document it somewhere, it’s all good. That makes register variables ideal for short chunks of code.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It does get confusing as your program grows larger or if you are like me and can quickly forget what you were using a variable for. That’s when <code>.local</code> variables become valuable.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>.local</code> Variable Names</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Local variables are more complicated than register variables, but they have additional features which make them useful. I’ve already talked about how the names can be made meaningful. They also only exist in the subroutine where they are defined, which is a lifesaver in large programs. The format of a local variable declaration makes it easy to understand when you will be using it and what you plan to use it for.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Local variables are declared with the <code>.local</code> directive, followed by a type identifier and finally the name of the variable.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>.local &lt;type-identifier&gt; &lt;name&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I briefly described the type identifiers last time, but here they are again.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <table>
+<thead>
+<tr>
+<th>Identifier</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>int</code></td>
+<td>integer</td>
+</tr>
+<tr>
+<td><code>num</code></td>
+<td>number (decimal values)</td>
+</tr>
+<tr>
+<td><code>string</code></td>
+<td>string</td>
+</tr>
+<tr>
+<td><code>pmc</code></td>
+<td>Polymorphic container</td>
+</tr>
+</tbody>
+</table>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now for the name. It needs to start with a letter or underscore (<code>_</code>) character, and the rest must only contain letters, digits, or underscores. Variable names are case sensitive, so <code>year</code>, <code>YEAR</code>, and <code>Year</code> all describe different variables. A variable name may have any length, but keep it reasonable.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The only other rule to remember about variable names is that they may not be <em>reserved words</em>. Reserved words have special meaning to Parrot, and it will complain if you use one of them for your own nefarious ends. The list of reserved words is  delightfully small.</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>goto</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>if</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>int</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>null</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>num</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>pmc</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>string</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>unless</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Assignment</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Remember that declaring a local variable and assigning a value to it are two different actions, and require two separate instructions.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-02-02.pir
+.sub main :main
+  .local int year
+  year = 2010
+  say year
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>.const</code> Variables</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Actually, that earlier guideline about constant variables reminded me: Parrot has a directive for declaring and assigning a value for a local constant variable. Use the <code>.const</code> directive when you want a variable that won’t somehow change in value after you’ve created it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>.const &lt;type-identifier&gt; &lt;name&gt; = &lt;value&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Here’s an example of <code>.const</code> in action: calculating the area of a circle with a radius of 10 units.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-02-03.pir
+.sub main :main
+  .const num PI     = 3.14159
+  .const num RADIUS = 10
+  .local num area
+
+  print &quot;Radius: &quot;
+  say RADIUS
+
+  # Area of a circle: PI * RADIUS * RADIUS
+  area  = PI
+  area *= RADIUS
+  area *= RADIUS
+  print &quot;Area: &quot;
+  say area
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>PI</code> and <code>RADIUS</code> are the constants in this program. We define them once and never need to change them again. Area, on the other hand, is a local because it needs to be touched several times to get the final value.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ parrot example-02-03.pir
+Radius: 10
+Area: 314.159
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This is where developers experienced with other languages should see the low-level nature of PIR. Those operators correspond to opcodes, and PIR only wants to see one opcode per statement. That’s why the formula is broken down into distinct steps.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I think we’ve got a solid grip on declaration and basic usage of both local and register variables. On to the types.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Variable Types</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You know what the types are: integers, numbers, strings, and polymorphic containers. You also know the rough outline of what they look like.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Numeric Types</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>When you need to do math, it’s time for integers and numbers.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Integers</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Integers are whole numbers such as <code>3</code>, <code>94</code>, and <code>-48183</code>. They are signed, which means that you can create positive or negative values. Each integer takes up the same amount of memory. How much memory do they take up? Well, that depends on your system and how Parrot was compiled. 32-bit Parrot uses 4 bytes for integers, while it’s presumably 8 bytes on 64-bit Parrot. The <a href="http://docs.parrot.org/parrot/latest/html/src/dynoplibs/sys.ops.html"><code>sysinfo</code></a>   opcode can tell us for sure.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-02-04.pir
+.loadlib 'sys_ops'
+.include 'sysinfo.pasm'
+
+.sub 'main' :main
+    $I0 = sysinfo .SYSINFO_PARROT_INTSIZE
+    print $I0
+    say &quot; bytes in an integer on this machine&quot;
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Parrot keeps only the most important opcodes in its core. A question like “how many bytes are in an integer?” is just not considered all that important most of the time. The <code>.loadlib</code> directive allows us to load special Parrot bytecode libraries that have been compiled so that they are more efficient on the virtual machine. The <code>.include</code> directive lets us use code that is written in PIR but has not been compiled or otherwise treated in any special way. There are fine differences between them, but I think that’s the important one. We will often use the <code>.loadlib</code> and <code>.include</code> directives to grab functionality that is not available in core Parrot.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What does this code tell us?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ parrot example-02-04.pir
+4 bytes in an integer on this machine
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’m using a 32-bit Parrot, which gives my integers a range of <code>-2,147,483,648</code> to <code>2,147,483,647</code>. That will be more than sufficient for our purposes, and there’s the <a href="http://docs.parrot.org/parrot/latest/html/src/pmc/bigint.pmc.html"><code>BigInt</code></a> PMC for those days when we need truly huge integers.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Most often you’ll create integers using the 10-based system, but every once in a while it will be more informative to use base 8, base 16, or even binary. Parrot supports that.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-02-05.pir
+.sub main :main
+    $I0 = 10   # decimal (base 10)
+    say $I0
+    $I0 = 0o10 # octal (base 8)
+    say $I0
+    $I0 = 0x10 # hexadecimal (base 16)
+    say $I0
+    $I0 = 0b10 # binary (base 2)
+    say $I0
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now I can see the value described by <code>10</code> in decimal, octal, hex, and binary. My life is complete.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ parrot example-02-05.pir
+10
+8
+16
+2
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That wasn’t as fulfilling as I’d hoped. Perhaps my life is not complete after all. I might as well move on to floating point numbers.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Numbers</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The Number type is used by Parrot to represent <a href="http://en.wikipedia.org/wiki/Floating_point">floating point values</a>. These are more or less the same as the decimal numbers you may be more familiar with.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Like integers, numbers may be positive or negative and have a range that depends on their size. <code>sysinfo</code> can get that size for us.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-02-06.pir
+.loadlib 'sys_ops'
+.include 'sysinfo.pasm'
+
+.sub 'main' :main
+    $I0 = sysinfo .SYSINFO_PARROT_FLOATSIZE
+    print $I0
+    say &quot; bytes in a number on this machine&quot;
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now we know how much space is used for a number in Parrot.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ parrot example-02-06.pir
+8 bytes in a number on this machine
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What does that mean, though? Integers are easy: 4 bytes is 32 bits is somewhere over 4 billion possible values. With numbers - well, I have no idea really. The range is “some insanely small value” to “some insanely big value”. Look at Wikipedia’s entry on <a href="https://en.wikipedia.org/wiki/Double_precision">double precision floating point</a> if you really want to know.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You can use ordinary decimal values or scientific notation for number values.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$N0 = 3.1415926
+$N1 = 6.0221415e+23
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What can you do with numbers?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Numeric Operators and Opcodes</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Operators in PIR provide a convenient and fairly readable shorthand for opcode instructions. It’s generally easier for me to remember <code>sum = a + b</code> than <code>add sum, a, b</code>. If the second option is more readable for you, that’s great! It’s not for me.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There are many operators, but here are what I think of as the core operators for dealing with numbers.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <table>
+<thead>
+<tr>
+<th>Operator</th>
+<th>Opcode</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>=</code></td>
+<td><code>set</code></td>
+<td>assign a value</td>
+</tr>
+<tr>
+<td><code>*</code></td>
+<td><code>mul</code></td>
+<td>multiply</td>
+</tr>
+<tr>
+<td><code>/</code></td>
+<td><code>div</code></td>
+<td>divide</td>
+</tr>
+<tr>
+<td><code>+</code></td>
+<td><code>add</code></td>
+<td>add</td>
+</tr>
+<tr>
+<td><code>-</code></td>
+<td><code>sub</code></td>
+<td>subtract</td>
+</tr>
+<tr>
+<td><code>*=</code></td>
+<td><code>mul</code></td>
+<td>multiply and assign</td>
+</tr>
+<tr>
+<td><code>/=</code></td>
+<td><code>div</code></td>
+<td>divide and assign</td>
+</tr>
+<tr>
+<td><code>+=</code></td>
+<td><code>add</code></td>
+<td>add and assign</td>
+</tr>
+<tr>
+<td><code>-=</code></td>
+<td><code>sub</code></td>
+<td>subtract and assign</td>
+</tr>
+</tbody>
+</table>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Just for laughs - and to see how the operators fill in for opcodes - let’s rewrite the area program using opcodes and register variables instead of operators, local variables, and constants.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-02-07.pir
+.sub main :main
+    set $N0, 3.14159
+    set $N1, 10
+
+    print &quot;Radius is &quot;
+    say $N1
+
+    # Calculate the area.
+    set $N2, $N0
+    mul $N2, $N1
+    mul $N2, $N1
+    print &quot;Area is &quot;
+    say $N2
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Actually, this isn’t all that hard to read. Still, the operators are more familiar to me and I’m more comfortable with variables that have names. I’ll continue using them. Parrot doesn’t care.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let’s have a little fun and add interaction to our original area calculator.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-02-08.pir
+.sub main :main
+    .const num PI = 3.1415926
+    .const string PROMPT = &quot;Radius: &quot;
+
+    .local num radius
+    .local num area
+    .local pmc stdin
+
+    stdin = getstdin
+    radius = stdin.'readline_interactive'(PROMPT)
+    area = PI
+    area *= radius
+    area *= radius
+    print &quot;Area: &quot;
+    say area
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>For some reason, adding user interaction always makes a program seem more entertaining to me. Even a silly program that figures out something you could use a calculator for.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ parrot example-02-08.pir
+Radius: 10
+Area: 314.15926
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Type Conversion</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’m not sure if you noticed, but I didn’t bother converting the user input to a number before assigning it to <code>radius</code>. Oh, you noticed? You get a gold star.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The <code>=</code> operator takes care of such conversions automatically, allowing you to do things like get a string of input text from the user and treat it as the radius of a circle without having an intermediate step of using a temporary string variable to hold the user input. Actually, the more I think about what it would take to convert a string to an integer or floating point number, the happier I am that Parrot does it for me. PIR isn’t exactly a <a href="https://en.wikipedia.org/wiki/Low-level_programming_language">low level language</a>, even though it is lower than what I’m used to.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Opcodes For Integers</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I won’t be playing with them much today, but I thought you should know that there are many <a href="https://docs.parrot.org/parrot/latest/html/src/ops/math.ops.html">math-related</a> opcodes.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Hypotenuse Finder</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Here’s a little program to find the hypotenuse of a triangle. Maybe you remember the <a href="https://en.wikipedia.org/wiki/Pythagorean_theorem">Pythagorean theorem</a> from school:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <blockquote>
+<p>In any right triangle, the area of the square whose side is the hypotenuse (the side opposite the right angle) is equal to the sum of the areas of the squares whose sides are the two legs (the two sides that meet at a right angle).</p>
+</blockquote>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The formula looks like this:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>$$C^2 = a^2 + b^2$$</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Calculating the hypotenuse is easy once we notice that there is a <code>sqrt</code> opcode for finding the square root of a number.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-02-09.pir
+.sub main :main
+    .local num a
+    .local num b
+    .local num c
+    .local num a_squared
+    .local num b_squared
+    .local num c_squared
+    .local pmc stdin
+
+    stdin = getstdin
+    a = stdin.'readline_interactive'('A: ')
+    b = stdin.'readline_interactive'('B: ')
+    a_squared = a * a
+    b_squared = b * b
+    c_squared = a_squared + b_squared
+    c = sqrt c_squared
+    print &quot;Hypotenuse: &quot;
+    say c
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Don’t look at me like that. Using a letter for a variable name makes perfect sense if you’re writing code that follows a well-established formula.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I did have to add specific variables to hold the squared values, because as far as I can tell PIR does not support chained math operations. On the other hand, I did get to save a lot of effort with the <code>sqrt</code> opcode. I didn’t even have to import a library.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ parrot example-02-09.pir
+A: 1
+B: 1
+Hypotenuse: 1.4142135623731
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We’ve learned a lot about how math works in Parrot. We’ve seen some operators and even looked at the math opcodes. Okay, a few. Okay, one. At least it’s a start.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let’s move on from numbers to take a closer look at strings.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Strings</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We have been using <a href="http://en.wikipedia.org/wiki/String_%28computer_science%29">strings</a> since the first step, but I haven’t spent much time describing them. That is because I have found them a little hard to explain. I can’t stall any longer, though.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>String Basics</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>A string is basically a sequence of characters tied together and treated like a single thing. There is <a href="http://en.wikipedia.org/wiki/String_%28computer_science%29">a <em>lot</em> more</a> to strings.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let’s take the string “Hello”. I see that as a word, but of course the computer doesn’t understand words the way we do. The computer sees a chain of symbols: “H”, “e”, “l”, “l”, and “o”. Really, it doesn’t even see that. It sees a chain of integers that can be displayed as the phrase “Hello”.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You know what? It doesn’t really matter. Remember that strings are basically text, but the fact that they aren’t really text means we treat them in all sorts of strange ways later. We don’t need to worry about those strange treatments today. It’s fine to say that a string is quoted text.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There are three ways to wrap your strings when assigning them:</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>single quotes</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>double quotes</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>heredocs</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Single-quoted strings are simple. Parrot assumes they are <a href="http://en.wikipedia.org/wiki/ASCII">ASCII encoded</a>, and very little magic happens when processing them.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$S0 = 'Hello World!'
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Double-quoted strings are a little more complex. Parrot assumes they are ASCII, but allows you to set the encoding yourself. Double-quoted strings also handle several backslash escapes. Encoding is easy in Parrot but I’m having a heck of a time getting Unicode to display on my machines, so I’ll skip encoding. I will talk about escapes in a few minutes.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$S1 = &quot;Hello World!\n&quot;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Heredocs are multi-line, which is a great convenience for larger strings. They can act like single-quoted strings or double-quoted strings, depending on the way they are created.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$S2 =&lt;&lt;&quot;EndS2&quot;
+Hello, World!
+Isn't it a lovely day?
+EndS2
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>If you like, we can whip up some quick code to show these string quoting methods in action.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-02-10.pir
+.sub main :main
+    $S0 = 'Hello World!'
+    $S1 = &quot;Hello World!\n&quot;
+    $S2 =&lt;&lt;&quot;EndS2&quot;
+Hello, World!
+Isn't it a lovely day?
+EndS2
+
+    say $S0
+    say $S1
+    say $S2
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I don’t think there are any surprises in this code.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ parrot example-02-10.pir
+Hello World!
+Hello World!
+
+Hello, World!
+Isn't it a lovely day?
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>So that’s the basics of quoting. Now what about escapes?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Backslash Escapes</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Backslash escapes make it possible for you to include normally unprintable characters in a string. For example, they allow tabs and quotation marks to be part of your string:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-02-11.pir
+.sub main :main
+    $S0 = &quot;Question:\tAren't you sick of \&quot;Hello World\&quot;?\n&quot;
+    print $S0
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>See?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ parrot example-02-11.pir
+Question:  Aren't you sick of &quot;Hello World&quot;?
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Here are my favorite backslash escapes:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <table>
+<thead>
+<tr>
+<th>Escape</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>\t</code></td>
+<td>Inserts a tab</td>
+</tr>
+<tr>
+<td><code>\n</code></td>
+<td>Inserts a newline</td>
+</tr>
+<tr>
+<td><code>\\</code></td>
+<td>Inserts a backslash</td>
+</tr>
+<tr>
+<td><code>\&quot;</code></td>
+<td>Inserts a double quote in double-quoted strings</td>
+</tr>
+<tr>
+<td><code>\'</code></td>
+<td>Inserts a single quote in single-quoted strings</td>
+</tr>
+<tr>
+<td><code>\a</code></td>
+<td>Rings an alarm</td>
+</tr>
+<tr>
+<td><code>\xhh</code></td>
+<td>Inserts character corresponding to the 2 byte hexadecimal value indicated by</td>
+</tr>
+<tr>
+<td><code>\uhhhh</code></td>
+<td>Inserts character corresponding to the 4 byte hexadecimal value indicated by <code>hhhh</code></td>
+</tr>
+</tbody>
+</table>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There are more escape sequences, but I tend to ignore them.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Single quoted strings only escape <code>\\</code> and <code>\'</code>. Everything else is passed through unchanged.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>String Operators</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We’ve already worked with the major string operators, but here they are to review.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <table>
+<thead>
+<tr>
+<th>Operator</th>
+<th>Opcode</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>=</code></td>
+<td><code>set</code></td>
+<td>assign a value</td>
+</tr>
+<tr>
+<td><code>.</code></td>
+<td><code>concat</code></td>
+<td>concatenate two strings</td>
+</tr>
+<tr>
+<td><code>.=</code></td>
+<td><code>concat</code></td>
+<td>concatenate and assign</td>
+</tr>
+</tbody>
+</table>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Opcodes For Strings</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You will almost definitely want to explore the <a href="http://docs.parrot.org/parrot/latest/html/src/ops/string.ops.html">string opcodes</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Playing With String</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We have already been doing some interesting things with strings. Well <em>I</em> think getting user input and converting it to numbers is interesting. The opcodes open up the possibilities for some more interesting statistics and transformations.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-02-12.pir
+.sub main :main
+    .const string PROMPT = &quot;Enter some text: &quot;
+    .local string text
+    .local int    text_length
+    .local string transformed
+    .local pmc    stdin
+
+    stdin = getstdin
+    text = stdin.'readline_interactive'(PROMPT)
+    print &quot;Number of characters: &quot;
+    text_length = length text
+    say text_length
+    print &quot;Uppercase: &quot;
+    transformed = upcase text
+    say transformed
+    print &quot;Lowercase: &quot;
+    transformed = downcase text
+    say transformed
+    print &quot;Title case: &quot;
+    transformed = titlecase text
+    say transformed
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Granted, it doesn’t do a whole lot.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ parrot example-02-12.pir
+Enter some text: BRian
+Number of characters: 5
+Uppercase: BRIAN
+Lowercase: brian
+Title case: Brian
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Still, I think this shows that there is good reason to study those <a href="http://docs.parrot.org/parrot/latest/html/src/ops/string.ops.html">string opcodes</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>PMCs</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Uh, no. I’m not ready to describe polymorphic containers yet. You’ve already been using a PMC to get user input, and that’s quite complex enough for the moment. Eventually we’ll explore the <a href="http://docs.parrot.org/parrot/latest/html/pmc.html">PMCs</a> - what’s already available, how to use them, and how to define our own. Right now we’re just getting into the basics of how to make code run. As always, I encourage you to strike out on your own and explore the Parrot documentation if you want to get ahead of what I’ve covered. I won’t be offended. I’ll be quite pleased, in fact.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Summary</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We got the basics of variable handling and simple types out of the way. Thank goodness. Types can be confusing, but now you know about integers, floating point numbers, and strings. You understand the differences between them. You know how you would use them in your own programs. If you use the opcodes available, you can get an incredible amount of power in your Parrot programs. But so far, Parrot is nothing more than an awkward calculator for you. You will want to look at labels and branching statements to start getting something interesting out of Parrot.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2008/Adding Categories to the Python Blogger Client
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2008-01-02</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><p><em class="link-missing">blogspot</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p><em class="link-missing">2009-06-09</em>: I’ve revisited the code for Blogger posting with <a href="/python" class="page-link">Python</a>. Start at <a href="/post/2009/python-blogger-refresh-part-1" class="page-link">post/2009/Python Blogger Refresh, Part 1</a> to see the new starting point.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’ve already used my Python Blogger client from <a href="/post/2007/python-loves-blogger-part-1" class="page-link">post/2007/Python Loves Blogger (Part 1)</a> for a couple of postings, and I’ve been pretty happy with it so far. It still desperately needs tags, though. Actually, Blogger calls them “labels.” Actually actually, the Atom API calls them “categories.” Well, whatever they are called it looks like they are pretty easy to add.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You already know that tags are defined in my config header, and are simply a comma-delimited list like so:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>tags: python,gdata,blogger
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Here’s the new <code>sendPost</code> method:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">def sendPost(self):
+    &quot;&quot;&quot;Log into Blogger and submit my already parsed post&quot;&quot;&quot;
+
+    # Authenticate using ClientLogin
+    blogger = service.GDataService(self.__account, self.__password)
+    blogger.source = 'post-to-blog.py_v01.0'
+    blogger.service = 'blogger'
+    blogger.server = 'www.blogger.com'
+    blogger.ProgrammaticLogin()
+
+    # Get the blog ID
+    query = service.Query()
+    query.feed = '/feeds/default/blogs'
+    feed = blogger.Get(query.ToUri())
+    blog_id = feed.entry[0].GetSelfLink().href.split(&quot;/&quot;)[-1]
+
+    # Create the entry to insert.
+    entry = gdata.GDataEntry()
+    entry.author.append(atom.Author(atom.Name(text=self.__author)))
+    entry.title = atom.Title('xhtml', self.config['title'])
+    entry.content = atom.Content(content_type='html', text=self.body)
+
+    # Assemble labels, if any
+    if 'tags' in self.config:
+        tags = self.config['tags'].split(',')
+        for tag in tags:
+            category = atom.Category(term=tag, scheme=&quot;http://www.blogger.com/atom/ns#&quot;)
+            entry.category.append(category)
+
+    # Decide whether this is a draft.
+    control = atom.Control()
+    control.draft = atom.Draft(text='yes')
+    entry.control = control
+
+    # Submit it!
+    blogger.Post(entry, '/feeds/' + blog_id + '/posts/default')
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I hope this works. If it does work, then I am going to do a little refactoring  as time allows to make this mess a little cleaner. If it doesn’t work, then I  guess I’ll have to … you know … <em>fix it</em>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

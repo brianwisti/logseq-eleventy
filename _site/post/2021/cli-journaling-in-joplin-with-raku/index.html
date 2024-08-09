@@ -1,0 +1,1651 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2021/CLI Journaling in Joplin with Raku
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><p>I sure do use a lot of words to justify my one-liners</p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2021-05-21</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+        
+          <tr>
+            <th>banner</th>
+            <td><p>…/assets/cover-2021-05-21_1721538393705_0.png</p>
+</td>
+          </tr>
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let’s write a few one-liners so I can journal in <em class="link-missing">Joplin</em> from the command line!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>But why?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Journaling is great.  Now I’m not talking about big name <a href="https://bulletjournal.com/">Bujo</a> bullet journaling process.  I mean getting a thought down quick before I lose it. Even better if I can get that thought down in a place where I can find it later.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I know there are loads of great journaling applications.  And lots of great applications that support journaling generally.  But I love my command line. Too many distractions in those apps.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Command line options exist.  I could use one of the bazillion command line journaling tools.  Okay.  Maybe not a bazillion.  A couple dozen, at least.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Those apps and tools are yet another interface, another set of rules.  I already have Joplin handy.  Besides desktop, mobile, and terminal applications, Joplin has a CLI.  And an API, but I suspect I’ll get to that later.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>With uncharacteristic restraint, today I choose to get better at the tools I have rather than installing a new one.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Adding a journal entry</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-bash">joplin use Journal &amp;&amp; joplin edit $(date --iso=minute)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="https://www.gnu.org/software/coreutils/manual/html_node/date-invocation.html#date-invocation">GNU Date</a> — from GNU Coreutils — gets us consistent timestamps, which simplify searching and filtering.  <code>--iso</code> produces an <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a> timestamp.  Very handy.  By default it prints the <code>YYYY-MM-DD</code> version of today’s date, but you can opt for more granularity.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ date --iso=minute
+2021-05-20T08:26-07:00
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I plan to make frequent small notes, so <code>minute</code> feels like a good choice.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>use Journal?</code> #.note</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Yes, this came up.  Had the Joplin terminal app open in one terminal while I added a journal entry in another terminal.  Terminal app did some sort of state maintenance thing.  Next thing I know I’m adding journal entries to “Nerd Notes.”</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Since it doesn’t exist, <code>joplin</code> will ask for confirmation before creating it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-console">$ joplin use Journal &amp;&amp; joplin edit $(date --iso=minute)
+Note does not exist: &quot;2021-05-20T08:26-07:00&quot;. Create it? (Y/n)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’m okay with the confirmation request for now. That way I have fewer moments of accidentally creating entries.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/editing-note_1721538580265_0.png" alt="editing-note.png"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>What about more of a diary?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Leave <code>minute</code> off the <code>--iso</code> argument if you prefer a tidy collection of daily pages to my big stack of notes.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-bash">joplin edit $(date --iso)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now you’ll be editing the single entry for today’s date.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Reading journal entries</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The best review path will be via the Joplin app itself.  That way you can tag and edit.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><em>But</em> – if you just want a quick view of recent thoughts?  That is something we can do from the command line.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This next bit gets a little fancy.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-bash">joplin use Journal \
+  &amp;&amp; raku -e '
+    for qx{ joplin ls }.lines.sort {
+      qqx{ joplin cat $_ }.subst(
+        /^(&lt;[\dT:\-]&gt;+)/, { &quot;# $0&quot; }
+      ).say
+    }' \
+  | python -m rich.markdown -
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let me stall for a second.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Pretty print with Rich</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We already talked about <code>joplin use Journal</code>. <a href="https://rich.readthedocs.io/en/stable/markdown.html">Rich Markdown</a> formats Markdown — Joplin’s default format — for rich display in a terminal.  It can even run as a standalone application.  I take advantage of that here to get a pretty view of my Joplin entries:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre>╔══════════════════════════════════════════════════════════════════════════════╗
+║                            <span style="font-weight: bold">2021-05-20T08:26-07:00</span>                            ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+Resuming productivity, or something like it.
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                          <span style="font-weight: bold">2021-05-21T20:20:00-07:00</span>                           ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+I keep forgetting <span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #000000">-sel clip</span> when using xclip. Without that it doesn't go into
+the easy copy buffer.
+
+<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">┌──────────────────────────────────────────────────────────────────────────────┐</span>
+<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">│</span> <span style="color: #f92672; text-decoration-color: #f92672; background-color: #272822; font-weight: bold">$ </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">my-command | xclip -sel clip</span><span style="background-color: #272822">                                              </span> <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">│</span>
+<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">└──────────────────────────────────────────────────────────────────────────────┘</span>
+</pre>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You can also use <a href="https://github.com/charmbracelet/glow">Glow</a> if you want a standalone Markdown pretty printer. It works.  Rich is already part of my toolkit, so I’ll keep using it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Am I ready to explain myself?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Okay, I think I’ve stalled enough.  That middle bit.  That’s <a href="/raku" class="page-link">Raku</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku">for qx{ joplin ls }.lines.sort {
+  qqx{ joplin cat $_ }.subst(
+    /^(&lt;[\dT:\-]&gt;+)/,
+    { &quot;# $0&quot; }
+  ).say
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I don’t often do one-liners. We’ll have to break it down into tiny pieces.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>First, we need a sorted list of journal entries.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku">qx{ joplin ls }  # ask `joplin` to print note titles, saving the output
+  .lines         # Split that output into lines, one per note
+  .sort          # Sort those lines by note title
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Things get unpredictable if I don’t sort notes myself.  Joplin tends to sort notes by last activity.  Thank goodness for ISO 8601, which is easily sorted:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">2021-05-20T08:26-07:00
+2021-05-21T09:00-07:00
+2021-05-21T14:01-07:00
+2021-05-21T20:20-07:00
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Next, we need to do something with each of those note titles.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku">for qx{ joplin ls }.lines.sort { ... }
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Well? The content of each note is important.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku">qqx{ joplin cat $_ }
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>qqx</code> interpolates variables before asking the system to run your command. The variable being interpolated is our old friend <code>$_</code>, this time around standing in for whichever of those sorted lines we reached.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>2021-05-20T08:26-07:00
+
+Getting an idea for a CLI journaling tool using Joplin as the backend
+
+The logic would look something like this:
+
+---bash
+joplin use Journal
+joplin edit $(date --iso)
+# append &quot;## $(date --iso=minute)&quot;
+---
+
+That's it, basically. There could be more functionality, such as reviewing
+the log.
+```</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="note"><header>note</header><p><em class="link-missing">2024-07-20</em>: had to mess up the Markdown formatting here so <a href="/logseq" class="page-link">Logseq</a> wouldn’t choke on nested code blocks. Just pretend those three hyphens are backticks.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I want to print this out in the terminal.  I need to massage it a little first. Even though the file is Markdown, the first line is the note’s unformatted title.  It makes quick one-line notes easier.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>But it also means if <em>I</em> want that first line to look significant, I need to do something with this:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-language">2021-05-20T08:26-07:00
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The most obvious fix to me? Turn it into a level one Markdown header.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-markdown"># 2021-05-20T08:26-07:00
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That’s a single <a href="https://docs.raku.org/routine/subst"><code>.subst</code></a> transformation.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku">qqx{ joplin cat $_ }.subst(  # in printed note
+  /^(&lt;[\dT:\-]&gt;+)/,          # find the first line that looks like a timestamp
+  { &quot;# $0&quot; }                 # and turn it into a Markdown header
+)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Okay, I got a little lazy with the regular expression.  But my brain was in one-liner mode.  For a full script I’d probably spell it out more clearly.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The last step is to display the transformed note contents.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-raku">qqx{ joplin cat $_ }.subst(...).say
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Or ask them to display themselves.  However you want to think of it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This whole thing would be rather clunky as a shell alias.  I could add it as a function to my <code>.bashrc</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-bash">jread() {
+  joplin use Journal \
+    &amp;&amp; raku -e '
+      qqx{joplin cat $_}.subst(/^(&lt;[\dT:\-]&gt;+)/, { &quot;# $0&quot; }).say for qx{ joplin ls }.lines.sort
+    ' \
+    | python -m rich.markdown -
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Then again, maybe not.  This should probably be a script.  Check back in a few days.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Ooh a cliffhanger!</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I have a working script already.  What I don’t have much of is unallocated time.  But hopefully yes!  Soon.  I did some cool stuff with <code>multi MAIN</code> in Raku that I’m desperate to show off.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

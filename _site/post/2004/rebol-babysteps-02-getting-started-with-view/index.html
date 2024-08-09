@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2004/REBOL Babysteps - 02 Getting Started with View
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2004-12-26</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><p><em class="link-missing">rebol,learn,coolnamehere</em></p>
+</td>
+          </tr>
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’m sure you thought that getting started was fun, but it really didn’t do anything to show off <a href="/rebol" class="page-link">REBOL</a> . I’d like to go through almost exactly the same process, but this time focusing my attention on <a href="http://www.rebol.com/prod-view.html">REBOL/View</a>. So let’s give it a try!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’m going to skim through this very quickly. The goal is just for you to see how much potential there is in the REBOL/View dialect. You want to see “Hello World”? Here it is.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-text">&gt;&gt; view layout [ text &quot;Hello World!&quot; ]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/rebol-intro-01_1711862686281_0.png" alt="rebol-intro-01.png"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>One way to interpret that series of commands is along the lines of: we want to <code>view</code> the <code>layout</code> defined as containing the <code>text</code> “Hello World”. I’ll be the first to admit that this is not an impressive demonstration of GUI programming — unless you’ve actually done some, then you might notice how quick it was to put together compared to using a lot of other toolkits and platforms.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Still, the whole point of using a GUI is having something to <em>click</em>. Let’s revisit our script from last time and putting some pointy-clicky goodness into it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>&gt;&gt; view layout [
+[    text &quot;Enter your name&quot;
+[    field
+[    button &quot;Hi!&quot;
+[    ]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><img src="../assets/rebol-intro-02_1711862711560_0.png" alt="rebol-intro-02.png"></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Neat. Except that it doesn’t actually do anything if you click the button. Pretty, but non-functional - sort of like my neighbor’s car. Let’s give the <code>button</code> a block of commands along with the string “Hi!”.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>&gt;&gt; view layout [
+[    text &quot;Enter your name&quot;
+[    field
+[    button &quot;Hi!&quot; [
+[        alert &quot;Hello there!&quot;
+[        ]
+[    ]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Sorry, I haven’t gotten a screenshot of the alert just yet. Trust me, though. It’s pretty standard fare for alert boxes. It still doesn’t have that personal touch that the script from <a href="/post/2004/rebol-babysteps-01-getting-started" class="page-link">post/2004/REBOL Babysteps - 01 Getting Started</a> , though. Let’s add a few touches: a little word assignment here, a little phrase-building there with <code>rejoin</code> and some refinements. There, how about this?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>&gt;&gt; view layout [
+[    text &quot;Enter your name&quot;
+[    name: field
+[    button &quot;Hi!&quot; [
+[        message: rejoin [ &quot;Hello &quot; name/text &quot; - great to see you!&quot; ]
+[        alert message
+[        ]
+[    ]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Hey, that was neat. We’ve got a pointy-clicky version of the “Hello” script we made last time. We assigned the field to a word and then used what REBOL calls “refinements” to access the text entered into that field. You will see a lot about refinements as your knowledge of REBOL progresses.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let’s turn this into a script so we can share our newfound REBOL/View knowledge with our other friends who have REBOL/View installed.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>A REBOL/View Script</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Just rewrite the code in your favorite text editor. Don’t forget the script header we talked about last time, and the shebang line if you’re on Linux!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>#!/usr/local/bin/rebview -q
+
+REBOL [
+	Title: &quot;Hello World!&quot;
+	File:  %vHello.r
+	Author: Brian Wisti
+]
+
+view layout [
+	text &quot;Enter your name&quot;
+	name: field
+	button &quot;Hi!&quot; [
+		message: join  &quot;Hello &quot; [
+			name/text &quot; - great to see you!&quot;
+		]
+		alert message
+	]
+]
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You still have the same execution options as before, but REBOL/View under Windows gives you an additional choice. You can find your View script via Explorer and double-click. Easy as that!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>All Done</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This overview didn’t even scratch the surface of REBOL/View. It didn’t even <em>touch</em> the surface, but instead just gave the surface a sideways glance while hurrying to an urgent appointment. I encourage you to take a closer look at REBOL/View and its official documentation.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

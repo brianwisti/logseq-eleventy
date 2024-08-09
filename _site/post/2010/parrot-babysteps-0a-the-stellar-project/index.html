@@ -1,0 +1,1629 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2010/Parrot Babysteps 0a - The Stellar Project
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2010-06-02</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="/post/2010/parrot-babysteps-09-simple-projects" class="page-link">post/2010/Parrot Babysteps 09 - Simple Projects</a> taught us how to create and test small, simple Parrot projects. The next step is to reexamine the star catalog we wrote in <a href="/post/2009/parrot-babysteps-07-writing-subroutines" class="page-link">post/2009/Parrot Babysteps 07 - Writing Subroutines</a>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I know - you <em>really</em> want to start adding features and working on cool new stuff. So do I. My workspace is scattered with half-completed steps that talked about adding new things and using new <a href="/parrot" class="page-link">Parrot</a> features. They kept breaking, though. They kept breaking because I wasn’t building from a stable, testable foundation. Today we’re going to get that step our of the way.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Set up the project</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let’s apply what we learned last time in the context of this larger project, and set up a workspace for <code>stellar</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ mkdir stellar
+$ mkdir stellar/t
+$ mkdir stellar/lib
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The <code>setup.pir</code> file is copied directly from the previous project. I’m not ready for anything more elaborate.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-0a-01/setup.pir
+.sub 'main' :main
+	.param pmc args
+	$S0 = shift args # Ignore my own filename
+	load_bytecode 'distutils.pbc'
+
+	# Find out what command the user has issued
+	.local string directive
+	directive = shift args
+
+	# Used by the test mode
+	.local string prove_exec
+	prove_exec = get_parrot()
+
+	setup(directive, 'prove_exec' =&gt; prove_exec)
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The behavior will be defined in <code>lib/stellar.pir</code>, which is initially empty. We will steadily build up all of our functionality in the Stellar library and eventually add a very simple file to act as the face of Stellar for Parrot. Right now, we just have an empty <code>lib/stellar.pir</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Reimplementing Features</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The basic skeleton is in place. Now we can start adding the features we had written before.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Extracting Details</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It’s important to keep test files organized. One helpful approach is to think of each test as a story. This story describes a single specific thing we want the Stellar library to accomplish. All of the stories together provide a description of everything that users should be able to get from the library.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I like to start with the smallest useful test story I can. For this code, I think that would be extracting the details about a single entry in the HYG catalog. The whole catalog isn’t even needed. We could get away with using the header line and the line containing a star’s details.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Names for test files usually follow a common pattern. They start with a number and summarize what feature is being tested. What purpose does the number serve? Well, they are probably executed in the order that Parrot finds them, so that numbering provides a clue for test order. There are no promises about the order, though. The system looks at each story individually, and you should too. I like to think of the numbering as simply presenting the order that I came up with the stories. It provides a simple history of sorts. First I came up with that test, and I wrote this test after I was comfortable with the first.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>In that spirit, I will name the first test story <code>01-extract-details.t</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-0a-01/t/01-extract-details.t
+.include 'lib/stellar.pir'
+
+.sub 'main' :main
+	.include 'test_more.pir'
+	.local string header_string
+	.local string sol_string
+	.local string delimiter
+	.local pmc    header_fields
+	.local pmc    star_fields
+	.local pmc    star
+
+	header_string = &quot;StarID,HIP,HD,HR,Gliese,BayerFlamsteed,ProperName,RA,Dec,Distance,PMRA,PMDec,RV,Mag,AbsMag,Spectrum,ColorIndex,X,Y,Z,VX,VY,VZ&quot;
+	sol_string = &quot;0,,,,,,Sol,0,0,0.000004848,0,0,0,-26.73,4.85,G2V,0.656,0,0,0,0,0,0&quot;
+	delimiter = &quot;,&quot;
+
+	header_fields = split delimiter, header_string
+	star_fields = split delimiter, sol_string
+	star = extract_star_details(header_fields, star_fields)
+
+	plan(1)
+
+	$S0 = star['Proper Name']
+	is($S0, 'Sol', 'ProperName should be Sol')
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Yes, I know that there is a typo in this test code. The key <code>Proper Name</code> should be <code>ProperName</code>. We’ll come back to that.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What happens if this test is run while <code>stellar.pir</code> is still empty? It fails, of course. It might be useful to look at <em>how</em> it fails.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>stellar $ parrot setup.pir test
+t/01-extract-details.t .. Dubious, test returned 1
+Failed 1/1 subtests
+
+Test Summary Report
+-------------------
+t/01-extract-details.t (Tests: 0 Failed: 0)
+XXX
+Files=1, Tests=0,  0.014 wallclock secs
+Result: FAIL
+test fails
+current instr.: 'setup' pc 883 (runtime/parrot/library/distutils.pir:376)
+called from Sub 'main' pc 29 (setup.pir:17)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><code>setup</code> told us something we already know: <code>extract_star_details</code> hasn’t been written yet. This is different from a regular test failure, because Parrot couldn’t even get to the tests. I’m showing this so that you recognize what’s going on when you see errors like this in your own library.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Adding <code>extract_star_details</code> is easy enough. Just copy the code from the earlier step.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># stellar/lib/stellar.pir
+
+.sub extract_star_details
+	.param pmc    headers
+	.param pmc    values
+
+	.local pmc    star
+	.local int    header_count
+	.local string current_header
+	.local string current_value
+	.local int    current_index
+
+	current_index = 0
+	header_count = headers
+	star = new 'Hash'
+
+  ASSIGN_NEXT_STAR_FIELD:
+	if current_index &gt;= header_count goto RETURN_STAR
+	current_header = headers[current_index]
+	current_value = values[current_index]
+	star[current_header] = current_value
+	current_index += 1
+	goto ASSIGN_NEXT_STAR_FIELD
+
+  RETURN_STAR:
+	.return(star)
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let’s run the test again.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ parrot setup.pir test
+t/01-extract-details.t .. Failed 1/1 subtests
+
+Test Summary Report
+-------------------
+t/01-extract-details.t (Tests: 1 Failed: 1)
+  Failed test:  1
+Files=1, Tests=1,  0.020 wallclock secs
+Result: FAIL
+test fails
+current instr.: 'setup' pc 883 (runtime/parrot/library/distutils.pir:376)
+called from Sub 'main' pc 29 (setup.pir:17)
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There’s only one assertion, so we already know which one failed. This output is a little vague for larger test stories, though. Let’s run the test file directly.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>#!text
+$ parrot t/01-extract-details.t
+1..1
+not ok 1 - ProperName should be Sol
+# Have:
+# Want: Sol
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Okay, <em>now</em> we can fix the typo.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>#!parrot
+# t/01-extract-details.t
+.sub 'main' :main
+	...
+	$S0 = star['ProperName']
+	is($S0, 'Sol', 'ProperName should be Sol')
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The test should pass now that the correction has been made.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ parrot setup.pir test
+t/01-extract-details.t .. ok
+All tests successful.
+Files=1, Tests=1,  0.014 wallclock secs
+Result: PASS
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Don’t worry. I won’t submit you to this for every test run. It’s just important to know what failure looks like before we can reach success.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What have we accomplished so far? We now have a story in which the user, armed with a header line and a line describing a star, gets an object that she can examine and manipulate for her own purposes. If we wanted to be thorough, we could test every field. I’m not going to do that, though. One thing you want to avoid when making test stories is predicting the future. It’s easy to get distracted by testing every possible aspect of a single chunk of code when you
+could be working on the next story.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>These stories aren’t static. We will come back and add more when some detail doesn’t work out the way we expect it to.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Our first story is pretty much out of the way. Let’s move on to the next one.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Stringifying Stars</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Next up is the string representation of a star. In the original application, we had the <code>say_star_details</code> sub, which printed the star information as soon as it had been prepared. <code>Stellar</code> is more of a library, though. This means that we can’t be completely sure what folks will want to do with the star summary once they have it. They might want to print it, but they might also want to feed it to an unmanned orbiter for some reason.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Because we can’t predict with certainty what someone will do with the string summary of a star, this test story will focus on asking for that string.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># t/02-summarize-star.t
+.sub 'main' :main
+	.include 'test_more.pir'
+	.local string header_string
+	.local string sol_string
+	.local string delimiter
+	.local pmc    header_fields
+	.local pmc    star_fields
+	.local pmc    star
+	.local string summary
+
+	header_string = &quot;StarID,HIP,HD,HR,Gliese,BayerFlamsteed,ProperName,RA,Dec,Distance,PMRA,PMDec,RV,Mag,AbsMag,Spectrum,ColorIndex,X,Y,Z,VX,VY,VZ&quot;
+	sol_string = &quot;0,,,,,,Sol,0,0,0.000004848,0,0,0,-26.73,4.85,G2V,0.656,0,0,0,0,0,0&quot;
+	delimiter = &quot;,&quot;
+
+	plan(1)
+
+	header_fields = split delimiter, header_string
+	star_fields = split delimiter, sol_string
+	star = extract_star_details(header_fields, star_fields)
+
+	summary = &quot;&lt;Name: Sol, Spectrum: G2V, Distance: 0.000004848&gt;&quot;
+	$S0 = summarize_star(star)
+	is($S0, summary, &quot;Sol's summary should include basic details&quot;)
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It’s not hard to create the code which will make this story true, but it does involve a little more work than the simple copy and paste for <code>extract_star_details</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-0a-04/lib/stellar.pir
+
+# ...
+
+.sub summarize_star
+	.param pmc star
+
+	.local string star_name
+	.local string star_spectrum
+	.local string star_distance
+	.local string summary
+
+	star_name = star['ProperName']
+	star_spectrum = star['Spectrum']
+	star_distance = star['Distance']
+
+	if star_name goto PREPARE_SUMMARY
+
+  TRY_GLIESE:
+	.local string gliese_number
+	gliese_number = star['Gliese']
+	unless gliese_number goto TRY_BAYER_FLAMSTEED
+	star_name = 'Gliese ' . gliese_number
+	goto PREPARE_SUMMARY
+
+  TRY_BAYER_FLAMSTEED:
+	.local string bayer_flamsteed
+	bayer_flamsteed = star['BayerFlamsteed']
+	unless bayer_flamsteed goto TRY_HR
+	star_name = &quot;BF &quot; . bayer_flamsteed
+	goto PREPARE_SUMMARY
+
+  TRY_HR:
+	.local string hr_id
+	hr_id = star['HR']
+	unless hr_id goto TRY_HD
+	star_name = &quot;HR &quot; . hr_id
+	goto PREPARE_SUMMARY
+
+  TRY_HD:
+	.local string hd_id
+	hd_id = star['HD']
+	unless hd_id goto USE_STAR_ID
+	star_name = &quot;HD &quot; . hd_id
+	goto PREPARE_SUMMARY
+
+  TRY_HIP:
+	.local string hip_id
+	hip_id = star['HIP']
+	unless hip_id goto USE_STAR_ID
+	star_name = &quot;HIP &quot; . hip_id
+	goto PREPARE_SUMMARY
+
+  USE_STAR_ID:
+	.local string star_id
+	star_id = star['StarID']
+	star_name = &quot;HYG &quot; . star_id
+	goto PREPARE_SUMMARY
+
+  PREPARE_SUMMARY:
+	summary = &quot;&lt;Name: &quot;
+	summary .= star_name
+	summary .= &quot;, Spectrum: &quot;
+	summary .= star_spectrum
+	summary .= &quot;, Distance: &quot;
+	summary .= star_distance
+	summary .= &quot;&gt;&quot;
+
+	.return(summary)
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Yes, this is mostly a copy and paste of <code>say_star_details</code>. The new details change the focus from displaying the details to returning them as a simple string.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>What’s most important is that this test passes when handed Sol. How about some of those stars that don’t have proper names?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-0a-04/t/02-summarize-star.t
+.include 'lib/stellar.pir'
+
+.sub 'main' :main
+	.include 'test_more.pir'
+	.local string header_string
+	.local string star_string
+	.local string delimiter
+	.local pmc    header_fields
+	.local pmc    star_fields
+	.local pmc    star
+	.local string summary
+
+	header_string = &quot;StarID,HIP,HD,HR,Gliese,BayerFlamsteed,ProperName,RA,Dec,Distance,PMRA,PMDec,RV,Mag,AbsMag,Spectrum,ColorIndex,X,Y,Z,VX,VY,VZ&quot;
+	delimiter = &quot;,&quot;
+
+	plan(3)
+
+	header_fields = split delimiter, header_string
+
+	summary = &quot;&lt;Name: Sol, Spectrum: G2V, Distance: 0.000004848&gt;&quot;
+	star_string = &quot;0,,,,,,Sol,0,0,0.000004848,0,0,0,-26.73,4.85,G2V,0.656,0,0,0,0,0,0&quot;
+	star_fields = split delimiter, star_string
+	star = extract_star_details(header_fields, star_fields)
+	$S0 = summarize_star(star)
+	is($S0, summary, &quot;Sol's summary should include basic details&quot;)
+
+	summary = &quot;&lt;Name: HD 224693, Spectrum: G2V, Distance: 94.0733772342427&gt;&quot;
+	star_string = &quot;117952,118319,224693,,,,,23.99826083,-22.42818030,94.0733772342427,148.74,27.53,,8.23,3.36266632261649,G2V,0.639,86.95751,-0.03959,-35.89135,4.82e-06,6.7829e-05,1.1605e-05&quot;
+	star_fields = split delimiter, star_string
+	star = extract_star_details(header_fields, star_fields)
+	$S0 = summarize_star(star)
+	is($S0, summary, &quot;HD identifier can be used if ProperName is unavailable&quot;)
+
+	summary = &quot;&lt;Name: HYG 117782, Spectrum: G2V, Distance: 139.275766016713&gt;&quot;
+	star_string = &quot;117782,118149,,,,,,23.96625102,15.95292997,139.275766016713,-46.50,-53.88,,9.59,3.8706222212115,G2V,0.648,133.90672,-1.18315,38.2796,9.72e-06,-3.1482e-05,-3.4977e-05&quot;
+	star_fields = split delimiter, star_string
+	star = extract_star_details(header_fields, star_fields)
+	$S0 = summarize_star(star)
+	is($S0, summary, &quot;HYG identifier can be used if ProperName is unavailable&quot;)
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It does indeed work.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ parrot setup.pir test
+t/01-extract-details.t .. ok
+t/02-summarize-star.t ... ok
+All tests successful.
+Files=2, Tests=4,  0.030 wallclock secs
+Result: PASS
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I am concerned about the heft of this test code. The concern is that I had to split the CSV text, extract star details, and summarize the star manually for each star string. Each of those times is an opportunity for me to make a mistake. I <em>think</em> I would like to have a subroutine which would take the header fields and a CSV line of star data, and return the extracted details. Let’s make a new test story for that.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-0a-04/t/03-extract-from-csv.t
+.sub 'main' :main
+	.include 'test_more.pir'
+	.local string header_string
+	.local string star_string
+	.local string delimiter
+	.local pmc    header_fields
+	.local pmc    star_fields
+	.local pmc    star
+	.local string summary
+
+	header_string = &quot;StarID,HIP,HD,HR,Gliese,BayerFlamsteed,ProperName,RA,Dec,Distance,PMRA,PMDec,RV,Mag,AbsMag,Spectrum,ColorIndex,X,Y,Z,VX,VY,VZ&quot;
+	delimiter = &quot;,&quot;
+
+	plan(3)
+
+	header_fields = split delimiter, header_string
+
+	summary = &quot;&lt;Name: Sol, Spectrum: G2V, Distance: 0.000004848&gt;&quot;
+	star_string = &quot;0,,,,,,Sol,0,0,0.000004848,0,0,0,-26.73,4.85,G2V,0.656,0,0,0,0,0,0&quot;
+	star = extract_from_csv_line(star_string, header_fields, delimiter)
+	$S0 = summarize_star(star)
+	is($S0, summary, &quot;Sol's summary should include basic details&quot;)
+
+	summary = &quot;&lt;Name: HD 224693, Spectrum: G2V, Distance: 94.0733772342427&gt;&quot;
+	star_string = &quot;117952,118319,224693,,,,,23.99826083,-22.42818030,94.0733772342427,148.74,27.53,,8.23,3.36266632261649,G2V,0.639,86.95751,-0.03959,-35.89135,4.82e-06,6.7829e-05,1.1605e-05&quot;
+	star = extract_from_csv_line(star_string, header_fields, delimiter)
+	$S0 = summarize_star(star)
+	is($S0, summary, &quot;HD identifier can be used if ProperName is unavailable&quot;)
+
+	summary = &quot;&lt;Name: HYG 117782, Spectrum: G2V, Distance: 139.275766016713&gt;&quot;
+	star_string = &quot;117782,118149,,,,,,23.96625102,15.95292997,139.275766016713,-46.50,-53.88,,9.59,3.8706222212115,G2V,0.648,133.90672,-1.18315,38.2796,9.72e-06,-3.1482e-05,-3.4977e-05&quot;
+	star = extract_from_csv_line(star_string, header_fields, delimiter)
+	$S0 = summarize_star(star)
+	is($S0, summary, &quot;HYG identifier can be used if ProperName is unavailable&quot;)
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The code to make this work is simple enough.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code># example-0a-04/lib/stellar.pir
+
+# ...
+
+.sub extract_from_csv_line
+	.param string star_string
+	.param pmc    header_fields
+	.param string delimiter
+	.local pmc    star_fields
+	.local pmc    star
+
+	star_fields = split delimiter, star_string
+	star = extract_star_details(header_fields, star_fields)
+
+	.return(star)
+.end
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I do not know if I have saved much work, but it is easier for me to read the test story. That is important to me, because debugging and improving the code is easier if I can easily understand what is happening.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Conclusion</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>It is time to take a break. The script we wrote a while back is evolving into a tested library that can be used by others. Now that we have our foundation, we can start building up. Our next step will involve adding some simple search behavior to the library, and that is a significant improvement. For the moment, take a little time to relax.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

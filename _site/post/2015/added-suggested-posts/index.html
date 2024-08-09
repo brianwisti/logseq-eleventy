@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2015/Added Suggested Posts
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><p>I started writing about <a href="http://www.pnwphp.com/">PNWPHP</a> but got distracted and added “Suggested Reading” to my posts instead.</p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2015-09-14</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This weekend I attended PNWPHP. It was great. Instead of writing about that, I started looking up how to manage Related Posts in <em class="link-missing">Jekyll</em>. There are built-in options to do that, but they never satisfied me. I found <a href="http://zhangwenli.com/">Wenli Zhang</a>’s post “<a href="http://zhangwenli.com/blog/2014/07/15/jekyll-related-posts-without-plugin/">Jekyll Related Posts without Plugin</a>” and understood a little better.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Okay, no. Not really. But that post led me to <a href="https://github.com/LawrenceWoodman/related_posts-jekyll_plugin">related_posts-jekyll-plugin</a> and this <a href="https://github.com/jumanji27/related_posts-jekyll_plugin">fork by jumanji27</a> which is friendlier for current Jekyll releases.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Since it’s a little more fiddly than a regular plugin, I hand-copied the code into a file <code>_plugins/related-posts.rb</code> and added a nice little “Suggested Posts” footer to the post template.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-handlebars">&lt;article itemscope itemtype=&quot;http://schema.org/BlogPosting&quot;&gt;
+  ...
+  &lt;footer&gt;
+    &lt;h3&gt;Suggested Posts&lt;/h3&gt;
+    &lt;p&gt;
+      {% for post in site.related_posts limit:5 %}
+      &lt;a href=&quot;{{ post.url }}&quot; class=&quot;post-link&quot;&gt;{{ post.title }}&lt;/a&gt;{% unless forloop.last %}, {% endunless %}
+      {% endfor %}
+    &lt;/p&gt;
+  &lt;/footer&gt;
+&lt;/article&gt;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I limited it to five related posts. Some posts will have a hundred related posts due to the way I imported content from my other sites.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Incidentally, I think this plugin does a better job picking related posts than Jekyll’s built-in approach, though I have no idea why. Jekyll usually ended up with nothing related, and just defaulted back to the most recent posts. This works better for me.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>For the moment I prefer a comma-delimited dump of posts. Later I may play with some list styling. However, I did have the problem of post titles being broken up by line breaks. A little <code>white-space: nowrap</code> in the right spot fixes that.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-css">a.post-link {
+  white-space: nowrap;
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now the text of each post link stays together.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Just wanted to share all this. Have fun!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

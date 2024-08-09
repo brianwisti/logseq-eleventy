@@ -1,0 +1,1380 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2004/Control Structures
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><p><em class="link-missing">python,learn,coolnamehere</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2004-07-11</em></p>
+</td>
+          </tr>
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There are several different approaches to programming, but the one that is easiest for me to grasp is <em>imperative programming</em>. The imperative approach allows you to tell the computer exactly what you want it to do and how you want it done. The best analogy I can think of is a cooking recipe. You have a list of ingredients and a specific set of instructions to follow. Veer from the recipe and you may not be happy with the results. Veer too far from the recipe and your house could burn down.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Control structures are the basic building blocks of imperative programming. They describe what kind of instructions the programming language understands. I will explore control structures, using examples from both the cooking world - hey, this is a good analogy and I want to keep using it - and <a href="/python" class="page-link">Python</a>, since Python’s syntax is clean enough that you can see the control structures easily.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I kind of played with the existing names for these structures to give them what I think is a more poetic quality.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Sequence</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The fundamental control structure doesn’t seem like a control structure at all. <em>Sequence</em> refers to the fact that one thing usually happens after another.</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Beat the eggs and the oil together in a large bowl</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Mix the sugar and vanilla extract into the bowl</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Here’s a simple sequence example.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">name = &quot;Brian&quot;
+print &quot;Hello&quot;, name
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>You don’t try to beat the eggs in the bowl after you’ve put the sugar in. I suppose you could, but you are just making your life more difficult. Similarly, you don’t try to print the name before you’ve defined it. Bad things will happen if you even try.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Selection</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Selection structures allow you to mark some code as optional.</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><em>(optional)</em> Mix in walnuts</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I like walnuts, but rarely in cookies. I’m not going to mix them into the dough. Maybe I’ll just eat them here.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">name = raw_input(&quot;Who are you? &quot;)
+
+if name == &quot;Brian&quot;:
+    print &quot;Hey!&quot;, name, &quot;is here!&quot;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There are a few refinements to the Selection structure. The main refinement is the if/else structure. This allows you to perform one block of code if the test is true, and another block if the test fails.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Instead of:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">if name == &quot;Brian&quot;:
+    print &quot;Hey! Brian is here!&quot;
+
+if name != &quot;Brian&quot;:
+    print &quot;What are you doing on Brian's computer?&quot;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We can say:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">name = raw_input(&quot;Who are you? &quot;)
+if name == &quot;Brian&quot;:
+    print &quot;Hey! Brian is here!&quot;
+
+else:
+    print &quot;What are you doing on Brian's computer?&quot;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The other main refinement is the if/else-if/else structure, which lets you chain tests together. Instead of:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">if name == &quot;Brian&quot;:
+    print &quot;Hey! Brian is here!&quot;
+else:
+    if name == &quot;Brooke&quot;:
+        print &quot;This computer is really yours, isn't it?&quot;
+    else:
+        print &quot;What are you doing on this computer?&quot;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>we can say:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">if name == &quot;Brian&quot;:
+    print &quot;Hey! Brian is here!&quot;
+elif name == &quot;Brooke&quot;:
+    print &quot;This computer is really yours, isn't it?&quot;
+else:
+    print &quot;What are you doing on this computer?&quot;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <aside class="warning"><header>warning</header><p>Pay attention to how the else-if refinement is spelled in your favorite programming language! It’s <code>elif</code> in Python, and in other languages could be <code>elsif</code>, <code>elseif</code>, <code>else if</code>, or something else I haven’t come across yet.</p>
+</aside>
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Repetition</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The next control structure is <em>repetition</em>, which will execute a block of code repeatedly until some condition is true.</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Cook in a 350 degree preheated oven for 10 minutes</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Don’t you hate it when they tell you what temperature the oven is supposed to be at the last minute? I suppose that’s why we’re suppose to read the recipe before we start cooking. Anyways, the repetition here is that you keep on baking until those cookies are done!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Repetition in programming has a very wide range of refinements. I’ll just look at the major ones.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The first one is the while-loop.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">number = 0
+while number &lt; 10:
+    print &quot;We have been baking for&quot;, number, &quot;minutes&quot;
+    number += 1        # The same as saying -&gt; number = number + 1
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The basic idea of a while-loop is this:</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We set up a test. We had to create a variable in this case, to make sure the test has some meaning the first time through.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We apply the test. Is <code>number</code> less than <code>10</code>?</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>If the test passes, we execute the block.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><em>Hopefully</em> that block contains some code which affects the test. We added one to <code>number</code> in our block.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>We go back to <em>2</em>, run this again. In fact, we keep going back to <em>2</em> until <code>number</code> is equal to or greater than <code>10</code>.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Generally, any test that your programming language can understand in a sense of true or false can be used. This applies to <em>Selection</em> structures too, but I forgot to mention it then.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Another kind of repetition structure is the list-loop <em>(better name? Somebody? Please?)</em>. The list-loop steps through each of the values in a list and executes its block with the current item in the loop.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">breakfast = [ &quot;steak&quot;, &quot;eggs&quot;, &quot;potatoes&quot; ]
+for item in breakfast:
+    print &quot;I like&quot;, item, &quot;in my breakfast.&quot;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Some languages won’t let you change the original value of <code>item</code> in a normal list-loop. For example, in Python I can uppercase <code>item</code> in my loop, but the original will still be lowercase. Try it yourself:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">breakfast = [ &quot;steak&quot;, &quot;eggs&quot;, &quot;potatoes&quot; ]
+for item in breakfast:
+    item = item.capitalize()  # This is a *method* available to String *objects*
+    print &quot;I like&quot;, item, &quot;in my breakfast.&quot;
+for item in breakfast:
+    print &quot;Item:&quot;, item
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Replacing the original value of <code>item</code> is more of a challenge, and often not worth the effort involved. You could step through the list using indexes, and change things that way:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">breakfast = [ &quot;steak&quot;, &quot;eggs&quot;, &quot;potatoes&quot; ]
+for i in range(0, len(breakfast):
+    breakfast[i] = breakfast[i].capitalize()
+for item in breakfast:
+    print &quot;Item:&quot;, item
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I think that approach is unattractive, though. I’ll do it if I have to, but I will use a prettier and easier tactic if it’s available. A better way is to build a new list based on a modified version of the old list. Python makes this easy with a language feature called <em>list comprehensions</em>, which are funny-looking but very easy once you get the hang of them.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">breakfast = [&quot;steak&quot;, &quot;eggs&quot;, &quot;potatoes&quot;]
+capitalized = [food.capitalize() for food in breakfast]
+for item in capitalized:
+    print item, &quot;is a great part of breakfast&quot;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Many other languages have similar approaches, such as Perl’s <code>map</code> function.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Remote</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The last major control structure I am going to look at is <em>remote code</em>. This isn’t technically code on another machine, but I suppose it could be. Remote code was written outside of the main sequence of the application, but you can use it (repeatedly) from within the main sequence. I guess the easiest cooking equivalent would be to hire a person who makes the cookies for you.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Remote code usually takes the form of functions, classes (the source of the <code>capitalize</code> method used in <em>Repetition</em>), and modules (which are usually collections of classes or functions in a separate file).</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-python">def get_name():
+    return raw_prompt(&quot;What is your name?&quot;)
+
+def greet(name):
+    print &quot;Hello&quot;, name, &quot;it's good to see you!&quot;
+
+greet( get_name() )
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That’s it for now.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

@@ -1,0 +1,702 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2004/Simple Ruby CGI
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><p><em class="link-missing">ruby,learn,coolnamehere</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2004-03-10</em></p>
+</td>
+          </tr>
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This article is intended to provide a casual introduction the CGI programming with the <a href="/ruby" class="page-link">Ruby</a> language. You won’t be an expert when you are done, but you will certainly be ready to explore more on your own, and maybe delve into becoming a Ruby/CGI expert.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Why Are You Reading This?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>There are a couple of possibilities, other than the obvious “I have nothing better to do”. That’s my excuse, incidentally, so you better pick another. Perhaps you have been using Ruby for a little while, and you want to learn how to use this curious language as a Web programming tool. There is also the possibility that you are a grizzled Perl/CGI veteran of many years, and you are interested in learning how this curious language handles tasks that you do every day with <a href="http://CGI.pm">CGI.pm</a>. Hopefully neither of you will be too disappointed by my efforts.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Why Ruby?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Even though I hesitate to call it my favorite language, I definitely prefer to do most of my coding in Ruby these days. It is similar to my other favorite, <a href="/perl" class="page-link">Perl</a> , because it is put together in such a way that programs are easy to write. I must admit that large programs are easier to manage in Ruby, though. I use object-oriented programming techniques to abstract and tame the complexity of particularly challenging projects. Support for object-oriented programming is built into the Ruby language, so extremely large and complex applications are relatively simple to build and maintain.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Why CGI?</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I’ll give you the easy answer first: I chose to write an article on CGI programming with Ruby because CGI programming is what I know best. I’ve been doing CGI for nearly ten years now, and can comfortably answer (or find the answer to) most questions on the subject. “Write about what you know” and all that.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The longer answer is that CGI is an established standard, and many of the more powerful Web development tools use CGI concepts as their basis. You will be able to create some impressive Web applications using CGI. CGI is easy to set up on a Web server, and this means that CGI has the lowest barrier to entry. I think that’s the term - I never have been up on my buzzwords. Even if you move on to something else later, knowing a little bit about how CGI works will give you a better appreciation for the other tools that are available for you.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Preparation</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>CGI is a standard part of the Ruby library. All you need to create a CGI application with Ruby is a standard installation of Ruby and a server capable of processing CGI requests. This includes nearly every Web server in existence, but I will focus my attention on the <a href="http://httpd.apache.org/">Apache Web server</a>. Apache is freely available for most operating systems, and should be very easy to install from the directions at the Apache web site.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>So let’s say you’ve got a Web server with Ruby installed on it. Add a text editor such as <a href="/vim" class="page-link">Vim</a> or <a href="/emacs" class="page-link">Emacs</a> , and you are ready to go!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>CGI Programming</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>“Hello World” The CGI Way</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Let’s start with a basic task, pushing some plain old HTML out to the browser. It isn’t fancy, but it’ll do to help us get a feel for things.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>hello1.cgi</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">#!/usr/bin/ruby
+
+puts &quot;Content-Type: text/html&quot;
+puts
+puts &quot;&lt;html&gt;&quot;
+puts &quot;&lt;body&gt;&quot;
+puts &quot;&lt;h1&gt;Hello Ruby!&lt;/h1&gt;&quot;
+puts &quot;&lt;/body&gt;&quot;
+puts &quot;&lt;/html&gt;&quot;
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Running The CGI Script</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Now is the time to upload <code>hello1.cgi</code> to the Web server if it’s not already in place. You’ll also need to make the file executable. If your FTP application or site management tool supports it, you can use those. Otherwise, you’ll need to rely on the <code>chmod</code> command:</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-bash">chmod 755 hello1.cgi
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Direct your browser to the appropriate URL, and you should see that basic “Hello Ruby!” message. Simple, but at least we’ve gotten some of the boring setup out of the way. Now we can start looking at Ruby’s special touches.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>A Better Way</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>For our first venture into the <code>CGI</code> library, let’s work with the HTML generating features. This script will produce the same overall output as the first example, but the code to do it looks a little different. Give it a try for yourself.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p><code>hello2.cgi</code></p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-ruby">#!/usr/bin/ruby
+
+require 'cgi'
+
+# Create a cgi object, with HTML 4 generation methods.
+cgi = CGI.new('html4')
+
+# Ask the cgi object to send some text out to the browser.
+cgi.out {
+ cgi.html {
+   cgi.body {
+     cgi.h1 { 'Hello Ruby!' }
+   }
+ }
+}
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>This version is functionally the same as the first version, but it takes advantage of the HTML generating methods available in the CGI object. The style you use is completely up to you. I generally lean towards a template-based approach, but we can get into that in a different article. I’ll alternate between <code>puts</code> and using the object-oriented style as the whim strikes me.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>

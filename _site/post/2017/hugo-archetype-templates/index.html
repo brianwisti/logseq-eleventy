@@ -1,0 +1,923 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/main.css">
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Random Geekery</a></h1>
+      <nav>
+        <a href="/page/">All Pages</a>
+        <a href="/post/">Posts</a>
+        <a href="/now/">Now</a>
+      </nav>
+      <main>
+        <h1></h1>
+        
+  <article class="page">
+    
+
+    
+  <section>
+    <header>
+      <h2>
+      
+        post/2017/Hugo Archetype Templates
+      
+      </h2>
+      
+  
+  
+    <table>
+      
+        
+          <tr>
+            <th>summary</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>date</th>
+            <td><p><em class="link-missing">2017-07-01</em></p>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>tags</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+          <tr>
+            <th>posse</th>
+            <td><ul>
+<li></li>
+</ul>
+</td>
+          </tr>
+        
+      
+        
+      
+    </table>
+  
+
+    </header>
+
+    
+  
+    <section class="block">
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I try out archetype templates from the <a href="/hugo" class="page-link">Hugo</a> static site generator, smoothing the whole thing into my workflow with a bash script.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Hugo archetypes</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="http://gohugo.io/content/archetypes/">Hugo archetypes</a> are templates that Hugo uses when you tell it to create new content. Hugo allows both default archetypes and <a href="http://gohugo.io/content/archetypes/#section-archetypes">section archetypes</a> for content that belongs in a particular section (such as Posts or Crafts).</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>As of release <a href="https://github.com/gohugoio/hugo/releases/tag/v0.24">v0.24</a>, archetypes are full templates. You can use <a href="http://gohugo.io/templates/variables/">variables</a> and <a href="http://gohugo.io/templates/functions/">functions</a>  to fine-tune details of your archetype. This gives me a chance to simplify my content creation workflow.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>My default archetype template</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>My archetype focuses on <a href="http://gohugo.io/content/front-matter/">front matter</a>. Since the site sections share taxonomy rules, I use a single default archetype.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>---
+title: &quot;{{ replace .TranslationBaseName &quot;-&quot; &quot; &quot; | title }}&quot;
+date: {{ dateFormat &quot;2006-01-02&quot; .Date }}
+year: &quot;{{ dateFormat &quot;2006&quot; .Date }}&quot;
+draft: true
+tags:
+-
+categories:
+-
+---
+tl;dr
+&lt;!-- more --&gt;
+</code></pre>
+<p>caption:: <code>archetypes/default.md</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Notes:</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Hugo provides <code>title</code> and <code>date</code> if you leave them out. My <code>title</code> looks the   same as the default, but I add it to the template to remember what   transformations are being done.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I prefer a specific format for date in my front matter, so I add my own   version.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I use a <code>year</code> taxonomy for archives.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Everything is a <code>draft</code> until I specify otherwise.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>All my content should be tagged and categorized.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I try to summarize the post in an initial paragraph that gets shown in list   views.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That last line is really <code>&lt;!--more--&gt;</code>  with no spaces, but if I skip the spaces here Hugo thinks I want another summary block in this post.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>That’s good enough for <code>hugo new</code>. Since I have <code>newContentEditor</code> set to “vim” in my <a href="http://gohugo.io/overview/configuration/">config</a>, Hugo opens the new file in my editor after creating it.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ hugo new post/2017/23-things-i-hate-about-lists.md
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>My workflow is a little more complicated than “create a draft and edit it” though.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>My workflow</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I create and edit site content in its own git branch. With multiple drafts going at any one time, using separate branches lets me focus on the current content.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I follow these steps every time I add a new post.</p>
+
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>create a branch</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>add a draft content file</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>start editing the draft file</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I can ignore the publishing part of the workflow for today, which involves running some tests and pushing to <a href="https://aws.amazon.com/s3/">AWS S3</a>. That deserves its own post.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>I originally automated this with a small Ruby script which would create the branch and generate a content file for me. The file generating code is not needed now that Hugo archetypes are templates. My small, slightly clunky Ruby script can be replaced with a smaller, hopefully less clunky <a href="https://www.gnu.org/software/bash/">Bash</a> script.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code class="language-bash">#!/usr/bin/env bash
+
+# stricter bash
+#  see http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -euo pipefail
+IFS=$'\n\t'
+
+SECTION=${1:-}
+TITLE=${2:-}
+
+if [[ -z &quot;$SECTION&quot; || -z &quot;$TITLE&quot; ]]; then
+  echo &quot;Usage: $0 SECTION TITLE&quot;
+  exit 1
+fi
+
+TITLE_SLUG=&quot;$(echo -n &quot;$TITLE&quot; | sed -e 's/[^[:alnum:]]/-/g' | tr -s '-' | tr A-Z a-z)&quot;
+YEAR=&quot;$(date +&quot;%Y&quot;)&quot;
+STUB=&quot;$SECTION/$YEAR/$TITLE_SLUG&quot;
+
+git checkout -b &quot;$STUB&quot;
+hugo new &quot;$STUB.md&quot;
+# newContentEditor set in Hugo config, expect Vim here.
+</code></pre>
+<p>caption:: <code>scripts/add</code></p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <heading><p>Notes</p>
+</heading>
+        
+      
+
+      
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Applying details like <a href="http://redsymbol.net/articles/unofficial-bash-strict-mode/">unofficial strict mode</a> is part my process for getting more comfortable scripting Bash. The bit that’s important to me: this script fails loudly on encountering bad variables and bad processes.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>The fun little slug-generating <code>sed</code> and <code>tr</code> pipe came directly from <a href="https://bigmachine.io/products/the-imposters-handbook/">The Imposter’s Handbook</a>. I know that I will lose punctuation and unusual capitalization between this and Hugo’s manipulation of <code>.TranslationBaseName</code>. It encourages me to keep titles simple. The title can edited in the front matter later if it is that important to me.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p><a href="https://www.gnu.org/software/coreutils/manual/html_node/date-invocation.html#date-invocation"><code>date</code></a> comes from <a href="https://www.gnu.org/software/coreutils/manual/html_node/index.html#Top">GNU Coreutils</a>. I knew I could use <code>date</code> to get a simple description of the date. I recently discovered that it also accepts a format string! Turns out that GNU Coreutils gives the shell quite a bit of functionality that I usually ran to some programming language and its libraries for. Being self-taught produces weird gaps in my knowledge.</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <pre><code>$ ./script/add post &quot;23 Things I Hate About Lists&quot;
+Switched to a new branch 'post/2017/23-things-i-hate-about-lists'
+/home/brian/Sites/rgb-hugo/content/post/2017/23-things-i-hate-about-lists.md created
+</code></pre>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+    
+      
+        
+  
+    <section class="block">
+      
+        
+
+        
+          <p>Excuse me while I go write my masterpiece. Have fun!</p>
+
+        
+      
+
+      
+  
+
+    </section>
+  
+
+      
+    
+  
+
+    </section>
+  
+
+  </section>
+
+  </article>
+
+      </main>
+      <footer>
+      <p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">My Public Brain</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://randomgeekery.online" property="cc:attributionName" rel="cc:attributionURL">Brian Wisti</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+
+      <p>
+        Notes written in <a href="https://logseq.com">Logseq</a> and published with <a href="https://11ty.dev">Eleventy</a>.
+      </p>
+      </footer>
+      
+  </body>
+</html>
