@@ -1,4 +1,4 @@
-module.exports = () => {
+export default () => {
   let analyticsWanted = process.env.INCLUDE_ANALYTICS;
   let plausibleDomain = process.env.PLAUSIBLE_DOMAIN;
 

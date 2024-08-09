@@ -1,8 +1,7 @@
 // Handle the particulars of rendering a Logseq Markdown block
+import MarkdownIt from "markdown-it";
 
-const MarkdownIt = require("markdown-it");
-
-module.exports = function () {
+export default function () {
   return MarkdownIt({
     html: true,
     typographer: true,

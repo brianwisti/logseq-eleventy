@@ -1,7 +1,10 @@
 "use strict";
 
-const fs = require("fs-plus");
-const slug = require("slug");
+import fs from "fs-plus";
+import slug from "slug";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 const graphData = () => {
   const exportDir = process.env["EXPORT_DIR"];
@@ -29,8 +32,19 @@ const graphData = () => {
   return graph;
 };
 
+function buildTree(graph) {
+  const pageNames = graph["blocks"].map((page) => page["page-name"]);
+
+  return graph.map((page) => {
+    page.subpages = pageNames.filter((name) => name.startsWith(page["page-name"] + "/"));
+  });
+}
+
 function determinePermalink(page) {
-  return slug(page["page-name"]);
+  // split the page by folder slashes and slugify each part
+  const parts = page["page-name"].split("/").map((part) => slug(part));
+
+  return parts.join("/");
 }
 
 function extractPublicContent(page) {
@@ -66,5 +80,4 @@ function isPublic(page) {
   return page.properties["public"];
 }
 
-module.exports = () =>
-  graphData().blocks.map(extractPublicContent).filter(hasPublicContent);
+export default graphData().blocks.map(extractPublicContent).filter(hasPublicContent);

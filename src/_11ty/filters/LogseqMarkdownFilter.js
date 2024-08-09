@@ -1,7 +1,7 @@
 // A Nunjucks filter to filter block content through LogseqMarkdownHandler
-const XRegExp = require("xregexp");
-const LogseqMarkdownHandler = require("../handlers/LogseqMarkdownHandler.js");
-const pages = require("../../_data/pages.js")();
+import XRegExp from "xregexp";
+import LogseqMarkdownHandler from "../handlers/LogseqMarkdownHandler.js";
+import pages from "../../_data/pages.js";
 
 const pageLink = XRegExp(
   `
@@ -34,7 +34,7 @@ const md = LogseqMarkdownHandler();
 function getPagePermalink(pageName) {
   const target = pages.find((page) => page["page-name"] === pageName);
 
-  return target == undefined ? "/missing/" : `/${target.permalink}`;
+  return target == undefined ? "" : `/${target.permalink}`;
 }
 
 function handleAdmonitions(content) {
@@ -60,7 +60,11 @@ function handleVideoEmbeds(content) {
 // Do a regex replace until I better understand markdown-it
 // TODO: Also, this kind of action is best when loading the collection
 function handleWikiLinks(content) {
-  if (content.startsWith("```")) {
+  if (content == undefined) {
+    return "";
+  }
+
+  if (String(content).startsWith("```")) {
     return content;
   }
 
@@ -68,11 +72,15 @@ function handleWikiLinks(content) {
     const groups = args.pop();
     const permalink = getPagePermalink(groups.pageName);
     const label = groups.textLabel ? groups.textLabel : groups.pageName;
+
+    if (permalink == "") {
+      return `<em class="link-missing">${label}</em>`;
+    }
     return `<a href="${permalink}" class="page-link">${label}</a>`;
   });
 }
 
-module.exports = function (content) {
+export default function (content) {
   if (content instanceof Array) {
     // This happens with block properties that are page links.
     // In my exact situation that array holds a single string which should link to a page

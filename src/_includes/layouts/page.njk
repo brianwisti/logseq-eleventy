@@ -4,7 +4,9 @@
 
 {% block main %}
   <article class="page">
-    {{ content | safe }}
+    {% if content %}
+      {{ content | safe }}
+    {% endif %}
 
     {{ render_page_note(page) }}
   </article>

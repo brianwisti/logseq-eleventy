@@ -19,15 +19,16 @@
 }
 
 body {
+  font-family: var(--font-family-sans);
+  background-color: var(--color-bg);
+  color: var(--color-fg);
+
   & > header {
     a[href] {
       text-decoration: none;
     }
   }
 
-  font-family: var(--font-family-sans);
-  background-color: var(--color-bg);
-  color: var(--color-fg);
 }
 
 a[href] {

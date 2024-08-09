@@ -1,8 +1,8 @@
 // Processes my Sass stylesheets
 
-const fs = require("fs-plus");
-const path = require("path");
-const sass = require("sass");
+import fs from "fs-plus";
+import path from "path";
+import * as sass from "sass";
 
 let lastSassBuild = 0;     // epoch of last sass build
 const minimumWait = 5_000; // wait this many seconds before rebuilding
@@ -12,7 +12,7 @@ const curDir = process.cwd();
 const sassInputPath = path.join(curDir, "src/assets/style/main.scss");
 const cssOutputPath = path.join(curDir, "_site/assets/style/main.css");
 
-module.exports = {
+export default {
   compileOptions: {
     permalink: false,
   },

@@ -1,7 +1,6 @@
 // Just the journal pages
+import journals from "./journals.js";
 
-const journals = require("./journals.js");
-
-module.exports = function () {
+export default function () {
   return journals().slice(0, 5);
 };
