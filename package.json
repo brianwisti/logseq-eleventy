@@ -17,6 +17,10 @@
   "devDependencies": {
     "@11ty/eleventy": "^3.0.0-beta.1",
     "@mojojs/path": "^1.5.4",
+    "@types/fs-plus": "^3.0.6",
+    "@types/markdown-it": "^14.1.2",
+    "@types/node": "^22.1.0",
+    "@types/slug": "^5.0.8",
     "tsx": "^4.17.0"
   },
   "eslintConfig": {
@@ -27,6 +31,10 @@
         "blockBindings": true
       }
     }
+  },
+  "env": {
+    "node": true,
+    "es6": true
   },
   "dependencies": {
     "@11ty/eleventy-upgrade-help": "^3.0.1",

@@ -1,6 +1,6 @@
 export default () => {
-  let analyticsWanted = process.env.INCLUDE_ANALYTICS;
-  let plausibleDomain = process.env.PLAUSIBLE_DOMAIN;
+  let analyticsWanted = process.env.INCLUDE_ANALYTICS as string;
+  let plausibleDomain = process.env.PLAUSIBLE_DOMAIN as string;
 
   if (analyticsWanted) {
     return `<script async defer data-domain="${plausibleDomain}"

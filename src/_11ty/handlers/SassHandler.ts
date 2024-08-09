@@ -16,7 +16,7 @@ export default {
   compileOptions: {
     permalink: false,
   },
-  compile: async function(inputContent, inputPath) {
+  compile: async function (_inputContent: string, inputPath: string) {
     const now = new Date().valueOf();
 
     if (now - lastSassBuild <= minimumWait) {
@@ -27,12 +27,9 @@ export default {
     console.log(`[${now}] SassHandler: ${inputPath} changed`);
     console.log(`Building ${sassInputPath}`);
 
-    return async (data) => {
-      let result = sass.renderSync({
-        file: sassInputPath,
-      });
-
-      const cssText = result.css.toString("utf8");
+    return async (_data: string) => {
+      const result = await sass.compileAsync(sassInputPath);
+      const cssText = result.css.toString();
       fs.makeTreeSync(path.dirname(cssOutputPath));
       fs.writeFileSync(cssOutputPath, cssText);
     };
