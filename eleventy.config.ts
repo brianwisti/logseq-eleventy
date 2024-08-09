@@ -8,6 +8,7 @@ import plausibleShortcode from "./src/_11ty/shortcodes/plausibleShortcode";
 dotenv.config();
 
 export default function (eleventyConfig: UserConfig) {
+  eleventyConfig.setDataDeepMerge(true);
   eleventyConfig.addPassthroughCopy("src/assets/*.png");
   eleventyConfig.addTemplateFormats("scss");
   eleventyConfig.addExtension("scss", SassHandler);

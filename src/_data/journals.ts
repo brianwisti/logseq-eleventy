@@ -1,7 +1,7 @@
 // Just the journal pages
 
 import pages from "./pages";
-import { Page } from "./pages";
+import { Page } from "../_lib/types";
 
 
 function isJournal(page: Page) {

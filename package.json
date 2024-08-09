@@ -5,6 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "pull": "tsx build_tasks/pull.ts",
     "start": "tsx node_modules/@11ty/eleventy/cmd.cjs --config=eleventy.config.ts --serve",
     "build": "tsx node_modules/@11ty/eleventy/cmd.cjs --config=eleventy.config.ts",
     "build:prod": "INCLUDE_ANALYTICS=true tsx node_modules/@11ty/eleventy/cmd.cjs --config=eleventy.config.ts",
